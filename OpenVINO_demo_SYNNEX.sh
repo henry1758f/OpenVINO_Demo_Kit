@@ -5,7 +5,11 @@
 # 2018/09/07 	henry1758	0.0.1 	first-create
 #
 
+export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
+export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
+export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
 export VERSION="0.0.1"
+export VERSION_VINO=""
 function model_chooser_option_printer()
 {
 	echo "   1.  age-gender-recognition-retail-0013"
@@ -40,76 +44,100 @@ function model_chooser()
 	read choose
 	case $choose in 
 		"1")
-			expr "$1=\"age-gender-recognition-retail-0013\""
+			eval "$1=\"age-gender-recognition-retail-0013\""
+			return
 			;;
 		"2")
-			expr "$1=\"emotions-recognition-retail-0003\""
+			eval "$1=\"emotions-recognition-retail-0003\""
+			return
 			;;
 		"3")
-			expr "$1=\"face-detection-adas-0001\""
+			eval "$1=\"face-detection-adas-0001\""
+			return
 			;;
 		"4")
-			expr "$1=\"face-detection-retail-0004\""
+			eval "$1=\"face-detection-retail-0004\""
+			return
 			;;
 		"5")
-			expr "$1=\"face-person-detection-retail-0002\""
+			eval "$1=\"face-person-detection-retail-0002\""
+			return
 			;;
 		"6")
-			expr "$1=\"face-reidentification-retail-0001\""
+			eval "$1=\"face-reidentification-retail-0001\""
+			return
 			;;
 		"7")
-			expr "$1=\"head-pose-estimation-adas-0001\""
+			eval "$1=\"head-pose-estimation-adas-0001\""
+			return
 			;;
 		"8")
-			expr "$1=\"landmarks-regression-retail-0001\""
+			eval "$1=\"landmarks-regression-retail-0001\""
+			return
 			;;
 		"9")
-			expr "$1=\"license-plate-recognition-barrier-0001\""
+			eval "$1=\"license-plate-recognition-barrier-0001\""
+			return
 			;;
 		"10")
-			expr "$1=\"pedestrian-and-vehicle-detector-adas-0001\""
+			eval "$1=\"pedestrian-and-vehicle-detector-adas-0001\""
+			return
 			;;
 		"11")
-			expr "$1=\"pedestrian-detection-adas-0002\""
+			eval "$1=\"pedestrian-detection-adas-0002\""
+			return
 			;;
 		"12")
-			expr "$1=\"person-attributes-recognition-crossroad-0031\""
+			eval "$1=\"person-attributes-recognition-crossroad-0031\""
+			return
 			;;
 		"13")
-			expr "$1=\"person-detection-action-recognition-0001\""
+			eval "$1=\"person-detection-action-recognition-0001\""
+			return
 			;;
 		"14")
-			expr "$1=\"person-detection-retail-0001\""
+			eval "$1=\"person-detection-retail-0001\""
+			return
 			;;
 		"15")
-			expr "$1=\"person-detection-retail-0013\""
+			eval "$1=\"person-detection-retail-0013\""
+			return
 			;;
 		"16")
-			expr "$1=\"person-reidentification-retail-0031\""
+			eval "$1=\"person-reidentification-retail-0031\""
+			return
 			;;
 		"17")
-			expr "$1=\"person-reidentification-retail-0076\""
+			eval "$1=\"person-reidentification-retail-0076\""
+			return
 			;;
 		"18")
-			expr "$1=\"person-reidentification-retail-0079\""
+			eval "$1=\"person-reidentification-retail-0079\""
+			return
 			;;
 		"19")
-			expr "$1=\"person-vehicle-bike-detection-crossroad-0078\""
+			eval "$1=\"person-vehicle-bike-detection-crossroad-0078\""
+			return
 			;;
 		"20")
-			expr "$1=\"road-segmentation-adas-0001\""
+			eval "$1=\"road-segmentation-adas-0001\""
+			return
 			;;
 		"21")
-			expr "$1=\"semantic-segmentation-adas-0001\""
+			eval "$1=\"semantic-segmentation-adas-0001\""
+			return
 			;;
 		"22")
-			expr "$1=\"avehicle-attributes-recognition-barrier-0039\""
+			eval "$1=\"avehicle-attributes-recognition-barrier-0039\""
+			return
 			;;
 		"23")
-			expr "$1=\"vehicle-detection-adas-0002\""
+			eval "$1=\"vehicle-detection-adas-0002\""
+			return
 			;;
 		"24")
-			expr "$1=\"vehicle-license-plate-detection-barrier-0106\""
+			eval "$1=\"vehicle-license-plate-detection-barrier-0106\""
+			return
 			;;			
 		*)
 			echo "Please Type the path of your IR model ... $choose"
@@ -135,12 +163,21 @@ function security_barrier_camera_sample()
 	echo "|       security_barrier_camera_sample    |"
 	echo "|=========================================|"
 	model_chooser_option_printer
-	local model_D
+	#local model_D
 	local model_D_VA
 	local model_D_LPR
 	echo " Choose the model -d..."
 	model_chooser model_D
-	echo $model_D
+	#echo $model_D
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+	source $SETVAR
+	cd $SAMPLE_LOC
+	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_D/FP32/$model_D.xml\n"
+	./security_barrier_camera_sample -m $MODEL_LOC/$model_D/FP32/$model_D.xml -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	#./security_barrier_camera_sample -m \"$MODEL_LOC/vehicle-license-plate-detection-barrier-0106/FP32/vehicle-license-plate-detection-barrier-0106.xml\" -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
 }
 
