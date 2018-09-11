@@ -200,6 +200,48 @@ function security_barrier_camera_sample()
 	./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
 }
+function interactive_face_detection_sample()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|     interactive_face_detection_sample   |"
+	echo "|=========================================|"
+	model_chooser_option_printer
+	#local model_D
+	local model_M_AG
+	local model_M_HP
+	local model_M_EM
+	local model_LoadSTR
+	echo " Choose the model -m..."
+	model_chooser model_M
+	echo " Choose the model -m_ag..."
+	model_chooser model_M_AG
+	echo " Choose the model -m_hp..."
+	model_chooser model_M_HP
+	echo " Choose the model -m_em..."
+	model_chooser model_M_EM
+
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+
+	if [ "${model_M_AG}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_ag "${MODEL_LOC}/${model_M_AG}/FP32/${model_M_AG}".xml"
+	fi
+	if [ "${model_M_HP}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_hp "${MODEL_LOC}/${model_M_HP}/FP32/${model_M_HP}".xml"
+	fi
+	if [ "${model_M_EM}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_em "${MODEL_LOC}/${model_M_EM}/FP32/${model_M_EM}".xml"
+	fi
+
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam\n"
+	./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam
+}
 
 function feature_choose()
 {
@@ -229,7 +271,7 @@ function Inference_Engine_Sample_List()
 	echo "|=========================================|"
 	echo ""
 	echo "  1. security_barrier_camera_sample"
-	echo "  2. interactive_face_dection_sample (TBD)"
+	echo "  2. interactive_face_detection_sample (TBD)"
 	echo "  3. classification_sample (TBD)"
 	#echo "  4. Show all samples that been built already."
 	local choose
@@ -240,10 +282,11 @@ function Inference_Engine_Sample_List()
 			security_barrier_camera_sample
 			;;
 		"2")
-			echo " You choose interactive_face_dection_sample (TBD)"
+			echo " You choose interactive_face_detection_sample (TBD)"
+			interactive_face_detection_sample
 			;;
 		"3")
-			echo " You choose interactive_face_dection_sample (TBD)"
+			echo " You choose interactive_face_detection_sample (TBD)"
 			;;
 		*)
 			echo "Please input a number"
