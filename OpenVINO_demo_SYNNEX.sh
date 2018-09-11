@@ -9,7 +9,7 @@ export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_eng
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
 export VERSION="0.0.1"
-export VERSION_VINO=""
+export VERSION_VINO="v3.343"
 function model_chooser_option_printer()
 {
 	echo "   1.  age-gender-recognition-retail-0013"
@@ -128,7 +128,7 @@ function model_chooser()
 			return
 			;;
 		"22")
-			eval "$1=\"avehicle-attributes-recognition-barrier-0039\""
+			eval "$1=\"vehicle-attributes-recognition-barrier-0039\""
 			return
 			;;
 		"23")
@@ -138,7 +138,12 @@ function model_chooser()
 		"24")
 			eval "$1=\"vehicle-license-plate-detection-barrier-0106\""
 			return
-			;;			
+			;;		
+		"0")
+			echo "[WARNING] You do not choose any IR model! "
+			eval "$1=\"0\""
+			return
+			;;	
 		*)
 			echo "Please Type the path of your IR model ... $choose"
 			local STR
@@ -164,20 +169,34 @@ function security_barrier_camera_sample()
 	echo "|=========================================|"
 	model_chooser_option_printer
 	#local model_D
-	local model_D_VA
-	local model_D_LPR
-	echo " Choose the model -d..."
-	model_chooser model_D
+	local model_M_VA
+	local model_M_LPR
+	local model_LoadSTR
+	echo " Choose the model -m..."
+	model_chooser model_M
+	echo " Choose the model -m_va..."
+	model_chooser model_M_VA
+	echo " Choose the model -m_lpr..."
+	model_chooser model_M_LPR
 	#echo $model_D
 	if ! source $SETVAR ; then
 		prontf "ERROR!"
 		exit 1
 	fi
-	source $SETVAR
+
+	echo "[SYNNEX_DEBUG] model_va = $model_M_VA ; model_lpr = $model_M_LPR"
+
+	if [ "${model_M_VA}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_va "${MODEL_LOC}/${model_M_VA}/FP32/${model_M_VA}".xml"
+	fi
+	if [ "${model_M_LPR}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_lpr "${MODEL_LOC}/${model_M_LPR}/FP32/${model_M_LPR}".xml"
+	fi
+
+	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_D/FP32/$model_D.xml\n"
-	./security_barrier_camera_sample -m $MODEL_LOC/$model_D/FP32/$model_D.xml -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
-	#./security_barrier_camera_sample -m \"$MODEL_LOC/vehicle-license-plate-detection-barrier-0106/FP32/vehicle-license-plate-detection-barrier-0106.xml\" -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
+	./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
 }
 
