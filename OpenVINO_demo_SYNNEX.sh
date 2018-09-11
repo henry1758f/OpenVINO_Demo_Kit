@@ -2,14 +2,15 @@
 # File: OpenVINO_demo_SYNNEX.sh
 # ver 0.0.1
 # This is design for connecting to the share folder on TWNB17034
-# 2018/09/07 	henry1758	0.0.1 	first-create
+# 2018/09/07 	henry1758f	0.0.1 	first-create
+# 2018/09/11	henry1758f	0.0.2	create security barrier camera demo
 #
 
 export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="0.0.1"
-export VERSION_VINO="v3.343"
+export VERSION="0.0.2"
+export VERSION_VINO="v2018.3.343"
 function model_chooser_option_printer()
 {
 	echo "   1.  age-gender-recognition-retail-0013"
@@ -202,13 +203,13 @@ function security_barrier_camera_sample()
 
 function feature_choose()
 {
-	echo " 1. Inference Engine Sample Demo.(TBD)"
+	echo " 1. Inference Engine Sample Demo."
 	echo " 2. Model Optimizer Demo.(TBD)"
 	local choose
 	read choose
 	case $choose in
 		"1")
-		Inference_Engine_Sample_List
+			Inference_Engine_Sample_List
 		;;
 		"2")
 			echo " You choose Model Optimizer Demo.(TBD)"
@@ -227,10 +228,10 @@ function Inference_Engine_Sample_List()
 	echo "|                                         |"
 	echo "|=========================================|"
 	echo ""
-	echo "  1. security_barrier_camera_sample (TBD)"
+	echo "  1. security_barrier_camera_sample"
 	echo "  2. interactive_face_dection_sample (TBD)"
 	echo "  3. classification_sample (TBD)"
-	echo "  4. Show all samples that been built already."
+	#echo "  4. Show all samples that been built already."
 	local choose
 	read choose
 	case $choose in
@@ -257,7 +258,7 @@ echo "|  SYNNEX TECHNOLOGY INTERNATIONAL CORP.  |"
 echo "|                                         |"
 echo "|        Intel OpenVINO Demostration      |"
 echo "|=========================================|"
-echo "          Version $VERSION                 "
+echo "  Ver. $VERSION | Support OpenVINO $VERSION_VINO"
 echo ""
 echo ""
 feature_choose
