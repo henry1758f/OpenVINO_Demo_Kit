@@ -160,6 +160,20 @@ function model_chooser()
 		esac
 	exit 1
 }
+function modelFP_chooser()
+{
+	echo "The Moddel Type is FP...?"
+	local STR
+	read STR
+	eval "$1=\"$STR\""
+}
+function device_chooser()
+{
+	echo "The Inference Device? CPU?(FP32 only)  GPU?(FP32/16)   MYRIAD?(FP16 only) ->"
+	local STR
+	read STR
+	eval "$1=\"$STR\""
+}
 
 function security_barrier_camera_sample()
 {
@@ -170,15 +184,32 @@ function security_barrier_camera_sample()
 	echo "|=========================================|"
 	model_chooser_option_printer
 	#local model_D
+	local model_M_FP
+	local model_M_DV
 	local model_M_VA
+	local model_M_VA_FP
+	local model_M_VA_DV
 	local model_M_LPR
+	local model_M_LPR_FP
+	local model_M_LPR_VA
 	local model_LoadSTR
 	echo " Choose the model -m..."
 	model_chooser model_M
+	echo "=>$model_M "
+	modelFP_chooser model_M_FP
+	device_chooser model_M_DV
+
 	echo " Choose the model -m_va..."
 	model_chooser model_M_VA
+	echo "=>$model_M_VA "
+	modelFP_chooser model_M_VA_FP
+	device_chooser model_M_VA_DV
+
 	echo " Choose the model -m_lpr..."
 	model_chooser model_M_LPR
+	echo "=>$model_M_LPR "
+	modelFP_chooser model_M_LPR_FP
+	device_chooser model_M_LPR_DV
 	#echo $model_D
 	if ! source $SETVAR ; then
 		prontf "ERROR!"
@@ -188,16 +219,16 @@ function security_barrier_camera_sample()
 	echo "[SYNNEX_DEBUG] model_va = $model_M_VA ; model_lpr = $model_M_LPR"
 
 	if [ "${model_M_VA}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_va "${MODEL_LOC}/${model_M_VA}/FP32/${model_M_VA}".xml"
+		model_LoadSTR=${model_LoadSTR}" -m_va "${MODEL_LOC}/${model_M_VA}/FP${model_M_VA_FP}/${model_M_VA}".xml -d_va ${model_M_VA_DV} "
 	fi
 	if [ "${model_M_LPR}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_lpr "${MODEL_LOC}/${model_M_LPR}/FP32/${model_M_LPR}".xml"
+		model_LoadSTR=${model_LoadSTR}" -m_lpr "${MODEL_LOC}/${model_M_LPR}/FP${model_M_LPR_FP}/${model_M_LPR}".xml -d_lpr ${model_M_LPR_DV}"
 	fi
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
-	./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
+	./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
 }
 function interactive_face_detection_sample()
