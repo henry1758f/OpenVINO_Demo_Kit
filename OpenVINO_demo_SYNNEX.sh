@@ -239,19 +239,39 @@ function interactive_face_detection_sample()
 	echo "|     interactive_face_detection_sample   |"
 	echo "|=========================================|"
 	model_chooser_option_printer
-	#local model_D
+	local model_M_FP
+	local model_M_DV
 	local model_M_AG
+	local model_M_AG_FP
+	local model_M_AG_DV
 	local model_M_HP
+	local model_M_HP_FP
+	local model_M_HP_DV
 	local model_M_EM
+	local model_M_EM_FP
+	local model_M_EM_DV
+
 	local model_LoadSTR
 	echo " Choose the model -m..."
 	model_chooser model_M
+	echo "=>$model_M "
+	modelFP_chooser model_M_FP
+	device_chooser model_M_DV
 	echo " Choose the model -m_ag..."
 	model_chooser model_M_AG
+	echo "=>$model_M_AG "
+	modelFP_chooser model_M_AG_FP
+	device_chooser model_M_AG_DV
 	echo " Choose the model -m_hp..."
 	model_chooser model_M_HP
+	echo "=>$model_M_HP "
+	modelFP_chooser model_M_HP_FP
+	device_chooser model_M_HP_DV
 	echo " Choose the model -m_em..."
 	model_chooser model_M_EM
+	echo "=>$model_M_EM "
+	modelFP_chooser model_M_EM_FP
+	device_chooser model_M_EM_DV
 
 	if ! source $SETVAR ; then
 		prontf "ERROR!"
@@ -259,18 +279,18 @@ function interactive_face_detection_sample()
 	fi
 
 	if [ "${model_M_AG}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_ag "${MODEL_LOC}/${model_M_AG}/FP32/${model_M_AG}".xml"
+		model_LoadSTR=${model_LoadSTR}" -m_ag "${MODEL_LOC}/${model_M_AG}/FP${model_M_AG_FP}/${model_M_AG}".xml -d_ag ${model_M_AG_DV}"
 	fi
 	if [ "${model_M_HP}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_hp "${MODEL_LOC}/${model_M_HP}/FP32/${model_M_HP}".xml"
+		model_LoadSTR=${model_LoadSTR}" -m_hp "${MODEL_LOC}/${model_M_HP}/FP${model_M_HP_FP}/${model_M_HP}".xml -d_hp ${model_M_HP_DV}"
 	fi
 	if [ "${model_M_EM}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_em "${MODEL_LOC}/${model_M_EM}/FP32/${model_M_EM}".xml"
+		model_LoadSTR=${model_LoadSTR}" -m_em "${MODEL_LOC}/${model_M_EM}/FP${model_M_EM_FP}/${model_M_EM}".xml -d_em ${model_M_EM_DV}"
 	fi
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam\n"
+	printf "Run ./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d ${model_M_DV} -i cam\n"
 	./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam
 }
 
