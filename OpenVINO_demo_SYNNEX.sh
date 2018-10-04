@@ -174,6 +174,28 @@ function device_chooser()
 	read STR
 	eval "$1=\"$STR\""
 }
+function source_chooser()
+{
+	echo "Please input the path of the source, or type \"cam\" when using camera, or use \"1\" as default"
+	local STR
+	read STR
+	case $STR in 
+		"1")
+			echo "source set to default..."
+			eval "$1=\"dafault\""
+			return
+			;;
+		"cam")
+			echo "source set to camera..."
+			eval "$1=\"cam\""
+			return
+			;;
+		*)
+			echo "source set to $STR..."
+			eval "$1=\"$STR\""
+			;;
+	esac
+}
 
 function security_barrier_camera_sample()
 {
