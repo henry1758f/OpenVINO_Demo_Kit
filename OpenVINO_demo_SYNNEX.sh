@@ -160,6 +160,42 @@ function model_chooser()
 		esac
 	exit 1
 }
+function modelFP_chooser()
+{
+	echo "The Moddel Type is FP...?"
+	local STR
+	read STR
+	eval "$1=\"$STR\""
+}
+function device_chooser()
+{
+	echo "The Inference Device? CPU?(FP32 only)  GPU?(FP32/16)   MYRIAD?(FP16 only) ->"
+	local STR
+	read STR
+	eval "$1=\"$STR\""
+}
+function source_chooser()
+{
+	echo "Please input the path of the source, or type \"cam\" when using camera, or use \"1\" as default"
+	local STR
+	read STR
+	case $STR in 
+		"1")
+			echo "source set to default..."
+			eval "$1=\"dafault\""
+			return
+			;;
+		"cam")
+			echo "source set to camera..."
+			eval "$1=\"cam\""
+			return
+			;;
+		*)
+			echo "source set to $STR..."
+			eval "$1=\"$STR\""
+			;;
+	esac
+}
 
 function security_barrier_camera_sample()
 {
@@ -170,15 +206,32 @@ function security_barrier_camera_sample()
 	echo "|=========================================|"
 	model_chooser_option_printer
 	#local model_D
+	local model_M_FP
+	local model_M_DV
 	local model_M_VA
+	local model_M_VA_FP
+	local model_M_VA_DV
 	local model_M_LPR
+	local model_M_LPR_FP
+	local model_M_LPR_VA
 	local model_LoadSTR
-	echo " Choose the model -m..."
+	echo " Choose the model -m or..."
 	model_chooser model_M
+	echo "=>$model_M "
+	modelFP_chooser model_M_FP
+	device_chooser model_M_DV
+
 	echo " Choose the model -m_va..."
 	model_chooser model_M_VA
+	echo "=>$model_M_VA "
+	modelFP_chooser model_M_VA_FP
+	device_chooser model_M_VA_DV
+
 	echo " Choose the model -m_lpr..."
 	model_chooser model_M_LPR
+	echo "=>$model_M_LPR "
+	modelFP_chooser model_M_LPR_FP
+	device_chooser model_M_LPR_DV
 	#echo $model_D
 	if ! source $SETVAR ; then
 		prontf "ERROR!"
@@ -188,17 +241,95 @@ function security_barrier_camera_sample()
 	echo "[SYNNEX_DEBUG] model_va = $model_M_VA ; model_lpr = $model_M_LPR"
 
 	if [ "${model_M_VA}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_va "${MODEL_LOC}/${model_M_VA}/FP32/${model_M_VA}".xml"
+		model_LoadSTR=${model_LoadSTR}" -m_va "${MODEL_LOC}/${model_M_VA}/FP${model_M_VA_FP}/${model_M_VA}".xml -d_va ${model_M_VA_DV} "
 	fi
 	if [ "${model_M_LPR}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_lpr "${MODEL_LOC}/${model_M_LPR}/FP32/${model_M_LPR}".xml"
+		model_LoadSTR=${model_LoadSTR}" -m_lpr "${MODEL_LOC}/${model_M_LPR}/FP${model_M_LPR_FP}/${model_M_LPR}".xml -d_lpr ${model_M_LPR_DV}"
 	fi
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
-	./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
+	./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
+}
+function interactive_face_detection_sample()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|     interactive_face_detection_sample   |"
+	echo "|=========================================|"
+	model_chooser_option_printer
+	local model_M_FP
+	local model_M_DV
+	local model_M_AG
+	local model_M_AG_FP
+	local model_M_AG_DV
+	local model_M_HP
+	local model_M_HP_FP
+	local model_M_HP_DV
+	local model_M_EM
+	local model_M_EM_FP
+	local model_M_EM_DV
+
+	local model_LoadSTR
+	echo " Choose the model -m or use default setting by \"0\"..."
+	model_chooser model_M
+	echo "=>$model_M "
+	if [ "$model_M" != "0"]; then
+
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
+		echo " Choose the model -m_ag..."
+		model_chooser model_M_AG
+		echo "=>$model_M_AG "
+		modelFP_chooser model_M_AG_FP
+		device_chooser model_M_AG_DV
+		echo " Choose the model -m_hp..."
+		model_chooser model_M_HP
+		echo "=>$model_M_HP "
+		modelFP_chooser model_M_HP_FP
+		device_chooser model_M_HP_DV
+		echo " Choose the model -m_em..."
+		model_chooser model_M_EM
+		echo "=>$model_M_EM "
+		modelFP_chooser model_M_EM_FP
+		device_chooser model_M_EM_DV
+	else
+		model_M="face-detection-retail-0004"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		model_M_AG="age-gender-recognition-retail-0013"
+		model_M_AG_FP="32"
+		model_M_AG_DV="CPU"
+		model_M_HP="head-pose-estimation-adas-0001"
+		model_M_HP_FP="32"
+		model_M_HP_DV="CPU"
+		model_M_EM="emotions-recognition-retail-0003"
+		model_M_EM_FP="32"
+		model_M_EM_DV="CPU"
+	fi
+
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+
+	if [ "${model_M_AG}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_ag "${MODEL_LOC}/${model_M_AG}/FP${model_M_AG_FP}/${model_M_AG}".xml -d_ag ${model_M_AG_DV}"
+	fi
+	if [ "${model_M_HP}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_hp "${MODEL_LOC}/${model_M_HP}/FP${model_M_HP_FP}/${model_M_HP}".xml -d_hp ${model_M_HP_DV}"
+	fi
+	if [ "${model_M_EM}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_em "${MODEL_LOC}/${model_M_EM}/FP${model_M_EM_FP}/${model_M_EM}".xml -d_em ${model_M_EM_DV}"
+	fi
+
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d ${model_M_DV} -i cam\n"
+	./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam
 }
 
 function feature_choose()
@@ -229,7 +360,7 @@ function Inference_Engine_Sample_List()
 	echo "|=========================================|"
 	echo ""
 	echo "  1. security_barrier_camera_sample"
-	echo "  2. interactive_face_dection_sample (TBD)"
+	echo "  2. interactive_face_detection_sample (TBD)"
 	echo "  3. classification_sample (TBD)"
 	#echo "  4. Show all samples that been built already."
 	local choose
@@ -240,10 +371,11 @@ function Inference_Engine_Sample_List()
 			security_barrier_camera_sample
 			;;
 		"2")
-			echo " You choose interactive_face_dection_sample (TBD)"
+			echo " You choose interactive_face_detection_sample (TBD)"
+			interactive_face_detection_sample
 			;;
 		"3")
-			echo " You choose interactive_face_dection_sample (TBD)"
+			echo " You choose interactive_face_detection_sample (TBD)"
 			;;
 		*)
 			echo "Please input a number"
