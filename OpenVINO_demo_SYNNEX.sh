@@ -215,7 +215,7 @@ function security_barrier_camera_sample()
 	local model_M_LPR_FP
 	local model_M_LPR_VA
 	local model_LoadSTR
-	echo " Choose the model -m..."
+	echo " Choose the model -m or..."
 	model_chooser model_M
 	echo "=>$model_M "
 	modelFP_chooser model_M_FP
@@ -274,26 +274,42 @@ function interactive_face_detection_sample()
 	local model_M_EM_DV
 
 	local model_LoadSTR
-	echo " Choose the model -m..."
+	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	echo "=>$model_M "
-	modelFP_chooser model_M_FP
-	device_chooser model_M_DV
-	echo " Choose the model -m_ag..."
-	model_chooser model_M_AG
-	echo "=>$model_M_AG "
-	modelFP_chooser model_M_AG_FP
-	device_chooser model_M_AG_DV
-	echo " Choose the model -m_hp..."
-	model_chooser model_M_HP
-	echo "=>$model_M_HP "
-	modelFP_chooser model_M_HP_FP
-	device_chooser model_M_HP_DV
-	echo " Choose the model -m_em..."
-	model_chooser model_M_EM
-	echo "=>$model_M_EM "
-	modelFP_chooser model_M_EM_FP
-	device_chooser model_M_EM_DV
+	if [ "$model_M" != "0"]; then
+
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
+		echo " Choose the model -m_ag..."
+		model_chooser model_M_AG
+		echo "=>$model_M_AG "
+		modelFP_chooser model_M_AG_FP
+		device_chooser model_M_AG_DV
+		echo " Choose the model -m_hp..."
+		model_chooser model_M_HP
+		echo "=>$model_M_HP "
+		modelFP_chooser model_M_HP_FP
+		device_chooser model_M_HP_DV
+		echo " Choose the model -m_em..."
+		model_chooser model_M_EM
+		echo "=>$model_M_EM "
+		modelFP_chooser model_M_EM_FP
+		device_chooser model_M_EM_DV
+	else
+		model_M="face-detection-retail-0004"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		model_M_AG="age-gender-recognition-retail-0013"
+		model_M_AG_FP="32"
+		model_M_AG_DV="CPU"
+		model_M_HP="head-pose-estimation-adas-0001"
+		model_M_HP_FP="32"
+		model_M_HP_DV="CPU"
+		model_M_EM="emotions-recognition-retail-0003"
+		model_M_EM_FP="32"
+		model_M_EM_DV="CPU"
+	fi
 
 	if ! source $SETVAR ; then
 		prontf "ERROR!"
