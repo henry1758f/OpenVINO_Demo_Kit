@@ -383,6 +383,23 @@ function Inference_Engine_Sample_List()
 	esac
 }
 
+function check_dir()
+{
+	local locchk
+	local infp
+	locchk = 1
+	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!" && echo "Checking Other Location..." && locchk = 0
+	if [ $locchk=0 ]; then
+		export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
+		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!"
+	else
+		echo "We Can't find the inference Engine application path. Please Input the path by yourself."
+		read infp
+		test -e ${infp} || echo "${SAMPLE_LOC} is not exist !!!" && exit 1
+
+	fi
+}
+
 
 echo
 echo "|=========================================|"
@@ -393,6 +410,8 @@ echo "|=========================================|"
 echo "  Ver. $VERSION | Support OpenVINO $VERSION_VINO"
 echo ""
 echo ""
+
+check_dir
 feature_choose
 
 exit 0
