@@ -4,13 +4,14 @@
 # This is design for connecting to the share folder on TWNB17034
 # 2018/09/07 	henry1758f	0.0.1 	first-create
 # 2018/09/11	henry1758f	0.0.2	create security barrier camera demo
+# 2018/12/03	henry1758f	0.0.3	Fix to meet OpenVINO R4 and add default config to demo1 and 2
 #
 
 export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="0.0.2"
-export VERSION_VINO="v2018.3.343"
+export VERSION="0.0.3"
+export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
 	echo "   1.  age-gender-recognition-retail-0013"
@@ -18,14 +19,14 @@ function model_chooser_option_printer()
 	echo "   3.  face-detection-adas-0001"
 	echo "   4.  face-detection-retail-0004"
 	echo "   5.  face-person-detection-retail-0002"
-	echo "   6.  face-reidentification-retail-0001"
+	echo "  *6.  face-reidentification-retail-0071"
 	echo "   7.  head-pose-estimation-adas-0001"
-	echo "   8.  landmarks-regression-retail-0001"
+	echo "  *8.  landmarks-regression-retail-0009"
 	echo "   9.  license-plate-recognition-barrier-0001"
 	echo "   10. pedestrian-and-vehicle-detector-adas-0001"
 	echo "   11. pedestrian-detection-adas-0002"
 	echo "   12. person-attributes-recognition-crossroad-0031"
-	echo "   13. person-detection-action-recognition-0001"
+	echo "  *13. person-detection-action-recognition-0003"
 	echo "   14. person-detection-retail-0001"
 	echo "   15. person-detection-retail-0013"
 	echo "   16. person-reidentification-retail-0031"
@@ -37,6 +38,9 @@ function model_chooser_option_printer()
 	echo "   22. vehicle-attributes-recognition-barrier-0039"
 	echo "   23. vehicle-detection-adas-0002"
 	echo "   24. vehicle-license-plate-detection-barrier-0106"
+	echo "  *25. facial-landmarks-35-adas-0001"
+	echo "  *26. human-pose-estimation-0001"
+	echo "  *27. single-image-super-resolution-0034"
 }
 
 function model_chooser()
@@ -65,7 +69,7 @@ function model_chooser()
 			return
 			;;
 		"6")
-			eval "$1=\"face-reidentification-retail-0001\""
+			eval "$1=\"face-reidentification-retail-0071\""
 			return
 			;;
 		"7")
@@ -73,7 +77,7 @@ function model_chooser()
 			return
 			;;
 		"8")
-			eval "$1=\"landmarks-regression-retail-0001\""
+			eval "$1=\"landmarks-regression-retail-0009\""
 			return
 			;;
 		"9")
@@ -93,7 +97,7 @@ function model_chooser()
 			return
 			;;
 		"13")
-			eval "$1=\"person-detection-action-recognition-0001\""
+			eval "$1=\"person-detection-action-recognition-0003\""
 			return
 			;;
 		"14")
@@ -140,6 +144,18 @@ function model_chooser()
 			eval "$1=\"vehicle-license-plate-detection-barrier-0106\""
 			return
 			;;		
+		"25")
+			eval "$1=\"facial-landmarks-35-adas-0001\""
+			return
+		;;		
+		"26")
+			eval "$1=\"human-pose-estimation-0001\""
+			return
+		;;		
+		"27	")
+			eval "$1=\"single-image-super-resolution-0034\""
+			return
+		;;		
 		"0")
 			echo "[WARNING] You do not choose any IR model! "
 			eval "$1=\"0\""
@@ -197,12 +213,12 @@ function source_chooser()
 	esac
 }
 
-function security_barrier_camera_sample()
+function security_barrier_camera_demo()
 {
 	echo "|=========================================|"
 	echo "|        Intel OpenVINO Demostration      |"
 	echo "|        Inference Engine Sample Demo     |"
-	echo "|       security_barrier_camera_sample    |"
+	echo "|       security_barrier_camera_demo   	|"
 	echo "|=========================================|"
 	model_chooser_option_printer
 	#local model_D
@@ -215,23 +231,36 @@ function security_barrier_camera_sample()
 	local model_M_LPR_FP
 	local model_M_LPR_VA
 	local model_LoadSTR
-	echo " Choose the model -m or..."
+	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
-	echo "=>$model_M "
-	modelFP_chooser model_M_FP
-	device_chooser model_M_DV
+	if [ "$model_M" != "0" ]; then
+		echo "=>$model_M "
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
 
-	echo " Choose the model -m_va..."
-	model_chooser model_M_VA
-	echo "=>$model_M_VA "
-	modelFP_chooser model_M_VA_FP
-	device_chooser model_M_VA_DV
+		echo " Choose the model -m_va..."
+		model_chooser model_M_VA
+		echo "=>$model_M_VA "
+		modelFP_chooser model_M_VA_FP
+		device_chooser model_M_VA_DV
 
-	echo " Choose the model -m_lpr..."
-	model_chooser model_M_LPR
-	echo "=>$model_M_LPR "
-	modelFP_chooser model_M_LPR_FP
-	device_chooser model_M_LPR_DV
+		echo " Choose the model -m_lpr..."
+		model_chooser model_M_LPR
+		echo "=>$model_M_LPR "
+		modelFP_chooser model_M_LPR_FP
+		device_chooser model_M_LPR_DV
+	else
+		model_M="vehicle-license-plate-detection-barrier-0106"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		model_M_VA="vehicle-attributes-recognition-barrier-0039"
+		model_M_VA_FP="32"
+		model_M_VA_DV="CPU"
+		model_M_LPR="license-plate-recognition-barrier-0001"
+		model_M_LPR_FP="32"
+		model_M_LPR_DV="CPU"
+	fi
+
 	#echo $model_D
 	if ! source $SETVAR ; then
 		prontf "ERROR!"
@@ -249,16 +278,16 @@ function security_barrier_camera_sample()
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
-	./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	printf "Run ./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
+	./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
 }
-function interactive_face_detection_sample()
+function interactive_face_detection_demo()
 {
 	echo "|=========================================|"
 	echo "|        Intel OpenVINO Demostration      |"
 	echo "|        Inference Engine Sample Demo     |"
-	echo "|     interactive_face_detection_sample   |"
+	echo "|     interactive_face_detection_demo   	|"
 	echo "|=========================================|"
 	model_chooser_option_printer
 	local model_M_FP
@@ -277,7 +306,7 @@ function interactive_face_detection_sample()
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	echo "=>$model_M "
-	if [ "$model_M" != "0"]; then
+	if [ "$model_M" != "0" ]; then
 
 		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
@@ -328,8 +357,8 @@ function interactive_face_detection_sample()
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d ${model_M_DV} -i cam\n"
-	./interactive_face_detection_sample -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam
+	printf "Run ./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d ${model_M_DV} -i cam\n"
+	./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam
 }
 
 function feature_choose()
@@ -359,23 +388,23 @@ function Inference_Engine_Sample_List()
 	echo "|                                         |"
 	echo "|=========================================|"
 	echo ""
-	echo "  1. security_barrier_camera_sample"
-	echo "  2. interactive_face_detection_sample (TBD)"
-	echo "  3. classification_sample (TBD)"
+	echo "  1. security_barrier_camera_demo"
+	echo "  2. interactive_face_detection_demo"
+	echo "  3. classification_demo (TBD)"
 	#echo "  4. Show all samples that been built already."
 	local choose
 	read choose
 	case $choose in
 		"1")
-			echo " You choose security_barrier_camera_sample ->"
-			security_barrier_camera_sample
+			echo " You choose security_barrier_camera_demo ->"
+			security_barrier_camera_demo
 			;;
 		"2")
-			echo " You choose interactive_face_detection_sample (TBD)"
-			interactive_face_detection_sample
+			echo " You choose interactive_face_detection_demo (TBD)"
+			interactive_face_detection_demo
 			;;
 		"3")
-			echo " You choose interactive_face_detection_sample (TBD)"
+			echo " You choose interactive_face_detection_demo (TBD)"
 			;;
 		*)
 			echo "Please input a number"
