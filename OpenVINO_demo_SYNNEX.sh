@@ -5,12 +5,13 @@
 # 2018/09/07 	henry1758f	0.0.1 	first-create
 # 2018/09/11	henry1758f	0.0.2	create security barrier camera demo
 # 2018/12/03	henry1758f	0.0.3	Fix to meet OpenVINO R4 and add default config to demo1 and 2
-#
+# 2018/12/04	henry1758f	0.0.4	Completed the classification_demo, fixed bugs in model_chooser and path checking
+
 
 export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="0.0.3"
+export VERSION="0.0.4"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -162,14 +163,13 @@ function model_chooser()
 			return
 			;;	
 		*)
-			echo "Please Type the path of your IR model ... $choose"
-			local STR
-			read STR
-			if [ -f $STR ]; then
-				echo "$STR"
+			if [ -f $choose ]; then
+				#echo "$choose"
 				echo " * Comfirm! "
+				eval "$1=\"${choose}\""
+				return
 			else 
-				echo "File $STR does not exits. "
+				echo "File $choose does not exits. "
 				exit 1
 			fi
 			;;
@@ -361,6 +361,37 @@ function interactive_face_detection_demo()
 	./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam
 }
 
+function classification_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|            classification_demo   		|"
+	echo "|=========================================|"
+	
+	local model_M_FP
+	local model_M_DV
+	local Demo_Source
+	local model_LoadSTR
+	local model_M
+	echo "Type the path of the model you want to use, \"0\" to default"
+	model_chooser model_M
+	if [ "$model_M" != "0" ]; then
+		device_chooser model_M_DV
+		source_chooser Demo_Source
+	else
+		model_M_FP=32
+		model_M_DV=CPU
+		model_M=/home/$(whoami)/openvino_models/ir/squeezenet1.1/FP32/squeezenet1.1.xml
+		Demo_Source=/opt/intel/computer_vision_sdk/deployment_tools/demo/car.png
+	fi
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./classification_sample -m ${MODEL_M} -d ${model_M_DV} -i ${Demo_Source}\n"
+	./classification_sample -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}
+
+}
+
 function feature_choose()
 {
 	echo " 1. Inference Engine Sample Demo."
@@ -390,7 +421,7 @@ function Inference_Engine_Sample_List()
 	echo ""
 	echo "  1. security_barrier_camera_demo"
 	echo "  2. interactive_face_detection_demo"
-	echo "  3. classification_demo (TBD)"
+	echo "  3. classification_demo"
 	#echo "  4. Show all samples that been built already."
 	local choose
 	read choose
@@ -400,11 +431,12 @@ function Inference_Engine_Sample_List()
 			security_barrier_camera_demo
 			;;
 		"2")
-			echo " You choose interactive_face_detection_demo (TBD)"
+			echo " You choose interactive_face_detection_demo"
 			interactive_face_detection_demo
 			;;
 		"3")
-			echo " You choose interactive_face_detection_demo (TBD)"
+			echo " You choose interactive_face_detection_demo"
+			classification_demo
 			;;
 		*)
 			echo "Please input a number"
@@ -416,8 +448,8 @@ function check_dir()
 {
 	local locchk
 	local infp
-	locchk = 1
-	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!" && echo "Checking Other Location..." && locchk = 0
+	locchk=1
+	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!" && echo "Checking Other Location..." && locchk=0
 	if [ $locchk=0 ]; then
 		export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!"
