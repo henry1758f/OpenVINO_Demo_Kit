@@ -301,6 +301,9 @@ function interactive_face_detection_demo()
 	local model_M_EM
 	local model_M_EM_FP
 	local model_M_EM_DV
+	local model_M_LM
+	local model_M_LM_FP
+	local model_M_LM_DV
 
 	local model_LoadSTR
 	echo " Choose the model -m or use default setting by \"0\"..."
@@ -325,6 +328,11 @@ function interactive_face_detection_demo()
 		echo "=>$model_M_EM "
 		modelFP_chooser model_M_EM_FP
 		device_chooser model_M_EM_DV
+		echo " Choose the model -m_lm..."
+		model_chooser model_M_LM
+		echo "=>$model_M_LM "
+		modelFP_chooser model_M_LM_FP
+		device_chooser model_M_LM_DV
 	else
 		model_M="face-detection-retail-0004"
 		model_M_FP="32"
@@ -338,6 +346,9 @@ function interactive_face_detection_demo()
 		model_M_EM="emotions-recognition-retail-0003"
 		model_M_EM_FP="32"
 		model_M_EM_DV="CPU"
+		model_M_LM="facial-landmarks-35-adas-0001"
+		model_M_LM_FP="32"
+		model_M_LM_DV="CPU"
 	fi
 
 	if ! source $SETVAR ; then
@@ -353,6 +364,9 @@ function interactive_face_detection_demo()
 	fi
 	if [ "${model_M_EM}" != "0" ]; then
 		model_LoadSTR=${model_LoadSTR}" -m_em "${MODEL_LOC}/${model_M_EM}/FP${model_M_EM_FP}/${model_M_EM}".xml -d_em ${model_M_EM_DV}"
+	fi
+	if [ "${model_M_LM}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_lm "${MODEL_LOC}/${model_M_LM}/FP${model_M_LM_FP}/${model_M_LM}".xml -d_em ${model_M_EM_DV}"
 	fi
 
 	source $SETVAR	
