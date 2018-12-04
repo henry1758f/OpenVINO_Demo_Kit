@@ -5,12 +5,13 @@
 # 2018/09/07 	henry1758f	0.0.1 	first-create
 # 2018/09/11	henry1758f	0.0.2	create security barrier camera demo
 # 2018/12/03	henry1758f	0.0.3	Fix to meet OpenVINO R4 and add default config to demo1 and 2
-#
+# 2018/12/04	henry1758f	0.0.4	Completed the classification_demo, fixed bugs in model_chooser and path checking
+
 
 export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="0.0.3"
+export VERSION="0.0.4"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
