@@ -7,12 +7,13 @@
 # 2018/12/03	henry1758f	0.0.3	Fix to meet OpenVINO R4 and add default config to demo1 and 2
 # 2018/12/04	henry1758f	0.0.4	Completed the classification_demo, fixed bugs in model_chooser and path checking
 # 2018/12/04	henry1758f	0.0.5	Add facial-landmarks in interactive_face_detection_demo
+# 2018/12/05	henry1758f	1.0.0	Add Human Pose Estimation Demo feature and release to SYNNEX Team.
 
 
 export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="0.0.4"
+export VERSION="1.0.0"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -416,14 +417,9 @@ function Human_Pose_Estimation_Demo()
 	echo "|=========================================|"
 	model_chooser_option_printer
 	#local model_D
+	local model_M
 	local model_M_FP
 	local model_M_DV
-	local model_M_VA
-	local model_M_VA_FP
-	local model_M_VA_DV
-	local model_M_LPR
-	local model_M_LPR_FP
-	local model_M_LPR_VA
 	local model_LoadSTR
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
@@ -431,28 +427,10 @@ function Human_Pose_Estimation_Demo()
 		echo "=>$model_M "
 		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
-
-		echo " Choose the model -m_va..."
-		model_chooser model_M_VA
-		echo "=>$model_M_VA "
-		modelFP_chooser model_M_VA_FP
-		device_chooser model_M_VA_DV
-
-		echo " Choose the model -m_lpr..."
-		model_chooser model_M_LPR
-		echo "=>$model_M_LPR "
-		modelFP_chooser model_M_LPR_FP
-		device_chooser model_M_LPR_DV
 	else
-		model_M="vehicle-license-plate-detection-barrier-0106"
+		model_M="human-pose-estimation-0001"
 		model_M_FP="32"
 		model_M_DV="CPU"
-		model_M_VA="vehicle-attributes-recognition-barrier-0039"
-		model_M_VA_FP="32"
-		model_M_VA_DV="CPU"
-		model_M_LPR="license-plate-recognition-barrier-0001"
-		model_M_LPR_FP="32"
-		model_M_LPR_DV="CPU"
 	fi
 
 	#echo $model_D
@@ -460,20 +438,10 @@ function Human_Pose_Estimation_Demo()
 		prontf "ERROR!"
 		exit 1
 	fi
-
-	echo "[SYNNEX_DEBUG] model_va = $model_M_VA ; model_lpr = $model_M_LPR"
-
-	if [ "${model_M_VA}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_va "${MODEL_LOC}/${model_M_VA}/FP${model_M_VA_FP}/${model_M_VA}".xml -d_va ${model_M_VA_DV} "
-	fi
-	if [ "${model_M_LPR}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_lpr "${MODEL_LOC}/${model_M_LPR}/FP${model_M_LPR_FP}/${model_M_LPR}".xml -d_lpr ${model_M_LPR_DV}"
-	fi
-
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
-	./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	printf "Run ./human_pose_estimation_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
+	./human_pose_estimation_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i "cam"
 }
 
 function feature_choose()
@@ -506,7 +474,7 @@ function Inference_Engine_Sample_List()
 	echo "  1. security_barrier_camera_demo"
 	echo "  2. interactive_face_detection_demo"
 	echo "  3. classification_demo"
-	echo "  4. Human Pose Estimation Demo (TBD)."
+	echo "  4. Human Pose Estimation Demo."
 	local choose
 	read choose
 	case $choose in
@@ -521,6 +489,10 @@ function Inference_Engine_Sample_List()
 		"3")
 			echo " You choose interactive_face_detection_demo"
 			classification_demo
+			;;
+		"4")
+			echo " You choose Human Pose Estimation Demo"
+			Human_Pose_Estimation_Demo
 			;;
 		*)
 			echo "Please input a number"
