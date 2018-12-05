@@ -8,12 +8,12 @@
 # 2018/12/04	henry1758f	0.0.4	Completed the classification_demo, fixed bugs in model_chooser and path checking
 # 2018/12/04	henry1758f	0.0.5	Add facial-landmarks in interactive_face_detection_demo
 # 2018/12/05	henry1758f	1.0.0	Add Human Pose Estimation Demo feature and release to SYNNEX Team.
+# 2018/12/05	henry1758f	1.0.1	Fix check_dir function Bugs.
 
-
-export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
+export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.0.0"
+export VERSION="1.0.1"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -455,10 +455,10 @@ function feature_choose()
 			Inference_Engine_Sample_List
 		;;
 		"2")
-			echo " You choose Model Optimizer Demo.(TBD)"
+			echo "Sorry, The Model Optimizer Demo isn't ready..."
 			;;
 		*)
-			echo "Please input a number"
+			echo "Please input a vailed number"
 			;;
 	esac
 
@@ -495,7 +495,7 @@ function Inference_Engine_Sample_List()
 			Human_Pose_Estimation_Demo
 			;;
 		*)
-			echo "Please input a number"
+			echo "Please input a vailed number"
 			;;
 	esac
 }
@@ -504,16 +504,14 @@ function check_dir()
 {
 	local locchk
 	local infp
-	locchk=1
-	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!" && echo "Checking Other Location..." && locchk=0
-	if [ $locchk=0 ]; then
-		export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
-		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!"
-	else
+	locchk="1"
+	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!(<R3)" || echo "Checking OpenVINO R2 version Location..." || locchk="0"
+	if [ "${locchk}" = "0" ]; then
+		export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
+		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!" && return 
 		echo "We Can't find the inference Engine application path. Please Input the path by yourself."
 		read infp
 		test -e ${infp} || echo "${SAMPLE_LOC} is not exist !!!" && exit 1
-
 	fi
 }
 
