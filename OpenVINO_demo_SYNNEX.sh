@@ -178,6 +178,7 @@ function model_chooser()
 		esac
 	exit 1
 }
+
 function modelFP_chooser()
 {
 	echo "The Moddel Type is FP...?"
@@ -185,6 +186,7 @@ function modelFP_chooser()
 	read STR
 	eval "$1=\"$STR\""
 }
+
 function device_chooser()
 {
 	echo "The Inference Device? CPU?(FP32 only)  GPU?(FP32/16)   MYRIAD?(FP16 only) ->"
@@ -192,6 +194,7 @@ function device_chooser()
 	read STR
 	eval "$1=\"$STR\""
 }
+
 function source_chooser()
 {
 	echo "Please input the path of the source, or type \"cam\" when using camera, or use \"1\" as default"
@@ -284,6 +287,7 @@ function security_barrier_camera_demo()
 	./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
 }
+
 function interactive_face_detection_demo()
 {
 	echo "|=========================================|"
@@ -444,6 +448,37 @@ function Human_Pose_Estimation_Demo()
 	./human_pose_estimation_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i "cam"
 }
 
+function Object_Detection_SSD_Demo_Async()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|      Object_Detection_SSD_Demo_Async	|"
+	echo "|=========================================|"
+	
+	local model_M_FP
+	local model_M_DV
+	local Demo_Source
+	local model_LoadSTR
+	local model_M
+	echo "Type the path of the model you want to use, \"0\" to default"
+	model_chooser model_M
+	if [ "$model_M" != "0" ]; then
+		device_chooser model_M_DV
+		source_chooser Demo_Source
+	else
+		model_M_FP=32
+		model_M_DV=CPU
+		model_M=/home/$(whoami)/Henry_Models/frozen_inference_graph.xml
+		Demo_Source=cam
+	fi
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./classification_sample -m ${MODEL_M} -d ${model_M_DV} -i ${Demo_Source}\n"
+	./object_detection_demo_ssd_async -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}
+}
+
+
 function feature_choose()
 {
 	echo " 1. Inference Engine Sample Demo."
@@ -463,6 +498,7 @@ function feature_choose()
 	esac
 
 }
+
 function Inference_Engine_Sample_List()
 {
 	echo "|=========================================|"
@@ -493,6 +529,10 @@ function Inference_Engine_Sample_List()
 		"4")
 			echo " You choose Human Pose Estimation Demo"
 			Human_Pose_Estimation_Demo
+			;;
+		"5")
+			echo " You choose Object Detection SSD Demo - Async API (TBD)"
+			Object_Detection_SSD_Demo_Async
 			;;
 		*)
 			echo "Please input a vailed number"
