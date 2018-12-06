@@ -9,11 +9,14 @@
 # 2018/12/04	henry1758f	0.0.5	Add facial-landmarks in interactive_face_detection_demo
 # 2018/12/05	henry1758f	1.0.0	Add Human Pose Estimation Demo feature and release to SYNNEX Team.
 # 2018/12/05	henry1758f	1.0.1	Fix check_dir function Bugs.
+# 2018/12/06	henry1758f	1.1.0	Add Object Detection SSD Demo - Async API.
+# 2018/12/06	henry1758f	1.2.0	Add crossroad_camera_demo
+
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.0.1"
+export VERSION="1.2.0"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -478,6 +481,78 @@ function Object_Detection_SSD_Demo_Async()
 	./object_detection_demo_ssd_async -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}
 }
 
+function crossroad_camera_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|           crossroad_camera_demo   		|"
+	echo "|=========================================|"
+	model_chooser_option_printer
+	#local model_D
+	local model_M_FP
+	local model_M_DV
+	local model_M_PA
+	local model_M_PA_FP
+	local model_M_PA_DV
+	local model_M_REID
+	local model_M_REID_FP
+	local model_M_REID_VA
+	local model_LoadSTR
+	local Demo_Source
+
+	echo " Choose the model -m or use default setting by \"0\"..."
+	model_chooser model_M
+	if [ "$model_M" != "0" ]; then
+		echo "=>$model_M "
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
+
+		echo " Choose the model -m_pa..."
+		model_chooser model_M_PA
+		echo "=>$model_M_pa "
+		modelFP_chooser model_M_PA_FP
+		device_chooser model_M_PA_DV
+
+		echo " Choose the model -m_reid..."
+		model_chooser model_M_REID
+		echo "=>$model_M_LPR "
+		modelFP_chooser model_M_REID_FP
+		device_chooser model_M_REID_DV
+	else
+		model_M="person-vehicle-bike-detection-crossroad-0078"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		model_M_PA="person-attributes-recognition-crossroad-0031"
+		model_M_PA_FP="32"
+		model_M_PA_DV="CPU"
+		model_M_REID="person-reidentification-retail-0079"
+		model_M_REID_FP="32"
+		model_M_REID_DV="CPU"
+		#Demo_Source="/home/synnex-fae/Videos/Taiwan_Traffic_5sec.mp4"
+		Demo_Source="cam"
+	fi
+
+	#echo $model_D
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+
+	echo "[SYNNEX_DEBUG] model_pa = $model_M_PA ; model_reid = $model_M_REID"
+
+	if [ "${model_M_PA}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_pa "${MODEL_LOC}/${model_M_PA}/FP${model_M_PA_FP}/${model_M_PA}".xml -d_pa ${model_M_PA_DV} "
+	fi
+	if [ "${model_M_REID}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_reid "${MODEL_LOC}/${model_M_REID}/FP${model_M_REID_FP}/${model_M_REID}".xml -d_reid ${model_M_REID_DV}"
+	fi
+
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i $Demo_Source \n"
+	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i $Demo_Source
+}
 
 function feature_choose()
 {
@@ -511,6 +586,10 @@ function Inference_Engine_Sample_List()
 	echo "  2. interactive_face_detection_demo"
 	echo "  3. classification_demo"
 	echo "  4. Human Pose Estimation Demo."
+	echo "  5. Object Detection SSD Demo - Async API."
+	echo "  6. Crossroad Camera Demo"
+
+
 	local choose
 	read choose
 	case $choose in
@@ -531,8 +610,12 @@ function Inference_Engine_Sample_List()
 			Human_Pose_Estimation_Demo
 			;;
 		"5")
-			echo " You choose Object Detection SSD Demo - Async API (TBD)"
+			echo " You choose Object Detection SSD Demo - Async API"
 			Object_Detection_SSD_Demo_Async
+			;;
+		"6")
+			echo " You choose crossroad_camera_demo"
+			crossroad_camera_demo
 			;;
 		*)
 			echo "Please input a vailed number"
