@@ -639,7 +639,7 @@ function check_dir()
 	local locchk
 	local infp
 	locchk="1"
-	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!(<R3)" || locchk="0"
+	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!(<R3)" && locchk="0"
 	if [ "${locchk}" = "0" ]; then
 		echo "Checking OpenVINO R2 version Location..."
 		export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
