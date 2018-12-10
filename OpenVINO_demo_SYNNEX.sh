@@ -12,13 +12,14 @@
 # 2018/12/06	henry1758f	1.1.0	Add Object Detection SSD Demo - Async API.
 # 2018/12/06	henry1758f	1.2.0	Add crossroad_camera_demo
 # 2018/12/10	henry1758f	1.2.1	Fix face detection source choose and default model setting for classification demo
+# 2018/12/10	henry1758f	1.2.2	Fix check_dir
 
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.2.1"
+export VERSION="1.2.2"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -638,8 +639,9 @@ function check_dir()
 	local locchk
 	local infp
 	locchk="1"
-	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!(<R3)" || echo "Checking OpenVINO R2 version Location..." || locchk="0"
+	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!(<R3)" || locchk="0"
 	if [ "${locchk}" = "0" ]; then
+		echo "Checking OpenVINO R2 version Location..."
 		export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/intel64/Release"
 		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!" && return 
 		echo "We Can't find the inference Engine application path. Please Input the path by yourself."
