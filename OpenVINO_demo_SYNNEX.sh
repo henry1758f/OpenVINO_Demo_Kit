@@ -15,12 +15,13 @@
 # 2018/12/10	henry1758f	1.2.2	Fix check_dir
 # 2018/12/10	henry1758f	1.2.3	Fix check_dir
 # 2018/12/10	henry1758f	1.2.4	Fix check_dir
+# 2018/12/10	henry1758f	1.2.5	Fix check_dir and security_barrier_camera_demo name in R2
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.2.4"
+export VERSION="1.2.5"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -291,7 +292,7 @@ function security_barrier_camera_demo()
 	source $SETVAR	
 	cd $SAMPLE_LOC
 	printf "Run ./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
-	./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp || ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
 
 }
 
@@ -640,7 +641,8 @@ function check_dir()
 	local locchk
 	local infp
 	locchk="1"
-	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!(<R3)" && locchk="0"
+	test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!(<R3)" 
+	test -e ${SAMPLE_LOC} || locchk="0"
 	if [ "${locchk}" = "0" ]; then
 		echo "Checking OpenVINO R2 version Location..."
 		export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/build/intel64/Release"
