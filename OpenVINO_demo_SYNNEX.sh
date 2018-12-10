@@ -11,12 +11,14 @@
 # 2018/12/05	henry1758f	1.0.1	Fix check_dir function Bugs.
 # 2018/12/06	henry1758f	1.1.0	Add Object Detection SSD Demo - Async API.
 # 2018/12/06	henry1758f	1.2.0	Add crossroad_camera_demo
+# 2018/12/10	henry1758f	1.2.1	Fix face detection source choose and default model setting for classification demo
+
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.2.0"
+export VERSION="1.2.1"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -313,7 +315,7 @@ function interactive_face_detection_demo()
 	local model_M_LM
 	local model_M_LM_FP
 	local model_M_LM_DV
-
+	local Demo_Source
 	local model_LoadSTR
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
@@ -358,6 +360,7 @@ function interactive_face_detection_demo()
 		model_M_LM="facial-landmarks-35-adas-0001"
 		model_M_LM_FP="32"
 		model_M_LM_DV="CPU"
+		Demo_Source="cam"
 	fi
 
 	if ! source $SETVAR ; then
@@ -375,13 +378,13 @@ function interactive_face_detection_demo()
 		model_LoadSTR=${model_LoadSTR}" -m_em "${MODEL_LOC}/${model_M_EM}/FP${model_M_EM_FP}/${model_M_EM}".xml -d_em ${model_M_EM_DV}"
 	fi
 	if [ "${model_M_LM}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_lm "${MODEL_LOC}/${model_M_LM}/FP${model_M_LM_FP}/${model_M_LM}".xml -d_em ${model_M_EM_DV}"
+		model_LoadSTR=${model_LoadSTR}" -m_lm "${MODEL_LOC}/${model_M_LM}/FP${model_M_LM_FP}/${model_M_LM}".xml -d_lm ${model_M_LM_DV}"
 	fi
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
 	printf "Run ./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d ${model_M_DV} -i cam\n"
-	./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i cam
+	./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i $Demo_Source
 }
 
 function classification_demo()
@@ -396,22 +399,29 @@ function classification_demo()
 	local model_M_DV
 	local Demo_Source
 	local model_LoadSTR
-	local model_M
+	local model_M="squeezenet1.1"
+	local model_M_default="/home/$(whoami)/openvino_models/ir"
+	local default_N="0"
 	echo "Type the path of the model you want to use, \"0\" to default"
-	model_chooser model_M
+	echo "1. squeezenet1.1"
+	read model_M
 	if [ "$model_M" != "0" ]; then
+#		if [ "$model_M" = "1" ]; then
+		model_M="squeezenet1.1"
+		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
 		source_chooser Demo_Source
+		model_LoadSTR="${model_M_default}/${model_M}/${model_M_FP}/${model_M}.xml"
 	else
 		model_M_FP=32
 		model_M_DV=CPU
-		model_M=/home/$(whoami)/openvino_models/ir/squeezenet1.1/FP32/squeezenet1.1.xml
+		model_M=squeezenet1.1
 		Demo_Source=/opt/intel/computer_vision_sdk/deployment_tools/demo/car.png
 	fi
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./classification_sample -m ${MODEL_M} -d ${model_M_DV} -i ${Demo_Source}\n"
-	./classification_sample -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}
+	printf "Run ./classification_sample -m ${model_LoadSTR} -d ${model_M_DV} -i ${Demo_Source}\n"
+	./classification_sample -m ${model_LoadSTR} -d ${model_M_DV} -i ${Demo_Source}
 
 }
 
