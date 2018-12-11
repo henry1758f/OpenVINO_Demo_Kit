@@ -16,12 +16,14 @@
 # 2018/12/10	henry1758f	1.2.3	Fix check_dir
 # 2018/12/10	henry1758f	1.2.4	Fix check_dir
 # 2018/12/10	henry1758f	1.2.5	Fix check_dir and security_barrier_camera_demo name in R2
+# 2018/12/10	henry1758f	1.2.6	Fix check_dir to meet in situation that login as root
+# 2018/12/10	henry1758f	1.2.7	Fix check_dir to meet in situation that login as root
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.2.5"
+export VERSION="1.2.7"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -647,7 +649,7 @@ function check_dir()
 		echo "Checking OpenVINO R2 version Location..."
 		export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/build/intel64/Release"
 		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!! Are you root?..."
-		export SAMPLE_LOC="inference_engine_samples/intel64/Release"
+		export SAMPLE_LOC="/root/inference_engine_samples/intel64/Release"
 		test -e ${SAMPLE_LOC} && echo "Yes! You are root." && return 
 		echo "We Can't find the inference Engine application path. Please Input the path by yourself."
 		read infp
