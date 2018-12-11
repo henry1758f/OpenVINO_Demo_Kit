@@ -646,7 +646,9 @@ function check_dir()
 	if [ "${locchk}" = "0" ]; then
 		echo "Checking OpenVINO R2 version Location..."
 		export SAMPLE_LOC="/opt/intel/computer_vision_sdk/deployment_tools/inference_engine/samples/build/intel64/Release"
-		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!!" && return 
+		test -e ${SAMPLE_LOC} || echo "${SAMPLE_LOC} is not exist !!! Are you root?..."
+		export SAMPLE_LOC="inference_engine_samples/intel64/Release"
+		test -e ${SAMPLE_LOC} && echo "Yes! You are root." && return 
 		echo "We Can't find the inference Engine application path. Please Input the path by yourself."
 		read infp
 		test -e ${infp} || echo "${SAMPLE_LOC} is not exist !!!" && exit 1
