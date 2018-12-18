@@ -19,12 +19,15 @@
 # 2018/12/10	henry1758f	1.2.6	Fix check_dir to meet in situation that login as root
 # 2018/12/10	henry1758f	1.2.7	Fix check_dir to meet in situation that login as root
 # 2018/12/18	henry1758f	1.2.8	Fix Empty Demo source situation and fix some bugs
+# 2018/12/18	henry1758f	1.3.0	Add First Model Optimizer Feature
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
+export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
+export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.2.8"
+export VERSION="1.3.0"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -496,12 +499,12 @@ function Object_Detection_SSD_Demo_Async()
 	else
 		model_M_FP=32
 		model_M_DV=CPU
-		model_M=/home/$(whoami)/Henry_Models/frozen_inference_graph.xml
+		model_M=${DL_MODEL_LOC}/ir/FP${model_M_FP}/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.xml
 		Demo_Source=cam
 	fi
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./classification_sample -m ${MODEL_M} -d ${model_M_DV} -i ${Demo_Source}\n"
+	printf "Run ./classification_sample -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}\n"
 	./object_detection_demo_ssd_async -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}
 }
 
@@ -581,7 +584,7 @@ function crossroad_camera_demo()
 function feature_choose()
 {
 	echo " 1. Inference Engine Sample Demo."
-	echo " 2. Model Optimizer Demo.(TBD)"
+	echo " 2. Model Optimizer Demo."
 	local choose
 	read choose
 	case $choose in
@@ -589,7 +592,8 @@ function feature_choose()
 			Inference_Engine_Sample_List
 		;;
 		"2")
-			echo "Sorry, The Model Optimizer Demo isn't ready..."
+			#echo "Sorry, The Model Optimizer Demo isn't ready..."
+			Model_Optimizer_Sample_List
 			;;
 		*)
 			echo "Please input a vailed number"
@@ -646,6 +650,46 @@ function Inference_Engine_Sample_List()
 			;;
 	esac
 }
+
+function Model_Optimizer_Sample_List()
+{
+	test -e ${DL_MODEL_LOC} || echo "${DL_MODEL_LOC} is not exist !!! Create dir\n" 
+	test -e ${DL_MODEL_LOC} || mkdir ${DL_MODEL_LOC}  
+	test -e ${DL_MODEL_LOC}/ir || mkdir ${DL_MODEL_LOC}/ir 
+	test -e ${DL_MODEL_LOC}/ir/FP16 || mkdir ${DL_MODEL_LOC}/ir/FP16 
+	test -e ${DL_MODEL_LOC}/ir || mkdir ${DL_MODEL_LOC}/ir/FP32
+
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Model_Optimizer Sample Demo      |"
+	echo "|                                         |"
+	echo "|=========================================|"
+	echo "|--COCO Trained Models"
+	echo "  1. ssd_mobilenet_v2_coco"
+	#echo "  2. "
+	cd ${DL_MODEL_LOC}
+	local choose
+	local MOFP
+
+	read choose
+	case $choose in
+		"1")
+			echo " You choose ssd_mobilenet_v2_coco ->"
+			#curl -O http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+			#tar zxf ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+			echo "Download and decompress Done...\n Which data_type prefer to convert?FP(16/32) ->"
+			read MOFP
+			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29
+			python3 ${MO_LOC}/mo_tf.py --input_model "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb" --output_dir "${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29" --data_type "FP${MOFP}" --tensorflow_use_custom_operations_config /opt/intel/computer_vision_sdk/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/pipeline.config"
+			;;
+		#"2")
+		#	;;
+		*)
+			echo "Please input a vailed number"
+			;;
+	esac
+}
+
 
 function check_dir()
 {
