@@ -18,12 +18,13 @@
 # 2018/12/10	henry1758f	1.2.5	Fix check_dir and security_barrier_camera_demo name in R2
 # 2018/12/10	henry1758f	1.2.6	Fix check_dir to meet in situation that login as root
 # 2018/12/10	henry1758f	1.2.7	Fix check_dir to meet in situation that login as root
+# 2018/12/18	henry1758f	1.2.8	Fix Empty Demo source situation and fix some bugs
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.2.7"
+export VERSION="1.2.8"
 export VERSION_VINO="v2018.4.420"
 function model_chooser_option_printer()
 {
@@ -246,6 +247,8 @@ function security_barrier_camera_demo()
 	local model_M_LPR_FP
 	local model_M_LPR_VA
 	local model_LoadSTR
+	local Demo_Source
+	Demo_Source="/opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp"
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	if [ "$model_M" != "0" ]; then
@@ -293,8 +296,8 @@ function security_barrier_camera_demo()
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
-	./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp || ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp
+	printf "Run ./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i $Demo_Source \n"
+	./security_barrier_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i $Demo_Source || ./security_barrier_camera_sample -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i $Demo_Source
 
 }
 
@@ -322,6 +325,8 @@ function interactive_face_detection_demo()
 	local model_M_LM_DV
 	local Demo_Source
 	local model_LoadSTR
+	Demo_Source="cam"
+
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	echo "=>$model_M "
@@ -388,7 +393,7 @@ function interactive_face_detection_demo()
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d ${model_M_DV} -i cam\n"
+	printf "Run ./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d ${model_M_DV} -i ${Demo_Source}n"
 	./interactive_face_detection_demo -m $MODEL_LOC/$model_M/FP32/$model_M.xml $model_LoadSTR -d CPU -i $Demo_Source
 }
 
@@ -443,6 +448,9 @@ function Human_Pose_Estimation_Demo()
 	local model_M_FP
 	local model_M_DV
 	local model_LoadSTR
+	local Demo_Source
+	Demo_Source="cam"
+
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	if [ "$model_M" != "0" ]; then
@@ -462,8 +470,8 @@ function Human_Pose_Estimation_Demo()
 	fi
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./human_pose_estimation_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i /opt/intel/computer_vision_sdk/deployment_tools/demo/car_1.bmp\n"
-	./human_pose_estimation_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i "cam"
+	printf "Run ./human_pose_estimation_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source\n"
+	./human_pose_estimation_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source
 }
 
 function Object_Detection_SSD_Demo_Async()
@@ -479,6 +487,7 @@ function Object_Detection_SSD_Demo_Async()
 	local Demo_Source
 	local model_LoadSTR
 	local model_M
+	Demo_Source="cam"
 	echo "Type the path of the model you want to use, \"0\" to default"
 	model_chooser model_M
 	if [ "$model_M" != "0" ]; then
@@ -515,7 +524,7 @@ function crossroad_camera_demo()
 	local model_M_REID_VA
 	local model_LoadSTR
 	local Demo_Source
-
+	Demo_Source="cam"
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	if [ "$model_M" != "0" ]; then
