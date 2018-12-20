@@ -577,8 +577,8 @@ function crossroad_camera_demo()
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i $Demo_Source \n"
-	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d CPU -i $Demo_Source
+	printf "Run 	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_FP -i $Demo_Source \n"
+	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i $Demo_Source
 }
 
 function feature_choose()
