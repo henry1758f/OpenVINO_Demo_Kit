@@ -20,14 +20,15 @@
 # 2018/12/10	henry1758f	1.2.7	Fix check_dir to meet in situation that login as root
 # 2018/12/18	henry1758f	1.2.8	Fix Empty Demo source situation and fix some bugs
 # 2018/12/18	henry1758f	1.3.0	Add First Model Optimizer Feature
+# 2018/12/18	henry1758f	1.4.0	Fix name to meet R5
 
 
-export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
+export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.3.0"
+export VERSION="1.4.0"
 export VERSION_VINO="v2018.5.445"
 function model_chooser_option_printer()
 {
@@ -36,15 +37,15 @@ function model_chooser_option_printer()
 	echo "   3.  face-detection-adas-0001"
 	echo "   4.  face-detection-retail-0004"
 	echo "   5.  face-person-detection-retail-0002"
-	echo "  *6.  face-reidentification-retail-0071"
+	echo "  ^6.  face-reidentification-retail-0095"
 	echo "   7.  head-pose-estimation-adas-0001"
-	echo "  *8.  landmarks-regression-retail-0009"
+	echo "   8.  landmarks-regression-retail-0009"
 	echo "   9.  license-plate-recognition-barrier-0001"
 	echo "   10. pedestrian-and-vehicle-detector-adas-0001"
 	echo "   11. pedestrian-detection-adas-0002"
-	echo "   12. person-attributes-recognition-crossroad-0031"
-	echo "  *13. person-detection-action-recognition-0003"
-	echo "   14. person-detection-retail-0001"
+	echo "  ^12. person-attributes-recognition-crossroad-0200"
+	echo "  ^13. person-detection-action-recognition-0004"
+	echo "  ^14. person-detection-retail-0002"
 	echo "   15. person-detection-retail-0013"
 	echo "   16. person-reidentification-retail-0031"
 	echo "   17. person-reidentification-retail-0076"
@@ -55,9 +56,14 @@ function model_chooser_option_printer()
 	echo "   22. vehicle-attributes-recognition-barrier-0039"
 	echo "   23. vehicle-detection-adas-0002"
 	echo "   24. vehicle-license-plate-detection-barrier-0106"
-	echo "  *25. facial-landmarks-35-adas-0001"
-	echo "  *26. human-pose-estimation-0001"
-	echo "  *27. single-image-super-resolution-0034"
+	echo "   25. facial-landmarks-35-adas-0001"
+	echo "   26. human-pose-estimation-0001"
+	echo "  ^27. single-image-super-resolution-0063"
+	echo "  *28. single-image-super-resolution-1011"
+	echo "  *29. single-image-super-resolution-1021"
+	echo "  *30. text-detection-0001"
+
+
 }
 
 function model_chooser()
@@ -86,7 +92,7 @@ function model_chooser()
 			return
 			;;
 		"6")
-			eval "$1=\"face-reidentification-retail-0071\""
+			eval "$1=\"face-reidentification-retail-0095\""
 			return
 			;;
 		"7")
@@ -110,15 +116,15 @@ function model_chooser()
 			return
 			;;
 		"12")
-			eval "$1=\"person-attributes-recognition-crossroad-0031\""
+			eval "$1=\"person-attributes-recognition-crossroad-0200\""
 			return
 			;;
 		"13")
-			eval "$1=\"person-detection-action-recognition-0003\""
+			eval "$1=\"person-detection-action-recognition-0004\""
 			return
 			;;
 		"14")
-			eval "$1=\"person-detection-retail-0001\""
+			eval "$1=\"person-detection-retail-0002\""
 			return
 			;;
 		"15")
@@ -169,8 +175,20 @@ function model_chooser()
 			eval "$1=\"human-pose-estimation-0001\""
 			return
 		;;		
-		"27	")
-			eval "$1=\"single-image-super-resolution-0034\""
+		"27")
+			eval "$1=\"single-image-super-resolution-0063\""
+			return
+		;;		
+		"28")
+			eval "$1=\"single-image-super-resolution-0063\""
+			return
+		;;		
+		"29")
+			eval "$1=\"single-image-super-resolution-1011\""
+			return
+		;;		
+		"30")
+			eval "$1=\"single-image-super-resolution-1021\""
 			return
 		;;		
 		"0")
@@ -550,7 +568,7 @@ function crossroad_camera_demo()
 		model_M="person-vehicle-bike-detection-crossroad-0078"
 		model_M_FP="32"
 		model_M_DV="CPU"
-		model_M_PA="person-attributes-recognition-crossroad-0031"
+		model_M_PA="person-attributes-recognition-crossroad-0200"
 		model_M_PA_FP="32"
 		model_M_PA_DV="CPU"
 		model_M_REID="person-reidentification-retail-0079"
