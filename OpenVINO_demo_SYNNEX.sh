@@ -20,7 +20,8 @@
 # 2018/12/10	henry1758f	1.2.7	Fix check_dir to meet in situation that login as root
 # 2018/12/18	henry1758f	1.2.8	Fix Empty Demo source situation and fix some bugs
 # 2018/12/18	henry1758f	1.3.0	Add First Model Optimizer Feature
-# 2018/12/18	henry1758f	1.4.0	Fix name to meet R5
+# 2018/12/26	henry1758f	1.4.0	Fix name to meet R5
+# 2018/12/26	henry1758f	1.4.1	Fix classification model path to meet R5
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -442,7 +443,7 @@ function classification_demo()
 		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
 		source_chooser Demo_Source
-		model_LoadSTR="${model_M_default}/${model_M}/${model_M_FP}/${model_M}.xml"
+		model_LoadSTR="${model_M_default}/FP${model_M_FP}/classification/squeezenet/1.1/caffe/${model_M}.xml"
 	else
 		model_M_FP=32
 		model_M_DV=CPU
