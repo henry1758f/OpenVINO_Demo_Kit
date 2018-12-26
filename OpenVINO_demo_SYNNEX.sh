@@ -28,7 +28,7 @@ export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
 export VERSION="1.3.0"
-export VERSION_VINO="v2018.4.420"
+export VERSION_VINO="v2018.5.445"
 function model_chooser_option_printer()
 {
 	echo "   1.  age-gender-recognition-retail-0013"
