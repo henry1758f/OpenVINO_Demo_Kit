@@ -22,14 +22,15 @@
 # 2018/12/18	henry1758f	1.3.0	Add First Model Optimizer Feature
 # 2018/12/26	henry1758f	1.4.0	Fix name to meet R5
 # 2018/12/26	henry1758f	1.4.1	Fix classification model path to meet R5
+# 2019/01/09	henry1758f	1.4.2	Fix path to meet R5
 
 
-export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
+export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
 export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.4.0"
+export VERSION="1.4.2"
 export VERSION_VINO="v2018.5.445"
 function model_chooser_option_printer()
 {
@@ -599,6 +600,14 @@ function crossroad_camera_demo()
 	printf "Run 	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_FP -i $Demo_Source \n"
 	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i $Demo_Source
 }
+function super_resolution_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|           Super Resolution Demo 		|"
+	echo "|=========================================|"
+}
 
 function feature_choose()
 {
@@ -635,6 +644,9 @@ function Inference_Engine_Sample_List()
 	echo "  4. Human Pose Estimation Demo."
 	echo "  5. Object Detection SSD Demo - Async API."
 	echo "  6. Crossroad Camera Demo"
+	echo "  7. super_resolution_demo (TBD)"
+	echo "  8. pedestrian tracker demo (TBD)"
+
 
 
 	local choose
@@ -694,8 +706,8 @@ function Model_Optimizer_Sample_List()
 	case $choose in
 		"1")
 			echo " You choose ssd_mobilenet_v2_coco ->"
-			#curl -O http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
-			#tar zxf ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+			curl -O http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+			tar zxf ssd_mobilenet_v2_coco_2018_03_29.tar.gz
 			echo "Download and decompress Done...\n Which data_type prefer to convert?FP(16/32) ->"
 			read MOFP
 			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29
