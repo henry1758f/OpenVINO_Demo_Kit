@@ -433,7 +433,7 @@ function classification_demo()
 	local Demo_Source
 	local model_LoadSTR
 	local model_M="squeezenet1.1"
-	local model_M_default="/home/$(whoami)/openvino_models/ir"
+	local model_M_default="/home/$(whoami)/Downloaded_Models/ir"
 	local default_N="0"
 	echo "Type the path of the model you want to use, \"0\" to default"
 	echo "1. squeezenet1.1"
@@ -444,7 +444,7 @@ function classification_demo()
 		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
 		source_chooser Demo_Source
-		model_LoadSTR="${model_M_default}/FP${model_M_FP}/classification/squeezenet/1.1/caffe/${model_M}.xml"
+		model_LoadSTR="${model_M_default}/FP${model_M_FP}/squeezenet_v1.1/${model_M}.xml"
 	else
 		model_M_FP=32
 		model_M_DV=CPU
@@ -696,8 +696,8 @@ function Model_Optimizer_Sample_List()
 	echo "|                                         |"
 	echo "|=========================================|"
 	echo "|--COCO Trained Models"
-	echo "  1. ssd_mobilenet_v2_coco"
-	#echo "  2. "
+	echo "  1. ssd_mobilenet_v2_coco (Tensorflow)"
+	echo "  2. SqueezeNet_v1.1 (Caffe)"
 	cd ${DL_MODEL_LOC}
 	local choose
 	local MOFP
@@ -713,8 +713,18 @@ function Model_Optimizer_Sample_List()
 			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29
 			python3 ${MO_LOC}/mo_tf.py --input_model "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb" --output_dir "${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29" --data_type "FP${MOFP}" --tensorflow_use_custom_operations_config /opt/intel/computer_vision_sdk/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/pipeline.config"
 			;;
-		#"2")
-		#	;;
+		"2")
+			echo " You choose SqueezeNet_v1.1 ->"
+			if [ ! -e "${DL_MODEL_LOC}/squeezenet_v1.1" ]; then
+				mkdir ${DL_MODEL_LOC}/squeezenet_v1.1	
+				python3 ${MO_LOC}/../model_downloader/downloader.py --name squeezenet1.1 --output_dir ${DL_MODEL_LOC}/squeezenet_v1.1	
+			#curl -O https://github.com/DeepScale/SqueezeNet/raw/master/SqueezeNet_v1.1/squeezenet_v1.1.caffemodel
+			fi
+			echo "Download Done...\n Which data_type prefer to convert?FP(16/32) ->"
+			read MOFP
+			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/squeezenet_v1.1
+			python3 ${MO_LOC}/mo.py --input_model "${DL_MODEL_LOC}/squeezenet_v1.1/classification/squeezenet/1.1/caffe/squeezenet1.1.caffemodel" --output_dir ${DL_MODEL_LOC}/ir/FP${MOFP}/squeezenet_v1.1 --data_type FP${MOFP}
+			;;
 		*)
 			echo "Please input a vailed number"
 			;;
