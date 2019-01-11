@@ -23,6 +23,9 @@
 # 2018/12/26	henry1758f	1.4.0	Fix name to meet R5
 # 2018/12/26	henry1758f	1.4.1	Fix classification model path to meet R5
 # 2019/01/09	henry1758f	1.4.2	Fix path to meet R5
+# 2019/01/11	henry1758f	1.4.3	Add MO squeezenet model download and transfer
+# 2019/01/11	henry1758f	1.4.4	Fix and optimize MO cocoSSD path
+
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
@@ -30,7 +33,7 @@ export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.4.2"
+export VERSION="1.4.4"
 export VERSION_VINO="v2018.5.445"
 function model_chooser_option_printer()
 {
@@ -701,17 +704,20 @@ function Model_Optimizer_Sample_List()
 	cd ${DL_MODEL_LOC}
 	local choose
 	local MOFP
-
+	local model_name
 	read choose
 	case $choose in
 		"1")
 			echo " You choose ssd_mobilenet_v2_coco ->"
-			curl -O http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
-			tar zxf ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+			model_name="ssd_mobilenet_v2_coco_2018_03_29"
+			if [ ! -e "${DL_MODEL_LOC}/${model_name}" ]; then
+				curl -O http://download.tensorflow.org/models/object_detection/${model_name}.tar.gz
+				tar zxf ${model_name}.tar.gz
+			fi
 			echo "Download and decompress Done...\n Which data_type prefer to convert?FP(16/32) ->"
 			read MOFP
-			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29
-			python3 ${MO_LOC}/mo_tf.py --input_model "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb" --output_dir "${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29" --data_type "FP${MOFP}" --tensorflow_use_custom_operations_config /opt/intel/computer_vision_sdk/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/pipeline.config"
+			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}
+			python3 ${MO_LOC}/mo_tf.py --input_model "${DL_MODEL_LOC}/${model_name}/frozen_inference_graph.pb" --output_dir "${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}" --data_type "FP${MOFP}" --tensorflow_use_custom_operations_config /opt/intel/computer_vision_sdk/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${DL_MODEL_LOC}/${model_name}/pipeline.config"
 			;;
 		"2")
 			echo " You choose SqueezeNet_v1.1 ->"
