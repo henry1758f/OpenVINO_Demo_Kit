@@ -25,6 +25,7 @@
 # 2019/01/09	henry1758f	1.4.2	Fix path to meet R5
 # 2019/01/11	henry1758f	1.4.3	Add MO squeezenet model download and transfer
 # 2019/01/11	henry1758f	1.4.4	Fix and optimize MO cocoSSD path
+# 2019/01/22	henry1758f	1.5.0	Add super_resolution_demo and pedestrian tracker demo
 
 
 
@@ -33,7 +34,7 @@ export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.4.4"
+export VERSION="1.5.0"
 export VERSION_VINO="v2018.5.445"
 function model_chooser_option_printer()
 {
@@ -63,9 +64,9 @@ function model_chooser_option_printer()
 	echo "   24. vehicle-license-plate-detection-barrier-0106"
 	echo "   25. facial-landmarks-35-adas-0001"
 	echo "   26. human-pose-estimation-0001"
-	echo "  ^27. single-image-super-resolution-0063"
-	echo "  *28. single-image-super-resolution-1011"
-	echo "  *29. single-image-super-resolution-1021"
+	echo "  ^27. single-image-super-resolution-0063 (200x200 to 800x800)"
+	echo "  *28. single-image-super-resolution-1011 (480x270 to )"
+	echo "  *29. single-image-super-resolution-1021 (640x480 to )"
 	echo "  *30. text-detection-0001"
 
 
@@ -185,11 +186,11 @@ function model_chooser()
 			return
 		;;		
 		"28")
-			eval "$1=\"single-image-super-resolution-0063\""
+			eval "$1=\"single-image-super-resolution-1011\""
 			return
 		;;		
 		"29")
-			eval "$1=\"single-image-super-resolution-1011\""
+			eval "$1=\"single-image-super-resolution-1021\""
 			return
 		;;		
 		"30")
@@ -603,6 +604,7 @@ function crossroad_camera_demo()
 	printf "Run 	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_FP -i $Demo_Source \n"
 	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i $Demo_Source
 }
+
 function super_resolution_demo()
 {
 	echo "|=========================================|"
@@ -610,6 +612,104 @@ function super_resolution_demo()
 	echo "|        Inference Engine Sample Demo     |"
 	echo "|           Super Resolution Demo 		|"
 	echo "|=========================================|"
+
+	model_chooser_option_printer
+	#local model_D
+	local model_M
+	local model_M_FP
+	local model_M_DV
+	local model_LoadSTR
+	local Demo_Source
+	#Demo_Source="/home/henryhuang/Pictures/Test_Image/Seal_640x360.jpg"
+	#Demo_Source="/home/henryhuang/Pictures/Test_Image/Shibuya_Street_480x270.jpg"
+	#Demo_Source="/home/henryhuang/Pictures/Test_Image/Ritsu_Tainaka_200x200.jpeg"
+	Demo_Source="/home/henryhuang/Pictures/Test_Image/Taipei_Traffic_480x270.jpg"
+
+	echo " Choose the model -m or use default setting by \"0\"..."
+	model_chooser model_M
+	if [ "$model_M" != "0" ]; then
+		echo "=>$model_M "
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
+		source_chooser Demo_Source
+
+	else
+		model_M="single-image-super-resolution-1011"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		source_chooser Demo_Source
+	fi
+
+	#echo $model_D
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./super_resolution_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source\n"
+	./super_resolution_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source -ni 5 -pc
+	cp -r sr_1.png /home/$(whoami)/Pictures/
+	rm sr_1.png
+	xdg-open $Demo_Source
+	xdg-open /home/$(whoami)/Pictures/sr_1.png
+}
+function pedestrian_tracker_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|           pedestrian_tracker_demo   	|"
+	echo "|=========================================|"
+	model_chooser_option_printer
+	#local model_D
+	local model_M_FP
+	local model_M_DV
+	local model_M_REID
+	local model_M_REID_FP
+	local model_M_REID_VA
+	local model_LoadSTR
+	local Demo_Source
+	Demo_Source="cam"
+	echo " Choose the model -m or use default setting by \"0\"..."
+	model_chooser model_M
+	if [ "$model_M" != "0" ]; then
+		echo "=>$model_M_DET "
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
+
+		echo " Choose the model -m_reid..."
+		model_chooser model_M_REID
+		echo "=>$model_M_LPR "
+		modelFP_chooser model_M_REID_FP
+		device_chooser model_M_REID_DV
+	else
+		model_M="person-detection-retail-0013"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		model_M_REID="person-reidentification-retail-0031"
+		model_M_REID_FP="32"
+		model_M_REID_DV="CPU"
+		#Demo_Source="/home/synnex-fae/Videos/Taiwan_Traffic_5sec.mp4"
+		source_chooser Demo_Source
+	fi
+
+	#echo $model_D
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+
+	echo "[SYNNEX_DEBUG] model_reid = $model_M_REID"
+
+	if [ "${model_M_REID}" != "0" ]; then
+		model_LoadSTR=${model_LoadSTR}" -m_reid "${MODEL_LOC}/${model_M_REID}/FP${model_M_REID_FP}/${model_M_REID}".xml -d_reid ${model_M_REID_DV}"
+	fi
+
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run 		./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det $model_M_DV -i $Demo_Source\n"
+	./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det $model_M_DV -i $Demo_Source
 }
 
 function feature_choose()
@@ -647,8 +747,11 @@ function Inference_Engine_Sample_List()
 	echo "  4. Human Pose Estimation Demo."
 	echo "  5. Object Detection SSD Demo - Async API."
 	echo "  6. Crossroad Camera Demo"
-	echo "  7. super_resolution_demo (TBD)"
-	echo "  8. pedestrian tracker demo (TBD)"
+	echo "  7. super_resolution_demo "
+	echo "  8. pedestrian tracker demo "
+	echo "  9. Neural Style Transfer Sample (TBD)"
+	echo " 10. Image Segmentation Demo (TBD)"
+
 
 
 
@@ -678,6 +781,22 @@ function Inference_Engine_Sample_List()
 		"6")
 			echo " You choose crossroad_camera_demo"
 			crossroad_camera_demo
+			;;
+		"7")
+			echo " You choose super_resolution_demo"
+			super_resolution_demo
+			;;
+		"8")
+			echo " You choose pedestrian_tracker_demo"
+			pedestrian_tracker_demo
+			;;
+		"9")
+			echo " You choose Neural Style Transfer Sample"
+			
+			;;
+		"10")
+			echo " You choose Image Segmentation Demo"
+			
 			;;
 		*)
 			echo "Please input a vailed number"
