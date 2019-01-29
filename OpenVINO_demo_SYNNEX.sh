@@ -1,7 +1,6 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 # ver 0.0.1
-# This is design for connecting to the share folder on TWNB17034
 # 2018/09/07 	henry1758f	0.0.1 	first-create
 # 2018/09/11	henry1758f	0.0.2	create security barrier camera demo
 # 2018/12/03	henry1758f	0.0.3	Fix to meet OpenVINO R4 and add default config to demo1 and 2
@@ -26,6 +25,7 @@
 # 2019/01/11	henry1758f	1.4.3	Add MO squeezenet model download and transfer
 # 2019/01/11	henry1758f	1.4.4	Fix and optimize MO cocoSSD path
 # 2019/01/22	henry1758f	1.5.0	Add super_resolution_demo and pedestrian tracker demo
+# 2019/01/29	henry1758f	1.5.1	Fix GitHub Issue #6
 
 
 
@@ -34,7 +34,7 @@ export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.5.0"
+export VERSION="1.5.1"
 export VERSION_VINO="v2018.5.445"
 function model_chooser_option_printer()
 {
@@ -65,8 +65,8 @@ function model_chooser_option_printer()
 	echo "   25. facial-landmarks-35-adas-0001"
 	echo "   26. human-pose-estimation-0001"
 	echo "  ^27. single-image-super-resolution-0063 (200x200 to 800x800)"
-	echo "  *28. single-image-super-resolution-1011 (480x270 to )"
-	echo "  *29. single-image-super-resolution-1021 (640x480 to )"
+	echo "  *28. single-image-super-resolution-1011 (480x270 to 1920x1080)"
+	echo "  *29. single-image-super-resolution-1021 (640x480 to 1920x1080)"
 	echo "  *30. text-detection-0001"
 
 
@@ -241,7 +241,7 @@ function source_chooser()
 	case $STR in 
 		"1")
 			echo "source set to default..."
-			eval "$1=\"dafault\""
+			eval "$1=\"default\""
 			return
 			;;
 		"cam")
@@ -448,11 +448,14 @@ function classification_demo()
 		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
 		source_chooser Demo_Source
-		model_LoadSTR="${model_M_default}/FP${model_M_FP}/squeezenet_v1.1/${model_M}.xml"
 	else
 		model_M_FP=32
 		model_M_DV=CPU
 		model_M=squeezenet1.1
+		Demo_Source="default"
+	fi
+	model_LoadSTR="${model_M_default}/FP${model_M_FP}/squeezenet_v1.1/${model_M}.xml"
+	if [ "$Demo_Source" = "default" ]; then
 		Demo_Source=/opt/intel/computer_vision_sdk/deployment_tools/demo/car.png
 	fi
 	source $SETVAR	
@@ -670,7 +673,7 @@ function pedestrian_tracker_demo()
 	local model_M_REID_VA
 	local model_LoadSTR
 	local Demo_Source
-	Demo_Source="cam"
+	Demo_Source="/dev/video0"
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	if [ "$model_M" != "0" ]; then
@@ -694,22 +697,19 @@ function pedestrian_tracker_demo()
 		source_chooser Demo_Source
 	fi
 
-	#echo $model_D
 	if ! source $SETVAR ; then
 		prontf "ERROR!"
 		exit 1
 	fi
 
-	echo "[SYNNEX_DEBUG] model_reid = $model_M_REID"
-
-	if [ "${model_M_REID}" != "0" ]; then
-		model_LoadSTR=${model_LoadSTR}" -m_reid "${MODEL_LOC}/${model_M_REID}/FP${model_M_REID_FP}/${model_M_REID}".xml -d_reid ${model_M_REID_DV}"
-	fi
+	#if [ "${model_M_REID}" != "0" ]; then
+		model_LoadSTR="${model_LoadSTR} -m_reid ${MODEL_LOC}/${model_M_REID}/FP${model_M_REID_FP}/${model_M_REID}.xml -d_reid ${model_M_REID_DV}"
+	#fi
 
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run 		./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det $model_M_DV -i $Demo_Source\n"
-	./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det $model_M_DV -i $Demo_Source
+	printf "Run ./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det $model_M_DV -i $Demo_Source\n"
+	./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det ${model_M_DV} -i ${Demo_Source}
 }
 
 function feature_choose()
