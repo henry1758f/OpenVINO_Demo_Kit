@@ -26,6 +26,7 @@
 # 2019/01/11	henry1758f	1.4.4	Fix and optimize MO cocoSSD path
 # 2019/01/22	henry1758f	1.5.0	Add super_resolution_demo and pedestrian tracker demo
 # 2019/01/29	henry1758f	1.5.1	Fix GitHub Issue #6
+# 2019/01/29	henry1758f	1.5.2	Fix misspelling
 
 
 
@@ -34,7 +35,7 @@ export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.5.1"
+export VERSION="1.5.2"
 export VERSION_VINO="v2018.5.445"
 function model_chooser_option_printer()
 {
@@ -531,7 +532,7 @@ function Object_Detection_SSD_Demo_Async()
 	fi
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./classification_sample -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}\n"
+	printf "Run ./object_detection_demo_ssd_async -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}\n"
 	./object_detection_demo_ssd_async -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}
 }
 
@@ -651,7 +652,7 @@ function super_resolution_demo()
 	source $SETVAR	
 	cd $SAMPLE_LOC
 	printf "Run ./super_resolution_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source\n"
-	./super_resolution_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source -ni 5 -pc
+	./super_resolution_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source -pc
 	cp -r sr_1.png /home/$(whoami)/Pictures/
 	rm sr_1.png
 	xdg-open $Demo_Source
