@@ -26,7 +26,9 @@
 # 2019/01/11	henry1758f	1.4.4	Fix and optimize MO cocoSSD path
 # 2019/01/22	henry1758f	1.5.0	Add super_resolution_demo and pedestrian tracker demo
 # 2019/01/29	henry1758f	1.5.1	Fix GitHub Issue #6
-# 2019/01/29	henry1758f	1.5.2	Fix misspelling
+# 2019/02/25	henry1758f	1.5.2	Fix misspelling
+# 2019/02/26	henry1758f	1.5.3	Add smart classroom demo and HBD to ex.
+
 
 
 
@@ -671,14 +673,14 @@ function pedestrian_tracker_demo()
 	local model_M_DV
 	local model_M_REID
 	local model_M_REID_FP
-	local model_M_REID_VA
+	local model_M_REID_DV
 	local model_LoadSTR
 	local Demo_Source
 	Demo_Source="/dev/video0"
 	echo " Choose the model -m or use default setting by \"0\"..."
 	model_chooser model_M
 	if [ "$model_M" != "0" ]; then
-		echo "=>$model_M_DET "
+		echo "=>$model_M"
 		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
 
@@ -712,6 +714,75 @@ function pedestrian_tracker_demo()
 	printf "Run ./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det $model_M_DV -i $Demo_Source\n"
 	./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det ${model_M_DV} -i ${Demo_Source}
 }
+function smart_classroom_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|           smart_classroom_demo		   	|"
+	echo "|=========================================|"
+	model_chooser_option_printer
+	#local model_D
+	local model_M_ACT="person-detection-action-recognition-0004"
+	local model_M_ACT_FP="32"
+	local model_M_ACT_DV="CPU"
+	local model_M_REID="face-reidentification-retail-0095"
+	local model_M_REID_FP="32"
+	local model_M_REID_DV="CPU"
+	local model_M_FD="face-detection-adas-0001"
+	local model_M_FD_FP="32"
+	local model_M_FD_DV="CPU"
+	local model_M_LM="landmarks-regression-retail-0009"
+	local model_M_LM_FP="32"
+	local model_M_LM_DV="CPU"
+	local model_LoadSTR
+	local Demo_Source="cam"
+
+	echo " Choose the model -m_act or use default setting by \"0\"..."
+	model_chooser model_M_ACT
+	if [ "$model_M_ACT" != "0" ]; then
+		echo "=>$model_M_ACT "
+		modelFP_chooser model_M_ACT_FP
+		device_chooser model_M_ACT_DV
+
+		echo " Choose the model -m_fd..."
+		model_chooser model_M_FD
+		echo "=>$model_M_FD "
+		modelFP_chooser model_M_FD_FP
+		device_chooser model_M_FD_DV
+		echo " Choose the model -m_lm..."
+		model_chooser model_M_LM
+		echo "=>$model_M_LM "
+		modelFP_chooser model_M_LM_FP
+		device_chooser model_M_LM_DV
+		echo " Choose the model -m_reid..."
+		model_chooser model_M_REID
+		echo "=>$model_M_REID "
+		modelFP_chooser model_M_REID_FP
+		device_chooser model_M_REID_DV
+		source_chooser Demo_Source
+	else
+		model_M_ACT="person-detection-action-recognition-0004"
+		model_M_ACT_FP="32"
+		model_M_ACT_DV="CPU"
+	fi
+		source_chooser Demo_Source
+
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+
+	#if [ "${model_M_REID}" != "0" ]; then
+		model_LoadSTR="${model_LoadSTR} -m_reid ${MODEL_LOC}/${model_M_REID}/FP${model_M_REID_FP}/${model_M_REID}.xml -d_reid ${model_M_REID_DV} "
+	#fi
+
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./smart_classroom_demo -m_act $MODEL_LOC/$model_M_ACT/FP${model_M_ACT_FP}/$model_M_ACT.xml -m_fd $MODEL_LOC/$model_M_FD/FP${model_M_FD_FP}/$model_M_FD.xml -m_lm $MODEL_LOC/$model_M_LM/FP${model_M_LM_FP}/$model_M_LM.xml -m_reid $MODEL_LOC/$model_M_REID/FP${model_M_REID_FP}/$model_M_REID.xml $model_LoadSTR -d_act $model_M_ACT_DV -d_fd $model_M_FD_DV -d_lm $model_M_LM_DV -d_reid $model_M_REID_DV -i $Demo_Source\n"
+	./smart_classroom_demo -m_act $MODEL_LOC/$model_M_ACT/FP${model_M_ACT_FP}/$model_M_ACT.xml -m_fd $MODEL_LOC/$model_M_FD/FP${model_M_FD_FP}/$model_M_FD.xml -m_lm $MODEL_LOC/$model_M_LM/FP${model_M_LM_FP}/$model_M_LM.xml -m_reid $MODEL_LOC/$model_M_REID/FP${model_M_REID_FP}/$model_M_REID.xml $model_LoadSTR -d_act $model_M_ACT_DV -d_fd $model_M_FD_DV -d_lm $model_M_LM_DV -d_reid $model_M_REID_DV -i $Demo_Source
+}
+
 
 function feature_choose()
 {
@@ -750,8 +821,9 @@ function Inference_Engine_Sample_List()
 	echo "  6. Crossroad Camera Demo"
 	echo "  7. super_resolution_demo "
 	echo "  8. pedestrian tracker demo "
-	echo "  9. Neural Style Transfer Sample (TBD)"
-	echo " 10. Image Segmentation Demo (TBD)"
+	echo "  9. smart_classroom_demo"
+	echo " 10. Neural Style Transfer Sample (TBD)"
+	echo " 11. Image Segmentation Demo (TBD)"
 
 
 
@@ -792,11 +864,15 @@ function Inference_Engine_Sample_List()
 			pedestrian_tracker_demo
 			;;
 		"9")
-			echo " You choose Neural Style Transfer Sample"
-			
+			echo " You choose smart_classroom_demo"
+			smart_classroom_demo
 			;;
 		"10")
-			echo " You choose Image Segmentation Demo"
+			echo " You choose Neural Style Transfer Sample (TBD)"
+			
+			;;
+		"11")
+			echo " You choose Image Segmentation Demo (TBD)"
 			
 			;;
 		*)
