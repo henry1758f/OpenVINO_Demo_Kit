@@ -28,8 +28,7 @@
 # 2019/01/29	henry1758f	1.5.1	Fix GitHub Issue #6
 # 2019/02/25	henry1758f	1.5.2	Fix misspelling
 # 2019/02/26	henry1758f	1.5.3	Add smart classroom demo and HBD to ex.
-
-
+# 2019/03/25	henry1758f	1.5.4	Add label file to ssd_mobilenet_v2_coco_2018_03_29 and support to SSD app
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
@@ -37,8 +36,11 @@ export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.5.2"
+export VERSION="1.5.4"
 export VERSION_VINO="v2018.5.445"
+export SYNNEX_PATH="$(pwd)"
+export LABELS_PATH="/Source/labels"
+
 function model_chooser_option_printer()
 {
 	echo "   1.  age-gender-recognition-retail-0013"
@@ -914,6 +916,7 @@ function Model_Optimizer_Sample_List()
 			read MOFP
 			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}
 			python3 ${MO_LOC}/mo_tf.py --input_model "${DL_MODEL_LOC}/${model_name}/frozen_inference_graph.pb" --output_dir "${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}" --data_type "FP${MOFP}" --tensorflow_use_custom_operations_config /opt/intel/computer_vision_sdk/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${DL_MODEL_LOC}/${model_name}/pipeline.config"
+			cp -r $SYNNEX_PATH/$LABELS_PATH/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.labels ${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}
 			;;
 		"2")
 			echo " You choose SqueezeNet_v1.1 ->"
