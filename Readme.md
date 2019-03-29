@@ -12,13 +12,44 @@ This demo showcases Object Detection task applied for face recognition using seq
   For more information, please visit [Interactive Face Detection Demo]( https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-11) on Intel's Website
 
 ## 3. classification_demo
+  This topic demonstrates how to run the Image Classification sample application, which does inference using image classification networks like AlexNet* and GoogLeNet*.
+  
+  For more information, please visit [Image Classification Sample]( https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-1) on Intel's Website
+    
 ## 4. Human Pose Estimation Demo.
+  This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees, and ankles. Some of potential use cases of the algorithm are action recognition and behavior understanding.
+  
+  For more information, please visit [Human Pose Estimation Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-17) on Intel's Website
+  
 ## 5. Object Detection SSD Demo - Async API.
+  This demonstration showcases Object Detection with SSD and new Async API. Async API usage can improve overall frame-rate of the application, because rather than wait for inference to complete, the app can continue doing things on the host, while accelerator is busy. Specifically, this demonstration keeps two parallel infer requests and while the current is processed, the input frame for the next is being captured. 
+  
+  For more information, please visit [Object Detection SSD Demo, Async API Performance Showcase](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-11) on Intel's Website
+  
 ## 6. Crossroad Camera Demo
+  This demo provides an inference pipeline for person detection, recognition and reidentification. The demo uses Person Detection network followed by the Person Attributes Recognition and Person Reidentification Retail networks applied on top of the detection results. 
+
+  For more information, please visit [Crossroad Camera Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-13 ) on Intel's Website
+
 ## 7. super_resolution_demo
+  This topic demonstrates how to run the Super Resolution demo application, which reconstructs the high resolution image from the original low resolution one.
+  
+  For more information, please visit [Super Resolution Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-21) on Intel's Website
+  
 ## 8. pedestrian tracker demo
+  This demo showcases Pedestrian Tracking scenario: it reads frames from an input video sequence, detects pedestrians in the frames, and builds trajectories of movement of the pedestrians in a frame-by-frame manner. 
+  
+  
+  For more information, please visit [Pedestrian Tracker Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-19) on Intel's Website
 ## 9. smart_classroom_demo
+  The demo demonstrates an example of joint usage of several neural networks to detect three basic actions (sitting, standing, raising hand) and recognize people by faces in the classroom environment. The demo uses Async API for action and face detection nets. It allows to parallelize execution of face recognition and detection: while face recognition is running on one accelerator, face and action detection can be performed on other. 
+  
+  For more information, please visit [Smart Classroom Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-20) on Intel's Website
 * * * * 
 # Model Optimizer Demo
 ## 1. ssd_mobilenet_v2_coco (Tensorflow)
+This demo will download and decompress the [ssd_mobilenet_v2_coco](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz) which is a detection model pre-trained on the COCO dataset.
+Afer download and decompress, the Demo will excute the model optimizer in OpenVINO Toolkits. Model optimizer will convert the original model to  an optimized Intermediate Representation (IR) of the model based on the trained network topology, weights, and bias values.
 ## 2. SqueezeNet_v1.1 (Caffe)
+This demo using [model_downloader](https://github.com/opencv/open_model_zoo/tree/master/model_downloader) which is is designed to download popular public deep learning topologies and prepare models for the Model Optimizer tool.
+Afer download, the Demo will excute the model optimizer in OpenVINO Toolkits. Model optimizer will convert the original model to  an optimized Intermediate Representation (IR) of the model based on the trained network topology, weights, and bias values.
