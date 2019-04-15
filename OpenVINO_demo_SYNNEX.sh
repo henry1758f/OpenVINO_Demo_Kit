@@ -1,7 +1,6 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 # ver 0.0.1
-# This is design for connecting to the share folder on TWNB17034
 # 2018/09/07 	henry1758f	0.0.1 	first-create
 # 2018/09/11	henry1758f	0.0.2	create security barrier camera demo
 # 2018/12/03	henry1758f	0.0.3	Fix to meet OpenVINO R4 and add default config to demo1 and 2
@@ -20,6 +19,16 @@
 # 2018/12/10	henry1758f	1.2.7	Fix check_dir to meet in situation that login as root
 # 2018/12/18	henry1758f	1.2.8	Fix Empty Demo source situation and fix some bugs
 # 2018/12/18	henry1758f	1.3.0	Add First Model Optimizer Feature
+# 2018/12/26	henry1758f	1.4.0	Fix name to meet R5
+# 2018/12/26	henry1758f	1.4.1	Fix classification model path to meet R5
+# 2019/01/09	henry1758f	1.4.2	Fix path to meet R5
+# 2019/01/11	henry1758f	1.4.3	Add MO squeezenet model download and transfer
+# 2019/01/11	henry1758f	1.4.4	Fix and optimize MO cocoSSD path
+# 2019/01/22	henry1758f	1.5.0	Add super_resolution_demo and pedestrian tracker demo
+# 2019/01/29	henry1758f	1.5.1	Fix GitHub Issue #6
+# 2019/02/25	henry1758f	1.5.2	Fix misspelling
+# 2019/02/26	henry1758f	1.5.3	Add smart classroom demo and HBD to ex.
+# 2019/03/25	henry1758f	1.5.4	Add label file to ssd_mobilenet_v2_coco_2018_03_29 and support to SSD app
 
 
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples/intel64/Release"
@@ -27,8 +36,11 @@ export MODEL_LOC="/opt/intel/computer_vision_sdk/deployment_tools/intel_models"
 export DL_MODEL_LOC="/home/$(whoami)/Downloaded_Models"
 export MO_LOC="/opt/intel/computer_vision_sdk/deployment_tools/model_optimizer"
 export SETVAR="/opt/intel/computer_vision_sdk/bin/setupvars.sh"
-export VERSION="1.3.0"
-export VERSION_VINO="v2018.4.420"
+export VERSION="1.5.4"
+export VERSION_VINO="v2018.5.445"
+export SYNNEX_PATH="$(pwd)"
+export LABELS_PATH="/Source/labels"
+
 function model_chooser_option_printer()
 {
 	echo "   1.  age-gender-recognition-retail-0013"
@@ -36,15 +48,15 @@ function model_chooser_option_printer()
 	echo "   3.  face-detection-adas-0001"
 	echo "   4.  face-detection-retail-0004"
 	echo "   5.  face-person-detection-retail-0002"
-	echo "  *6.  face-reidentification-retail-0071"
+	echo "  ^6.  face-reidentification-retail-0095"
 	echo "   7.  head-pose-estimation-adas-0001"
-	echo "  *8.  landmarks-regression-retail-0009"
+	echo "   8.  landmarks-regression-retail-0009"
 	echo "   9.  license-plate-recognition-barrier-0001"
 	echo "   10. pedestrian-and-vehicle-detector-adas-0001"
 	echo "   11. pedestrian-detection-adas-0002"
-	echo "   12. person-attributes-recognition-crossroad-0031"
-	echo "  *13. person-detection-action-recognition-0003"
-	echo "   14. person-detection-retail-0001"
+	echo "  ^12. person-attributes-recognition-crossroad-0200"
+	echo "  ^13. person-detection-action-recognition-0004"
+	echo "  ^14. person-detection-retail-0002"
 	echo "   15. person-detection-retail-0013"
 	echo "   16. person-reidentification-retail-0031"
 	echo "   17. person-reidentification-retail-0076"
@@ -55,9 +67,14 @@ function model_chooser_option_printer()
 	echo "   22. vehicle-attributes-recognition-barrier-0039"
 	echo "   23. vehicle-detection-adas-0002"
 	echo "   24. vehicle-license-plate-detection-barrier-0106"
-	echo "  *25. facial-landmarks-35-adas-0001"
-	echo "  *26. human-pose-estimation-0001"
-	echo "  *27. single-image-super-resolution-0034"
+	echo "   25. facial-landmarks-35-adas-0001"
+	echo "   26. human-pose-estimation-0001"
+	echo "  ^27. single-image-super-resolution-0063 (200x200 to 800x800)"
+	echo "  *28. single-image-super-resolution-1011 (480x270 to 1920x1080)"
+	echo "  *29. single-image-super-resolution-1021 (640x480 to 1920x1080)"
+	echo "  *30. text-detection-0001"
+
+
 }
 
 function model_chooser()
@@ -86,7 +103,7 @@ function model_chooser()
 			return
 			;;
 		"6")
-			eval "$1=\"face-reidentification-retail-0071\""
+			eval "$1=\"face-reidentification-retail-0095\""
 			return
 			;;
 		"7")
@@ -110,15 +127,15 @@ function model_chooser()
 			return
 			;;
 		"12")
-			eval "$1=\"person-attributes-recognition-crossroad-0031\""
+			eval "$1=\"person-attributes-recognition-crossroad-0200\""
 			return
 			;;
 		"13")
-			eval "$1=\"person-detection-action-recognition-0003\""
+			eval "$1=\"person-detection-action-recognition-0004\""
 			return
 			;;
 		"14")
-			eval "$1=\"person-detection-retail-0001\""
+			eval "$1=\"person-detection-retail-0002\""
 			return
 			;;
 		"15")
@@ -169,8 +186,20 @@ function model_chooser()
 			eval "$1=\"human-pose-estimation-0001\""
 			return
 		;;		
-		"27	")
-			eval "$1=\"single-image-super-resolution-0034\""
+		"27")
+			eval "$1=\"single-image-super-resolution-0063\""
+			return
+		;;		
+		"28")
+			eval "$1=\"single-image-super-resolution-1011\""
+			return
+		;;		
+		"29")
+			eval "$1=\"single-image-super-resolution-1021\""
+			return
+		;;		
+		"30")
+			eval "$1=\"single-image-super-resolution-1021\""
 			return
 		;;		
 		"0")
@@ -217,7 +246,7 @@ function source_chooser()
 	case $STR in 
 		"1")
 			echo "source set to default..."
-			eval "$1=\"dafault\""
+			eval "$1=\"default\""
 			return
 			;;
 		"cam")
@@ -413,7 +442,7 @@ function classification_demo()
 	local Demo_Source
 	local model_LoadSTR
 	local model_M="squeezenet1.1"
-	local model_M_default="/home/$(whoami)/openvino_models/ir"
+	local model_M_default="/home/$(whoami)/Downloaded_Models/ir"
 	local default_N="0"
 	echo "Type the path of the model you want to use, \"0\" to default"
 	echo "1. squeezenet1.1"
@@ -424,11 +453,14 @@ function classification_demo()
 		modelFP_chooser model_M_FP
 		device_chooser model_M_DV
 		source_chooser Demo_Source
-		model_LoadSTR="${model_M_default}/${model_M}/${model_M_FP}/${model_M}.xml"
 	else
 		model_M_FP=32
 		model_M_DV=CPU
 		model_M=squeezenet1.1
+		Demo_Source="default"
+	fi
+	model_LoadSTR="${model_M_default}/FP${model_M_FP}/squeezenet_v1.1/${model_M}.xml"
+	if [ "$Demo_Source" = "default" ]; then
 		Demo_Source=/opt/intel/computer_vision_sdk/deployment_tools/demo/car.png
 	fi
 	source $SETVAR	
@@ -504,7 +536,7 @@ function Object_Detection_SSD_Demo_Async()
 	fi
 	source $SETVAR	
 	cd $SAMPLE_LOC
-	printf "Run ./classification_sample -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}\n"
+	printf "Run ./object_detection_demo_ssd_async -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}\n"
 	./object_detection_demo_ssd_async -m ${model_M} -d ${model_M_DV} -i ${Demo_Source}
 }
 
@@ -550,7 +582,7 @@ function crossroad_camera_demo()
 		model_M="person-vehicle-bike-detection-crossroad-0078"
 		model_M_FP="32"
 		model_M_DV="CPU"
-		model_M_PA="person-attributes-recognition-crossroad-0031"
+		model_M_PA="person-attributes-recognition-crossroad-0200"
 		model_M_PA_FP="32"
 		model_M_PA_DV="CPU"
 		model_M_REID="person-reidentification-retail-0079"
@@ -580,6 +612,179 @@ function crossroad_camera_demo()
 	printf "Run 	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_FP -i $Demo_Source \n"
 	./crossroad_camera_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d $model_M_DV -i $Demo_Source
 }
+
+function super_resolution_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|           Super Resolution Demo 		|"
+	echo "|=========================================|"
+
+	model_chooser_option_printer
+	#local model_D
+	local model_M
+	local model_M_FP
+	local model_M_DV
+	local model_LoadSTR
+	local Demo_Source
+	#Demo_Source="/home/henryhuang/Pictures/Test_Image/Seal_640x360.jpg"
+	#Demo_Source="/home/henryhuang/Pictures/Test_Image/Shibuya_Street_480x270.jpg"
+	#Demo_Source="/home/henryhuang/Pictures/Test_Image/Ritsu_Tainaka_200x200.jpeg"
+	Demo_Source="/home/henryhuang/Pictures/Test_Image/Taipei_Traffic_480x270.jpg"
+
+	echo " Choose the model -m or use default setting by \"0\"..."
+	model_chooser model_M
+	if [ "$model_M" != "0" ]; then
+		echo "=>$model_M "
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
+		source_chooser Demo_Source
+
+	else
+		model_M="single-image-super-resolution-1011"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		source_chooser Demo_Source
+	fi
+
+	#echo $model_D
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./super_resolution_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source\n"
+	./super_resolution_demo -m $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml -d $model_M_DV -i $Demo_Source -pc
+	cp -r sr_1.png /home/$(whoami)/Pictures/
+	rm sr_1.png
+	xdg-open $Demo_Source
+	xdg-open /home/$(whoami)/Pictures/sr_1.png
+}
+function pedestrian_tracker_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|           pedestrian_tracker_demo   	|"
+	echo "|=========================================|"
+	model_chooser_option_printer
+	#local model_D
+	local model_M_FP
+	local model_M_DV
+	local model_M_REID
+	local model_M_REID_FP
+	local model_M_REID_DV
+	local model_LoadSTR
+	local Demo_Source
+	Demo_Source="/dev/video0"
+	echo " Choose the model -m or use default setting by \"0\"..."
+	model_chooser model_M
+	if [ "$model_M" != "0" ]; then
+		echo "=>$model_M"
+		modelFP_chooser model_M_FP
+		device_chooser model_M_DV
+
+		echo " Choose the model -m_reid..."
+		model_chooser model_M_REID
+		echo "=>$model_M_LPR "
+		modelFP_chooser model_M_REID_FP
+		device_chooser model_M_REID_DV
+	else
+		model_M="person-detection-retail-0013"
+		model_M_FP="32"
+		model_M_DV="CPU"
+		model_M_REID="person-reidentification-retail-0031"
+		model_M_REID_FP="32"
+		model_M_REID_DV="CPU"
+		#Demo_Source="/home/synnex-fae/Videos/Taiwan_Traffic_5sec.mp4"
+		source_chooser Demo_Source
+	fi
+
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+
+	#if [ "${model_M_REID}" != "0" ]; then
+		model_LoadSTR="${model_LoadSTR} -m_reid ${MODEL_LOC}/${model_M_REID}/FP${model_M_REID_FP}/${model_M_REID}.xml -d_reid ${model_M_REID_DV}"
+	#fi
+
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det $model_M_DV -i $Demo_Source\n"
+	./pedestrian_tracker_demo -m_det $MODEL_LOC/$model_M/FP${model_M_FP}/$model_M.xml $model_LoadSTR -d_det ${model_M_DV} -i ${Demo_Source}
+}
+function smart_classroom_demo()
+{
+	echo "|=========================================|"
+	echo "|        Intel OpenVINO Demostration      |"
+	echo "|        Inference Engine Sample Demo     |"
+	echo "|           smart_classroom_demo		   	|"
+	echo "|=========================================|"
+	model_chooser_option_printer
+	#local model_D
+	local model_M_ACT="person-detection-action-recognition-0004"
+	local model_M_ACT_FP="32"
+	local model_M_ACT_DV="CPU"
+	local model_M_REID="face-reidentification-retail-0095"
+	local model_M_REID_FP="32"
+	local model_M_REID_DV="CPU"
+	local model_M_FD="face-detection-adas-0001"
+	local model_M_FD_FP="32"
+	local model_M_FD_DV="CPU"
+	local model_M_LM="landmarks-regression-retail-0009"
+	local model_M_LM_FP="32"
+	local model_M_LM_DV="CPU"
+	local model_LoadSTR
+	local Demo_Source="cam"
+
+	echo " Choose the model -m_act or use default setting by \"0\"..."
+	model_chooser model_M_ACT
+	if [ "$model_M_ACT" != "0" ]; then
+		echo "=>$model_M_ACT "
+		modelFP_chooser model_M_ACT_FP
+		device_chooser model_M_ACT_DV
+
+		echo " Choose the model -m_fd..."
+		model_chooser model_M_FD
+		echo "=>$model_M_FD "
+		modelFP_chooser model_M_FD_FP
+		device_chooser model_M_FD_DV
+		echo " Choose the model -m_lm..."
+		model_chooser model_M_LM
+		echo "=>$model_M_LM "
+		modelFP_chooser model_M_LM_FP
+		device_chooser model_M_LM_DV
+		echo " Choose the model -m_reid..."
+		model_chooser model_M_REID
+		echo "=>$model_M_REID "
+		modelFP_chooser model_M_REID_FP
+		device_chooser model_M_REID_DV
+		source_chooser Demo_Source
+	else
+		model_M_ACT="person-detection-action-recognition-0004"
+		model_M_ACT_FP="32"
+		model_M_ACT_DV="CPU"
+	fi
+		source_chooser Demo_Source
+
+	if ! source $SETVAR ; then
+		prontf "ERROR!"
+		exit 1
+	fi
+
+	#if [ "${model_M_REID}" != "0" ]; then
+		model_LoadSTR="${model_LoadSTR} -m_reid ${MODEL_LOC}/${model_M_REID}/FP${model_M_REID_FP}/${model_M_REID}.xml -d_reid ${model_M_REID_DV} "
+	#fi
+
+	source $SETVAR	
+	cd $SAMPLE_LOC
+	printf "Run ./smart_classroom_demo -m_act $MODEL_LOC/$model_M_ACT/FP${model_M_ACT_FP}/$model_M_ACT.xml -m_fd $MODEL_LOC/$model_M_FD/FP${model_M_FD_FP}/$model_M_FD.xml -m_lm $MODEL_LOC/$model_M_LM/FP${model_M_LM_FP}/$model_M_LM.xml -m_reid $MODEL_LOC/$model_M_REID/FP${model_M_REID_FP}/$model_M_REID.xml $model_LoadSTR -d_act $model_M_ACT_DV -d_fd $model_M_FD_DV -d_lm $model_M_LM_DV -d_reid $model_M_REID_DV -i $Demo_Source\n"
+	./smart_classroom_demo -m_act $MODEL_LOC/$model_M_ACT/FP${model_M_ACT_FP}/$model_M_ACT.xml -m_fd $MODEL_LOC/$model_M_FD/FP${model_M_FD_FP}/$model_M_FD.xml -m_lm $MODEL_LOC/$model_M_LM/FP${model_M_LM_FP}/$model_M_LM.xml -m_reid $MODEL_LOC/$model_M_REID/FP${model_M_REID_FP}/$model_M_REID.xml $model_LoadSTR -d_act $model_M_ACT_DV -d_fd $model_M_FD_DV -d_lm $model_M_LM_DV -d_reid $model_M_REID_DV -i $Demo_Source
+}
+
 
 function feature_choose()
 {
@@ -616,6 +821,13 @@ function Inference_Engine_Sample_List()
 	echo "  4. Human Pose Estimation Demo."
 	echo "  5. Object Detection SSD Demo - Async API."
 	echo "  6. Crossroad Camera Demo"
+	echo "  7. super_resolution_demo "
+	echo "  8. pedestrian tracker demo "
+	echo "  9. smart_classroom_demo"
+	echo " 10. Neural Style Transfer Sample (TBD)"
+	echo " 11. Image Segmentation Demo (TBD)"
+
+
 
 
 	local choose
@@ -645,6 +857,26 @@ function Inference_Engine_Sample_List()
 			echo " You choose crossroad_camera_demo"
 			crossroad_camera_demo
 			;;
+		"7")
+			echo " You choose super_resolution_demo"
+			super_resolution_demo
+			;;
+		"8")
+			echo " You choose pedestrian_tracker_demo"
+			pedestrian_tracker_demo
+			;;
+		"9")
+			echo " You choose smart_classroom_demo"
+			smart_classroom_demo
+			;;
+		"10")
+			echo " You choose Neural Style Transfer Sample (TBD)"
+			
+			;;
+		"11")
+			echo " You choose Image Segmentation Demo (TBD)"
+			
+			;;
 		*)
 			echo "Please input a vailed number"
 			;;
@@ -665,25 +897,39 @@ function Model_Optimizer_Sample_List()
 	echo "|                                         |"
 	echo "|=========================================|"
 	echo "|--COCO Trained Models"
-	echo "  1. ssd_mobilenet_v2_coco"
-	#echo "  2. "
+	echo "  1. ssd_mobilenet_v2_coco (Tensorflow)"
+	echo "  2. SqueezeNet_v1.1 (Caffe)"
 	cd ${DL_MODEL_LOC}
 	local choose
 	local MOFP
-
+	local model_name
 	read choose
 	case $choose in
 		"1")
 			echo " You choose ssd_mobilenet_v2_coco ->"
-			#curl -O http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz
-			#tar zxf ssd_mobilenet_v2_coco_2018_03_29.tar.gz
+			model_name="ssd_mobilenet_v2_coco_2018_03_29"
+			if [ ! -e "${DL_MODEL_LOC}/${model_name}" ]; then
+				curl -O http://download.tensorflow.org/models/object_detection/${model_name}.tar.gz
+				tar zxf ${model_name}.tar.gz
+			fi
 			echo "Download and decompress Done...\n Which data_type prefer to convert?FP(16/32) ->"
 			read MOFP
-			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29
-			python3 ${MO_LOC}/mo_tf.py --input_model "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb" --output_dir "${DL_MODEL_LOC}/ir/FP${MOFP}/ssd_mobilenet_v2_coco_2018_03_29" --data_type "FP${MOFP}" --tensorflow_use_custom_operations_config /opt/intel/computer_vision_sdk/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${DL_MODEL_LOC}/ssd_mobilenet_v2_coco_2018_03_29/pipeline.config"
+			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}
+			python3 ${MO_LOC}/mo_tf.py --input_model "${DL_MODEL_LOC}/${model_name}/frozen_inference_graph.pb" --output_dir "${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}" --data_type "FP${MOFP}" --tensorflow_use_custom_operations_config /opt/intel/computer_vision_sdk/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${DL_MODEL_LOC}/${model_name}/pipeline.config"
+			cp -r $SYNNEX_PATH/$LABELS_PATH/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.labels ${DL_MODEL_LOC}/ir/FP${MOFP}/${model_name}
 			;;
-		#"2")
-		#	;;
+		"2")
+			echo " You choose SqueezeNet_v1.1 ->"
+			if [ ! -e "${DL_MODEL_LOC}/squeezenet_v1.1" ]; then
+				mkdir ${DL_MODEL_LOC}/squeezenet_v1.1	
+				python3 ${MO_LOC}/../model_downloader/downloader.py --name squeezenet1.1 --output_dir ${DL_MODEL_LOC}/squeezenet_v1.1	
+			#curl -O https://github.com/DeepScale/SqueezeNet/raw/master/SqueezeNet_v1.1/squeezenet_v1.1.caffemodel
+			fi
+			echo "Download Done...\n Which data_type prefer to convert?FP(16/32) ->"
+			read MOFP
+			mkdir ${DL_MODEL_LOC}/ir/FP${MOFP}/squeezenet_v1.1
+			python3 ${MO_LOC}/mo.py --input_model "${DL_MODEL_LOC}/squeezenet_v1.1/classification/squeezenet/1.1/caffe/squeezenet1.1.caffemodel" --output_dir ${DL_MODEL_LOC}/ir/FP${MOFP}/squeezenet_v1.1 --data_type FP${MOFP}
+			;;
 		*)
 			echo "Please input a vailed number"
 			;;
