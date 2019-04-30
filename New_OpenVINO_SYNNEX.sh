@@ -2,9 +2,10 @@
 # File: OpenVINO_demo_SYNNEX.sh
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/04/30	henry1758f 2.0.1	create excute path of Human Pose Estimation and security barrier camera
+# 2019/04/30	henry1758f 2.0.2	File: security_barrier_camera_demo.sh->vehicle detection and attribute recognition
 
 
-export VERSION="2.0.1"
+export VERSION="2.0.2"
 export VERSION_VINO="v2019.1.094"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
