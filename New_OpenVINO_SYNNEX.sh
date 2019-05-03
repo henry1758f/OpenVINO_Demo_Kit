@@ -2,9 +2,8 @@
 # File: OpenVINO_demo_SYNNEX.sh
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/05/03	henry1758f 2.1.0	security_barrier_camera_demo.sh to stable version
-# 2019/05/03	henry1758f 2.1.1	script fixed
 # 2019/05/03	henry1758f 2.2.0	interactive_face_detection_demo add
-
+# 2019/05/03	henry1758f 2.2.1	Stable and script fixed
 
 
 

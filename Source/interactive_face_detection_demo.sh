@@ -1,7 +1,7 @@
 #!/bin/bash
 # File: interactive_face_detection_demo.sh
 # 2019/05/03	henry1758f 0.0.1	First Create
-
+# 2019/05/03	henry1758f 1.0.0	Stable and script fixed
 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
@@ -234,5 +234,5 @@ model_3_choose
 model_4_choose
 source_choose
 cd $SAMPLE_LOC
-echo "./interactive_face_detection_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4} -async -fps"
+echo "./interactive_face_detection_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4} -async"
 ./interactive_face_detection_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4} -async
