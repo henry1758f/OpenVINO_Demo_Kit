@@ -5,10 +5,11 @@
 # 2019/05/03	henry1758f 2.2.0	interactive_face_detection_demo add
 # 2019/05/03	henry1758f 2.2.1	Stable and script fixed
 # 2019/05/03	henry1758f 2.3.0	Crossroad Camera Demo add
+# 2019/05/03	henry1758f 2.3.1	security_barrier_camera_demo Script Fixed
 
 
 
-export VERSION="2.2.0"
+export VERSION="2.3.0"
 export VERSION_VINO="v2019.1.094"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -29,7 +30,7 @@ function Inference_Engine_Sample_List()
 	echo "  3. classification_demo (TBD)"
 	echo "  4. Human Pose Estimation Demo."
 	echo "  5. Object Detection SSD Demo - Async API.(TBD)"
-	echo "  6. Crossroad Camera Demo (TBD)"
+	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo (TBD)"
 	echo "  8. pedestrian tracker demo (TBD)"
 	echo "  9. smart_classroom_dem (TBD)"

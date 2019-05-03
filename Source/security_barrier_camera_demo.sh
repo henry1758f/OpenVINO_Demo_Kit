@@ -3,6 +3,7 @@
 # 2019/04/22	henry1758f 0.0.1	First Create
 # 2019/05/03	henry1758f 1.0.0	license-plate-recognition and turn model1 and 2 to options
 # 2019/05/03	henry1758f 1.0.1	Script Fixed
+# 2019/05/03	henry1758f 1.0.2	Script Fixed
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -90,7 +91,7 @@ function model_1_choose()
 		;;
 		"3")
 			echo " PATH to your model ->"
-			MODEL_LOC_2="-m_lpr ${choose}"
+			MODEL_LOC_2="-m_va ${choose}"
 			inference_D1_choose
 		;;
 		*)
