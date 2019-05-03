@@ -4,6 +4,7 @@
 # 2019/05/03	henry1758f 2.1.0	security_barrier_camera_demo.sh to stable version
 # 2019/05/03	henry1758f 2.2.0	interactive_face_detection_demo add
 # 2019/05/03	henry1758f 2.2.1	Stable and script fixed
+# 2019/05/03	henry1758f 2.3.0	Crossroad Camera Demo add
 
 
 
@@ -53,6 +54,11 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}human_pose_estimation_demo.sh
 			;;
+		"6")
+			echo " Crossroad Camera Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}crossroad_camera_demo.sh
+		;;
 		*)
 			echo "Please input a vailed number"
 			sleep 1
