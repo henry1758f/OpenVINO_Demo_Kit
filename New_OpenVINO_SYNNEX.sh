@@ -1,9 +1,9 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 # 2019/04/16	henry1758f 2.0.0	First Create
-# 2019/04/30	henry1758f 2.0.1	create excute path of Human Pose Estimation and security barrier camera
-# 2019/04/30	henry1758f 2.0.2	File: security_barrier_camera_demo.sh->vehicle detection and attribute recognition
 # 2019/05/03	henry1758f 2.1.0	security_barrier_camera_demo.sh to stable version
+# 2019/05/03	henry1758f 2.1.1	script fixed
+
 
 
 export VERSION="2.0.2"
@@ -22,7 +22,7 @@ function Inference_Engine_Sample_List()
 	echo "|                                         |"
 	echo "|=========================================|"
 	echo ""
-	echo "  1. security_barrier_camera_demo (TBD)"
+	echo "  1. security_barrier_camera_demo"
 	echo "  2. interactive_face_detection_demo (TBD)"
 	echo "  3. classification_demo (TBD)"
 	echo "  4. Human Pose Estimation Demo."
