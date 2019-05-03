@@ -1,9 +1,8 @@
 #!/bin/bash
 # File: security_barrier_camera_demo.sh
 # 2019/04/22	henry1758f 0.0.1	First Create
-# 2019/04/30	henry1758f 0.1.0	vehicle detection and attribute recognition
 # 2019/05/03	henry1758f 1.0.0	license-plate-recognition and turn model1 and 2 to options
-
+# 2019/05/03	henry1758f 1.0.1	Script Fixed
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -23,6 +22,7 @@ function inference_D_choose()
 }
 function model_0_choose()
 {
+	echo " [Select a vehicle and license detection model.]"
 	echo " >> 1. vehicle-license-plate-detection-barrier-0106 "
 	echo " >> 2. vehicle-license-plate-detection-barrier-0106-fp16 "
 	echo " >> Or input a path to your model "
@@ -70,8 +70,9 @@ function inference_D1_choose()
 }
 function model_1_choose()
 {
-	echo " >> 1. vehicle-license-plate-detection-barrier-0106 "
-	echo " >> 2. vehicle-license-plate-detection-barrier-0106-fp16 "
+	echo " [Select a Vehicle Attributes recognition model.]"
+	echo " >> 1. vehicle-attributes-recognition-barrier-0039 "
+	echo " >> 2. vehicle-attributes-recognition-barrier-0039-fp16 "
 	echo " >> 3. input a path to your model "
 	echo " >> Or press ENTER to ignore it. "
 	local choose
@@ -106,6 +107,7 @@ function inference_D2_choose()
 }
 function model_2_choose()
 {
+	echo " [Select a License Plate Recognition model.]"
 	echo " >> 1. license-plate-recognition-barrier-0001 "
 	echo " >> 2. license-plate-recognition-barrier-0001-fp16 "
 	echo " >> 3. input a path to your model "
@@ -137,11 +139,10 @@ function model_2_choose()
 
 clear
 banner_show
-echo "Select Human Pose Estimation model >>>"
 model_0_choose
 model_1_choose
 model_2_choose
 source_choose
 cd $SAMPLE_LOC
-echo "./security_barrier_camera_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1}"
+echo "./security_barrier_camera_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2}"
 ./security_barrier_camera_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2}
