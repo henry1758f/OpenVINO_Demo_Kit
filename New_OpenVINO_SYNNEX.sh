@@ -33,7 +33,7 @@ function Inference_Engine_Sample_List()
 	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo (TBD)"
 	echo "  8. pedestrian tracker demo (TBD)"
-	echo "  9. smart_classroom_dem (TBD)"
+	echo "  9. smart_classroom_demo (TBD)"
 	echo " 10. Neural Style Transfer Sample (TBD)"
 	echo " 11. Image Segmentation Demo (TBD)"
 
@@ -59,6 +59,12 @@ function Inference_Engine_Sample_List()
 			echo " Crossroad Camera Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}crossroad_camera_demo.sh
+
+		;;
+		"9")
+			echo " smart_classroom_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}smart_classroom_demo.sh
 		;;
 		*)
 			echo "Please input a vailed number"
