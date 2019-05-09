@@ -5,6 +5,8 @@
 # 2019/05/03	henry1758f 2.2.0	interactive_face_detection_demo add
 # 2019/05/03	henry1758f 2.3.0	Crossroad Camera Demo add
 # 2019/05/09	henry1758f 2.4.0	classification_demo add and fix support version to v2019.1.133
+# 2019/05/09	henry1758f 2.5.0	Object Detection and ASYNC API Demo add
+
 
 export VERSION="2.4.0"
 export VERSION_VINO="v2019.1.133"
@@ -26,7 +28,7 @@ function Inference_Engine_Sample_List()
 	echo "  2. interactive_face_detection_demo."
 	echo "  3. classification_demo."
 	echo "  4. Human Pose Estimation Demo."
-	echo "  5. Object Detection SSD Demo - Async API.(TBD)"
+	echo "  5. Object Detection and ASYNC API Demo."
 	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo (TBD)"
 	echo "  8. pedestrian tracker demo (TBD)"
@@ -56,6 +58,11 @@ function Inference_Engine_Sample_List()
 			echo " Human Pose Estimation Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}human_pose_estimation_demo.sh
+			;;
+		"5")
+			echo " Object Detection and ASYNC API Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}object_detection_demo_ssd_async.sh
 			;;
 		"6")
 			echo " Crossroad Camera Demo ->"
