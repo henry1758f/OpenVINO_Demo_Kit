@@ -8,7 +8,7 @@
 # 2019/05/09	henry1758f 2.5.0	Object Detection and ASYNC API Demo add
 
 
-export VERSION="2.4.0"
+export VERSION="2.5.0"
 export VERSION_VINO="v2019.1.133"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
