@@ -3,14 +3,11 @@
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/05/03	henry1758f 2.1.0	security_barrier_camera_demo.sh to stable version
 # 2019/05/03	henry1758f 2.2.0	interactive_face_detection_demo add
-# 2019/05/03	henry1758f 2.2.1	Stable and script fixed
 # 2019/05/03	henry1758f 2.3.0	Crossroad Camera Demo add
-# 2019/05/03	henry1758f 2.3.1	security_barrier_camera_demo Script Fixed
+# 2019/05/09	henry1758f 2.4.0	classification_demo add and fix support version to v2019.1.133
 
-
-
-export VERSION="2.3.0"
-export VERSION_VINO="v2019.1.094"
+export VERSION="2.4.0"
+export VERSION_VINO="v2019.1.133"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
 export Source_Sample_Build="./Source/sample_build.sh"
@@ -27,7 +24,7 @@ function Inference_Engine_Sample_List()
 	echo ""
 	echo "  1. security_barrier_camera_demo."
 	echo "  2. interactive_face_detection_demo."
-	echo "  3. classification_demo (TBD)"
+	echo "  3. classification_demo."
 	echo "  4. Human Pose Estimation Demo."
 	echo "  5. Object Detection SSD Demo - Async API.(TBD)"
 	echo "  6. Crossroad Camera Demo."
@@ -49,6 +46,11 @@ function Inference_Engine_Sample_List()
 			echo " You choose interactive_face_detection_demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}interactive_face_detection_demo.sh
+		;;
+		"3")
+			echo " You choose classification_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}classification_demo.sh
 		;;
 		"4")
 			echo " Human Pose Estimation Demo ->"

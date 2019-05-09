@@ -1,6 +1,6 @@
-# File: human_pose_estimation_demo.sh
-# 2019/04/22	henry1758f 0.0.1	First Create
-# 2019/04/30	henry1758f 1.0.0	Stable
+# File: classification_demo.sh
+# 2019/05/08	henry1758f 0.0.1	First Create
+
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -10,14 +10,13 @@ export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
 function banner_show()
 {
 	echo "|=========================================|"
-	echo "|        Human Pose Estimation Demo       |"
+	echo "|        Image Classification Demo        |"
 	echo "|=========================================|"
 }
 
 function model_0_choose()
 {
-	echo " >> 1. human-pose-estimation-0001 "
-	echo " >> 2. human-pose-estimation-0001-fp16 "
+	test -e ${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/caffe/squeezenet1.1.xml && echo " 1. squeezenet1.1.xml [FP32]" || echo " 1. squeezenet1.1.xml [FP32]File lost! Need to Download and Transfer to IR)"
 	echo " >> Or input a path to your model "
 	local choose
 	read choose

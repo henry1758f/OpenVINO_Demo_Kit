@@ -1,5 +1,7 @@
 # File: smart_classroom_demo.sh
 # 2019/05/06	henry1758f 0.0.1	First Create
+# 2019/05/08	henry1758f 0.1.0	demo can be executed but only face-detection
+
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
