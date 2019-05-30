@@ -46,10 +46,3 @@ This demo showcases Object Detection task applied for face recognition using seq
   
   For more information, please visit [Smart Classroom Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-20) on Intel's Website
 * * * * 
-# Model Optimizer Demo
-## 1. ssd_mobilenet_v2_coco (Tensorflow)
-This demo will download and decompress the [ssd_mobilenet_v2_coco](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v2_coco_2018_03_29.tar.gz) which is a detection model pre-trained on the COCO dataset.
-Afer download and decompress, the Demo will excute the model optimizer in OpenVINO Toolkits. Model optimizer will convert the original model to  an optimized Intermediate Representation (IR) of the model based on the trained network topology, weights, and bias values.
-## 2. SqueezeNet_v1.1 (Caffe)
-This demo using [model_downloader](https://github.com/opencv/open_model_zoo/tree/master/model_downloader) which is is designed to download popular public deep learning topologies and prepare models for the Model Optimizer tool.
-Afer download, the Demo will excute the model optimizer in OpenVINO Toolkits. Model optimizer will convert the original model to  an optimized Intermediate Representation (IR) of the model based on the trained network topology, weights, and bias values.
