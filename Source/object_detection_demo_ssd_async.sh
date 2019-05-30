@@ -2,7 +2,7 @@
 # 2019/05/09	henry1758f 0.0.1	First Create
 # 2019/05/09	henry1758f 1.0.0	Workable
 # 2019/05/30	henry1758f 1.1.0	Add ssd_mobilenet_v1,ssd512 and ssd300. Support labels.
-
+# 2019/05/30	henry1758f 1.1.1	Add mobilenet-ssd but without labels.
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
@@ -15,6 +15,8 @@ export ssd_512="${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd/512/caffe
 export ssd_512_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd/512/caffe"
 export ssd_300="${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd/300/caffe"
 export ssd_300_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd/300/caffe"
+export mobilenet_ssd="${MODEL_LOC}/../../ir/FP32/object_detection/common/mobilenet-ssd/caffe"
+export mobilenet_ssd_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/mobilenet-ssd/caffe"
 
 
 function banner_show()
@@ -72,6 +74,18 @@ function model_0_choose()
 			echo " ssd_mobilenet_v1_coco.frozen.xml [FP16] ->"
 			test -e ${ssd_mobilenet_v1_coco_frozen_fp16}/frozen_inference_graph.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd_mobilenet_v1_coco.frozen.pb -fp16 && cp -r ./Source/labels/ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.labels ${ssd_mobilenet_v1_coco_frozen_fp16})
 			MODEL_LOC_0=${ssd_mobilenet_v1_coco_frozen_fp16}/frozen_inference_graph.xml
+			inference_D_choose
+		;;
+		"5")
+			echo " mobilenet-ssd.xml [FP32] ->"
+			test -e ${mobilenet_ssd}/mobilenet-ssd.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-ssd.caffemodel -fp32 && cp -r ./Source/labels/mobilenet-ssd/mobilenet-ssd.labels ${ssd_512}) 
+			MODEL_LOC_0=${mobilenet_ssd}/mobilenet-ssd.xml
+			inference_D_choose
+		;;
+		"6")
+			echo " mobilenet-ssd.xml [FP16] ->"
+			test -e ${mobilenet_ssd_fp16}/mobilenet-ssd.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-ssd.caffemodel -fp16 && cp -r ./Source/labels/mobilenet-ssd/mobilenet-ssd.labels ${ssd_512_fp16})
+			MODEL_LOC_0=${mobilenet_ssd_fp16}/mobilenet-ssd.xml
 			inference_D_choose
 		;;
 		"7")

@@ -1,6 +1,8 @@
 # File: mo_dldt.sh
 # 2019/05/10	henry1758f 0.0.1	First Create
 # 2019/05/30	henry1758f 1.0.0	Add ssd_mobilenet_v1,ssd512 and ssd300.
+# 2019/05/30	henry1758f 1.0.1	Add mobilenet-ssd but without labels.
+
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
@@ -62,6 +64,14 @@ function MO()
 
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe
 			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.prototxt" --data_type "${FPV}" 
+		;;
+		"mobilenet-ssd.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel || echo "[ERROR!] Can not found \"mobilenet-ssd.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.prototxt || echo "[ERROR!] Can not found \"mobilenet-ssd.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mobilenet-ssd/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mobilenet-ssd/caffe" --input_proto "${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.prototxt" --data_type "${FPV}" 
 		;;
 	esac
 }
