@@ -1,10 +1,21 @@
 # File: object_detection_demo_ssd_async.sh
 # 2019/05/09	henry1758f 0.0.1	First Create
 # 2019/05/09	henry1758f 1.0.0	Workable
+# 2019/05/30	henry1758f 1.1.0	Add ssd_mobilenet_v1,ssd512 and ssd300. Support labels.
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
+
+export ssd_mobilenet_v2_coco_frozen="${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd_mobilenet_v2_coco/tf"
+export ssd_mobilenet_v2_coco_frozen_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd_mobilenet_v2_coco/tf"
+export ssd_mobilenet_v1_coco_frozen="${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28"
+export ssd_mobilenet_v1_coco_frozen_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28"
+export ssd_512="${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd/512/caffe"
+export ssd_512_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd/512/caffe"
+export ssd_300="${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd/300/caffe"
+export ssd_300_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd/300/caffe"
+
 
 function banner_show()
 {
@@ -21,10 +32,10 @@ function inference_D_choose()
 function model_0_choose()
 {
 	echo " [Select a Object Detection model.]"
-	test -e ${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco.frozen.xml && echo " 1. ssd_mobilenet_v2_coco.frozen.xml [FP32]" || echo " 1. ssd_mobilenet_v2_coco.frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco.frozen.xml && echo " 2. ssd_mobilenet_v2_coco.frozen.xml [FP16]" || echo " 2. ssd_mobilenet_v2_coco.frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco.frozen.xml && echo " 3. ssd_mobilenet_v1_coco.frozen.xml [FP32]" || echo " 3. ssd_mobilenet_v1_coco.frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco.frozen.xml && echo " 4. ssd_mobilenet_v1_coco.frozen.xml [FP16]" || echo " 4. ssd_mobilenet_v1_coco.frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${ssd_mobilenet_v2_coco_frozen}/ssd_mobilenet_v2_coco.frozen.xml && echo " 1. ssd_mobilenet_v2_coco.frozen.xml [FP32]" || echo " 1. ssd_mobilenet_v2_coco.frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${ssd_mobilenet_v2_coco_frozen_fp16}/ssd_mobilenet_v2_coco.frozen.xml && echo " 2. ssd_mobilenet_v2_coco.frozen.xml [FP16]" || echo " 2. ssd_mobilenet_v2_coco.frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.xml && echo " 3. frozen_inference_graph.xml [ssd_mobilenet_v1_coco_FP32]" || echo " 3. frozen_inference_graph.xml [ssd_mobilenet_v1_coco_P32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.xml && echo " 4. frozen_inference_graph.xml [ssd_mobilenet_v1_coco_FP16]" || echo " 4. frozen_inference_graph.xml [ssd_mobilenet_v1_coco_FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/object_detection/common/mobilenet_ssd/caffe/mobilenet-ssd.xml && echo " 5. mobilenet-ssd.xml [FP32]" || echo " 5. mobilenet-ssd.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP16/object_detection/common/mobilenet_ssd/caffe/mobilenet-ssd.xml && echo " 6. mobilenet-ssd.xml [FP16]" || echo " 6. mobilenet-ssd.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd/512/caffe/ssd512.xml && echo " 7. ssd512.xml [FP32]" || echo " 7. ssd512.xml [FP32]	File lost! Need to Download and Transfer to IR)"
@@ -39,6 +50,54 @@ function model_0_choose()
 	local choose
 	read choose
 	case $choose in
+		"1")
+			echo " ssd_mobilenet_v2_coco_frozen.xml [FP32] ->"
+			test -e ${ssd_mobilenet_v2_coco_frozen}/ssd_mobilenet_v2_coco.frozen.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd_mobilenet_v2_coco.frozen.pb -fp32 && cp -r ./Source/labels/ssd_mobilenet_v2_coco_2018_03_29/ssd_mobilenet_v2_coco.frozen.labels ${ssd_mobilenet_v2_coco_frozen})
+			MODEL_LOC_0=${ssd_mobilenet_v2_coco_frozen}/ssd_mobilenet_v2_coco.frozen.xml
+			inference_D_choose
+		;;
+		"2")
+			echo " ssd_mobilenet_v2_coco.frozen.xml [FP16] ->"
+			test -e ${ssd_mobilenet_v2_coco_frozen_fp16}/ssd_mobilenet_v2_coco.frozen.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd_mobilenet_v2_coco.frozen.pb -fp16 && cp -r ./Source/labels/ssd_mobilenet_v2_coco_2018_03_29/ssd_mobilenet_v2_coco.frozen.labels ${ssd_mobilenet_v2_coco_frozen_fp16})
+			MODEL_LOC_0=${ssd_mobilenet_v2_coco_frozen_fp16}/ssd_mobilenet_v2_coco.frozen.xml
+			inference_D_choose
+		;;
+		"3")
+			echo " ssd_mobilenet_v1_coco_frozen.xml [FP32] ->"
+			test -e ${ssd_mobilenet_v1_coco_frozen}/frozen_inference_graph.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd_mobilenet_v1_coco.frozen.pb -fp32 && cp -r ./Source/labels/ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.labels ${ssd_mobilenet_v1_coco_frozen}) 
+			MODEL_LOC_0=${ssd_mobilenet_v1_coco_frozen}/frozen_inference_graph.xml
+			inference_D_choose
+		;;
+		"4")
+			echo " ssd_mobilenet_v1_coco.frozen.xml [FP16] ->"
+			test -e ${ssd_mobilenet_v1_coco_frozen_fp16}/frozen_inference_graph.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd_mobilenet_v1_coco.frozen.pb -fp16 && cp -r ./Source/labels/ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.labels ${ssd_mobilenet_v1_coco_frozen_fp16})
+			MODEL_LOC_0=${ssd_mobilenet_v1_coco_frozen_fp16}/frozen_inference_graph.xml
+			inference_D_choose
+		;;
+		"7")
+			echo " ssd512.xml [FP32] ->"
+			test -e ${ssd_512}/ssd512.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd512.caffemodel -fp32 && cp -r ./Source/labels/ssd_512/ssd512.labels ${ssd_512}) 
+			MODEL_LOC_0=${ssd_512}/ssd512.xml
+			inference_D_choose
+		;;
+		"8")
+			echo " ssd512.xml [FP16] ->"
+			test -e ${ssd_512_fp16}/ssd512.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd512.caffemodel -fp16 && cp -r ./Source/labels/ssd_512/ssd512.labels ${ssd_512_fp16})
+			MODEL_LOC_0=${ssd_512_fp16}/ssd512.xml
+			inference_D_choose
+		;;
+		"9")
+			echo " ssd300.xml [FP32] ->"
+			test -e ${ssd_300}/ssd300.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd300.caffemodel -fp32 && cp -r ./Source/labels/ssd_300/ssd300.labels ${ssd_300}) 
+			MODEL_LOC_0=${ssd_512}/ssd512.xml
+			inference_D_choose
+		;;
+		"10")
+			echo " ssd300.xml [FP16] ->"
+			test -e ${ssd_300_fp16}/ssd300.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd300.caffemodel -fp16 && cp -r ./Source/labels/ssd_300/ssd300.labels ${ssd_300_fp16})
+			MODEL_LOC_0=${ssd_300_fp16}/ssd300.xml
+			inference_D_choose
+		;;
 		"11")
 			echo " face-detection-adas-0001 ->"
 			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/face-detection-adas-0001.xml
