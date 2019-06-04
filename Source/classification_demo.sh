@@ -1,11 +1,18 @@
 # File: classification_demo.sh
 # 2019/05/08	henry1758f 0.0.1	First Create
 # 2019/05/09	henry1758f 1.0.0	workable
+# 2019/06/04	henry1758f 1.1.0	add squeezenet1.0 and labels file copy process
 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
+
+export squeezenet11="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/caffe"
+export squeezenet11_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.1/caffe"
+export squeezenet10="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.0/caffe"
+export squeezenet10_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.0/caffe"
+
 
 
 function banner_show()
@@ -17,10 +24,10 @@ function banner_show()
 
 function model_0_choose()
 {
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/caffe/squeezenet1.1.xml && echo " 1. squeezenet1.1.xml [FP32]" || echo " 1. squeezenet1.1.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.1/caffe/squeezenet1.1.xml && echo " 2. squeezenet1.1.xml [FP16]" || echo " 2. squeezenet1.1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.0/caffe/squeezenet1.0.xml && echo " 3. squeezenet1.0.xml [FP32]" || echo " 3. squeezenet1.0.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.0/caffe/squeezenet1.0.xml && echo " 4. squeezenet1.0.xml [FP16]" || echo " 4. squeezenet1.0.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${squeezenet11}/squeezenet1.1.xml && echo " 1. squeezenet1.1.xml [FP32]" || echo " 1. squeezenet1.1.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${squeezenet11_fp16}/squeezenet1.1.xml && echo " 2. squeezenet1.1.xml [FP16]" || echo " 2. squeezenet1.1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${squeezenet10}/squeezenet1.0.xml && echo " 3. squeezenet1.0.xml [FP32]" || echo " 3. squeezenet1.0.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${squeezenet10_fp16}/squeezenet1.0.xml && echo " 4. squeezenet1.0.xml [FP16]" || echo " 4. squeezenet1.0.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/classification/alexnet/caffe/alexnet.xml && echo " 5. alexnet.xml [FP32]" || echo " 5. alexnet.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP16/classification/alexnet/caffe/alexnet.xml && echo " 6. alexnet.xml [FP16]" || echo " 6. alexnet.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/classification/densenet/201/caffe/densenet-201.xml && echo " 7. densenet-201.xml [FP32]" || echo " 7. densenet-201.xml [FP32]	File lost! Need to Download and Transfer to IR)"
@@ -69,11 +76,23 @@ function model_0_choose()
 	case $choose in
 		"1")
 			echo " squeezenet1.1.xml [FP32] ->"
-			MODEL_LOC=${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/caffe/squeezenet1.1.xml
+			test -e ${squeezenet11}/squeezenet1.1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.1.caffemodel -fp32 && cp -r ./Source/labels/squeezenet_11/squeezenet1.1.labels ${squeezenet11})
+			MODEL_LOC=${squeezenet11}/squeezenet1.1.xml
 		;;
 		"2")
 			echo " squeezenet1.1.xml [FP16] ->"
-			MODEL_LOC=${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.1/caffe/squeezenet1.1.xml
+			test -e ${squeezenet11_fp16}/squeezenet1.1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.1.caffemodel -fp16 && cp -r ./Source/labels/squeezenet_11/squeezenet1.1.labels ${squeezenet11_fp16})
+			MODEL_LOC=${squeezenet11_fp16}/squeezenet1.1.xml
+		;;
+		"3")
+			echo " squeezenet1.0.xml [FP32] ->"
+			test -e ${squeezenet10}/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.0.caffemodel -fp32 && cp -r ./Source/labels/squeezenet_10/squeezenet1.0.labels ${squeezenet10})
+			MODEL_LOC=${squeezenet10}/squeezenet1.0.xml
+		;;
+		"4")
+			echo " squeezenet1.0.xml [FP16] ->"
+			test -e ${squeezenet10_fp16}/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.0.caffemodel -fp16 && cp -r ./Source/labels/squeezenet_10/squeezenet1.0.labels ${squeezenet10_fp16})
+			MODEL_LOC=${squeezenet10_fp16}/squeezenet1.0.xml
 		;;
 		*)
 			echo " Model PATH=${choose}"

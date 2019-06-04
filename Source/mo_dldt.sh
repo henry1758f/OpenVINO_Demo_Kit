@@ -2,6 +2,7 @@
 # 2019/05/10	henry1758f 0.0.1	First Create
 # 2019/05/30	henry1758f 1.0.0	Add ssd_mobilenet_v1,ssd512 and ssd300.
 # 2019/05/30	henry1758f 1.0.1	Add mobilenet-ssd but without labels.
+# 2019/06/04	henry1758f 1.0.2	Add squeezenet1.1/1.0
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -65,13 +66,21 @@ function MO()
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe
 			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.prototxt" --data_type "${FPV}" 
 		;;
-		"mobilenet-ssd.caffemodel")
+		"squeezenet1.1.caffemodel")
 			target $2
-			test -e ${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel || echo "[ERROR!] Can not found \"mobilenet-ssd.caffemodel\" !!!"
-			test -e ${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.prototxt || echo "[ERROR!] Can not found \"mobilenet-ssd.prototxt\" !!!"
+			test -e ${MODEL_LOC}/classification/squeezenet/1.1/caffe/squeezenet1.1.caffemodel || echo "[ERROR!] Can not found \"squeezenet1.1.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/squeezenet/1.1/caffe/squeezenet1.1.prototxt || echo "[ERROR!] Can not found \"squeezenet1.1.prototxt\" !!!"
 
-			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mobilenet-ssd/caffe
-			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mobilenet-ssd/caffe" --input_proto "${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.prototxt" --data_type "${FPV}" 
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/squeezenet/1.1/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/squeezenet/1.1/caffe/squeezenet1.1.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/squeezenet/1.1/caffe" --input_proto "${MODEL_LOC}/classification/squeezenet/1.1/caffe/squeezenet1.1.prototxt" --data_type "${FPV}" 
+		;;
+		"squeezenet1.0.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/squeezenet/1.0/caffe/squeezenet1.0.caffemodel || echo "[ERROR!] Can not found \"squeezenet1.0.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/squeezenet/1.0/caffe/squeezenet1.0.prototxt || echo "[ERROR!] Can not found \"squeezenet1.0.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/squeezenet/1.0/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/squeezenet/1.0/caffe/squeezenet1.0.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/squeezenet/1.0/caffe" --input_proto "${MODEL_LOC}/classification/squeezenet/1.0/caffe/squeezenet1.0.prototxt" --data_type "${FPV}" 
 		;;
 	esac
 }

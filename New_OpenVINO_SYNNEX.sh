@@ -8,8 +8,10 @@
 # 2019/05/09	henry1758f 2.5.0	Object Detection and ASYNC API Demo add
 # 2019/05/30	henry1758f 2.5.1	Add ssd_mobilenet_v1,ssd512 and ssd300. Support labels for Object Detection Demo.
 # 2019/05/30	henry1758f 2.5.2	Add mobilenet-ssd without labels for Object Detection Demo.
+# 2019/06/04	henry1758f 2.5.3	Add add squeezenet1.0 and labels file copy process for classification_demo.
 
-export VERSION="2.5.2"
+
+export VERSION="2.5.3"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
