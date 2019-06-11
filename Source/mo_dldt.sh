@@ -3,6 +3,8 @@
 # 2019/05/30	henry1758f 1.0.0	Add ssd_mobilenet_v1,ssd512 and ssd300.
 # 2019/05/30	henry1758f 1.0.1	Add mobilenet-ssd but without labels.
 # 2019/06/04	henry1758f 1.0.2	Add squeezenet1.1/1.0
+# 2019/06/11	henry1758f 1.0.3	Add densenet
+
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -81,6 +83,46 @@ function MO()
 
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/squeezenet/1.0/caffe
 			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/squeezenet/1.0/caffe/squeezenet1.0.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/squeezenet/1.0/caffe" --input_proto "${MODEL_LOC}/classification/squeezenet/1.0/caffe/squeezenet1.0.prototxt" --data_type "${FPV}" 
+		;;
+		"alexnet.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/alexnet/caffe/alexnet.caffemodel || echo "[ERROR!] Can not found \"alexnet.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/alexnet/caffe/alexnet.prototxt || echo "[ERROR!] Can not found \"alexnet.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/alexnet/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/alexnet/caffe/alexnet.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/alexnet/caffe" --input_proto "${MODEL_LOC}/classification/alexnet/caffe/alexnet.prototxt" --data_type "${FPV}" 
+		;;
+		"densenet-201.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/densenet/201/caffe/densenet-201.caffemodel || echo "[ERROR!] Can not found \"densenet-201.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/densenet/201/caffe/densenet-201.prototxt || echo "[ERROR!] Can not found \"densenet-201.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/densenet/201/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/densenet/201/caffe/densenet-201.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/densenet/201/caffe" --input_proto "${MODEL_LOC}/classification/densenet/201/caffe/densenet-201.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.94,116.78,123.68] --scale_values=data[58.8235294117647] --output=fc6
+		;;
+		"densenet-169.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/densenet/169/caffe/densenet-169.caffemodel || echo "[ERROR!] Can not found \"densenet-169.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/densenet/169/caffe/densenet-169.prototxt || echo "[ERROR!] Can not found \"densenet-169.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/densenet/169/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/densenet/169/caffe/densenet-169.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/densenet/169/caffe" --input_proto "${MODEL_LOC}/classification/densenet/169/caffe/densenet-169.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.94,116.78,123.68] --scale_values=data[58.8235294117647] --output=fc6
+		;;
+		"densenet-161.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/densenet/161/caffe/densenet-161.caffemodel || echo "[ERROR!] Can not found \"densenet-161.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/densenet/161/caffe/densenet-161.prototxt || echo "[ERROR!] Can not found \"densenet-161.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/densenet/161/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/densenet/161/caffe/densenet-161.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/densenet/161/caffe" --input_proto "${MODEL_LOC}/classification/densenet/161/caffe/densenet-161.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.94,116.78,123.68] --scale_values=data[58.8235294117647] --output=fc6
+		;;
+		"densenet-121.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/densenet/121/caffe/densenet-121.caffemodel || echo "[ERROR!] Can not found \"densenet-121.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/densenet/121/caffe/densenet-121.prototxt || echo "[ERROR!] Can not found \"densenet-121.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/densenet/121/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/densenet/121/caffe/densenet-121.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/densenet/121/caffe" --input_proto "${MODEL_LOC}/classification/densenet/121/caffe/densenet-121.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.94,116.78,123.68] --scale_values=data[58.8235294117647] --output=fc6
 		;;
 	esac
 }

@@ -9,6 +9,7 @@
 # 2019/05/30	henry1758f 2.5.1	Add ssd_mobilenet_v1,ssd512 and ssd300. Support labels for Object Detection Demo.
 # 2019/05/30	henry1758f 2.5.2	Add mobilenet-ssd without labels for Object Detection Demo.
 # 2019/06/04	henry1758f 2.5.3	Add add squeezenet1.0 and labels file copy process for classification_demo.
+# 2019/06/11	henry1758f 2.5.4	add densenet201/169/161
 
 
 export VERSION="2.5.3"

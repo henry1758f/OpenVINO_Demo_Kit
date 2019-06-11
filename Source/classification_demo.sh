@@ -2,7 +2,7 @@
 # 2019/05/08	henry1758f 0.0.1	First Create
 # 2019/05/09	henry1758f 1.0.0	workable
 # 2019/06/04	henry1758f 1.1.0	add squeezenet1.0 and labels file copy process
-
+# 2019/06/11	henry1758f 1.1.1	add densenet201/169/161
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -12,8 +12,16 @@ export squeezenet11="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/ca
 export squeezenet11_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.1/caffe"
 export squeezenet10="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.0/caffe"
 export squeezenet10_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.0/caffe"
-
-
+export alexnet="${MODEL_LOC}/../../ir/FP32/classification/alexnet/caffe"
+export alexnet_fp16="${MODEL_LOC}/../../ir/FP16/classification/alexnet/caffe"
+export densenet201="${MODEL_LOC}/../../ir/FP32/classification/densenet/201/caffe"
+export densenet201_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/201/caffe"
+export densenet169="${MODEL_LOC}/../../ir/FP32/classification/densenet/169/caffe"
+export densenet169_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/169/caffe"
+export densenet161="${MODEL_LOC}/../../ir/FP32/classification/densenet/161/caffe"
+export densenet161_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/161/caffe"
+export densenet121="${MODEL_LOC}/../../ir/FP32/classification/densenet/121/caffe"
+export densenet121_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/121/caffe"
 
 function banner_show()
 {
@@ -28,16 +36,16 @@ function model_0_choose()
 	test -e ${squeezenet11_fp16}/squeezenet1.1.xml && echo " 2. squeezenet1.1.xml [FP16]" || echo " 2. squeezenet1.1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${squeezenet10}/squeezenet1.0.xml && echo " 3. squeezenet1.0.xml [FP32]" || echo " 3. squeezenet1.0.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 	test -e ${squeezenet10_fp16}/squeezenet1.0.xml && echo " 4. squeezenet1.0.xml [FP16]" || echo " 4. squeezenet1.0.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/alexnet/caffe/alexnet.xml && echo " 5. alexnet.xml [FP32]" || echo " 5. alexnet.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/alexnet/caffe/alexnet.xml && echo " 6. alexnet.xml [FP16]" || echo " 6. alexnet.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/densenet/201/caffe/densenet-201.xml && echo " 7. densenet-201.xml [FP32]" || echo " 7. densenet-201.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/densenet/201/caffe/densenet-201.xml && echo " 8. densenet-201.xml [FP16]" || echo " 8. densenet-201.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/densenet/169/caffe/densenet-169.xml && echo " 9. densenet-169.xml [FP32]" || echo " 9. densenet-169.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/densenet/169/caffe/densenet-169.xml && echo "10. densenet-169.xml [FP16]" || echo "10. densenet-169.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/densenet/161/caffe/densenet-161.xml && echo "11. densenet-161.xml [FP32]" || echo "11. densenet-161.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/densenet/161/caffe/densenet-161.xml && echo "12 . densenet-161.xml [FP16]" || echo "12. densenet-161.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/densenet/121/caffe/densenet-121.xml && echo "13. densenet-121.xml [FP32]" || echo "13. densenet-121.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/densenet/121/caffe/densenet-121.xml && echo "14. densenet-121.xml [FP16]" || echo "14. densenet-121.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${alexnet}/alexnet.xml && echo " 5. alexnet.xml [FP32]" || echo " 5. alexnet.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${alexnet_fp16}/alexnet.xml && echo " 6. alexnet.xml [FP16]" || echo " 6. alexnet.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet201}/densenet-201.xml && echo " 7. densenet-201.xml [FP32]" || echo " 7. densenet-201.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet201_fp16}/densenet-201.xml && echo " 8. densenet-201.xml [FP16]" || echo " 8. densenet-201.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet169}/densenet-169.xml && echo " 9. densenet-169.xml [FP32]" || echo " 9. densenet-169.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet169_fp16}/densenet-169.xml && echo "10. densenet-169.xml [FP16]" || echo "10. densenet-169.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet161}/densenet-161.xml && echo "11. densenet-161.xml [FP32]" || echo "11. densenet-161.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet161_fp16}/densenet-161.xml && echo "12 . densenet-161.xml [FP16]" || echo "12. densenet-161.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet121}/densenet-121.xml && echo "13. densenet-121.xml [FP32]" || echo "13. densenet-121.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${densenet121_fp16}/densenet-121.xml && echo "14. densenet-121.xml [FP16]" || echo "14. densenet-121.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/classification/googlenet/v1/caffe/googlenet-v1.xml && echo "15. googlenet-v1.xml [FP32]" || echo "15. googlenet-v1.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP16/classification/googlenet/v1/caffe/googlenet-v1.xml && echo "16. googlenet-v1.xml [FP16]" || echo "16. googlenet-v1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/classification/googlenet/v2/caffe/googlenet-v2.xml && echo "17. googlenet-v2.xml [FP32]" || echo "17. googlenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
@@ -93,6 +101,46 @@ function model_0_choose()
 			echo " squeezenet1.0.xml [FP16] ->"
 			test -e ${squeezenet10_fp16}/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.0.caffemodel -fp16 && cp -r ./Source/labels/squeezenet_10/squeezenet1.0.labels ${squeezenet10_fp16})
 			MODEL_LOC=${squeezenet10_fp16}/squeezenet1.0.xml
+		;;
+		"5")
+			echo " alexnet.xml [FP32] ->"
+			test -e ${alexnet}/alexnet.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m alexnet.caffemodel -fp32 && cp -r ./Source/labels/alexnet/alexnet.labels ${alexnet})
+			MODEL_LOC=${alexnet}/alexnet.xml
+		;;
+		"6")
+			echo " alexnet.xml [FP16] ->"
+			test -e ${alexnet_fp16}/alexnet.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m alexnet.caffemodel -fp16 && cp -r ./Source/labels/alexnet/alexnet.labels ${alexnet_fp16})
+			MODEL_LOC=${alexnet_fp16}/alexnet.xml
+		;;
+		"7")
+			echo " densenet-201.xml [FP32] ->"
+			test -e ${densenet201}/densenet-201.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-201.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-201.labels ${densenet201})
+			MODEL_LOC=${densenet201}/densenet-201.xml
+		;;
+		"8")
+			echo " densenet-201.xml [FP16] ->"
+			test -e ${densenet201_fp16}/densenet-201.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-201.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-201.labels ${densenet201_fp16})
+			MODEL_LOC=${densenet201_fp16}/densenet-201.xml
+		;;
+		"9")
+			echo " densenet-169.xml [FP32] ->"
+			test -e ${densenet169}/densenet-169.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-169.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-169.labels ${densenet169})
+			MODEL_LOC=${densenet169}/densenet-169.xml
+		;;
+		"10")
+			echo " densenet-169.xml [FP16] ->"
+			test -e ${densenet169_fp16}/densenet-169.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-169.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-169.labels ${densenet169_fp16})
+			MODEL_LOC=${densenet169_fp16}/densenet-169.xml
+		;;
+		"11")
+			echo " densenet-161.xml [FP32] ->"
+			test -e ${densenet161}/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-161.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-161.labels ${densenet161})
+			MODEL_LOC=${densenet161}/densenet-161.xml
+		;;
+		"12")
+			echo " densenet-161.xml [FP16] ->"
+			test -e ${densenet161_fp16}/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-161.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-161.labels ${densenet161_fp16})
+			MODEL_LOC=${densenet161_fp16}/densenet-161.xml
 		;;
 		*)
 			echo " Model PATH=${choose}"
