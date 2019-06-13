@@ -142,6 +142,16 @@ function model_0_choose()
 			test -e ${densenet161_fp16}/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-161.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-161.labels ${densenet161_fp16})
 			MODEL_LOC=${densenet161_fp16}/densenet-161.xml
 		;;
+		"13")
+			echo " densenet-121.xml [FP32] ->"
+			test -e ${densenet121}/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-121.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-121.labels ${densenet121})
+			MODEL_LOC=${densenet121}/densenet-121.xml
+		;;
+		"14")
+			echo " densenet-121.xml [FP16] ->"
+			test -e ${densenet121_fp16}/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-121.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-121.labels ${densenet121_fp16})
+			MODEL_LOC=${densenet121_fp16}/densenet-121.xml
+		;;
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC=${choose}
