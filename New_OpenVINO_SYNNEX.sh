@@ -11,9 +11,10 @@
 # 2019/06/04	henry1758f 2.5.3	Add add squeezenet1.0 and labels file copy process for classification_demo.
 # 2019/06/11	henry1758f 2.5.4	add densenet201/169/161
 # 2019/06/13	henry1758f 2.5.5	Fix some error and add googlenet support to mo_dldt
-# 2019/06/13	henry1758f 2.5.6	add googlenetv1/v2/v4,Inceptionv3
+# 2019/06/18	henry1758f 2.5.6	add googlenetv1/v2/v4,Inceptionv3
+# 2019/06/18	henry1758f 2.6.0	add Test mode for performance testing in classification demo
 
-export VERSION="2.5.6"
+export VERSION="2.6.0"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
