@@ -5,6 +5,8 @@
 # 2019/06/04	henry1758f 1.0.2	Add squeezenet1.1/1.0
 # 2019/06/11	henry1758f 1.0.3	Add densenet
 # 2019/06/13	henry1758f 1.0.4	Add googlenet
+# 2019/06/18	henry1758f 1.0.5	fix googlenetv3
+
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -38,11 +40,11 @@ function MO()
 	case $1 in
 		"ssd_mobilenet_v2_coco.frozen.pb")
 			target $2
-			test -e ${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco.frozen.pb || echo "[ERROR!] Can not found \"ssd_mobilenet_v2_coco.frozen.pb\" !!!"
-			test -e ${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco.config || echo "[ERROR!] Can not found \"ssd_mobilenet_v2_coco.config\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb || echo "[ERROR!] Can not found \"frozen_inference_graph.pb\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29/pipeline.config || echo "[ERROR!] Can not found \"pipeline.config\" !!!"
 
-			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd_mobilenet_v2_coco/tf
-			python3 ${MO_LOC}/mo_tf.py --input_model "${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco.frozen.pb" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd_mobilenet_v2_coco/tf" --data_type "${FPV}" --tensorflow_use_custom_operations_config ${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco.config"
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29
+			python3 ${MO_LOC}/mo_tf.py --input_model "${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29/frozen_inference_graph.pb" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29" --data_type "${FPV}" --tensorflow_use_custom_operations_config ${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${MODEL_LOC}/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29/pipeline.config"
 		;;
 		"ssd_mobilenet_v1_coco.frozen.pb")
 			target $2
@@ -140,13 +142,12 @@ function MO()
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v2/caffe
 			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/googlenet/v2/caffe/googlenet-v2.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v2/caffe" --input_proto "${MODEL_LOC}/classification/googlenet/v2/caffe/googlenet-v2.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
 		;;
-		"googlenet-v3.caffemodel")
+		"googlenet-v3.frozen.pb")
 			target $2
-			test -e ${MODEL_LOC}/classification/googlenet/v3/caffe/googlenet-v3.caffemodel || echo "[ERROR!] Can not found \"googlenet-v3.caffemodel\" !!!"
-			test -e ${MODEL_LOC}/classification/googlenet/v3/caffe/googlenet-v3.prototxt || echo "[ERROR!] Can not found \"googlenet-v3.prototxt\" !!!"
+			test -e ${MODEL_LOC}/classification/googlenet/v3/tf/inception_v3_2016_08_28_frozen.pb || echo "[ERROR!] Can not found \"inception_v3_2016_08_28_frozen.pb\" !!!"
 
-			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v3/caffe
-			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/googlenet/v3/caffe/googlenet-v3.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v3/caffe" --input_proto "${MODEL_LOC}/classification/googlenet/v3/caffe/googlenet-v3.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v3/tf
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/googlenet/v3/tf/inception_v3_2016_08_28_frozen.pb" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v3/tf"  --data_type "${FPV}" --input_shape=[1,299,299,3] --mean_values=input[127.5,127.5,127.5] --scale_values=input[127.50000414375013] --reverse_input_channels --input=input --output=InceptionV3/Predictions/Softmax
 		;;
 		"googlenet-v4.caffemodel")
 			target $2

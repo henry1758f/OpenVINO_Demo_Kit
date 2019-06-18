@@ -3,6 +3,7 @@
 # 2019/05/09	henry1758f 1.0.0	workable
 # 2019/06/04	henry1758f 1.1.0	add squeezenet1.0 and labels file copy process
 # 2019/06/11	henry1758f 1.1.1	add densenet201/169/161
+# 2019/06/18	henry1758f 1.1.2	add googlenetv1/v2/v4,Inceptionv3
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -22,6 +23,14 @@ export densenet161="${MODEL_LOC}/../../ir/FP32/classification/densenet/161/caffe
 export densenet161_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/161/caffe"
 export densenet121="${MODEL_LOC}/../../ir/FP32/classification/densenet/121/caffe"
 export densenet121_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/121/caffe"
+export googlenetv1="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v1/caffe"
+export googlenetv1_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v1/caffe"
+export googlenetv2="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v2/caffe"
+export googlenetv2_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v2/caffe"
+export googlenetv3="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v3/tf"
+export googlenetv3_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v3/tf"
+export googlenetv4="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v4/caffe"
+export googlenetv4_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v4/caffe"
 
 function banner_show()
 {
@@ -46,14 +55,14 @@ function model_0_choose()
 	test -e ${densenet161_fp16}/densenet-161.xml && echo "12 . densenet-161.xml [FP16]" || echo "12. densenet-161.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${densenet121}/densenet-121.xml && echo "13. densenet-121.xml [FP32]" || echo "13. densenet-121.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 	test -e ${densenet121_fp16}/densenet-121.xml && echo "14. densenet-121.xml [FP16]" || echo "14. densenet-121.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/googlenet/v1/caffe/googlenet-v1.xml && echo "15. googlenet-v1.xml [FP32]" || echo "15. googlenet-v1.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/googlenet/v1/caffe/googlenet-v1.xml && echo "16. googlenet-v1.xml [FP16]" || echo "16. googlenet-v1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/googlenet/v2/caffe/googlenet-v2.xml && echo "17. googlenet-v2.xml [FP32]" || echo "17. googlenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/googlenet/v2/caffe/googlenet-v2.xml && echo "18. googlenet-v2.xml [FP16]" || echo "18. googlenet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/googlenet/v3/tf/googlenet-v3.xml && echo "19. googlenet-v3.xml [FP32]" || echo "19. googlenet-v3.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/googlenet/v3/tf/googlenet-v3.xml && echo "20. googlenet-v3.xml [FP16]" || echo "20. googlenet-v3.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP32/classification/googlenet/v4/caffe/googlenet-v4.xml && echo "21. googlenet-v4.xml [FP32]" || echo "21. googlenet-v4.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-	test -e ${MODEL_LOC}/../../ir/FP16/classification/googlenet/v4/caffe/googlenet-v4.xml && echo "22. googlenet-v4.xml [FP16]" || echo "22. googlenet-v4.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv1}/googlenet-v1.xml && echo "15. googlenet-v1.xml [FP32]" || echo "15. googlenet-v1.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv1_fp16}/googlenet-v1.xml && echo "16. googlenet-v1.xml [FP16]" || echo "16. googlenet-v1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv2}/googlenet-v2.xml && echo "17. googlenet-v2.xml [FP32]" || echo "17. googlenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv2_fp16}/googlenet-v2.xml && echo "18. googlenet-v2.xml [FP16]" || echo "18. googlenet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv3}/inception_v3_2016_08_28_frozen.xml && echo "19. inception_v3.xml [FP32]" || echo "19. googlenet-v3.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv3_fp16}/inception_v3_2016_08_28_frozen.xml && echo "20. inception_v3.xml [FP16]" || echo "20. googlenet-v3.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv4}/googlenet-v4.xml && echo "21. googlenet-v4.xml [FP32]" || echo "21. googlenet-v4.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+	test -e ${googlenetv4_fp16}/googlenet-v4.xml && echo "22. googlenet-v4.xml [FP16]" || echo "22. googlenet-v4.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/classification/inception-resnet/v2/tf/inception-resnet-v2.xml && echo "23. inception-resnet-v2.xml [FP32]" || echo "23. inception-resnet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP16/classification/inception-resnet/v2/tf/inception-resnet-v2.xml && echo "24. inception-resnet-v2.xml [FP16]" || echo "24. inception-resnet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 	test -e ${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v1/1.0/224/cf/mobilenet-v1-1.0-224.xml && echo "24. mobilenet-v1-1.0-224.xml [FP32]" || echo "25. mobilenet-v1-1.0-224.xml [FP32]	File lost! Need to Download and Transfer to IR)"
@@ -151,6 +160,46 @@ function model_0_choose()
 			echo " densenet-121.xml [FP16] ->"
 			test -e ${densenet121_fp16}/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-121.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-121.labels ${densenet121_fp16})
 			MODEL_LOC=${densenet121_fp16}/densenet-121.xml
+		;;
+		"15")
+			echo " googlenet-v1.xml [FP32] ->"
+			test -e ${googlenetv1}/googlenet-v1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v1.caffemodel -fp32 && cp -r ./Source/labels/googlenet/googlenet-v1.labels ${googlenetv1})
+			MODEL_LOC=${googlenetv1}/googlenet-v1.xml
+		;;
+		"16")
+			echo " googlenet-v1.xml [FP16] ->"
+			test -e ${googlenetv1_fp16}/googlenet-v1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v1.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v1.labels ${googlenetv1_fp16})
+			MODEL_LOC=${googlenetv1_fp16}/googlenet-v1.xml
+		;;
+		"17")
+			echo " googlenet-v2.xml [FP32] ->"
+			test -e ${googlenetv2}/googlenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v2.caffemodel -fp32 && cp -r ./Source/labels/googlenet/googlenet-v2.labels ${googlenetv2})
+			MODEL_LOC=${googlenetv2}/googlenet-v2.xml
+		;;
+		"18")
+			echo " googlenet-v2.xml [FP16] ->"
+			test -e ${googlenetv2_fp16}/googlenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v2.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v2.labels ${googlenetv2_fp16})
+			MODEL_LOC=${googlenetv2_fp16}/googlenet-v2.xml
+		;;
+		"19")
+			echo " googlenet-v3.xml [FP32] ->"
+			test -e ${googlenetv3}/inception_v3_2016_08_28_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v3.frozen.pb -fp32 && cp -r ./Source/labels/googlenet/inception_v3_2016_08_28_frozen.labels ${googlenetv3})
+			MODEL_LOC=${googlenetv3}/inception_v3_2016_08_28_frozen.xml
+		;;
+		"20")
+			echo " googlenet-v3.xml [FP16] ->"
+			test -e ${googlenetv3_fp16}/inception_v3_2016_08_28_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v3.frozen.pb -fp16 && cp -r ./Source/labels/googlenet/inception_v3_2016_08_28_frozen.labels ${googlenetv3_fp16})
+			MODEL_LOC=${googlenetv3_fp16}/inception_v3_2016_08_28_frozen.xml
+		;;
+		"21")
+			echo " googlenet-v4.xml [FP32] ->"
+			test -e ${googlenetv4}/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v4.caffemodel -fp32 && cp -r ./Source/labels/googlenet/googlenet-v4.labels ${googlenetv4})
+			MODEL_LOC=${googlenetv4}/googlenet-v4.xml
+		;;
+		"22")
+			echo " googlenet-v4.xml [FP16] ->"			
+			test -e ${googlenetv4_fp16}/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v4.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v4.labels ${googlenetv4_fp16})
+			MODEL_LOC=${googlenetv4_fp16}/googlenet-v4.xml
 		;;
 		*)
 			echo " Model PATH=${choose}"
