@@ -32,6 +32,10 @@ export googlenetv3="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v3/tf"
 export googlenetv3_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v3/tf"
 export googlenetv4="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v4/caffe"
 export googlenetv4_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v4/caffe"
+export vgg16="${MODEL_LOC}/../../ir/FP32/classification/vgg/16/caffe"
+export vgg16_fp16="${MODEL_LOC}/../../ir/FP16/classification//vgg/16/caffe"
+export vgg19="${MODEL_LOC}/../../ir/FP32/classification/vgg/19/caffe"
+export vgg19_fp16="${MODEL_LOC}/../../ir/FP16/classification//vgg/19/caffe"
 export model_enable_count=22
 
 function banner_show()
@@ -210,6 +214,26 @@ function model_0_choose()
 			test -e ${googlenetv4_fp16}/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v4.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v4.labels ${googlenetv4_fp16})
 			MODEL_LOC=${googlenetv4_fp16}/googlenet-v4.xml
 		;;
+		"43")
+			echo " vgg16.xml [FP32] ->"
+			test -e ${vgg16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp32 )
+			MODEL_LOC=${vgg16}/vgg16.xml
+		;;
+		"44")
+			echo " vgg16.xml [FP16] ->"
+			test -e ${vgg16_fp16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp16 )
+			MODEL_LOC=${vgg16_fp16}/vgg16.xml
+		;;
+		"45")
+			echo " vgg19.xml [FP32] ->"
+			test -e ${vgg19}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp32 )
+			MODEL_LOC=${vgg19}/vgg19.xml
+		;;
+		"46")
+			echo " vgg19.xml [FP16] ->"
+			test -e ${vgg19_fp16}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp16 )
+			MODEL_LOC=${vgg19_fp16}/vgg19.xml
+		;;
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC=${choose}
@@ -243,23 +267,21 @@ function test_mode()
 	echo "Which model you want to test?"
 	read model
 	if [ "$model" == "all" ]; then
-		for ((i=1; i<=22; i=i+1))
+		for ((i=43; i<=46; i=i+1))
 		do
 			model_0_choose -Test $i
-			cd $SAMPLE_LOC
 			echo "Running ${MODEL_LOC} with $1 $2 $3 $4 $5 $6 $7"
 			for j in 1 2 3
 			do
-				./classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
+				$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
 			done
 		done
 	else
 		model_0_choose -Test $model
-			cd $SAMPLE_LOC
 			echo "Running ${MODEL_LOC} with $1 $2 $3 $4 $5 $6 $7"
 			for j in 1 2 3
 			do
-				./classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
+				$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
 			done
 	fi
 	cd $SAMPLE_LOC
@@ -276,8 +298,8 @@ case $ASYNC in
 			model_0_choose
 			inference_D_choose
 			source_choose
-			cd $SAMPLE_LOC
-			./classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+			
+			$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
 		;;
 		"Test")
 			echo "[ASYNC API] Performance Test >>>"
@@ -292,8 +314,7 @@ case $ASYNC in
 			model_0_choose
 			inference_D_choose
 			source_choose
-			cd $SAMPLE_LOC
-			./classification_sample -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+			$SAMPLE_LOC/classification_sample -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
 			;;
 	esac
 

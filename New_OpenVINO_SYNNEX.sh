@@ -14,8 +14,9 @@
 # 2019/06/18	henry1758f 2.5.6	add googlenetv1/v2/v4,Inceptionv3
 # 2019/06/18	henry1758f 2.6.0	add Test mode for performance testing in classification demo
 # 2019/06/19	henry1758f 2.6.1	Fix googlenet-v4 MO error
+# 2019/06/19	henry1758f 2.6.2	add vgg16/19 and fix automatic MO error in classification test mode
 
-export VERSION="2.6.0"
+export VERSION="2.6.2"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
