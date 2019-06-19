@@ -6,7 +6,8 @@
 # 2019/06/11	henry1758f 1.0.3	Add densenet
 # 2019/06/13	henry1758f 1.0.4	Add googlenet
 # 2019/06/18	henry1758f 1.0.5	fix googlenetv3
-
+# 2019/06/18	henry1758f 1.0.6	fix googlenetv3
+# 2019/06/19	henry1758f 1.0.7	fix googlenetv4
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -155,7 +156,23 @@ function MO()
 			test -e ${MODEL_LOC}/classification/googlenet/v4/caffe/googlenet-v4.prototxt || echo "[ERROR!] Can not found \"googlenet-v4.prototxt\" !!!"
 
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v4/caffe
-			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/googlenet/v4/caffe/googlenet-v4.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v4/caffe" --input_proto "${MODEL_LOC}/classification/googlenet/v4/caffe/googlenet-v4.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/googlenet/v4/caffe/googlenet-v4.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/googlenet/v4/caffe" --input_proto "${MODEL_LOC}/classification/googlenet/v4/caffe/googlenet-v4.prototxt" --data_type "${FPV}" --input_shape=[1,3,299,299] --input=data --mean_values=data[128.0,128.0,128.0] --scale_values=data[128.0] --output=prob
+		;;
+		"vgg16.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/vgg/16/caffe/vgg16.caffemodel || echo "[ERROR!] Can not found \"vgg16.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/vgg/16/caffe/vgg16.prototxt || echo "[ERROR!] Can not found \"vgg16.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/vgg/16/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/vgg/16/caffe/vgg16.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/vgg/16/caffe" --input_proto "${MODEL_LOC}/classification/vgg/16/caffe/vgg16.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.939,116.779,123.68] --output=prob
+		;;
+		"vgg19.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/vgg/16/caffe/vgg19.caffemodel || echo "[ERROR!] Can not found \"vgg19.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/vgg/16/caffe/vgg19.prototxt || echo "[ERROR!] Can not found \"vgg19.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/vgg/19/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/vgg/16/caffe/vgg19.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/vgg/19/caffe" --input_proto "${MODEL_LOC}/classification/vgg/19/caffe/vgg19.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.939,116.779,123.68] --output=prob
 		;;
 	esac
 }

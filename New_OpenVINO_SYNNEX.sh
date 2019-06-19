@@ -13,6 +13,7 @@
 # 2019/06/13	henry1758f 2.5.5	Fix some error and add googlenet support to mo_dldt
 # 2019/06/18	henry1758f 2.5.6	add googlenetv1/v2/v4,Inceptionv3
 # 2019/06/18	henry1758f 2.6.0	add Test mode for performance testing in classification demo
+# 2019/06/19	henry1758f 2.6.1	Fix googlenet-v4 MO error
 
 export VERSION="2.6.0"
 export VERSION_VINO="v2019.1.144"
