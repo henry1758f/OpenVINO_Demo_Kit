@@ -5,6 +5,8 @@
 # 2019/06/11	henry1758f 1.1.1	add densenet201/169/161
 # 2019/06/18	henry1758f 1.1.2	add googlenetv1/v2/v4,Inceptionv3
 # 2019/06/18	henry1758f 1.2.0	add Test mode for performance testing
+# 2019/06/21	henry1758f 1.3.0	Enable all models
+
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -36,6 +38,26 @@ export vgg16="${MODEL_LOC}/../../ir/FP32/classification/vgg/16/caffe"
 export vgg16_fp16="${MODEL_LOC}/../../ir/FP16/classification//vgg/16/caffe"
 export vgg19="${MODEL_LOC}/../../ir/FP32/classification/vgg/19/caffe"
 export vgg19_fp16="${MODEL_LOC}/../../ir/FP16/classification//vgg/19/caffe"
+export inception_resnetv2="${MODEL_LOC}/../../ir/FP32/classification/inception-resnet/v2/caffe"
+export inception_resnetv2_fp16="${MODEL_LOC}/../../ir/FP16/classification/inception-resnet/v2/caffe"
+export mobilenetv1="${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v1/1.0/224/cf"
+export mobilenetv1_fp16="${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v1/1.0/224/cf"
+export mobilenetv2="${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v2/cf"
+export mobilenetv2_fp16="${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v2/cf"
+export mobilenetv2_tf="${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224"
+export mobilenetv2_tf_fp16="${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224"
+export seinception="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-inception/caffe"
+export seinception_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-inception/caffe"
+export seresnet50="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-50/caffe"
+export seresnet50_fp16="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-50/caffe"
+export seresnet101="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-101/caffe"
+export seresnet101_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-101/caffe"
+export seresnet152="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-152/caffe"
+export seresnet152_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-152/caffe"
+export seresnext50="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnext-50/caffe"
+export seresnext50_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnext-50/caffe"
+export seresnext101="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnext-101/caffe"
+export seresnext101_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnext-101/caffe"
 export model_enable_count=22
 
 function banner_show()
@@ -75,30 +97,30 @@ function model_0_choose()
 		test -e ${googlenetv3_fp16}/inception_v3_2016_08_28_frozen.xml && echo "20. inception_v3.xml [FP16]" || echo "20. googlenet-v3.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 		test -e ${googlenetv4}/googlenet-v4.xml && echo "21. googlenet-v4.xml [FP32]" || echo "21. googlenet-v4.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 		test -e ${googlenetv4_fp16}/googlenet-v4.xml && echo "22. googlenet-v4.xml [FP16]" || echo "22. googlenet-v4.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/inception-resnet/v2/tf/inception-resnet-v2.xml && echo "23. inception-resnet-v2.xml [FP32]" || echo "23. inception-resnet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/inception-resnet/v2/tf/inception-resnet-v2.xml && echo "24. inception-resnet-v2.xml [FP16]" || echo "24. inception-resnet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v1/1.0/224/cf/mobilenet-v1-1.0-224.xml && echo "24. mobilenet-v1-1.0-224.xml [FP32]" || echo "25. mobilenet-v1-1.0-224.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v1/1.0/224/cf/mobilenet-v1-1.0-224.xml && echo "26. mobilenet-v1-1.0-224.xml [FP16]" || echo "26. mobilenet-v1-1.0-224.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v2/cf/mobilenet-v2.xml && echo "27. mobilenet-v2.xml [FP32]" || echo "27. mobilenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v2/cf/mobilenet-v2.xml && echo "28. mobilenet-v2.xml [FP16]" || echo "28. mobilenet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v2/tf/mobilenet-v2-1.4-224/mobilenet-v2-1.4-224.frozen.xml && echo "29. mobilenet-v2-1.4-224.frozen.xml [FP32]" || echo "29. mobilenet-v2-1.4-224.frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v2/tf/mobilenet-v2-1.4-224/mobilenet-v2-1.4-224.frozen.xml && echo "30. mobilenet-v2-1.4-224.frozen.xml [FP16]" || echo "30. mobilenet-v2-1.4-224.frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-inception/caffe/se-inception.xml && echo "31. se-inception.xml [FP32]" || echo "31. se-inception.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-inception/caffe/se-inception.xml && echo "32. se-inception.xml [FP16]" || echo "32. se-inception.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-50/caffe/se-resnet-50.xml && echo "33. se-resnet-50.xml [FP32]" || echo "33. se-resnet-50.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-50/caffe/se-resnet-50.xml && echo "34. se-resnet-50.xml [FP16]" || echo "34. se-resnet-50.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-101/caffe/se-resnet-101.xml && echo "35. se-resnet-101.xml [FP32]" || echo "35. se-resnet-101.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-101/caffe/se-resnet-101.xml && echo "36. se-resnet-101.xml [FP16]" || echo "36. se-resnet-101.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-152/caffe/se-resnet-152.xml && echo "37. se-resnet-152.xml [FP32]" || echo "37. se-resnet-152.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-152/caffe/se-resnet-152.xml && echo "38. se-resnet-152.xml [FP16]" || echo "38. se-resnet-152.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnext-50/caffe/se-resnext-50.xml && echo "39. se-resnext-50.xml [FP32]" || echo "39. se-resnext-50.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnext-50/caffe/se-resnext-50.xml && echo "40. se-resnext-50.xml [FP16]" || echo "40. se-resnext-50.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnext-101/caffe/se-resnext-101.xml && echo "41. se-resnext-101.xml [FP32]" || echo " 41. se-resnext-101.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnext-101/caffe/se-resnext-101.xml && echo "42. se-resnext-101.xml [FP16]" || echo " 42. se-resnext-101.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/vgg/16/caffe/vgg16.xml && echo "43. vgg16.xml [FP32]" || echo "43. vgg16.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/vgg/16/caffe/vgg16.xml && echo "44. vgg16.xml [FP16]" || echo "44. vgg16.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP32/classification/vgg/19/caffe/vgg19.xml && echo "45. vgg19.xml [FP32]" || echo "45. vgg19.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${MODEL_LOC}/../../ir/FP16/classification/vgg/19/caffe/vgg19.xml && echo "46. vgg19.xml [FP16]" || echo "46. vgg19.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${inception_resnetv2}/inception-resnet-v2.xml && echo "23. inception-resnet-v2.xml [FP32]" || echo "23. inception-resnet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${inception_resnetv2_fp16}/inception-resnet-v2.xml && echo "24. inception-resnet-v2.xml [FP16]" || echo "24. inception-resnet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv1}/mobilenet-v1-1.0-224.xml && echo "25. mobilenet-v1-1.0-224.xml [FP32]" || echo "25. mobilenet-v1-1.0-224.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv1_fp16}/mobilenet-v1-1.0-224.xml && echo "26. mobilenet-v1-1.0-224.xml [FP16]" || echo "26. mobilenet-v1-1.0-224.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv2}/mobilenet-v2.xml && echo "27. mobilenet-v2.xml [FP32]" || echo "27. mobilenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv2_fp16}/mobilenet-v2.xml && echo "28. mobilenet-v2.xml [FP16]" || echo "28. mobilenet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv2_tf}/mobilenet-v2-1.4-224.frozen.xml && echo "29. mobilenet-v2-1.4-224.frozen.xml [FP32]" || echo "29. mobilenet-v2-1.4-224.frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv2_tf_fp16}/mobilenet-v2-1.4-224.frozen.xml && echo "30. mobilenet-v2-1.4-224.frozen.xml [FP16]" || echo "30. mobilenet-v2-1.4-224.frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seinception}/se-inception.xml && echo "31. se-inception.xml [FP32]" || echo "31. se-inception.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seinception_fp16}/se-inception.xml && echo "32. se-inception.xml [FP16]" || echo "32. se-inception.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnet50}/se-resnet-50.xml && echo "33. se-resnet-50.xml [FP32]" || echo "33. se-resnet-50.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnet50_fp16}/se-resnet-50.xml && echo "34. se-resnet-50.xml [FP16]" || echo "34. se-resnet-50.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnet101}/se-resnet-101.xml && echo "35. se-resnet-101.xml [FP32]" || echo "35. se-resnet-101.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnet101_fp16}/se-resnet-101.xml && echo "36. se-resnet-101.xml [FP16]" || echo "36. se-resnet-101.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnet152}/se-resnet-152.xml && echo "37. se-resnet-152.xml [FP32]" || echo "37. se-resnet-152.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnet152_fp16}/se-resnet-152.xml && echo "38. se-resnet-152.xml [FP16]" || echo "38. se-resnet-152.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnext50}/se-resnext-50.xml && echo "39. se-resnext-50.xml [FP32]" || echo "39. se-resnext-50.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnext50_fp16}/se-resnext-50.xml && echo "40. se-resnext-50.xml [FP16]" || echo "40. se-resnext-50.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnext101}/se-resnext-101.xml && echo "41. se-resnext-101.xml [FP32]" || echo " 41. se-resnext-101.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${seresnext101_fp16}/se-resnext-101.xml && echo "42. se-resnext-101.xml [FP16]" || echo " 42. se-resnext-101.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${vgg16}/vgg16.xml && echo "43. vgg16.xml [FP32]" || echo "43. vgg16.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${vgg16_fp16}/vgg16.xml && echo "44. vgg16.xml [FP16]" || echo "44. vgg16.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${vgg19}/vgg19.xml && echo "45. vgg19.xml [FP32]" || echo "45. vgg19.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${vgg19_fp16}/vgg19.xml && echo "46. vgg19.xml [FP16]" || echo "46. vgg19.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 		echo " >> Or input a path to your model "
 		read choose
 	fi
@@ -214,24 +236,124 @@ function model_0_choose()
 			test -e ${googlenetv4_fp16}/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v4.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v4.labels ${googlenetv4_fp16})
 			MODEL_LOC=${googlenetv4_fp16}/googlenet-v4.xml
 		;;
+		"23")
+			echo " inception-resnet-v2.xml [FP32] ->"
+			test -e ${inception_resnetv2}/inception-resnet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m inception-resnet-v2.caffemodel -fp32 && cp -r ./Source/labels/inception-resnet/inception-resnet-v2.labels ${inception_resnetv2})
+			MODEL_LOC=${inception_resnetv2}/inception-resnet-v2.xml
+		;;
+		"24")
+			echo " inception-resnet-v2.xml [FP16] ->"
+			test -e ${inception_resnetv2_fp16}/inception-resnet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m inception-resnet-v2.caffemodel -fp16 && cp -r ./Source/labels/inception-resnet/inception-resnet-v2.labels ${inception_resnetv2_fp16})
+			MODEL_LOC=${inception_resnetv2_fp16}/inception-resnet-v2.xml
+		;;
+		"25")
+			echo " mobilenet-v1-1.0-224.xml [FP32] ->"			
+			test -e ${mobilenetv1}/mobilenet-v1-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v1-1.0-224.caffemodel -fp32 && cp -r ./Source/labels/mobilenet/mobilenet-v1-1.0-224.labels ${mobilenetv1} )
+			MODEL_LOC=${mobilenetv1}/mobilenet-v1-1.0-224.xml
+		;;
+		"26")
+			echo " mobilenet-v1-1.0-224.xml [FP16] ->"			
+			test -e ${mobilenetv1_fp16}/mobilenet-v1-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v1-1.0-224.caffemodel -fp16 && cp -r ./Source/labels/mobilenet/mobilenet-v1-1.0-224.labels ${mobilenetv1_fp16})
+			MODEL_LOC=${mobilenetv1_fp16}/mobilenet-v1-1.0-224.xml
+		;;
+		"27")
+			echo " mobilenet-v2.xml [FP32] ->"			
+			test -e ${mobilenetv2}/mobilenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v2.caffemodel -fp32 && cp -r ./Source/labels/mobilenet/mobilenet-v2.labels ${mobilenetv2})
+			MODEL_LOC=${mobilenetv2}/mobilenet-v2.xml
+		;;
+		"28")
+			echo " mobilenet-v2.xml [FP16] ->"			
+			test -e ${mobilenetv2_fp16}/mobilenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v2.caffemodel -fp16 && cp -r ./Source/labels/mobilenet/mobilenet-v2.labels ${mobilenetv2_fp16})
+			MODEL_LOC=${mobilenetv2_fp16}/mobilenet-v2.xml
+		;;
+		"29")
+			echo " mobilenet-v2-1.4-224.frozen.xml [FP32] ->"			
+			test -e ${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet_v2_1.4_224_frozen.pb -fp32 && cp -r ./Source/labels/mobilenet/mobilenet_v2_1.4_224_frozen.labels ${mobilenetv2_tf})
+			MODEL_LOC=${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml
+		;;
+		"30")
+			echo " mobilenet-v2-1.4-224.frozen.xml [FP16] ->"			
+			test -e ${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet_v2_1.4_224_frozen.pb -fp16 && cp -r ./Source/labels/mobilenet/mobilenet_v2_1.4_224_frozen.labels ${mobilenetv2_tf_fp16})
+			MODEL_LOC=${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml
+		;;
+		"31")
+			echo " se-inception.xml [FP32] ->"			
+			test -e ${seinception}/se-inception.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-inception.caffemodel -fp32 && cp -r ./Source/labels/se-inception/se-inception.labels ${seinception})
+			MODEL_LOC=${seinception}/se-inception.xml
+		;;
+		"32")
+			echo " se-inception.xml [FP16] ->"			
+			test -e ${seinception_fp16}/se-inception.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-inception.caffemodel -fp16 && cp -r ./Source/labels/se-inception/se-inception.labels ${seinception_fp16})
+			MODEL_LOC=${seinception_fp16}/se-inception.xml
+		;;
+		"33")
+			echo " se-resnet-50.xml [FP32] ->"			
+			test -e ${seresnet50}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-50.caffemodel -fp32 && cp -r ./Source/labels/se-resnet/se-resnet-50.labels ${seresnet50})
+			MODEL_LOC=${seresnet50}/se-resnet-50.xml
+		;;
+		"34")
+			echo " se-resnet-50.xml [FP16] ->"			
+			test -e ${seresnet50_fp16}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-50.caffemodel -fp16 && cp -r ./Source/labels/se-resnet/se-resnet-50.labels ${seresnet50_fp16})
+			MODEL_LOC=${seresnet50_fp16}/se-resnet-50.xml
+		;;
+		"35")
+			echo " se-resnet-101.xml [FP32] ->"			
+			test -e ${seresnet101}/se-resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-101.caffemodel -fp32 && cp -r ./Source/labels/se-resnet/se-resnet-101.labels ${seresnet101})
+			MODEL_LOC=${seresnet101}/se-resnet-101.xml
+		;;
+		"36")
+			echo " se-resnet-101.xml [FP16] ->"			
+			test -e ${seresnet101_fp16}/se-resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-101.caffemodel -fp16 && cp -r ./Source/labels/se-resnet/se-resnet-101.labels ${seresnet101_fp16})
+			MODEL_LOC=${seresnet101_fp16}/se-resnet-101.xml
+		;;
+		"37")
+			echo " se-resnet-152.xml [FP32] ->"			
+			test -e ${seresnet152}/se-resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-152.caffemodel -fp32 && cp -r ./Source/labels/se-resnet/se-resnet-152.labels ${seresnet152})
+			MODEL_LOC=${seresnet152}/se-resnet-152.xml
+		;;
+		"38")
+			echo " se-resnet-152.xml [FP16] ->"			
+			test -e ${seresnet152_fp16}/se-resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-152.caffemodel -fp16 && cp -r ./Source/labels/se-resnet/se-resnet-152.labels ${seresnet152_fp16})
+			MODEL_LOC=${seresnet152_fp16}/se-resnet-152.xml
+		;;
+		"39")
+			echo " se-resnext-50.xml [FP32] ->"			
+			test -e ${seresnext50}/se-resnext-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-50.caffemodel -fp32 && cp -r ./Source/labels/se-resnext/se-resnext-50.labels ${seresnext50})
+			MODEL_LOC=${seresnext50}/se-resnext-50.xml
+		;;
+		"40")
+			echo " se-resnext-50.xml [FP16] ->"			
+			test -e ${seresnext50_fp16}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-50.caffemodel -fp16 && cp -r ./Source/labels/se-resnext/se-resnext-50.labels ${seresnext50_fp16})
+			MODEL_LOC=${seresnext50_fp16}/se-resnet-50.xml
+		;;
+		"41")
+			echo " se-resnext-101.xml [FP32] ->"			
+			test -e ${seresnext101}/se-resnext-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-101.caffemodel -fp32 && cp -r ./Source/labels/se-resnext/se-resnext-101.labels ${seresnext101})
+			MODEL_LOC=${seresnext101}/se-resnext-101.xml
+		;;
+		"42")
+			echo " se-resnext-101.xml [FP16] ->"			
+			test -e ${seresnext101_fp16}/se-resnext-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-101.caffemodel -fp16 && cp -r ./Source/labels/se-resnext/se-resnext-101.labels ${seresnext101_fp16})
+			MODEL_LOC=${seresnext101_fp16}/se-resnext-101.xml
+		;;
 		"43")
 			echo " vgg16.xml [FP32] ->"
-			test -e ${vgg16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp32 )
+			test -e ${vgg16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp32 && cp -r ./Source/labels/vgg/vgg16.labels ${vgg16} )
 			MODEL_LOC=${vgg16}/vgg16.xml
 		;;
 		"44")
 			echo " vgg16.xml [FP16] ->"
-			test -e ${vgg16_fp16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp16 )
+			test -e ${vgg16_fp16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp16 && cp -r ./Source/labels/vgg/vgg16.labels ${vgg16_fp16})
 			MODEL_LOC=${vgg16_fp16}/vgg16.xml
 		;;
 		"45")
 			echo " vgg19.xml [FP32] ->"
-			test -e ${vgg19}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp32 )
+			test -e ${vgg19}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp32 && cp -r ./Source/labels/vgg/vgg19.labels ${vgg19})
 			MODEL_LOC=${vgg19}/vgg19.xml
 		;;
 		"46")
 			echo " vgg19.xml [FP16] ->"
-			test -e ${vgg19_fp16}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp16 )
+			test -e ${vgg19_fp16}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp16 && cp -r ./Source/labels/vgg/vgg19.labels ${vgg19_fp16})
 			MODEL_LOC=${vgg19_fp16}/vgg19.xml
 		;;
 		*)
@@ -267,11 +389,11 @@ function test_mode()
 	echo "Which model you want to test?"
 	read model
 	if [ "$model" == "all" ]; then
-		for ((i=43; i<=46; i=i+1))
+		for ((i=39; i<=42; i=i+1))
 		do
 			model_0_choose -Test $i
 			echo "Running ${MODEL_LOC} with $1 $2 $3 $4 $5 $6 $7"
-			for j in 1 2 3
+			for j in 1 # 2 3
 			do
 				$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
 			done

@@ -15,6 +15,7 @@
 # 2019/06/18	henry1758f 2.6.0	add Test mode for performance testing in classification demo
 # 2019/06/19	henry1758f 2.6.1	Fix googlenet-v4 MO error
 # 2019/06/19	henry1758f 2.6.2	add vgg16/19 and fix automatic MO error in classification test mode
+# 2019/06/21	henry1758f 2.6.3	Enable all models
 
 export VERSION="2.6.2"
 export VERSION_VINO="v2019.1.144"

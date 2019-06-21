@@ -9,6 +9,7 @@
 # 2019/06/18	henry1758f 1.0.6	fix googlenetv3
 # 2019/06/19	henry1758f 1.0.7	fix googlenetv4
 # 2019/06/19	henry1758f 1.0.8	Add vgg16/19
+# 2019/06/21	henry1758f 1.0.9	Add resnet,resnext,se-inception
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -174,6 +175,85 @@ function MO()
 
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/vgg/19/caffe
 			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/vgg/19/caffe/vgg19.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/vgg/19/caffe" --input_proto "${MODEL_LOC}/classification/vgg/19/caffe/vgg19.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.939,116.779,123.68] --output=prob
+		;;
+		"mobilenet-v1-1.0-224.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/mobilenet/v1/1.0/224/cf/mobilenet-v1-1.0-224.caffemodel || echo "[ERROR!] Can not found \"mobilenet-v1-1.0-224.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/mobilenet/v1/1.0/224/cf/mobilenet-v1-1.0-224.prototxt || echo "[ERROR!] Can not found \"mobilenet-v1-1.0-224.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/mobilenet/v1/1.0/224/cf
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/mobilenet/v1/1.0/224/cf/mobilenet-v1-1.0-224.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/mobilenet/v1/1.0/224/cf" --input_proto "${MODEL_LOC}/classification/mobilenet/v1/1.0/224/cf/mobilenet-v1-1.0-224.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.94,116.78,123.68] --scale_values=data[58.8235294117647] --output=prob
+		;;
+		"mobilenet-v2.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/mobilenet/v2/cf/mobilenet-v2.caffemodel || echo "[ERROR!] Can not found \"mobilenet-v2.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/mobilenet/v2/cf/mobilenet-v2.prototxt || echo "[ERROR!] Can not found \"mobilenet-v2.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/mobilenet/v2/cf
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/mobilenet/v2/cf/mobilenet-v2.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/mobilenet/v2/cf" --input_proto "${MODEL_LOC}/classification/mobilenet/v2/cf/mobilenet-v2.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[103.94,116.78,123.68] --scale_values=data[58.8235294117647] --output=prob
+		;;
+		"mobilenet_v2_1.4_224_frozen.pb")
+			target $2
+			test -e ${MODEL_LOC}/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224/mobilenet_v2_1.4_224_frozen.pb || echo "[ERROR!] Can not found \"mobilenet_v2_1.4_224_frozen.pb\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224/mobilenet_v2_1.4_224_frozen.pb" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224" --data_type "${FPV}" --reverse_input_channels --input_shape=[1,224,224,3] --input=input --mean_values=input[127.5,127.5,127.5] --scale_values=input[127.00001206500114] --output=MobilenetV2/Predictions/Reshape_1
+		;;
+		"inception-resnet-v2.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/inception-resnet/v2/caffe/inception-resnet-v2.caffemodel || echo "[ERROR!] Can not found \"inception-resnet-v2.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/inception-resnet/v2/caffe/inception-resnet-v2.prototxt || echo "[ERROR!] Can not found \"inception-resnet-v2.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/mobilenet/v2/cf
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/inception-resnet/v2/caffe/inception-resnet-v2.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/inception-resnet/v2/caffe" --input_proto "${MODEL_LOC}/classification/inception-resnet/v2/caffe/inception-resnet-v2.prototxt" --data_type "${FPV}" --input_shape=[1,3,299,299] --input=data --mean_values=data[128.0,128.0,128.0] --scale_values=data[128.0] --output=prob
+		;;
+		"se-inception.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/se-networks/se-inception/caffe/se-inception.caffemodel || echo "[ERROR!] Can not found \"se-inception.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/se-networks/se-inception/caffe/se-inception.prototxt || echo "[ERROR!] Can not found \"se-inception.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-inception/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/se-networks/se-inception/caffe/se-inception.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-inception/caffe" --input_proto "${MODEL_LOC}/classification/se-networks/se-inception/caffe/se-inception.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
+		;;
+		"se-resnet-50.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnet-50/caffe/se-resnet-50.caffemodel || echo "[ERROR!] Can not found \"se-resnet-50.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnet-50/caffe/se-resnet-50.prototxt || echo "[ERROR!] Can not found \"se-resnet-50.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnet-50/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/se-networks/se-resnet-50/caffe/se-resnet-50.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnet-50/caffe" --input_proto "${MODEL_LOC}/classification/se-networks/se-resnet-50/caffe/se-resnet-50.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
+		;;
+		"se-resnet-101.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnet-101/caffe/se-resnet-101.caffemodel || echo "[ERROR!] Can not found \"se-resnet-101.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnet-101/caffe/se-resnet-101.prototxt || echo "[ERROR!] Can not found \"se-resnet-101.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnet-101/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/se-networks/se-resnet-101/caffe/se-resnet-101.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnet-101/caffe" --input_proto "${MODEL_LOC}/classification/se-networks/se-resnet-101/caffe/se-resnet-101.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
+		;;
+		"se-resnet-152.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnet-152/caffe/se-resnet-152.caffemodel || echo "[ERROR!] Can not found \"se-resnet-152.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnet-152/caffe/se-resnet-152.prototxt || echo "[ERROR!] Can not found \"se-resnet-152.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnet-152/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/se-networks/se-resnet-152/caffe/se-resnet-152.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnet-152/caffe" --input_proto "${MODEL_LOC}/classification/se-networks/se-resnet-152/caffe/se-resnet-152.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
+		;;
+		"se-resnext-50.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnext-50/caffe/se-resnext-50.caffemodel || echo "[ERROR!] Can not found \"se-resnext-50.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnext-50/caffe/se-resnext-50.prototxt || echo "[ERROR!] Can not found \"se-resnext-50.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnext-50/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/se-networks/se-resnext-50/caffe/se-resnext-50.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnext-50/caffe" --input_proto "${MODEL_LOC}/classification/se-networks/se-resnext-50/caffe/se-resnext-50.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
+		;;
+		"se-resnext-101.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnext-101/caffe/se-resnext-101.caffemodel || echo "[ERROR!] Can not found \"se-resnext-101.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/classification/se-networks/se-resnext-101/caffe/se-resnext-101.prototxt || echo "[ERROR!] Can not found \"se-resnext-101.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnext-101/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/classification/se-networks/se-resnext-101/caffe/se-resnext-101.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/classification/se-networks/se-resnext-101/caffe" --input_proto "${MODEL_LOC}/classification/se-networks/se-resnext-101/caffe/se-resnext-101.prototxt" --data_type "${FPV}" --input_shape=[1,3,224,224] --input=data --mean_values=data[104.0,117.0,123.0] --output=prob
 		;;
 	esac
 }
