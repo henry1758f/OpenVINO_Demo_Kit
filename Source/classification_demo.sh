@@ -6,7 +6,7 @@
 # 2019/06/18	henry1758f 1.1.2	add googlenetv1/v2/v4,Inceptionv3
 # 2019/06/18	henry1758f 1.2.0	add Test mode for performance testing
 # 2019/06/21	henry1758f 1.3.0	Enable all models
-
+# 2019/06/26	henry1758f 1.3.1	Fix some error
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -324,7 +324,7 @@ function model_0_choose()
 		"40")
 			echo " se-resnext-50.xml [FP16] ->"			
 			test -e ${seresnext50_fp16}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-50.caffemodel -fp16 && cp -r ./Source/labels/se-resnext/se-resnext-50.labels ${seresnext50_fp16})
-			MODEL_LOC=${seresnext50_fp16}/se-resnet-50.xml
+			MODEL_LOC=${seresnext50_fp16}/se-resnext-50.xml
 		;;
 		"41")
 			echo " se-resnext-101.xml [FP32] ->"			
