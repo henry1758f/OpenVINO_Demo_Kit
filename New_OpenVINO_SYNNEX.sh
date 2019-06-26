@@ -17,8 +17,9 @@
 # 2019/06/19	henry1758f 2.6.2	add vgg16/19 and fix automatic MO error in classification test mode
 # 2019/06/21	henry1758f 2.6.3	Enable all models
 # 2019/06/26	henry1758f 2.6.4	Fix error in classification demo
+# 2019/06/26	henry1758f 2.6.5	Fix error in classification demo
 
-export VERSION="2.6.4"
+export VERSION="2.6.5"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"

@@ -7,6 +7,7 @@
 # 2019/06/18	henry1758f 1.2.0	add Test mode for performance testing
 # 2019/06/21	henry1758f 1.3.0	Enable all models
 # 2019/06/26	henry1758f 1.3.1	Fix some error
+# 2019/06/26	henry1758f 1.3.2	Fix some error
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -49,7 +50,7 @@ export mobilenetv2_tf_fp16="${MODEL_LOC}/../../ir/FP16/classification/mobilenet/
 export seinception="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-inception/caffe"
 export seinception_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-inception/caffe"
 export seresnet50="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-50/caffe"
-export seresnet50_fp16="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-50/caffe"
+export seresnet50_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-50/caffe"
 export seresnet101="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-101/caffe"
 export seresnet101_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-101/caffe"
 export seresnet152="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-152/caffe"
@@ -389,11 +390,11 @@ function test_mode()
 	echo "Which model you want to test?"
 	read model
 	if [ "$model" == "all" ]; then
-		for ((i=39; i<=42; i=i+1))
+		for ((i=21; i<=46; i=i+1))
 		do
 			model_0_choose -Test $i
 			echo "Running ${MODEL_LOC} with $1 $2 $3 $4 $5 $6 $7"
-			for j in 1 # 2 3
+			for j in 1 #2 3
 			do
 				$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
 			done
