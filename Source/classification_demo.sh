@@ -8,6 +8,7 @@
 # 2019/06/21	henry1758f 1.3.0	Enable all models
 # 2019/06/26	henry1758f 1.3.1	Fix some error
 # 2019/06/26	henry1758f 1.3.2	Fix some error
+# 2019/07/04	henry1758f 1.4.0	Add default trick
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -357,6 +358,9 @@ function model_0_choose()
 			test -e ${vgg19_fp16}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp16 && cp -r ./Source/labels/vgg/vgg19.labels ${vgg19_fp16})
 			MODEL_LOC=${vgg19_fp16}/vgg19.xml
 		;;
+		"0")
+			return 1
+		;;
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC=${choose}
@@ -410,6 +414,18 @@ function test_mode()
 	cd $SAMPLE_LOC
 	
 }
+function set_default()
+{
+	echo " All model will run on CPU... "
+	MODEL_LOC=${squeezenet11}/squeezenet1.1.xml
+	I_SOURCE="/opt/intel/openvino/deployment_tools/demo/car.png"
+	TARGET_0="CPU"
+}
+function set_others()
+{
+	inference_D_choose
+	source_choose
+}
 
 clear
 banner_show
@@ -418,10 +434,7 @@ read ASYNC
 case $ASYNC in
 	"Y")
 		echo "[ASYNC API] Select Image Classification Model >>>"
-		model_0_choose
-		inference_D_choose
-		source_choose
-		
+		model_0_choose && set_others || set_default	
 		$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
 	;;
 	"Test")
@@ -434,9 +447,7 @@ case $ASYNC in
 	;;
 	*)
 		echo "Select Image Classification Model >>>"
-		model_0_choose
-		inference_D_choose
-		source_choose
+		model_0_choose && set_others || set_default	
 		$SAMPLE_LOC/classification_sample -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
 	;;
 esac
