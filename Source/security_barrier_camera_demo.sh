@@ -4,6 +4,7 @@
 # 2019/05/03	henry1758f 1.0.0	license-plate-recognition and turn model1 and 2 to options
 # 2019/05/03	henry1758f 1.0.1	Script Fixed
 # 2019/05/03	henry1758f 1.0.2	Script Fixed
+# 2019/07/04	henry1758f 1.1.0	Add default trick
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -39,6 +40,9 @@ function model_0_choose()
 			echo " vehicle-license-plate-detection-barrier-0106-fp16 ->"
 			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/barrier/0106/dldt/vehicle-license-plate-detection-barrier-0106-fp16.xml
 			inference_D_choose
+		;;
+		"0")
+			return 1
 		;;
 		*)
 			echo " Model PATH=${choose}"
@@ -137,13 +141,27 @@ function model_2_choose()
 		;;
 	esac
 }
-
+function set_default()
+{
+	echo " All model will run on CPU... "
+	MODEL_LOC_0="${MODEL_LOC}/Security/object_detection/barrier/0106/dldt/vehicle-license-plate-detection-barrier-0106.xml"
+	MODEL_LOC_1="-m_va ${MODEL_LOC}/Security/object_attributes/vehicle/resnet10_update_1/dldt/vehicle-attributes-recognition-barrier-0039.xml"
+	MODEL_LOC_2="-m_lpr ${MODEL_LOC}/Security/optical_character_recognition/license_plate/dldt/license-plate-recognition-barrier-0001.xml"
+	I_SOURCE="/opt/intel/openvino/deployment_tools/demo/car_1.bmp"
+	TARGET_0="CPU"
+}
+function set_others()
+{
+	model_1_choose
+	model_2_choose
+	model_3_choose
+	model_4_choose
+	source_choose
+}
 clear
 banner_show
-model_0_choose
-model_1_choose
-model_2_choose
-source_choose
+model_0_choose && set_others || set_default
+
 cd $SAMPLE_LOC
 echo "./security_barrier_camera_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2}"
 ./security_barrier_camera_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2}

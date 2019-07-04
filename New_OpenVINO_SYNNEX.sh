@@ -18,9 +18,10 @@
 # 2019/06/21	henry1758f 2.6.3	Enable all models
 # 2019/06/26	henry1758f 2.6.4	Fix error in classification demo
 # 2019/06/26	henry1758f 2.6.5	Fix error in classification demo
-# 2019/06/26	henry1758f 2.7.0	Add default trick in interactive_face_detection_demo
+# 2019/07/04	henry1758f 2.7.0	Add default trick in interactive_face_detection_demo
+# 2019/07/04	henry1758f 2.7.1	Add default trick in security_barrier_camera_demo
 
-export VERSION="2.7.0"
+export VERSION="2.7.1"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
