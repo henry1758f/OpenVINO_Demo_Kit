@@ -1,6 +1,7 @@
 # File: human_pose_estimation_demo.sh
 # 2019/04/22	henry1758f 0.0.1	First Create
 # 2019/04/30	henry1758f 1.0.0	Stable
+# 2019/07/04	henry1758f 1.1.0	Add default trick
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -30,6 +31,9 @@ function model_0_choose()
 			echo " human-pose-estimation-0001-fp16 ->"
 			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/human-pose-estimation-0001-fp16.xml
 		;;
+		"0")
+			return 1
+		;;
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC=${choose}
@@ -47,13 +51,23 @@ function source_choose()
 	echo " >> input \"cam\" for using camera as inference source, or typein the path to the source you want."
 	read I_SOURCE
 }
-
+function set_default()
+{
+	echo " All model will run on CPU... "
+	MODEL_LOC="${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/human-pose-estimation-0001.xml"
+	I_SOURCE="cam"
+	TARGET_0="CPU"
+}
+function set_others()
+{
+	inference_D_choose
+	source_choose
+}
 clear
 banner_show
 
 echo "Select Human Pose Estimation model >>>"
-model_0_choose
-inference_D_choose
-source_choose
+model_0_choose && set_others || set_default
+
 cd $SAMPLE_LOC
 ./human_pose_estimation_demo -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
