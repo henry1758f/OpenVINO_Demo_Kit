@@ -390,11 +390,11 @@ function test_mode()
 	echo "Which model you want to test?"
 	read model
 	if [ "$model" == "all" ]; then
-		for ((i=21; i<=46; i=i+1))
+		for ((i=1; i<=46; i=i+1))
 		do
 			model_0_choose -Test $i
 			echo "Running ${MODEL_LOC} with $1 $2 $3 $4 $5 $6 $7"
-			for j in 1 #2 3
+			for j in 1 2 3
 			do
 				$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
 			done
@@ -416,28 +416,28 @@ banner_show
 echo "With ASYNC Demo ??(Y/n) >>"
 read ASYNC
 case $ASYNC in
-		"Y")
-			echo "[ASYNC API] Select Image Classification Model >>>"
-			model_0_choose
-			inference_D_choose
-			source_choose
-			
-			$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
-		;;
-		"Test")
-			echo "[ASYNC API] Performance Test >>>"
-			echo "Which device you want to test?"
-			read device
-			
-			test_mode -d $device
-			
-		;;
-		*)
-			echo "Select Image Classification Model >>>"
-			model_0_choose
-			inference_D_choose
-			source_choose
-			$SAMPLE_LOC/classification_sample -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
-			;;
-	esac
+	"Y")
+		echo "[ASYNC API] Select Image Classification Model >>>"
+		model_0_choose
+		inference_D_choose
+		source_choose
+		
+		$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+	;;
+	"Test")
+		echo "[ASYNC API] Performance Test >>>"
+		echo "Which device you want to test?"
+		read device
+		
+		test_mode -d $device
+		
+	;;
+	*)
+		echo "Select Image Classification Model >>>"
+		model_0_choose
+		inference_D_choose
+		source_choose
+		$SAMPLE_LOC/classification_sample -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+	;;
+esac
 

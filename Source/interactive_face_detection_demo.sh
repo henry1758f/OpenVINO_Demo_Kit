@@ -2,6 +2,7 @@
 # File: interactive_face_detection_demo.sh
 # 2019/05/03	henry1758f 0.0.1	First Create
 # 2019/05/03	henry1758f 1.0.0	Stable and script fixed
+# 2019/07/04	henry1758f 1.1.0	Add default trick
 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
@@ -50,6 +51,9 @@ function model_0_choose()
 			echo " face-detection-retail-0004-fp16 ->"
 			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/face/sqnet1.0modif-ssd/0004/dldt/face-detection-retail-0004-fp16.xml
 			inference_D_choose
+		;;
+		"0")
+			return 1
 		;;
 		*)
 			echo " Model PATH=${choose}"
@@ -102,7 +106,7 @@ function model_1_choose()
 		;;
 		"3")
 			echo " PATH to your model ->"
-			MODEL_LOC_2="-m_ag ${choose}"
+			MODEL_LOC_1="-m_ag ${choose}"
 			inference_D1_choose
 		;;
 		*)
@@ -225,14 +229,31 @@ function model_4_choose()
 	esac
 }
 
+function set_default()
+{
+	echo " All model will run on CPU... "
+	MODEL_LOC_0="${MODEL_LOC}/Retail/object_detection/face/sqnet1.0modif-ssd/0004/dldt/face-detection-retail-0004.xml"
+	MODEL_LOC_1="-m_ag ${MODEL_LOC}/Retail/object_attributes/age_gender/dldt/age-gender-recognition-retail-0013.xml"
+	MODEL_LOC_2="-m_hp ${MODEL_LOC}/Transportation/object_attributes/headpose/vanilla_cnn/dldt/head-pose-estimation-adas-0001.xml"
+	MODEL_LOC_3="-m_em ${MODEL_LOC}/Retail/object_attributes/emotions_recognition/0003/dldt/emotions-recognition-retail-0003.xml"
+	MODEL_LOC_4="-m_lm ${MODEL_LOC}/Transportation/object_attributes/facial_landmarks/custom-35-facial-landmarks/dldt/facial-landmarks-35-adas-0002.xml"
+	I_SOURCE="cam"
+	TARGET_0="CPU"
+}
+function set_others()
+{
+	model_1_choose
+	model_2_choose
+	model_3_choose
+	model_4_choose
+}
+
 clear
 banner_show
-model_0_choose
-model_1_choose
-model_2_choose
-model_3_choose
-model_4_choose
+ 
+model_0_choose && set_others || set_default
+
 source_choose
 cd $SAMPLE_LOC
-echo "./interactive_face_detection_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4} -async"
-./interactive_face_detection_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4} -async
+echo "./interactive_face_detection_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4}"
+./interactive_face_detection_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4}
