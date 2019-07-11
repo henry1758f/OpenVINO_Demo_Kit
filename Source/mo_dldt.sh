@@ -10,6 +10,8 @@
 # 2019/06/19	henry1758f 1.0.7	fix googlenetv4
 # 2019/06/19	henry1758f 1.0.8	Add vgg16/19
 # 2019/06/21	henry1758f 1.0.9	Add resnet,resnext,se-inception
+# 2019/07/04	henry1758f 1.0.9	Add mobilenet-ssd
+# 2019/07/10	henry1758f 1.0.10	Add mtcnn
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
@@ -57,6 +59,14 @@ function MO()
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/
 			python3 ${MO_LOC}/mo_tf.py --input_model "${MODEL_LOC}/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28/frozen_inference_graph.pb" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28" --data_type "${FPV}" --tensorflow_use_custom_operations_config ${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/extensions/front/tf/ssd_v2_support.json --output="detection_boxes,detection_scores,num_detections" --tensorflow_object_detection_api_pipeline_config "${MODEL_LOC}/object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28/pipeline.config" 
 		;;
+		"mobilenet-ssd.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel || echo "[ERROR!] Can not found \"mobilenet-ssd.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.prototxt || echo "[ERROR!] Can not found \"mobilenet-ssd.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mobilenet-ssd/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mobilenet-ssd/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/mobilenet-ssd/caffe/mobilenet-ssd.prototxt" --data_type "${FPV}" 
+		;;
 		"ssd512.caffemodel")
 			target $2
 			test -e ${MODEL_LOC}/object_detection/common/ssd/512/caffe/ssd512.caffemodel || echo "[ERROR!] Can not found \"ssd512.caffemodel\" !!!"
@@ -73,6 +83,32 @@ function MO()
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe
 			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.prototxt" --data_type "${FPV}" 
 		;;
+		"mtcnn-o.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/object_detection/common/mtcnn/o/caffe/mtcnn-o.caffemodel || echo "[ERROR!] Can not found \"mtcnn-o.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/mtcnn/o/caffe/mtcnn-o.prototxt || echo "[ERROR!] Can not found \"mtcnn-o.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/o/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mtcnn/o/caffe/mtcnn-o.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/o/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/mtcnn/o/caffe/mtcnn-o.prototxt" --data_type "${FPV}" 
+		;;
+		"mtcnn-r.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/object_detection/common/mtcnn/r/caffe/mtcnn-r.caffemodel || echo "[ERROR!] Can not found \"mtcnn-r.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/mtcnn/r/caffe/mtcnn-r.prototxt || echo "[ERROR!] Can not found \"mtcnn-r.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/r/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mtcnn/o/caffe/mtcnn-r.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/r/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/mtcnn/r/caffe/mtcnn-r.prototxt" --data_type "${FPV}" 
+		;;
+		"mtcnn-p.caffemodel")
+			target $2
+			test -e ${MODEL_LOC}/object_detection/common/mtcnn/p/caffe/mtcnn-p.caffemodel || echo "[ERROR!] Can not found \"mtcnn-p.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/mtcnn/p/caffe/mtcnn-p.prototxt || echo "[ERROR!] Can not found \"mtcnn-p.prototxt\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/p/caffe
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mtcnn/p/caffe/mtcnn-p.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/p/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/mtcnn/p/caffe/mtcnn-p.prototxt" --data_type "${FPV}" 
+		;;
+
+
 		"squeezenet1.1.caffemodel")
 			target $2
 			test -e ${MODEL_LOC}/classification/squeezenet/1.1/caffe/squeezenet1.1.caffemodel || echo "[ERROR!] Can not found \"squeezenet1.1.caffemodel\" !!!"
