@@ -2,10 +2,11 @@
 # 2019/04/22	henry1758f 0.0.1	First Create
 # 2019/04/30	henry1758f 1.0.0	Stable
 # 2019/07/04	henry1758f 1.1.0	Add default trick
+# 2019/07/11	henry1758f 1.1.1	Fix Github Issue #14
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
-export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
+export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
+export MODEL_LOC=$(HOME)/openvino_models/models/SYNNEX_demo
 
 
 function banner_show()

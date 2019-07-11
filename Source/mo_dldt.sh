@@ -11,11 +11,12 @@
 # 2019/06/19	henry1758f 1.0.8	Add vgg16/19
 # 2019/06/21	henry1758f 1.0.9	Add resnet,resnext,se-inception
 # 2019/07/04	henry1758f 1.0.9	Add mobilenet-ssd
-# 2019/07/10	henry1758f 1.0.10	Add mtcnn
+# 2019/07/11	henry1758f 1.0.10	Add mtcnn
+# 2019/07/11	henry1758f 1.0.11	Fix Github Issue #14
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
-export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
+export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
+export MODEL_LOC=$(HOME)/openvino_models/models/SYNNEX_demo
 export MO_LOC=/opt/intel/openvino/deployment_tools/model_optimizer
 export FPV="FP32"
 function target()

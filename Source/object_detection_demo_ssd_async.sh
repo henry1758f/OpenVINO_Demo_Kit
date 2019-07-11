@@ -4,9 +4,11 @@
 # 2019/05/30	henry1758f 1.1.0	Add ssd_mobilenet_v1,ssd512 and ssd300. Support labels.
 # 2019/05/30	henry1758f 1.1.1	Add mobilenet-ssd but without labels.
 # 2019/07/11	henry1758f 1.1.2	Add mtcnn_o/p/r but without labels.
+# 2019/07/11	henry1758f 1.1.3	Fix Github Issue #14
+
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="/home/$(whoami)/inference_engine_samples_build/intel64/Release"
-export MODEL_LOC=/home/$(whoami)/openvino_models/models/SYNNEX_demo
+export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
+export MODEL_LOC=$(HOME)/openvino_models/models/SYNNEX_demo
 
 export ssd_mobilenet_v2_coco_frozen="${MODEL_LOC}/../../ir/FP32/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29"
 export ssd_mobilenet_v2_coco_frozen_fp16="${MODEL_LOC}/../../ir/FP16/object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29"
