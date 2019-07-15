@@ -113,9 +113,40 @@ This demo showcases Object Detection task applied for face recognition using seq
   For more information, please visit [Smart Classroom Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-20) on Intel's Website
 * * * * 
 # Sample Build
+If you have successfully build the openVINO sample, the terminal will show as following
 
+    3. Sample Build.(Done!)
+    
+If not yet, It will not show "Done!" and those sample code need to be build in order to run the samples.
+type in "3" and press "Enter" key, Those sample code will be build automatically.
 
 * * * * 
 # Model Downloader
+In openVINO sample application, DLDT models usually needed. If you have not downloaded those necessary models, you have to run the downloader.
 
+In the Model Downloader Interface, there are 4 options
+
+    |=========================================|
+    |  SYNNEX TECHNOLOGY INTERNATIONAL CORP.  |
+    |                                         |
+    |            Model Downloader             |
+    |=========================================|
+      Ver. 0.X.X | Support OpenVINO v2019.X.XXX
+    1. Download all from DLDT.
+    2. Typein specific DLDT model.
+    3. Typein an URL of the model.
+    4. EXIT the downloader.
+### 1. Download all from DLDT.
+
+ This option will download all the model list on model downloader's yml file, more than 9.6GB models and IR file will be download, please make sure there's enough free space for these files.
+
+### 2. Typein specific DLDT model.
+
+ This option will show you all the available models on the list, you can copy the name of the model and type in the model name to download specific model.
+
+### 3. Typein an URL of the model.
+
+ This option will download the file directly refer to the URL that type in.
+
+### 4. EXIT the downloader.
 * * * * 
