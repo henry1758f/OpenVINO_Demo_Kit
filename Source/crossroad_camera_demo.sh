@@ -2,10 +2,10 @@
 # File: crossroad_camera_demo.sh
 # 2019/05/03	henry1758f 0.0.1	First Create
 # 2019/07/11	henry1758f 0.0.2	Fix Github Issue #14
-
+# 2019/07/15	henry1758f 0.0.3	Bug Fixed
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
-export MODEL_LOC=$(HOME)/openvino_models/models/SYNNEX_demo
+export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
+export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
 
 function banner_show()
 {

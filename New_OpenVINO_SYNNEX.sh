@@ -24,11 +24,14 @@
 # 2019/07/04	henry1758f 2.7.3	Add default trick in human_pose_estimation_demo
 # 2019/07/10	henry1758f 2.7.4	Add mtcnn_o/p/r but without labels in object dection ssd demo
 # 2019/07/11	henry1758f 2.7.5	Fix Github Issue #14
+# 2019/07/15	henry1758f 2.7.6	Bug Fixed in security_barrier_camera_demo.
+# 2019/07/15	henry1758f 2.7.7	Bug Fixed for 2.7.5 path error
+# 2019/07/15	henry1758f 2.7.8	Fix the sample cannot be compile while there's no sample app folder
 
-export VERSION="2.7.5"
+export VERSION="2.7.8"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
+export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export Source_Sample_Build="./Source/sample_build.sh"
 export Source_Model_Downloader="./Source/model_downloader.sh"
 export SOURCE=./Source/

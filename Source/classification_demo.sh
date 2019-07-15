@@ -10,10 +10,11 @@
 # 2019/06/26	henry1758f 1.3.2	Fix some error
 # 2019/07/04	henry1758f 1.4.0	Add default trick
 # 2019/07/11	henry1758f 1.4.1	Fix Github Issue #14
+# 2019/07/15	henry1758f 1.4.2	Bug Fixed
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
-export MODEL_LOC=$(HOME)/openvino_models/models/SYNNEX_demo
+export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
+export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
 
 export squeezenet11="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/caffe"
 export squeezenet11_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.1/caffe"

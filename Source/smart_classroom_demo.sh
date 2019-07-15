@@ -2,10 +2,11 @@
 # 2019/05/06	henry1758f 0.0.1	First Create
 # 2019/05/08	henry1758f 0.1.0	demo can be executed but only face-detection
 # 2019/07/11	henry1758f 0.1.1	Fix Github Issue #14
+# 2019/07/15	henry1758f 0.1.2	Bug Fixed.
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
-export MODEL_LOC=$(HOME)/openvino_models/models/SYNNEX_demo
+export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
+export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
 
 function banner_show()
 {

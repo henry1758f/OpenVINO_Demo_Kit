@@ -15,8 +15,8 @@
 # 2019/07/11	henry1758f 1.0.11	Fix Github Issue #14
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
-export SAMPLE_LOC="$(HOME)/inference_engine_samples_build/intel64/Release"
-export MODEL_LOC=$(HOME)/openvino_models/models/SYNNEX_demo
+export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
+export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
 export MO_LOC=/opt/intel/openvino/deployment_tools/model_optimizer
 export FPV="FP32"
 function target()
