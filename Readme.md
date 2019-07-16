@@ -37,7 +37,7 @@
       >> CPU(FP32),GPU(FP32/16),MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device.
    Just type in "CPU","GPU","MYRIAD","HDDL"... to assign your inference device.
 
-**Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml)**
+**Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml), GPU support FP32 and FP16(Recommanded), MYRIAD support FP16**
 #### Select a Vehicle Attributes recognition model
 * After you choosing the vehicle and license detection model and assign to hardware inference device, It will ask you to choose Vehicle Attributes recognition model:
 
@@ -50,7 +50,7 @@
   
   You can also just press "Enter" without keyin any words to ignore this step. 
   If you ignore this step, the demo application won't do Vehicle Attributes recognition.
-* After you choose the Vehicle Attributes recognition model, it will also ask you what device you want to inference 
+* After you choose the Vehicle Attributes recognition model, it will also ask you which device you want to inference 
 #### Select a License Plate Recognition model
 * After you choosing the Vehicle Attributes recognition model and assign to hardware inference device, It will ask you to choose License Plate Recognition model:
 
@@ -61,7 +61,7 @@
       >> Or press ENTER to ignore it. "
   Just follow the same way before.
 #### Setup the input data
-* After you choosing the License Plate Recognition model and assign to hardware inference device, you should setup an input data for model and application to inference:
+* After you choose the License Plate Recognition model and assign to hardware inference device, you should setup an input data for model and application to inference:
       >> input "cam" for using camera as inference source,"0" for default Source, or typein the path to the source you want.
       
 
@@ -77,6 +77,88 @@ This demo showcases Object Detection task applied for face recognition using seq
 
   For more information, please visit [Interactive Face Detection Demo]( https://docs.openvinotoolkit.org/latest/_inference_engine_samples_interactive_face_detection_demo_README.html) on Intel's Website
 
+### How to run the demo
+#### Select a Face Detection model
+* After type in the number of interactive_face_detection_demo, pressed the enter key, the terminal would ask you to select a Face Detection model, and give you a list that is available to choose:
+
+      [Select a Face Detection model.]
+      >> 1. face-detection-adas-0001 
+      >> 2. face-detection-adas-0001-fp16 
+      >> 3. face-detection-retail-0004
+      >> 4. face-detection-retail-0004-fp16
+      >> Or input a path to your model 
+
+  At this moment, you can type in the represent number to choose which dldt model you want to inference to detect Human face,
+  You can also type in the direct PATH to the model you want to use.
+
+     *There's a trick that type-in "0" then press enter, it will choose the default model of Face Detection model, Age gender recognition model, Headpose Estimation model, Emotions recognition model  and Facial Landmarks model, set all running on CPU and load camera as input source(Make sure you have camera connect to your device.). This trick can quickly run this demo.* 
+     __In this demo case,  running totally 5 models on the same device may cause lower performance__
+     
+* After you choose the Face Detection model, it will ask you which device you want to inference 
+
+      >> CPU(FP32),GPU(FP32/16),MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device.
+   Just type in "CPU","GPU","MYRIAD","HDDL"... to assign your inference device.
+
+**Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml), GPU support FP32 and FP16(Recommanded), MYRIAD/HDDL support FP16**
+#### Select a Age gender recognition model
+* After you choose the Face Detection model and assign to hardware inference device, It will ask you to choose Age gender recognition model:
+
+      [Select a Age gender recognition model.]
+      >> 1. age-gender-recognition-retail-0013 
+      >> 2. age-gender-recognition-retail-0013-fp16 
+      >> 3. input a path to your model 
+      >> Or press ENTER to ignore it. 
+  Just like choosing vehicle and license detection model, input the represent number of the dldt model or type in the PATH by yourself to load your model. 
+  
+  You can also just press "Enter" without keyin any words to ignore this step. 
+  If you ignore this step, the demo application won't do Age gender recognition.
+* After you choose the Age gender recognition model, it will also ask you which device you want to inference 
+#### Select a Headpose Estimation model
+* After you choose the Age gender recognition model and assign to hardware inference device, It will ask you to choose Headpose Estimation model:
+
+      [Select a Headpose Estimation model.]
+      >> 1. head-pose-estimation-adas-0001 
+      >> 2. head-pose-estimation-adas-0001-fp16 
+      >> 3. input a path to your model 
+      >> Or press ENTER to ignore it. 
+  Just like choosing Age gender recognition model, input the represent number of the dldt model or type in the PATH by yourself to load your model. 
+  
+  You can also just press "Enter" without keyin any words to ignore this step. 
+  If you ignore this step, the demo application won't do Headpose Estimation.
+* After you choose the Headpose Estimation model, it will also ask you which device you want to inference 
+#### Select a Emotions recognition model
+* After you choose the Headpose Estimation model and assign to hardware inference device, It will ask you to choose Emotions recognition model:
+
+      [Select a Emotions recognition model.]
+      >> 1. emotions-recognition-retail-0003 
+      >> 2. emotions-recognition-retail-0003-fp16 
+      >> 3. input a path to your model 
+      >> Or press ENTER to ignore it. 
+  Just like choosing Headpose Estimation model, input the represent number of the dldt model or type in the PATH by yourself to load your model. 
+  
+  You can also just press "Enter" without keyin any words to ignore this step. 
+  If you ignore this step, the demo application won't do Emotions recognition.
+* After you choose the Emotions recognition model, it will also ask you which device you want to inference 
+#### Select a Facial Landmarks model
+* After you choose the Emotions recognition model and assign to hardware inference device, It will ask you to choose Facial Landmarks model:
+
+      [Select a Facial Landmarks model.]
+      >> 1. facial-landmarks-35-adas-0002 
+      >> 2. facial-landmarks-35-adas-0002-fp16 
+      >> 3. input a path to your model 
+      >> Or press ENTER to ignore it. 
+  Just like choosing Emotions recognition model, input the represent number of the dldt model or type in the PATH by yourself to load your model. 
+  
+  You can also just press "Enter" without keyin any words to ignore this step. 
+  If you ignore this step, the demo application won't do Facial Landmarks.
+* After you choose the Emotions recognition model, it will also ask you which device you want to inference 
+#### Setup the input data
+* After you choose the License Plate Recognition model and assign to hardware inference device, you should setup an input data for model and application to inference:
+      >> input "cam" for using camera as inference source,"0" for default Source, or typein the path to the source you want.
+      
+1. Input "cam" or "0": Set the defalut camera that install on your system as an input video stream. 
+  
+2. Input an image, video or camera file location as an input image/video. Multiple source is __NOT__ available for this demo case.
 ## 3. classification_demo
   This topic demonstrates how to run the Image Classification sample application, which does inference using image classification networks like AlexNet* and GoogLeNet*.
   
