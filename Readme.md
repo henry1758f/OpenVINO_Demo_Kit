@@ -163,7 +163,66 @@ This demo showcases Object Detection task applied for face recognition using seq
   This topic demonstrates how to run the Image Classification sample application, which does inference using image classification networks like AlexNet* and GoogLeNet*.
   
   For more information, please visit [Image Classification Sample async](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_classification_sample_async_README.html) and [Image Classification Sample](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_classification_sample_README.html) on Intel's Website
-    
+
+### How to run the demo
+#### Select to Use ASYNC API demo case or not
+* OpenVINO image classification sample code has async show case, which can increase the performance of the result. for more detailed  information about async api, please refer to [this website](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_object_detection_demo_ssd_async_README.html)
+* After type in the number of classification_demo, pressed the "Enter" key, the terminal would ask you:
+
+      With ASYNC Demo ??(Y/n) >>
+  Key-in "Y" to run with async api, "n" to run without async. Then hit "Enter".
+#### Select an image classification model
+* In this demo, there are over 23 kinds of neural network topology list on terminal:
+         
+       [ASYNC API] Select Image Classification Model >>>
+       1. squeezenet1.1.xml [FP32]
+       2. squeezenet1.1.xml [FP16] File lost! Need to Download and Transfer to IR
+       3. squeezenet1.0.xml [FP32]	File lost! Need to Download and Transfer to IR
+       4. squeezenet1.0.xml [FP16] File lost! Need to Download and Transfer to IR
+       5. alexnet.xml [FP32]
+       6. alexnet.xml [FP16]
+       7. densenet-201.xml [FP32]
+       8. densenet-201.xml [FP16]
+       9. densenet-169.xml [FP32]
+      10. densenet-169.xml [FP16]
+      11. densenet-161.xml [FP32]
+      12 . densenet-161.xml [FP16]
+      13. densenet-121.xml [FP32]
+      14. densenet-121.xml [FP16]
+      15. googlenet-v1.xml [FP32]
+                ...
+      42. se-resnext-101.xml [FP16]
+      43. vgg16.xml [FP32] File lost! Need to Download and Transfer to IR
+      44. vgg16.xml [FP16]
+      45. vgg19.xml [FP32] File lost! Need to Download and Transfer to IR
+      46. vgg19.xml [FP16]
+       >> Or input a path to your model 
+   each neural network topology has FP16 and FP32 datatype can be select.
+* If there's a message shows 
+
+      "File lost! Need to Download and Transfer to IR"
+  , means the model hasn't transfer to IR format yet, so the IR file cannot been detect. If that's the model you want to inference, just key in the number of that model, it will try to run model optimizer to convert the original caffe or tensorflow model to IR format automatically. Then run the sample application with the model you choose.
+  
+      Top 10 results:
+      Image /opt/intel/openvino/deployment_tools/demo/car.png
+      classid probability label
+      ------- ----------- -----
+      817     0.8363345   sports car, sport car
+      511     0.0946488   convertible
+      479     0.0419131   car wheel
+      751     0.0091071   racer, race car, racing car
+      436     0.0068161   beach wagon, station wagon, wagon, estate car, beach waggon, station waggon, waggon
+      656     0.0037564   minivan
+      586     0.0025741   half track
+      717     0.0016069   pickup, pickup truck
+      864     0.0012027   tow truck, tow car, wrecker
+      581     0.0005882   grille, radiator grille
+
+      total inference time: 2162.6696587
+      Throughput: 462.3914688 FPS
+      [ INFO ] Execution successful
+Finally, the top 10 classification result and the inference throughput will printed in terminal.
+
 ## 4. Human Pose Estimation Demo.
   This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees, and ankles. Some of potential use cases of the algorithm are action recognition and behavior understanding.
   
