@@ -37,7 +37,7 @@
       >> CPU(FP32),GPU(FP32/16),MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device.
    Just type in "CPU","GPU","MYRIAD","HDDL"... to assign your inference device.
 
-**Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml), GPU support FP32 and FP16(Recommanded), MYRIAD support FP16**
+   **Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml), GPU support FP32 and FP16(Recommanded), MYRIAD support FP16**
 #### Select a Vehicle Attributes recognition model
 * After you choosing the vehicle and license detection model and assign to hardware inference device, It will ask you to choose Vehicle Attributes recognition model:
 
@@ -99,7 +99,7 @@ This demo showcases Object Detection task applied for face recognition using seq
       >> CPU(FP32),GPU(FP32/16),MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device.
    Just type in "CPU","GPU","MYRIAD","HDDL"... to assign your inference device.
 
-**Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml), GPU support FP32 and FP16(Recommanded), MYRIAD/HDDL support FP16**
+   **Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml), GPU support FP32 and FP16(Recommanded), MYRIAD/HDDL support FP16**
 #### Select a Age gender recognition model
 * After you choose the Face Detection model and assign to hardware inference device, It will ask you to choose Age gender recognition model:
 
@@ -227,6 +227,32 @@ Finally, the top 10 classification result and the inference throughput will prin
   This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees, and ankles. Some of potential use cases of the algorithm are action recognition and behavior understanding.
   
   For more information, please visit [Human Pose Estimation Demo](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_human_pose_estimation_demo_README.html) on Intel's Website
+  
+### How to run the demo
+#### Select a Human Pose Estimation model
+* After type in the number of Human Pose Estimation Demo, pressed the enter key, the terminal would ask you to select a Human Pose Estimation model, and give you a list that is available to choose:
+
+      [Select a Human Pose Estimation model]
+      >> 1. human-pose-estimation-0001 
+      >> 2. human-pose-estimation-0001-fp16 
+      >> Or input a path to your model 
+  At this moment, you can type in the represent number to choose which dldt model you want to inference to Estimate Human Pose,
+  You can also type in the direct PATH to the model you want to use.
+  
+* After you choose the Emotions recognition model, it will also ask you which device you want to inference 
+
+      >> CPU(FP32),GPU(FP32/16),MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device.
+   Just type in "CPU","GPU","MYRIAD","HDDL"... to assign your inference device.
+
+   **Whatever you choose the default dldt model or the model your own, if you want to inference on CPU it can only support FP32 and INT8 format IR file(.xml), GPU support FP32 and FP16(Recommanded), MYRIAD/HDDL support FP16**
+
+#### Setup the input data
+* After you choose the Human Pose Estimation model and assign to hardware inference device, you should setup an input data for model and application to inference:
+      >> input "cam" for using camera as inference source,"0" for default Source, or typein the path to the source you want.
+      
+1. Input "cam" or "0": Set the defalut camera that install on your system as an input video stream. 
+  
+2. Input an image, video or camera file location as an input image/video. Multiple source is __NOT__ available for this demo case.
   
 ## 5. Object Detection SSD Demo
   This demonstration showcases Object Detection with SSD and new Async API. Async API usage can improve overall frame-rate of the application, because rather than wait for inference to complete, the app can continue doing things on the host, while accelerator is busy. Specifically, this demonstration keeps two parallel infer requests and while the current is processed, the input frame for the next is being captured. 
