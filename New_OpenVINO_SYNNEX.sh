@@ -27,8 +27,10 @@
 # 2019/07/15	henry1758f 2.7.6	Bug Fixed in security_barrier_camera_demo.
 # 2019/07/15	henry1758f 2.7.7	Bug Fixed for 2.7.5 path error
 # 2019/07/15	henry1758f 2.7.8	Fix the sample cannot be compile while there's no sample app folder
+# 2019/07/18	henry1758f 2.7.9	Bug Fix in Object detection
 
-export VERSION="2.7.8"
+
+export VERSION="2.7.9"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"

@@ -6,6 +6,7 @@
 # 2019/07/11	henry1758f 1.1.2	Add mtcnn_o/p/r but without labels.
 # 2019/07/11	henry1758f 1.1.3	Fix Github Issue #14
 # 2019/07/15	henry1758f 1.1.4	Bug Fixed
+# 2019/07/18	henry1758f 1.1.5	Bug Fixed
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -136,7 +137,7 @@ function model_0_choose()
 		;;
 		"11")
 			echo " mtcnn-o.xml [FP32] ->"
-			test -e ${mtcnn_o}/mtcnn-o.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-o.caffemodel -fp32
+			test -e ${mtcnn_o}/mtcnn-o.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-o.caffemodel -fp32)
 			MODEL_LOC_0=${mtcnn_o}/mtcnn-o.xml
 			inference_D_choose
 		;;
@@ -148,7 +149,7 @@ function model_0_choose()
 		;;
 		"13")
 			echo " mtcnn-p.xml [FP32] ->"
-			test -e ${mtcnn_p}/mtcnn-p.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-p.caffemodel -fp32
+			test -e ${mtcnn_p}/mtcnn-p.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-p.caffemodel -fp32)
 			MODEL_LOC_0=${mtcnn_p}/mtcnn-p.xml
 			inference_D_choose
 		;;
@@ -160,7 +161,7 @@ function model_0_choose()
 		;;
 		"15")
 			echo " mtcnn-r.xml [FP32] ->"
-			test -e ${mtcnn_r}/mtcnn-r.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-r.caffemodel -fp32
+			test -e ${mtcnn_r}/mtcnn-r.xml || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-r.caffemodel -fp32)
 			MODEL_LOC_0=${mtcnn_r}/mtcnn-r.xml
 			inference_D_choose
 		;;
