@@ -3,6 +3,7 @@
 # 2019/05/03	henry1758f 0.0.1	First Create
 # 2019/07/11	henry1758f 0.0.2	Fix Github Issue #14
 # 2019/07/15	henry1758f 0.0.3	Bug Fixed
+# 2019/07/18	henry1758f 1.0.0	Add some model options for Person Reidentification model and quick demo trick.
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
@@ -37,6 +38,9 @@ function model_0_choose()
 			echo " person-vehicle-bike-detection-crossroad-0078-fp16 ->"
 			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/crossroad/0078/dldt/person-vehicle-bike-detection-crossroad-0078-fp16.xml
 			inference_D_choose
+		;;
+		"0")
+			return 1
 		;;
 		*)
 			echo " Model PATH=${choose}"
@@ -126,6 +130,26 @@ function model_2_choose()
 			inference_D2_choose
 		;;
 		"3")
+			echo " person-reidentification-retail-0076 ->"
+			MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0076/dldt/person-reidentification-retail-0076.xml"
+			inference_D2_choose
+		;;
+		"4")
+			echo " person-reidentification-retail-0076-fp16 ->"
+			MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0076/dldt/person-reidentification-retail-0076-fp16.xml"
+			inference_D2_choose
+		;;
+		"5")
+			echo " person-reidentification-retail-0031 ->"
+			MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0031/dldt/person-reidentification-retail-0031.xml"
+			inference_D2_choose
+		;;
+		"6")
+			echo " person-reidentification-retail-0031-fp16 ->"
+			MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0031/dldt/person-reidentification-retail-0031-fp16.xml"
+			inference_D2_choose
+		;;
+		"7")
 			echo " PATH to your model ->"
 			MODEL_LOC_2="-m_reid ${choose}"
 			inference_D2_choose
@@ -135,13 +159,28 @@ function model_2_choose()
 		;;
 	esac
 }
-
+function set_default()
+{
+	echo " All model will run on CPU... "
+	MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/crossroad/0078/dldt/person-vehicle-bike-detection-crossroad-0078.xml
+	MODEL_LOC_1="-m_pa ${MODEL_LOC}/Security/object_attributes/pedestrian/person-attributes-recognition-crossroad-0230/dldt/person-attributes-recognition-crossroad-0230.xml"
+	MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0079/dldt/person-reidentification-retail-0079.xml"
+	I_SOURCE="cam"
+	TARGET_0="CPU"
+	TARGET_1="CPU"
+	TARGET_2="CPU"
+}
+function set_others()
+{
+	inference_D_choose
+	model_1_choose
+	model_2_choose
+	source_choose
+}
 clear
 banner_show
-model_0_choose
-model_1_choose
-model_2_choose
-source_choose
+model_0_choose && set_others || set_default
+
 cd $SAMPLE_LOC
 echo "./crossroad_camera_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2}"
 ./crossroad_camera_demo -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2}
