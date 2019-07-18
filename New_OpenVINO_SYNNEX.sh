@@ -28,9 +28,11 @@
 # 2019/07/15	henry1758f 2.7.7	Bug Fixed for 2.7.5 path error
 # 2019/07/15	henry1758f 2.7.8	Fix the sample cannot be compile while there's no sample app folder
 # 2019/07/18	henry1758f 2.7.9	Bug Fix in Object detection
+# 2019/07/18	henry1758f 2.8.0	fixed ssd300/512 location error, add faster_rcnn and some DLDT pretrain models in Object detection Demo
 
 
-export VERSION="2.7.9"
+
+export VERSION="2.8.0"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
