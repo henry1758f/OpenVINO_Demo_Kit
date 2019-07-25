@@ -13,6 +13,7 @@
 # 2019/07/04	henry1758f 1.0.9	Add mobilenet-ssd
 # 2019/07/11	henry1758f 1.0.10	Add mtcnn
 # 2019/07/11	henry1758f 1.0.11	Fix Github Issue #14
+# 2019/07/18	henry1758f 1.0.12	Fix ssd300/512 location and add faster_rcnn
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -70,19 +71,19 @@ function MO()
 		;;
 		"ssd512.caffemodel")
 			target $2
-			test -e ${MODEL_LOC}/object_detection/common/ssd/512/caffe/ssd512.caffemodel || echo "[ERROR!] Can not found \"ssd512.caffemodel\" !!!"
-			test -e ${MODEL_LOC}/object_detection/common/ssd/512/caffe/ssd512.prototxt || echo "[ERROR!] Can not found \"ssd512.prototxt\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/ssd/512/caffe/models/VGGNet/VOC0712Plus/SSD_512x512/VGG_VOC0712Plus_SSD_512x512_iter_240000.caffemodel || echo "[ERROR!] Can not found \"VGG_VOC0712Plus_SSD_512x512_iter_240000.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/ssd/512/caffe/models/VGGNet/VOC0712Plus/SSD_512x512/deploy.prototxt || echo "[ERROR!] Can not found \"deploy.prototxt\" !!!"
 
-			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/512/caffe
-			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/ssd/512/caffe/ssd512.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/512/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/ssd/512/caffe/ssd512.prototxt" --data_type "${FPV}" 
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/512/caffe/models/VGGNet/VOC0712Plus/SSD_512x512
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/ssd/512/caffe/models/VGGNet/VOC0712Plus/SSD_512x512/VGG_VOC0712Plus_SSD_512x512_iter_240000.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/512/caffe/models/VGGNet/VOC0712Plus/SSD_512x512" --input_proto "${MODEL_LOC}/object_detection/common/ssd/512/caffe/models/VGGNet/VOC0712Plus/SSD_512x512/deploy.prototxt" --data_type "${FPV}" 
 		;;
 		"ssd300.caffemodel")
 			target $2
-			test -e ${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.caffemodel || echo "[ERROR!] Can not found \"ssd300.caffemodel\" !!!"
-			test -e ${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.prototxt || echo "[ERROR!] Can not found \"ssd300.prototxt\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/ssd/300/caffe/models/VGGNet/VOC0712Plus/SSD_300x300_ft/VGG_VOC0712Plus_SSD_300x300_ft_iter_160000.caffemodel || echo "[ERROR!] Can not found \"VGG_VOC0712Plus_SSD_300x300_ft_iter_160000.caffemodel\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/ssd/300/caffe/models/VGGNet/VOC0712Plus/SSD_300x300_ft/deploy.prototxt || echo "[ERROR!] Can not found \"deploy.prototxt\" !!!"
 
-			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe
-			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/ssd/300/caffe/ssd300.prototxt" --data_type "${FPV}" 
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe/models/VGGNet/VOC0712Plus/SSD_300x300_ft
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/ssd/300/caffe/models/VGGNet/VOC0712Plus/SSD_300x300_ft/VGG_VOC0712Plus_SSD_300x300_ft_iter_160000.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/ssd/300/caffe/models/VGGNet/VOC0712Plus/SSD_300x300_ft" --input_proto "${MODEL_LOC}/object_detection/common/ssd/300/caffe/models/VGGNet/VOC0712Plus/SSD_300x300_ft/deploy.prototxt" --data_type "${FPV}" 
 		;;
 		"mtcnn-o.caffemodel")
 			target $2
@@ -107,6 +108,22 @@ function MO()
 
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/p/caffe
 			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mtcnn/p/caffe/mtcnn-p.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/p/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/mtcnn/p/caffe/mtcnn-p.prototxt" --data_type "${FPV}" 
+		;;
+		"faster_rcnn_inception_v2.pb")
+			target $2
+			test -e ${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_inception_v2_coco/tf/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb || echo "[ERROR!] Can not found \"frozen_inference_graph.pb\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_inception_v2_coco/tf/faster_rcnn_inception_v2_coco_2018_01_28/pipeline.config || echo "[ERROR!] Can not found \"pipeline.config\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/faster_rcnn/faster_rcnn_inception_v2_coco/tf/faster_rcnn_inception_v2_coco_2018_01_28
+			python3 ${MO_LOC}/mo_tf.py --input_model "${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_inception_v2_coco/tf/faster_rcnn_inception_v2_coco_2018_01_28/frozen_inference_graph.pb" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/faster_rcnn/faster_rcnn_inception_v2_coco/tf/faster_rcnn_inception_v2_coco_2018_01_28" --data_type "${FPV}" --tensorflow_object_detection_api_pipeline_config "${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_inception_v2_coco/tf/faster_rcnn_inception_v2_coco_2018_01_28/pipeline.config" --input_shape=[1,600,600,3] --tensorflow_use_custom_operations_config=${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/extensions/front/tf/faster_rcnn_support.json --input=image_tensor --output=detection_scores,detection_boxes,num_detections
+		;;
+		"faster_rcnn_resnet101.pb")
+			target $2
+			test -e ${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_resnet101_coco/tf/faster_rcnn_resnet101_coco_2018_01_28/frozen_inference_graph.pb || echo "[ERROR!] Can not found \"frozen_inference_graph.pb\" !!!"
+			test -e ${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_resnet101_coco/tf/faster_rcnn_resnet101_coco_2018_01_28/pipeline.config || echo "[ERROR!] Can not found \"pipeline.config\" !!!"
+
+			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/faster_rcnn/faster_rcnn_resnet101_coco/tf/faster_rcnn_resnet101_coco_2018_01_28
+			python3 ${MO_LOC}/mo_tf.py --input_model "${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_resnet101_coco/tf/faster_rcnn_resnet101_coco_2018_01_28/frozen_inference_graph.pb" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/faster_rcnn/faster_rcnn_resnet101_coco/tf/faster_rcnn_resnet101_coco_2018_01_28" --data_type "${FPV}" --tensorflow_object_detection_api_pipeline_config "${MODEL_LOC}/object_detection/common/faster_rcnn/faster_rcnn_resnet101_coco/tf/faster_rcnn_resnet101_coco_2018_01_28/pipeline.config" --input_shape=[1,600,600,3] --tensorflow_use_custom_operations_config=${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/extensions/front/tf/faster_rcnn_support.json --input=image_tensor --output=detection_scores,detection_boxes,num_detections
 		;;
 
 
