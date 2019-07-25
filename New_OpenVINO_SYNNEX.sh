@@ -4,9 +4,10 @@
 # 2019/07/25	henry1758f 2.10.0	Add super_resolution_demo
 # 2019/07/25	henry1758f 3.0.0-beta.0	fit OpenVINO 2019R2 - sample build and model downloader
 # 2019/07/25	henry1758f 3.0.0-beta.1	fit OpenVINO 2019R2 - security_barrier_camera_demo
+# 2019/07/25	henry1758f 3.0.0-beta.2	fit OpenVINO 2019R2 - interactive_face_detection_demo
 
 
-export VERSION="3.0.0-beta.0"
+export VERSION="3.0.0-beta.2"
 export VERSION_VINO="v2019.2.242"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -23,7 +24,7 @@ function Inference_Engine_Sample_List()
 	echo "|                                         |"
 	echo "|=========================================|"
 	echo ""
-	echo "  1. security_barrier_camera_demo (TBD)"
+	echo "  1. security_barrier_camera_demo."
 	echo "  2. interactive_face_detection_demo (TBD)"
 	echo "  3. classification_demo (TBD)"
 	echo "  4. Human Pose Estimation Demo (TBD)"
