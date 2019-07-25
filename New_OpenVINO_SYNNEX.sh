@@ -2,7 +2,8 @@
 # File: OpenVINO_demo_SYNNEX.sh
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/07/25	henry1758f 2.10.0	Add super_resolution_demo
-# 2019/07/25	henry1758f 3.0.0-beta.0	fit OpenVINO 2019R2
+# 2019/07/25	henry1758f 3.0.0-beta.0	fit OpenVINO 2019R2 - sample build and model downloader
+# 2019/07/25	henry1758f 3.0.0-beta.1	fit OpenVINO 2019R2 - security_barrier_camera_demo
 
 
 export VERSION="3.0.0-beta.0"
@@ -113,7 +114,7 @@ function feature_choose()
 			banner_show
 			feature_choose
 		;;
-		"")
+		"3")
 			$Source_Model_Downloader
 			clear
 			banner_show
