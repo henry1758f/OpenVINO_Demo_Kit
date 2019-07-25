@@ -29,10 +29,11 @@
 # 2019/07/15	henry1758f 2.7.8	Fix the sample cannot be compile while there's no sample app folder
 # 2019/07/18	henry1758f 2.7.9	Bug Fix in Object detection
 # 2019/07/18	henry1758f 2.8.0	fixed ssd300/512 location error, add faster_rcnn and some DLDT pretrain models in Object detection Demo
+# 2019/07/18	henry1758f 2.9.0	Add some model options for Person Reidentification model and quick demo trick in Crossroad Camera Demo
+# 2019/07/25	henry1758f 2.10.0	Add super_resolution_demo
 
 
-
-export VERSION="2.8.0"
+export VERSION="2.10.0"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -59,6 +60,7 @@ function Inference_Engine_Sample_List()
 	echo "  9. smart_classroom_demo (TBD)"
 	echo " 10. Neural Style Transfer Sample (TBD)"
 	echo " 11. Image Segmentation Demo (TBD)"
+	echo " 12. Speech Sample (TBD)"
 
 	local choose
 	read choose
@@ -92,12 +94,21 @@ function Inference_Engine_Sample_List()
 			echo " Crossroad Camera Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}crossroad_camera_demo.sh
-
+		;;
+		"7")
+			echo " super_resolution_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}super_resolution_demo.sh
 		;;
 		"9")
 			echo " smart_classroom_demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}smart_classroom_demo.sh
+		;;
+		"12")
+			echo " Speech Sample (TBD) ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}speech_sample.sh
 		;;
 		*)
 			echo "Please input a vailed number"
