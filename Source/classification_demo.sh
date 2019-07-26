@@ -1,16 +1,7 @@
 # File: classification_demo.sh
 # 2019/05/08	henry1758f 0.0.1	First Create
 # 2019/05/09	henry1758f 1.0.0	workable
-# 2019/06/04	henry1758f 1.1.0	add squeezenet1.0 and labels file copy process
-# 2019/06/11	henry1758f 1.1.1	add densenet201/169/161
-# 2019/06/18	henry1758f 1.1.2	add googlenetv1/v2/v4,Inceptionv3
-# 2019/06/18	henry1758f 1.2.0	add Test mode for performance testing
-# 2019/06/21	henry1758f 1.3.0	Enable all models
-# 2019/06/26	henry1758f 1.3.1	Fix some error
-# 2019/06/26	henry1758f 1.3.2	Fix some error
-# 2019/07/04	henry1758f 1.4.0	Add default trick
-# 2019/07/11	henry1758f 1.4.1	Fix Github Issue #14
-# 2019/07/15	henry1758f 1.4.2	Bug Fixed
+# 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -107,8 +98,8 @@ function model_0_choose()
 		test -e ${mobilenetv1_fp16}/mobilenet-v1-1.0-224.xml && echo "26. mobilenet-v1-1.0-224.xml [FP16]" || echo "26. mobilenet-v1-1.0-224.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 		test -e ${mobilenetv2}/mobilenet-v2.xml && echo "27. mobilenet-v2.xml [FP32]" || echo "27. mobilenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 		test -e ${mobilenetv2_fp16}/mobilenet-v2.xml && echo "28. mobilenet-v2.xml [FP16]" || echo "28. mobilenet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv2_tf}/mobilenet-v2-1.4-224.frozen.xml && echo "29. mobilenet-v2-1.4-224.frozen.xml [FP32]" || echo "29. mobilenet-v2-1.4-224.frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv2_tf_fp16}/mobilenet-v2-1.4-224.frozen.xml && echo "30. mobilenet-v2-1.4-224.frozen.xml [FP16]" || echo "30. mobilenet-v2-1.4-224.frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml && echo "29. mobilenet_v2_1.4_224_frozen.xml [FP32]" || echo "29. mobilenet_v2_1.4_224_frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
+		test -e ${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml && echo "30. mobilenet_v2_1.4_224_frozen.xml [FP16]" || echo "30. mobilenet_v2_1.4_224_frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 		test -e ${seinception}/se-inception.xml && echo "31. se-inception.xml [FP32]" || echo "31. se-inception.xml [FP32]	File lost! Need to Download and Transfer to IR)"
 		test -e ${seinception_fp16}/se-inception.xml && echo "32. se-inception.xml [FP16]" || echo "32. se-inception.xml [FP16]	File lost! Need to Download and Transfer to IR)"
 		test -e ${seresnet50}/se-resnet-50.xml && echo "33. se-resnet-50.xml [FP32]" || echo "33. se-resnet-50.xml [FP32]	File lost! Need to Download and Transfer to IR)"
@@ -271,12 +262,12 @@ function model_0_choose()
 			MODEL_LOC=${mobilenetv2_fp16}/mobilenet-v2.xml
 		;;
 		"29")
-			echo " mobilenet-v2-1.4-224.frozen.xml [FP32] ->"			
+			echo " mobilenet_v2_1.4_224_frozen.xml [FP32] ->"			
 			test -e ${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet_v2_1.4_224_frozen.pb -fp32 && cp -r ./Source/labels/mobilenet/mobilenet_v2_1.4_224_frozen.labels ${mobilenetv2_tf})
 			MODEL_LOC=${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml
 		;;
 		"30")
-			echo " mobilenet-v2-1.4-224.frozen.xml [FP16] ->"			
+			echo " mobilenet_v2_1.4_224_frozen.xml [FP16] ->"			
 			test -e ${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet_v2_1.4_224_frozen.pb -fp16 && cp -r ./Source/labels/mobilenet/mobilenet_v2_1.4_224_frozen.labels ${mobilenetv2_tf_fp16})
 			MODEL_LOC=${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml
 		;;
@@ -434,23 +425,30 @@ banner_show
 echo "With ASYNC Demo ??(Y/n) >>"
 read ASYNC
 case $ASYNC in
-	"Y")
-		echo "[ASYNC API] Select Image Classification Model >>>"
+	"N")
+		echo "Select Image Classification Model >>>"
 		model_0_choose && set_others || set_default	
-		$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+		test -e $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py || cp -r /opt/intel/openvino/inference_engine/samples/python_samples $SAMPLE_LOC
+		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+	;;
+	"n")
+		echo "Select Image Classification Model >>>"
+		model_0_choose && set_others || set_default	
+		test -e $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py || cp -r /opt/intel/openvino/inference_engine/samples/python_samples $SAMPLE_LOC
+		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
 	;;
 	"Test")
 		echo "[ASYNC API] Performance Test >>>"
 		echo "Which device you want to test?"
 		read device
 		
-		test_mode -d $device
+		test_mode -d $device 
 		
 	;;
 	*)
-		echo "Select Image Classification Model >>>"
+		echo "[ASYNC API] Select Image Classification Model >>>"
 		model_0_choose && set_others || set_default	
-		$SAMPLE_LOC/classification_sample -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+		$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
 	;;
 esac
 
