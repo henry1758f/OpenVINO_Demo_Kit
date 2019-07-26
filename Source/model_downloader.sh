@@ -1,6 +1,7 @@
 #!/bin/bash
 # File: model_downloader.sh
 # 2019/04/19	henry1758f 0.0.1	First Create
+# 2019/07/25	henry1758f 1.0.0	For v2019.2.242
 INTEL_OPENVINO_DIR=/opt/intel/openvino
 downloader_path="${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/downloader.py"
 models_path="$HOME/openvino_models/models/SYNNEX_demo/"
@@ -20,7 +21,7 @@ function banner_show()
 
 function feature_choose()
 {
-	echo " 1. Download all from DLDT. (about 5G Bytes)"
+	echo " 1. Download all from DLDT. (about 15G Bytes)"
 	echo " 2. Typein specific DLDT model."
 	echo " 3. Typein an URL of the model."
 	echo " 4. EXIT the downloader."
