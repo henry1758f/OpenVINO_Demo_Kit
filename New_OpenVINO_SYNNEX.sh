@@ -7,9 +7,10 @@
 # 2019/07/25	henry1758f 3.0.0-beta.2	fit OpenVINO 2019R2 - interactive_face_detection_demo
 # 2019/07/26	henry1758f 3.0.0-beta.3	fit OpenVINO 2019R2 - classification_demo
 # 2019/07/26	henry1758f 3.0.0-beta.4	fit OpenVINO 2019R2 - human_pose_estimation_demo
+# 2019/07/26	henry1758f 3.0.0-beta.5	fit OpenVINO 2019R2 - object_detection_demo_ssd_async
 
 
-export VERSION="3.0.0-beta.4"
+export VERSION="3.0.0-beta.5"
 export VERSION_VINO="v2019.2.242"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -30,7 +31,7 @@ function Inference_Engine_Sample_List()
 	echo "  2. interactive_face_detection_demo."
 	echo "  3. classification_demo."
 	echo "  4. Human Pose Estimation Demo."
-	echo "  5. Object Detection and ASYNC API Demo (TBD)"
+	echo "  5. Object Detection and ASYNC API Demo."
 	echo "  6. Crossroad Camera Demo (TBD)"
 	echo "  7. super_resolution_demo (TBD)"
 	echo "  8. pedestrian tracker demo (TBD)"
