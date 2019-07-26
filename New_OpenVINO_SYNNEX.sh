@@ -30,6 +30,7 @@ function Inference_Engine_Sample_List()
 	echo "  8. pedestrian tracker demo."
 	echo "  9. smart_classroom_demo."
 	echo " 10. Image Segmentation Demo."
+  
 
 	local choose
 	read choose
