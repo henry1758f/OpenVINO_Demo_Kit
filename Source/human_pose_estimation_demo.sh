@@ -1,12 +1,11 @@
 # File: human_pose_estimation_demo.sh
 # 2019/04/22	henry1758f 0.0.1	First Create
 # 2019/04/30	henry1758f 1.0.0	Stable
-# 2019/07/04	henry1758f 1.1.0	Add default trick
-# 2019/07/11	henry1758f 1.1.1	Fix Github Issue #14
-# 2019/07/15	henry1758f 1.1.2	Bug Fixed
+# 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
+export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
 export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
 
 
@@ -19,19 +18,24 @@ function banner_show()
 
 function model_0_choose()
 {
-	echo " >> 1. human-pose-estimation-0001 "
-	echo " >> 2. human-pose-estimation-0001-fp16 "
+	echo " >> 1. human-pose-estimation-0001 	[FP32] "
+	echo " >> 2. human-pose-estimation-0001 	[FP16] "
+	echo " >> 3. human-pose-estimation-0001 	[INT8] "
 	echo " >> Or input a path to your model "
 	local choose
 	read choose
 	case $choose in
 		"1")
-			echo " human-pose-estimation-0001 ->"
-			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/human-pose-estimation-0001.xml
+			echo " human-pose-estimation-0001 	[FP32] ->"
+			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/FP32/human-pose-estimation-0001.xml
 		;;
 		"2")
-			echo " human-pose-estimation-0001-fp16 ->"
-			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/human-pose-estimation-0001-fp16.xml
+			echo " human-pose-estimation-0001 	[FP16] ->"
+			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/FP16/human-pose-estimation-0001.xml
+		;;
+		"3")
+			echo " human-pose-estimation-0001 	[INT8] ->"
+			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/INT8/human-pose-estimation-0001.xml
 		;;
 		"0")
 			return 1
@@ -45,7 +49,7 @@ function model_0_choose()
 
 function inference_D_choose()
 {
-	echo " >> CPU(FP32),GPU(FP32/16),MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+	echo " >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
 	read TARGET_0
 }
 function source_choose()
@@ -56,7 +60,7 @@ function source_choose()
 function set_default()
 {
 	echo " All model will run on CPU... "
-	MODEL_LOC="${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/human-pose-estimation-0001.xml"
+	MODEL_LOC="${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/FP16/human-pose-estimation-0001.xml"
 	I_SOURCE="cam"
 	TARGET_0="CPU"
 }
@@ -71,5 +75,7 @@ banner_show
 echo "Select Human Pose Estimation model >>>"
 model_0_choose && set_others || set_default
 
-cd $SAMPLE_LOC
-./human_pose_estimation_demo -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+cd $DEMO_LOC
+ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
+echo "./human_pose_estimation_demo $ARGS"
+./human_pose_estimation_demo $ARGS
