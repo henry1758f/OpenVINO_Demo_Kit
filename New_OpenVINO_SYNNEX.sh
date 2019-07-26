@@ -12,8 +12,9 @@
 # 2019/07/26	henry1758f 3.0.0-beta.7	fit OpenVINO 2019R2 - super_resolution_demo
 # 2019/07/26	henry1758f 3.0.0-beta.8	fit OpenVINO 2019R2 - smart_classroom_demo
 # 2019/07/26	henry1758f 3.0.0-beta.9 Add pedestrian_tracker_demo
+# 2019/07/26	henry1758f 3.0.0-beta.10 Add pedestrian_tracker_demo
 
-export VERSION="3.0.0-beta.9"
+export VERSION="3.0.0-beta.10"
 export VERSION_VINO="v2019.2.242"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -39,8 +40,8 @@ function Inference_Engine_Sample_List()
 	echo "  7. super_resolution_demo."
 	echo "  8. pedestrian tracker demo."
 	echo "  9. smart_classroom_demo."
-	echo " 10. Neural Style Transfer Sample (TBD)"
-	echo " 11. Image Segmentation Demo (TBD)"
+	echo " 10. Style Transfer Sample (TBD)"
+	echo " 11. Image Segmentation Demo."
 	echo " 12. Speech Sample (TBD)"
 
 	local choose
@@ -90,6 +91,11 @@ function Inference_Engine_Sample_List()
 			echo " smart_classroom_demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}smart_classroom_demo.sh
+		;;
+		"11")
+			echo " Image Segmentation Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}segmentation_demo.sh
 		;;
 		"12")
 			echo " Speech Sample (TBD) ->"
