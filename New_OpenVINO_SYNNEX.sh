@@ -10,9 +10,9 @@
 # 2019/07/26	henry1758f 3.0.0-beta.5	fit OpenVINO 2019R2 - object_detection_demo_ssd_async
 # 2019/07/26	henry1758f 3.0.0-beta.6	fit OpenVINO 2019R2 - crossroad_camera_demo
 # 2019/07/26	henry1758f 3.0.0-beta.7	fit OpenVINO 2019R2 - super_resolution_demo
+# 2019/07/26	henry1758f 3.0.0-beta.8	fit OpenVINO 2019R2 - smart_classroom_demo
 
-
-export VERSION="3.0.0-beta.7"
+export VERSION="3.0.0-beta.8"
 export VERSION_VINO="v2019.2.242"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -37,7 +37,7 @@ function Inference_Engine_Sample_List()
 	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo."
 	echo "  8. pedestrian tracker demo (TBD)"
-	echo "  9. smart_classroom_demo (TBD)"
+	echo "  9. smart_classroom_demo."
 	echo " 10. Neural Style Transfer Sample (TBD)"
 	echo " 11. Image Segmentation Demo (TBD)"
 	echo " 12. Speech Sample (TBD)"
