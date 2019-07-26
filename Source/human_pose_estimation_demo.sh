@@ -2,6 +2,7 @@
 # 2019/04/22	henry1758f 0.0.1	First Create
 # 2019/04/30	henry1758f 1.0.0	Stable
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
+# 2019/07/26	henry1758f 2.0.1	Improved Output information 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -77,5 +78,5 @@ model_0_choose && set_others || set_default
 
 cd $DEMO_LOC
 ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
-echo "./human_pose_estimation_demo $ARGS"
+echo "RUN ./human_pose_estimation_demo $ARGS"
 ./human_pose_estimation_demo $ARGS

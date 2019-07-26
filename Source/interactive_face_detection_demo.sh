@@ -3,12 +3,14 @@
 # 2019/05/03	henry1758f 0.0.1	First Create
 # 2019/05/03	henry1758f 1.0.0	Stable and script fixed
 # 2019/07/25	henry1758f 2.0.0	fit OpenVINO 2019R2 
+# 2019/07/26	henry1758f 2.0.1	Improved Output information 
 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
 export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
+select_inf=" >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
 
 function banner_show()
 {
@@ -19,7 +21,7 @@ function banner_show()
 
 function inference_D_choose()
 {
-	echo " >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+	echo "$select_inf"
 	read TARGET_0
 }
 function model_0_choose()
@@ -117,7 +119,7 @@ function source_choose()
 
 function inference_D1_choose()
 {
-	echo " >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+	echo "$select_inf"
 	read TARGET_1
 	MODEL_LOC_1="${MODEL_LOC_1} -d_ag ${TARGET_1}"
 }
@@ -154,7 +156,7 @@ function model_1_choose()
 
 function inference_D2_choose()
 {
-	echo " >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+	echo "$select_inf"
 	read TARGET_2
 	MODEL_LOC_2="${MODEL_LOC_2} -d_hp ${TARGET_2}"
 }
@@ -198,7 +200,7 @@ function model_2_choose()
 
 function inference_D3_choose()
 {
-	echo " >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+	echo "$select_inf"
 	read TARGET_3
 	MODEL_LOC_3="${MODEL_LOC_3} -d_em ${TARGET_3}"
 }
@@ -242,7 +244,7 @@ function model_3_choose()
 
 function inference_D4_choose()
 {
-	echo " >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+	echo "$select_inf"
 	read TARGET_4
 	MODEL_LOC_4="${MODEL_LOC_4} -d_lm ${TARGET_4}"
 }
@@ -305,5 +307,5 @@ model_0_choose && set_others || set_default
 source_choose
 cd $DEMO_LOC
 ARGS=" -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${MODEL_LOC_4}"
-echo "./interactive_face_detection_demo $ARGS"
+echo "RUN ./interactive_face_detection_demo $ARGS"
 ./interactive_face_detection_demo $ARGS

@@ -2,6 +2,7 @@
 # 2019/05/06	henry1758f 0.0.1	First Create
 # 2019/07/19	henry1758f 1.0.0	Add int8 model options and quick demo trick
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
+# 2019/07/26	henry1758f 2.0.1	Improved Output information 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -285,10 +286,10 @@ function face_gallery()
 function set_default()
 {
 	echo " All model will run on CPU... "
-	MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/face-detection-adas-0001.xml
-	MODEL_LOC_1="-m_lm ${MODEL_LOC}/Retail/object_attributes/landmarks_regression/0009/dldt/landmarks-regression-retail-0009.xml"
-	MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/face/mobilenet_based/dldt/face-reidentification-retail-0095.xml"
-	MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0165/dldt/person-detection-action-recognition-0005.xml"
+	MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/FP16/face-detection-adas-0001.xml
+	MODEL_LOC_1="-m_lm ${MODEL_LOC}/Retail/object_attributes/landmarks_regression/0009/dldt/FP16/landmarks-regression-retail-0009.xml"
+	MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/face/mobilenet_based/dldt/FP16/face-reidentification-retail-0095.xml"
+	MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0028_tf/dldt/FP16/person-detection-action-recognition-0006.xml"
 	I_SOURCE="cam"
 	TARGET_0="CPU"
 }
@@ -308,5 +309,5 @@ model_0_choose && set_others || set_default
 
 cd $DEMO_LOC
 ARGS=" -m_fd ${MODEL_LOC_0} -i ${I_SOURCE} -d_fd ${TARGET_0} ${MODEL_LOC_1} ${MODEL_LOC_2} ${MODEL_LOC_3} ${FG_LOC}"
-echo "./smart_classroom_demo $ARGS"
+echo "RUN ./smart_classroom_demo $ARGS"
 ./smart_classroom_demo $ARGS

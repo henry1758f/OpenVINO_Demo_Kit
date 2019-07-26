@@ -1,6 +1,7 @@
 # File: super_resolution_demo.sh
 # 2019/07/25	henry1758f 0.0.1	First Create
 # 2019/07/25	henry1758f 2.0.0	Fit openVINO v2019.2.242
+# 2019/07/25	henry1758f 2.0.1	Add some output information
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -19,8 +20,8 @@ function model_0_choose()
 {
 	echo " >> 1. single-image-super-resolution-1032.xml 	[FP32] 		(480x270 -> 1920x1080) "
 	echo " >> 2. single-image-super-resolution-1032.xml 	[FP16] 	(480x270 -> 1920x1080) "
-	echo " >> 3. single-image-super-resolution-1033 		(640x360 -> 1920x1080)"
-	echo " >> 4. single-image-super-resolution-1033-fp16 	(640x360 -> 1920x1080)"
+	echo " >> 3. single-image-super-resolution-1033.xml 	[FP32]		(640x360 -> 1920x1080)"
+	echo " >> 4. single-image-super-resolution-1033.xml 	[FP16] 	(640x360 -> 1920x1080)"
 	echo " >> Or input a path to your model "
 	read choose
 	case $choose in
@@ -116,7 +117,10 @@ echo "Select Super Resolution model >>>"
 model_0_choose && set_others || set_default
 xdg-open ${I_SOURCE}
 cd $DEMO_LOC
-./super_resolution_demo -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
+echo "RUN ./super_resolution_demo $ARGS"
+./super_resolution_demo $ARGS
 cp -r sr_1.png $HOME/Pictures/
 rm sr_1.png
+echo " [INFO] Output Image had been saved as $HOME/Pictures/sr_1.png"
 xdg-open $HOME/Pictures/sr_1.png

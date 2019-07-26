@@ -2,10 +2,14 @@
 # 2019/05/08	henry1758f 0.0.1	First Create
 # 2019/05/09	henry1758f 1.0.0	workable
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
+# 2019/07/26	henry1758f 2.0.1	Improved Output information 
+
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
+select_inf=" >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+
 
 export squeezenet11="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/caffe"
 export squeezenet11_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.1/caffe"
@@ -363,7 +367,7 @@ function model_0_choose()
 
 function inference_D_choose()
 {
-	echo " >> CPU(FP32),GPU(FP32/16),MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+	echo "$select_inf"
 	read TARGET_0
 }
 function source_choose()
@@ -428,14 +432,18 @@ case $ASYNC in
 	"N")
 		echo "Select Image Classification Model >>>"
 		model_0_choose && set_others || set_default	
+		ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
 		test -e $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py || cp -r /opt/intel/openvino/inference_engine/samples/python_samples $SAMPLE_LOC
-		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+		echo "RUN python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS"
+		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS
 	;;
 	"n")
 		echo "Select Image Classification Model >>>"
 		model_0_choose && set_others || set_default	
+		ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
 		test -e $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py || cp -r /opt/intel/openvino/inference_engine/samples/python_samples $SAMPLE_LOC
-		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+		echo "RUN python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS"
+		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS
 	;;
 	"Test")
 		echo "[ASYNC API] Performance Test >>>"
@@ -448,7 +456,9 @@ case $ASYNC in
 	*)
 		echo "[ASYNC API] Select Image Classification Model >>>"
 		model_0_choose && set_others || set_default	
-		$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}
+		ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
+		echo "RUN $SAMPLE_LOC/classification_sample_async $ARGS"
+		$SAMPLE_LOC/classification_sample_async $ARGS
 	;;
 esac
 

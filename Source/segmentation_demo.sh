@@ -1,5 +1,6 @@
 # File: segmentation_demo.sh
 # 2019/07/26	henry1758f 0.0.1	First Create
+# 2019/07/25	henry1758f 1.0.0	Workable
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
@@ -113,9 +114,9 @@ model_0_choose && set_others || set_default
 cd $DEMO_LOC
 xdg-open ${I_SOURCE}
 ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
-echo "./segmentation_demo $ARGS"
+echo "RUN ./segmentation_demo $ARGS"
 ./segmentation_demo $ARGS
-echo "Output Image had been saved as $HOME/Pictures/out_0.bmp"
+echo " [INFO] Output Image had been saved as $HOME/Pictures/out_0.bmp"
 cp -r out_0.bmp $HOME/Pictures/
 rm out_0.bmp
 xdg-open $HOME/Pictures/out_0.bmp

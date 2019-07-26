@@ -74,5 +74,5 @@ model_0_choose && set_others || set_default
 
 cd $DEMO_LOC
 ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
-echo "./style_transfer_sample $ARGS"
+echo "RUN ./style_transfer_sample $ARGS"
 ./style_transfer_sample $ARGS

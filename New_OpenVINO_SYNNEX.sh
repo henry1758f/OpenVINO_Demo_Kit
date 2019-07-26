@@ -12,7 +12,8 @@
 # 2019/07/26	henry1758f 3.0.0-beta.7	fit OpenVINO 2019R2 - super_resolution_demo
 # 2019/07/26	henry1758f 3.0.0-beta.8	fit OpenVINO 2019R2 - smart_classroom_demo
 # 2019/07/26	henry1758f 3.0.0-beta.9 Add pedestrian_tracker_demo
-# 2019/07/26	henry1758f 3.0.0-beta.10 Add pedestrian_tracker_demo
+# 2019/07/26	henry1758f 3.0.0-beta.10 Add segmentation_demo
+# 2019/07/26	henry1758f 3.0.0-beta.11 Improved Output information and Fixed bugs
 
 export VERSION="3.0.0-beta.10"
 export VERSION_VINO="v2019.2.242"
@@ -40,9 +41,7 @@ function Inference_Engine_Sample_List()
 	echo "  7. super_resolution_demo."
 	echo "  8. pedestrian tracker demo."
 	echo "  9. smart_classroom_demo."
-	echo " 10. Style Transfer Sample (TBD)"
-	echo " 11. Image Segmentation Demo."
-	echo " 12. Speech Sample (TBD)"
+	echo " 10. Image Segmentation Demo."
 
 	local choose
 	read choose
@@ -92,16 +91,16 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}smart_classroom_demo.sh
 		;;
-		"11")
+		"10")
 			echo " Image Segmentation Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}segmentation_demo.sh
 		;;
-		"12")
-			echo " Speech Sample (TBD) ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-			${SOURCE}speech_sample.sh
-		;;
+#		"11")
+#			echo " Speech Sample (TBD) ->"
+#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+#			${SOURCE}speech_sample.sh
+#		;;
 		*)
 			echo "Please input a vailed number"
 			sleep 1

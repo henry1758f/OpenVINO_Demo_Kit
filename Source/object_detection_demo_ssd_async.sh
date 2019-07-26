@@ -2,6 +2,7 @@
 # 2019/05/09	henry1758f 0.0.1	First Create
 # 2019/05/09	henry1758f 1.0.0	Workable
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
+# 2019/07/26	henry1758f 2.0.1	Improved Output information 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -456,5 +457,5 @@ model_0_choose
 source_choose
 cd $DEMO_LOC
 ARGS=" -m ${MODEL_LOC_0} -i ${I_SOURCE} -d ${TARGET_0}"
-echo "./object_detection_demo_ssd_async $ARGS"
+echo "RUN ./object_detection_demo_ssd_async $ARGS"
 ./object_detection_demo_ssd_async $ARGS

@@ -1,5 +1,7 @@
 # File: pedestrian_tracker_demo.sh
 # 2019/07/26	henry1758f 0.0.1	First Create
+# 2019/07/26	henry1758f 1.0.0	Workable and Improved Output information 
+
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
@@ -253,6 +255,6 @@ model_0_choose && set_others || set_default
 
 
 cd $DEMO_LOC
-ARGS=" -m_det ${MODEL_LOC_0} -i ${I_SOURCE} -d_det ${TARGET_0} ${MODEL_LOC_1} -delay 100"
-echo "./smart_classroom_demo $ARGS"
+ARGS=" -m_det ${MODEL_LOC_0} -i ${I_SOURCE} -d_det ${TARGET_0} ${MODEL_LOC_1} "
+echo "RUN ./smart_classroom_demo $ARGS"
 ./pedestrian_tracker_demo $ARGS
