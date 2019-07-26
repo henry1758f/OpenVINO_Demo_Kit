@@ -1,21 +1,9 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 # 2019/04/16	henry1758f 2.0.0	First Create
-# 2019/07/25	henry1758f 2.10.0	Add super_resolution_demo
-# 2019/07/25	henry1758f 3.0.0-beta.0	fit OpenVINO 2019R2 - sample build and model downloader
-# 2019/07/25	henry1758f 3.0.0-beta.1	fit OpenVINO 2019R2 - security_barrier_camera_demo
-# 2019/07/25	henry1758f 3.0.0-beta.2	fit OpenVINO 2019R2 - interactive_face_detection_demo
-# 2019/07/26	henry1758f 3.0.0-beta.3	fit OpenVINO 2019R2 - classification_demo
-# 2019/07/26	henry1758f 3.0.0-beta.4	fit OpenVINO 2019R2 - human_pose_estimation_demo
-# 2019/07/26	henry1758f 3.0.0-beta.5	fit OpenVINO 2019R2 - object_detection_demo_ssd_async
-# 2019/07/26	henry1758f 3.0.0-beta.6	fit OpenVINO 2019R2 - crossroad_camera_demo
-# 2019/07/26	henry1758f 3.0.0-beta.7	fit OpenVINO 2019R2 - super_resolution_demo
-# 2019/07/26	henry1758f 3.0.0-beta.8	fit OpenVINO 2019R2 - smart_classroom_demo
-# 2019/07/26	henry1758f 3.0.0-beta.9 Add pedestrian_tracker_demo
-# 2019/07/26	henry1758f 3.0.0-beta.10 Add segmentation_demo
-# 2019/07/26	henry1758f 3.0.0-beta.11 Improved Output information and Fixed bugs
+# 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
 
-export VERSION="3.0.0-beta.10"
+export VERSION="3.0.0"
 export VERSION_VINO="v2019.2.242"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
