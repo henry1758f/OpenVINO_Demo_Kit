@@ -3,8 +3,10 @@
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
 # 2019/07/26	henry1758f 3.0.1	Add benchmark app,
+# 2019/07/30	henry1758f 3.0.2	Benchmark app is now workable
 
-export VERSION="3.0.1"
+
+export VERSION="3.0.2"
 export VERSION_VINO="v2019.2.242"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
