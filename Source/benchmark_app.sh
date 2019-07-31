@@ -2,6 +2,7 @@
 # 2019/07/26	henry1758f 0.0.1	First Create
 # 2019/07/30	henry1758f 1.0.0	workable
 # 2019/07/30	henry1758f 2.0.0	Add Object Detection Models, new feature:export benchmark result is now available
+# 2019/07/30	henry1758f 2.1.0	new feature:setting multiple testing times is now available
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -164,7 +165,7 @@ function inference_D_choose()
 }
 function test_models
 {
-	echo "[DEBUG] $2 $1"
+	#echo "[DEBUG] $2 $1"
 	case $2 in
 		"FP32")
 			str_fp="-fp32"
@@ -396,7 +397,7 @@ function excute
 	esac
 	case $1 in
 		"all" )
-			for ((i=24; i<=model_enable_count; i=i+1))
+			for ((i=1; i<=model_enable_count; i=i+1))
 			do
 				test_models $i FP32
 				echo "============================================"
@@ -405,7 +406,12 @@ function excute
 				if [ $recording == "true" ]; then
 					echo "============================================" &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
 					echo "[$i] Testing Benchmark for \" ${MODEL_0_LOC} \" with $TARGET_0" &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
-					$SAMPLE_LOC/benchmark_app -m ${MODEL_0_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png -d $TARGET_0 | grep -e 'Count:' -e 'Duration' -e 'Latency' -e 'Throughput' &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+					for ((j=1; j<=$3; j=j+1))
+					do
+						echo "	[ FP32 ] Test $j "
+						echo "	[ FP32 ] Test $j " &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+						$SAMPLE_LOC/benchmark_app -m ${MODEL_0_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png -d $TARGET_0 | grep -e 'Count:' -e 'Duration' -e 'Latency' -e 'Throughput' &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+					done
 				else
 					$SAMPLE_LOC/benchmark_app -m ${MODEL_0_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png -d $TARGET_0 | grep -e 'Count:' -e 'Duration' -e 'Latency' -e 'Throughput'
 				fi
@@ -415,7 +421,12 @@ function excute
 
 				if [ $recording == "true" ]; then
 					echo "[$i] Testing Benchmark for \" ${MODEL_0_LOC} \" with $TARGET_0" &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
-					$SAMPLE_LOC/benchmark_app -m ${MODEL_0_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png -d $TARGET_0 | grep -e 'Count:' -e 'Duration' -e 'Latency' -e 'Throughput' &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+					for ((j=1; j<=$3; j=j+1))
+					do
+						echo "	[ FP16 ] Test $j "
+						echo "	[ FP16 ] Test $j " &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+						$SAMPLE_LOC/benchmark_app -m ${MODEL_0_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png -d $TARGET_0 | grep -e 'Count:' -e 'Duration' -e 'Latency' -e 'Throughput' &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+					done
 				else
 					$SAMPLE_LOC/benchmark_app -m ${MODEL_0_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png -d $TARGET_0 | grep -e 'Count:' -e 'Duration' -e 'Latency' -e 'Throughput'
 				fi
