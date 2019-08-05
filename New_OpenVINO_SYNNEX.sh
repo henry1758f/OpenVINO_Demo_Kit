@@ -31,9 +31,10 @@
 # 2019/07/18	henry1758f 2.8.0	fixed ssd300/512 location error, add faster_rcnn and some DLDT pretrain models in Object detection Demo
 # 2019/07/18	henry1758f 2.9.0	Add some model options for Person Reidentification model and quick demo trick in Crossroad Camera Demo
 # 2019/07/25	henry1758f 2.10.0	Add super_resolution_demo
+# 2019/08/05	henry1758f 2.11.0	Add benchmark_app from ver3.0.0 and fix mtcnn path error
 
 
-export VERSION="2.10.0"
+export VERSION="2.11.0"
 export VERSION_VINO="v2019.1.144"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
