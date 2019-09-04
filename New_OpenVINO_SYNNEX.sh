@@ -2,8 +2,12 @@
 # File: OpenVINO_demo_SYNNEX.sh
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
+# 2019/07/26	henry1758f 3.0.1	Add benchmark app,
+# 2019/07/30	henry1758f 3.0.2	Benchmark app is now workable
+# 2019/07/31	henry1758f 3.1.0	For Benchmark app, Add Object Detection Models, new feature:export benchmark result is now available. Fix mtcnn-r path failed in mo_dldt.sh
+# 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
 
-export VERSION="3.0.0"
+export VERSION="3.1.1"
 export VERSION_VINO="v2019.2.242"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -20,6 +24,7 @@ function Inference_Engine_Sample_List()
 	echo "|                                         |"
 	echo "|=========================================|"
 	echo ""
+	echo "  0. Benchmark App."
 	echo "  1. security_barrier_camera_demo."
 	echo "  2. interactive_face_detection_demo."
 	echo "  3. classification_demo."
@@ -35,11 +40,16 @@ function Inference_Engine_Sample_List()
 	local choose
 	read choose
 	case $choose in
+		"0")
+			echo " You choose Benchmark App ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}benchmark_app.sh
+		;;
 		"1")
 			echo " You choose security_barrier_camera_demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}security_barrier_camera_demo.sh
-			;;
+		;;
 		"2")
 			echo " You choose interactive_face_detection_demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
@@ -54,12 +64,12 @@ function Inference_Engine_Sample_List()
 			echo " Human Pose Estimation Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}human_pose_estimation_demo.sh
-			;;
+		;;
 		"5")
 			echo " Object Detection and ASYNC API Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}object_detection_demo_ssd_async.sh
-			;;
+		;;
 		"6")
 			echo " Crossroad Camera Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh

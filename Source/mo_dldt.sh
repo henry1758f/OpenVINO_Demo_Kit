@@ -14,6 +14,7 @@
 # 2019/07/11	henry1758f 1.0.10	Add mtcnn
 # 2019/07/11	henry1758f 1.0.11	Fix Github Issue #14
 # 2019/07/18	henry1758f 1.0.12	Fix ssd300/512 location and add faster_rcnn
+# 2019/07/31	henry1758f 1.0.13	Fix mtcnn-r path failed.
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -99,7 +100,7 @@ function MO()
 			test -e ${MODEL_LOC}/object_detection/common/mtcnn/r/caffe/mtcnn-r.prototxt || echo "[ERROR!] Can not found \"mtcnn-r.prototxt\" !!!"
 
 			mkdir -p ${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/r/caffe
-			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mtcnn/o/caffe/mtcnn-r.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/r/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/mtcnn/r/caffe/mtcnn-r.prototxt" --data_type "${FPV}" 
+			python3 ${MO_LOC}/mo.py --input_model "${MODEL_LOC}/object_detection/common/mtcnn/r/caffe/mtcnn-r.caffemodel" --output_dir "${MODEL_LOC}/../../ir/${FPV}/object_detection/common/mtcnn/r/caffe/" --input_proto "${MODEL_LOC}/object_detection/common/mtcnn/r/caffe/mtcnn-r.prototxt" --data_type "${FPV}" 
 		;;
 		"mtcnn-p.caffemodel")
 			target $2
