@@ -4,6 +4,7 @@
 # 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
 # 2019/10/04	henry1758f 4.0.0-beta01	Benchmark App fit OpenVINO 2019R2
+# 2019/10/04	henry1758f 4.0.0-beta02	security_barrier_camera_demo and interactive_face_detection_demo fit OpenVINO 2019R2
 
 export VERSION="4.0.0-beta02"
 export VERSION_VINO="v2019.3.334"
