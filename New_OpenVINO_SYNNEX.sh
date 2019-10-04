@@ -5,7 +5,7 @@
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
 # 2019/10/04	henry1758f 4.0.0-beta01	Benchmark App fit OpenVINO 2019R2
 
-export VERSION="4.0.0-beta01"
+export VERSION="4.0.0-beta02"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -23,8 +23,8 @@ function Inference_Engine_Sample_List()
 	echo "|=========================================|"
 	echo ""
 	echo "  0. Benchmark App."
-	echo "  1. security_barrier_camera_demo.(TBD) "
-	echo "  2. interactive_face_detection_demo.(TBD)"
+	echo "  1. security_barrier_camera_demo. "
+	echo "  2. interactive_face_detection_demo."
 	echo "  3. classification_demo.(TBD)"
 	echo "  4. Human Pose Estimation Demo.(TBD)"
 	echo "  5. Object Detection and ASYNC API Demo.(TBD)"
@@ -43,16 +43,16 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}benchmark_app.sh
 		;;
-#		"1")
-#			echo " You choose security_barrier_camera_demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}security_barrier_camera_demo.sh
-#		;;
-#		"2")
-#			echo " You choose interactive_face_detection_demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}interactive_face_detection_demo.sh
-#		;;
+		"1")
+			echo " You choose security_barrier_camera_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}security_barrier_camera_demo.sh
+		;;
+		"2")
+			echo " You choose interactive_face_detection_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}interactive_face_detection_demo.sh
+		;;
 #		"3")
 #			echo " You choose classification_demo ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh

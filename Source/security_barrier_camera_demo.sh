@@ -4,6 +4,7 @@
 # 2019/05/03	henry1758f 1.0.0	license-plate-recognition and turn model1 and 2 to options
 # 2019/07/25	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/26	henry1758f 2.0.1	Improved Output information 
+# 2019/10/04	henry1758f 2.1.0	Fit openVINO v2019.3.334
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -35,17 +36,17 @@ function model_0_choose()
 	case $choose in
 		"1")
 			echo " vehicle-license-plate-detection-barrier-0106 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/barrier/0106/dldt/FP32/vehicle-license-plate-detection-barrier-0106.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/vehicle-license-plate-detection-barrier-0106/FP32/vehicle-license-plate-detection-barrier-0106.xml
 			inference_D_choose
 		;;
 		"2")
 			echo " vehicle-license-plate-detection-barrier-0106-fp16 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/barrier/0106/dldt/FP16/vehicle-license-plate-detection-barrier-0106.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/vehicle-license-plate-detection-barrier-0106/FP16/vehicle-license-plate-detection-barrier-0106.xml
 			inference_D_choose
 		;;
 		"3")
 			echo " vehicle-license-plate-detection-barrier-0106 	[INT8] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/barrier/0106/dldt/INT8/vehicle-license-plate-detection-barrier-0106.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/vehicle-license-plate-detection-barrier-0106/INT8/vehicle-license-plate-detection-barrier-0106.xml
 			inference_D_choose
 		;;
 		"0")
@@ -93,17 +94,17 @@ function model_1_choose()
 	case $choose in
 		"1")
 			echo " vehicle-license-plate-detection-barrier-0106 	[FP32] ->"
-			MODEL_LOC_1="-m_va ${MODEL_LOC}/Security/object_attributes/vehicle/resnet10_update_1/dldt/FP32/vehicle-attributes-recognition-barrier-0039.xml"
+			MODEL_LOC_1="-m_va ${MODEL_LOC}/intel/vehicle-attributes-recognition-barrier-0039/FP32/vehicle-attributes-recognition-barrier-0039.xml"  
 			inference_D1_choose
 		;;
 		"2")
 			echo " vehicle-license-plate-detection-barrier-0106 	[FP16] ->"
-			MODEL_LOC_1="-m_va ${MODEL_LOC}/Security/object_attributes/vehicle/resnet10_update_1/dldt/FP16/vehicle-attributes-recognition-barrier-0039.xml"
+			MODEL_LOC_1="-m_va ${MODEL_LOC}/intel/vehicle-attributes-recognition-barrier-0039/FP16/vehicle-attributes-recognition-barrier-0039.xml"
 			inference_D1_choose
 		;;
 		"3")
 			echo " vehicle-license-plate-detection-barrier-0106 	[INT8] ->"
-			MODEL_LOC_1="-m_va ${MODEL_LOC}/Security/object_attributes/vehicle/resnet10_update_1/dldt/INT8/vehicle-attributes-recognition-barrier-0039.xml"
+			MODEL_LOC_1="-m_va ${MODEL_LOC}/intel/vehicle-attributes-recognition-barrier-0039/INT8/vehicle-attributes-recognition-barrier-0039.xml"
 			inference_D1_choose
 		;;
 		"4")
@@ -129,7 +130,9 @@ function model_2_choose()
 	echo " >> 1. license-plate-recognition-barrier-0001 	[FP32]"
 	echo " >> 2. license-plate-recognition-barrier-0001 	[FP16]"
 	echo " >> 3. license-plate-recognition-barrier-0001 	[INT8]"
-	echo " >> 4. input a path to your model "
+	echo " >> 4. license-plate-recognition-barrier-0007 	[FP32]"
+	echo " >> 5. license-plate-recognition-barrier-0007 	[FP16]"
+	echo " >> 6. input a path to your model "
 	echo " >> Or press ENTER to ignore it. "
 
 	local choose
@@ -137,20 +140,30 @@ function model_2_choose()
 	case $choose in
 		"1")
 			echo " license-plate-recognition-barrier-0001 	[FP32] ->"
-			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/Security/optical_character_recognition/license_plate/dldt/FP32/license-plate-recognition-barrier-0001.xml"
+			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0001/FP32/license-plate-recognition-barrier-0001.xml"
 			inference_D2_choose
 		;;
 		"2")
 			echo " license-plate-recognition-barrier-0001 	[FP16] ->"
-			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/Security/optical_character_recognition/license_plate/dldt/FP16/license-plate-recognition-barrier-0001.xml"
+			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0001/FP16/license-plate-recognition-barrier-0001.xml"
 			inference_D2_choose
 		;;
 		"3")
 			echo " license-plate-recognition-barrier-0001 	[INT8] ->"
-			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/Security/optical_character_recognition/license_plate/dldt/INT8/license-plate-recognition-barrier-0001.xml"
+			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0001/INT8/license-plate-recognition-barrier-0001.xml"
 			inference_D2_choose
 		;;
 		"4")
+			echo " license-plate-recognition-barrier-0007 	[FP32] ->"
+			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0007/FP32/license-plate-recognition-barrier-0007.xml"
+			inference_D2_choose
+		;;
+		"5")
+			echo " license-plate-recognition-barrier-0007 	[FP16] ->"
+			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0007/FP16/license-plate-recognition-barrier-0007.xml"
+			inference_D2_choose
+		;;
+		"6")
 			echo " PATH to your model ->"
 			MODEL_LOC_2="-m_lpr ${choose}"
 			inference_D2_choose
@@ -163,9 +176,9 @@ function model_2_choose()
 function set_default()
 {
 	echo " All model will run on CPU... "
-	MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/barrier/0106/dldt/FP32/vehicle-license-plate-detection-barrier-0106.xml
-	MODEL_LOC_1="-m_va ${MODEL_LOC}/Security/object_attributes/vehicle/resnet10_update_1/dldt/FP32/vehicle-attributes-recognition-barrier-0039.xml"
-	MODEL_LOC_2="-m_lpr ${MODEL_LOC}/Security/optical_character_recognition/license_plate/dldt/FP32/license-plate-recognition-barrier-0001.xml"
+	MODEL_LOC_0=${MODEL_LOC}/intel/vehicle-license-plate-detection-barrier-0106/INT8/vehicle-license-plate-detection-barrier-0106.xml
+	MODEL_LOC_1="-m_va ${MODEL_LOC}/intel/vehicle-attributes-recognition-barrier-0039/INT8/vehicle-attributes-recognition-barrier-0039.xml"
+	MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0001/INT8/license-plate-recognition-barrier-0001.xml"
 	I_SOURCE="/opt/intel/openvino/deployment_tools/demo/car_1.bmp"
 	TARGET_0="CPU"
 }
