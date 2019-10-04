@@ -5,8 +5,9 @@
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
 # 2019/10/04	henry1758f 4.0.0-beta01	Benchmark App fit OpenVINO 2019R2
 # 2019/10/04	henry1758f 4.0.0-beta02	security_barrier_camera_demo and interactive_face_detection_demo fit OpenVINO 2019R2
+# 2019/10/04	henry1758f 4.0.0-beta03	Fix Error when there's no IR file the MO cannot been excute correctly in Benchmark App
 
-export VERSION="4.0.0-beta02"
+export VERSION="4.0.0-beta03"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -54,11 +55,11 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}interactive_face_detection_demo.sh
 		;;
-#		"3")
-#			echo " You choose classification_demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}classification_demo.sh
-#		;;
+		"3")
+			echo " You choose classification_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}classification_demo.sh
+		;;
 #		"4")
 #			echo " Human Pose Estimation Demo ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
