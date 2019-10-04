@@ -3,109 +3,16 @@
 # 2019/07/30	henry1758f 1.0.0	workable
 # 2019/07/30	henry1758f 2.0.0	Add Object Detection Models, new feature:export benchmark result is now available
 # 2019/07/30	henry1758f 2.1.0	new feature:setting multiple testing times is now available
+# 2019/10/04	henry1758f 3.0.0	Fit OpenVINOv2019.3.334, 76 kinds of model is available
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
 select_inf=" >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO,MULTI...Please choose your target device."
 # Classification Models
-squeezenet11_name="squeezenet1.1"
-squeezenet11="classification/squeezenet/1.1/caffe"
-squeezenet11_fp16="classification/squeezenet/1.1/caffe"
-squeezenet10_name="squeezenet1.0"
-squeezenet10="classification/squeezenet/1.0/caffe"
-squeezenet10_fp16="classification/squeezenet/1.0/caffe"
-alexnet_name="alexnet"
-alexnet="classification/alexnet/caffe"
-alexnet_fp16="classification/alexnet/caffe"
-densenet201_name="densenet-201"
-densenet201="classification/densenet/201/caffe"
-densenet201_fp16="classification/densenet/201/caffe"
-densenet169_name="densenet-169"
-densenet169="classification/densenet/169/caffe"
-densenet169_fp16="classification/densenet/169/caffe"
-densenet161_name="densenet-161"
-densenet161="classification/densenet/161/caffe"
-densenet161_fp16="classification/densenet/161/caffe"
-densenet121_name="densenet-121"
-densenet121="classification/densenet/121/caffe"
-densenet121_fp16="classification/densenet/121/caffe"
-googlenetv1_name="googlenet-v1"
-googlenetv1="classification/googlenet/v1/caffe"
-googlenetv1_fp16="classification/googlenet/v1/caffe"
-googlenetv2_name="googlenet-v2"
-googlenetv2="classification/googlenet/v2/caffe"
-googlenetv2_fp16="classification/googlenet/v2/caffe"
-googlenetv3_name="inception_v3_2016_08_28_frozen"
-googlenetv3="classification/googlenet/v3/tf"
-googlenetv3_fp16="classification/googlenet/v3/tf"
-googlenetv4_name="googlenet-v4"
-googlenetv4="classification/googlenet/v4/caffe"
-googlenetv4_fp16="classification/googlenet/v4/caffe"
-vgg16_name="vgg16"
-vgg16="classification/vgg/16/caffe"
-vgg16_fp16="classification//vgg/16/caffe"
-vgg19_name="vgg19"
-vgg19="classification/vgg/19/caffe"
-vgg19_fp16="classification//vgg/19/caffe"
-inception_resnetv2_name="inception-resnet-v2"
-inception_resnetv2="classification/inception-resnet/v2/caffe"
-inception_resnetv2_fp16="classification/inception-resnet/v2/caffe"
-mobilenetv1_name="mobilenet-v1-1.0-224"
-mobilenetv1="classification/mobilenet/v1/1.0/224/cf"
-mobilenetv1_fp16="classification/mobilenet/v1/1.0/224/cf"
-mobilenetv2_name="mobilenet-v2"
-mobilenetv2="classification/mobilenet/v2/cf"
-mobilenetv2_fp16="classification/mobilenet/v2/cf"
-mobilenetv2_tf_name="mobilenet_v2_1.4_224_frozen"
-mobilenetv2_tf="classification/mobilenet/v2/tf/mobilenet_v2_1.4_224"
-mobilenetv2_tf_fp16="classification/mobilenet/v2/tf/mobilenet_v2_1.4_224"
-seinception_name="se-inception"
-seinception="classification/se-networks/se-inception/caffe"
-seinception_fp16="classification/se-networks/se-inception/caffe"
-seresnet50_name="se-resnet-50"
-seresnet50="classification/se-networks/se-resnet-50/caffe"
-seresnet50_fp16="classification/se-networks/se-resnet-50/caffe"
-seresnet101_name="se-resnet-101"
-seresnet101="classification/se-networks/se-resnet-101/caffe"
-seresnet101_fp16="classification/se-networks/se-resnet-101/caffe"
-seresnet152_name="se-resnet-152"
-seresnet152="classification/se-networks/se-resnet-152/caffe"
-seresnet152_fp16="classification/se-networks/se-resnet-152/caffe"
-seresnext50_name="se-resnext-50"
-seresnext50="classification/se-networks/se-resnext-50/caffe"
-seresnext50_fp16="classification/se-networks/se-resnext-50/caffe"
-seresnext101_name="se-resnext-101"
-seresnext101="classification/se-networks/se-resnext-101/caffe"
-seresnext101_fp16="classification/se-networks/se-resnext-101/caffe"
-# Object Detection Models
-ssd_mobilenet_v2_coco_frozen_name="frozen_inference_graph"
-ssd_mobilenet_v2_coco_frozen="object_detection/common/ssd_mobilenet_v2_coco/tf/ssd_mobilenet_v2_coco_2018_03_29"
-ssd_mobilenet_v1_coco_frozen_name="frozen_inference_graph"
-ssd_mobilenet_v1_coco_frozen="object_detection/common/ssd_mobilenet/ssd_mobilenet_v1_coco/tf/ssd_mobilenet_v1_coco_2018_01_28"
-ssd_512_name="VGG_VOC0712Plus_SSD_512x512_iter_240000"
-ssd_512="object_detection/common/ssd/512/caffe/models/VGGNet/VOC0712Plus/SSD_512x512"
-ssd_300_name="VGG_VOC0712Plus_SSD_300x300_ft_iter_160000"
-ssd_300="object_detection/common/ssd/300/caffe/models/VGGNet/VOC0712Plus/SSD_300x300_ft"
-mobilenet_ssd_name="mobilenet-ssd"
-mobilenet_ssd="object_detection/common/mobilenet-ssd/caffe"
-mtcnn_o_name="mtcnn-o"
-mtcnn_o="object_detection/common/mtcnn/o/caffe"
-mtcnn_p_name="mtcnn-p"
-mtcnn_p="object_detection/common/mtcnn/p/caffe"
-mtcnn_r_name="mtcnn-r"
-mtcnn_r="object_detection/common/mtcnn/r/caffe"
-faster_rcnn_inception_v2_name="frozen_inference_graph"
-faster_rcnn_inception_v2="object_detection/common/faster_rcnn/faster_rcnn_inception_v2_coco/tf/faster_rcnn_inception_v2_coco_2018_01_28"
-faster_rcnn_resnet101_name="frozen_inference_graph"
-faster_rcnn_resnet101="object_detection/common/faster_rcnn/faster_rcnn_resnet101_coco/tf/faster_rcnn_resnet101_coco_2018_01_28"
-faster_rcnn_resnet50_name="frozen_inference_graph"
-faster_rcnn_resnet50="object_detection/common/faster_rcnn/faster_rcnn_resnet50_coco/faster_rcnn_resnet50_coco_2018_01_28"
-faster_rcnn_Inception_resnet_v2_atrous_name="frozen_inference_graph"
-faster_rcnn_Inception_resnet_v2_atrous="object_detection/common/faster_rcnn/faster_rcnn_inception_resnet_v2_atrous_coco/faster_rcnn_inception_resnet_v2_atrous_coco_2018_01_28"
 
 
-model_enable_count=33
+model_enable_count=76
 
 
 
@@ -119,43 +26,82 @@ function banner_show()
 }
 function model_list()
 {
-	echo " 1. ${squeezenet11_name}.xml"
-	echo " 2. ${squeezenet10_name}.xml "
-	echo " 3. ${alexnet_name}.xml "
-	echo " 4. ${densenet201_name}.xml "
-	echo " 5. ${densenet169_name}.xml "
-	echo " 6. ${densenet161_name}.xml "
-	echo " 7. ${densenet121_name}.xml "
-	echo " 8. ${googlenetv1_name}.xml "
-	echo " 9. ${googlenetv2_name}.xml "
-	echo "10. ${googlenetv3_name}.xml "
-	echo "11. ${googlenetv4_name}.xml "
-	echo "12. ${inception_resnetv2_name}.xml "
-	echo "13. ${mobilenetv1_name}.xml "
-	echo "14. ${mobilenetv2_name}.xml "
-	echo "15. ${mobilenetv2_tf_name}.xml "
-	echo "16. ${seinception_name}.xml "
-	echo "17. ${seresnet50_name}.xml "
-	echo "18. ${seresnet101_name}.xml "
-	echo "19. ${seresnet152_name}.xml "
-	echo "20. ${seresnext50_name}.xml "
-	echo "21. ${seresnext101_name}.xml "
-	echo "22. ${vgg16_name}.xml "
-	echo "23. ${vgg19_name}.xml "
-
-	echo "24. ssd_mobilenet_v2_coco_2018_03_29 (${ssd_mobilenet_v2_coco_frozen_name}.xml) "
-	echo "25. ssd_mobilenet_v1_coco_2018_01_28 (${ssd_mobilenet_v1_coco_frozen_name}.xml) "
-	echo "26. SSD_512x512 (${ssd_512_name}.xml) "
-	echo "27. SSD_300x300_ft (${ssd_300_name}.xml) "
-	echo "28. ${mobilenet_ssd_name}.xml "
-	echo "29. ${mtcnn_o_name}.xml "
-	echo "30. ${mtcnn_p_name}.xml "
-	echo "31. ${mtcnn_r_name}.xml "
-	echo "32. faster_rcnn_inception_v2_coco_2018_01_28 (${faster_rcnn_inception_v2_name}.xml) "
-	echo "33. faster_rcnn_resnet101_coco_2018_01_28 (${faster_rcnn_resnet101_name}.xml) "
-	#echo "34. faster_rcnn_resnet50_coco_2018_01_28 (${faster_rcnn_resnet50_name}.xml)  "
-	#echo "35. faster_rcnn_inception_resnet_v2_atrous_coco_2018_01_28 (${faster_rcnn_Inception_resnet_v2_atrous_name}.xml) "
-
+	echo " 1. alexnet"
+	echo " 2. brain-tumor-segmentation-0001"
+	echo " 3. caffenet"
+	echo " 4. ctpn"
+	echo " 5. deeplabv3"
+	echo " 6. densenet-121"
+	echo " 7. densenet-121-tf"
+	echo " 8. densenet-161"
+	echo " 9. densenet-161-tf"
+	echo "10. densenet-169"
+	echo "11. densenet-169-tf"
+	echo "12. densenet-201"
+	echo "13. face-detection-retail-0044"
+	echo "14. face-recognition-mobilefacenet-arcface"
+	echo "15. face-recognition-resnet100-arcface"
+	echo "16. face-recognition-resnet34-arcface"
+	echo "17. face-recognition-resnet50-arcface"
+	echo "18. facenet-20180408-102900"
+	echo "19. faster_rcnn_inception_resnet_v2_atrous_coco"
+	echo "20. faster_rcnn_inception_v2_coco"
+	echo "21. faster_rcnn_resnet101_coco"
+	echo "22. faster_rcnn_resnet50_coco"
+	echo "23. googlenet-v1"
+	echo "24. googlenet-v2"
+	echo "25. googlenet-v3"
+	echo "26. googlenet-v3-pytorch"
+	echo "27. googlenet-v4"
+	echo "28. inception-resnet-v2"
+	echo "29. inception-resnet-v2-tf"
+	echo "30. license-plate-recognition-barrier-0007"
+	echo "31. mask_rcnn_inception_resnet_v2_atrous_coco"
+	echo "32. mask_rcnn_inception_v2_coco"
+	echo "33. mask_rcnn_resnet101_atrous_coco"
+	echo "34. mask_rcnn_resnet50_atrous_coco"
+	echo "35. mobilenet-ssd"
+	echo "36. mobilenet-v1-0.25-128"
+	echo "37. mobilenet-v1-0.50-160"
+	echo "38. mobilenet-v1-0.50-224"
+	echo "39. mobilenet-v1-1.0-224"
+	echo "40. mobilenet-v1-1.0-224-tf"
+	echo "41. mobilenet-v2"
+	echo "42. mobilenet-v2-1.0-224"
+	echo "43. mobilenet-v2-1.4-224"
+	echo "44. mobilenet-v2-pytorch"
+	echo "45. mtcnn-o"
+	echo "46. mtcnn-p"
+	echo "47. mtcnn-r"
+	echo "48. octave-densenet-121-0.125"
+	echo "49. octave-resnet-101-0.125"
+	echo "50. octave-resnet-200-0.125"
+	echo "51. octave-resnet-26-0.25"
+	echo "52. octave-resnet-50-0.125"
+	echo "53. octave-resnext-101-0.25"
+	echo "54. octave-resnext-50-0.25"
+	echo "55. octave-se-resnet-50-0.125"
+	echo "56. resnet-101"
+	echo "57. resnet-152"
+	echo "58. resnet-50"
+	echo "59. resnet-50-pytorch"
+	echo "60. se-inception"
+	echo "61. se-resnet-101"
+	echo "62. se-resnet-152"
+	echo "63. se-resnet-50"
+	echo "64. se-resnext-101"
+	echo "65. se-resnext-50"
+	echo "66. squeezenet1.0"
+	echo "67. squeezenet1.1"
+	echo "68. ssd300"
+	echo "69. ssd512"
+	echo "70. ssd_mobilenet_v1_coco"
+	echo "71. ssd_mobilenet_v1_fpn_coco"
+	echo "72. ssd_mobilenet_v2_coco"
+	echo "73. ssdlite_mobilenet_v2"
+	echo "74. vgg16"
+	echo "75. vgg19"
+	echo "76. Sphereface"
 
 }
 function inference_D_choose()
@@ -177,203 +123,387 @@ function test_models
 
 	case $1 in
 		"1")
-			echo " ${squeezenet11_name}.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${squeezenet11}/${squeezenet11_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ${squeezenet11_name}.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${squeezenet11}/squeezenet1.1.xml
+			echo " alexnet.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/alexnet/$2/alexnet.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=alexnet --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/alexnet/$2/alexnet.xml
 		;;
 		"2")
-			echo " squeezenet1.0.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${squeezenet10}/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.0.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${squeezenet10}/squeezenet1.0.xml
+			echo " brain-tumor-segmentation-0001.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/brain-tumor-segmentation-0001/$2/brain-tumor-segmentation-0001.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=brain-tumor-segmentation-0001 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/brain-tumor-segmentation-0001/$2/brain-tumor-segmentation-0001.xml
 		;;
-
 		"3")
-			echo " alexnet.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${alexnet}/alexnet.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m alexnet.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${alexnet}/alexnet.xml
+			echo " caffenet.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/caffenet/$2/caffenet.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=caffenet --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/caffenet/$2/caffenet.xml
 		;;
-
 		"4")
-			echo " densenet-201.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${densenet201}/densenet-201.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-201.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${densenet201}/densenet-201.xml
+			echo " ctpn.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/ctpn/$2/ctpn.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=ctpn --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ctpn/$2/ctpn.xml
 		;;
-
 		"5")
-			echo " densenet-169.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${densenet169}/densenet-169.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-169.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${densenet169}/densenet-169.xml
+			echo " deeplabv3.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/deeplabv3/$2/deeplabv3.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=deeplabv3 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/deeplabv3/$2/deeplabv3.xml
 		;;
-
 		"6")
-			echo " densenet-161.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${densenet161}/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-161.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${densenet161}/densenet-161.xml
-		;;
-
-		"7")
 			echo " densenet-121.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${densenet121}/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-121.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${densenet121}/densenet-121.xml
+			test -e ${MODEL_LOC}/../../ir/public/densenet-121/$2/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=densenet-121 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-121/$2/densenet-121.xml
 		;;
-
+		"7")
+			echo " densenet-121-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-121-tf/$2/densenet-121-tf.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=densenet-121-tf --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-121-tf/$2/densenet-121-tf.xml
+		;;
 		"8")
-			echo " googlenet-v1.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${googlenetv1}/googlenet-v1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v1.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${googlenetv1}/googlenet-v1.xml
+			echo " densenet-161.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-161/$2/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=densenet-161 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-161/$2/densenet-161.xml
 		;;
-
 		"9")
-			echo " googlenet-v2.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${googlenetv2}/googlenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v2.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${googlenetv2}/googlenet-v2.xml
+			echo " densenet-161-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-161-tf/$2/densenet-161-tf.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=densenet-161-tf --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-161-tf/$2/densenet-161-tf.xml
 		;;
-
 		"10")
-			echo " googlenet-v3.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${googlenetv3}/inception_v3_2016_08_28_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v3.frozen.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${googlenetv3}/inception_v3_2016_08_28_frozen.xml
+			echo " densenet-169.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-169/$2/densenet-169.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=densenet-169 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-169/$2/densenet-169.xml
 		;;
-
 		"11")
-			echo " googlenet-v4.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${googlenetv4}/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v4.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${googlenetv4}/googlenet-v4.xml
+			echo " densenet-169-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-169-tf/$2/densenet-169-tf.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=densenet-169-tf --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-169-tf/$2/densenet-169-tf.xml
 		;;
-
 		"12")
-			echo " inception-resnet-v2.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${inception_resnetv2}/inception-resnet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m inception-resnet-v2.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${inception_resnetv2}/inception-resnet-v2.xml
+			echo " densenet-201.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-201/$2/densenet-201.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=densenet-201 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-201/$2/densenet-201.xml
 		;;
-
 		"13")
-			echo " mobilenet-v1-1.0-224.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${mobilenetv1}/mobilenet-v1-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v1-1.0-224.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${mobilenetv1}/mobilenet-v1-1.0-224.xml
+			echo " face-detection-retail-0044.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/face-detection-retail-0044/$2/face-detection-retail-0044.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-detection-retail-0044 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-detection-retail-0044/$2/face-detection-retail-0044.xml
 		;;
-
 		"14")
-			echo " mobilenet-v2.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${mobilenetv2}/mobilenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v2.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${mobilenetv2}/mobilenet-v2.xml
+			echo " face-recognition-mobilefacenet-arcface.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/face-recognition-mobilefacenet-arcface/$2/face-recognition-mobilefacenet-arcface.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-recognition-mobilefacenet-arcface --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-recognition-mobilefacenet-arcface/$2/face-recognition-mobilefacenet-arcface.xml
 		;;
-
 		"15")
-			echo " mobilenet_v2_1.4_224_frozen.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet_v2_1.4_224_frozen.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml
+			echo " face-recognition-resnet100-arcface.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/face-recognition-resnet100-arcface/$2/face-recognition-resnet100-arcface.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-recognition-resnet100-arcface --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-recognition-resnet100-arcface/$2/face-recognition-resnet100-arcface.xml
 		;;
-
 		"16")
-			echo " se-inception.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${seinception}/se-inception.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-inception.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${seinception}/se-inception.xml
+			echo " face-recognition-resnet34-arcface.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/face-recognition-resnet34-arcface/$2/face-recognition-resnet34-arcface.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-recognition-resnet34-arcface --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-recognition-resnet34-arcface/$2/face-recognition-resnet34-arcface.xml
 		;;
-
 		"17")
-			echo " se-resnet-50.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${seresnet50}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-50.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${seresnet50}/se-resnet-50.xml
+			echo " face-recognition-resnet50-arcface.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/face-recognition-resnet50-arcface/$2/face-recognition-resnet50-arcface.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-recognition-resnet50-arcface --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-recognition-resnet50-arcface/$2/face-recognition-resnet50-arcface.xml
 		;;
-
 		"18")
-			echo " se-resnet-101.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${seresnet101}/se-resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-101.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${seresnet101}/se-resnet-101.xml
+			echo " facenet-20180408-102900.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/facenet-20180408-102900/$2/facenet-20180408-102900.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=facenet-20180408-102900 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/facenet-20180408-102900/$2/facenet-20180408-102900.xml
 		;;
-
 		"19")
-			echo " se-resnet-152.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${seresnet152}/se-resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-152.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${seresnet152}/se-resnet-152.xml
+			echo " faster_rcnn_inception_resnet_v2_atrous_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/faster_rcnn_inception_resnet_v2_atrous_coco/$2/faster_rcnn_inception_resnet_v2_atrous_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=faster_rcnn_inception_resnet_v2_atrous_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/faster_rcnn_inception_resnet_v2_atrous_coco/$2/faster_rcnn_inception_resnet_v2_atrous_coco.xml
 		;;
-
 		"20")
-			echo " se-resnext-50.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${seresnext50}/se-resnext-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-50.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${seresnext50}/se-resnext-50.xml
+			echo " faster_rcnn_inception_v2_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/faster_rcnn_inception_v2_coco/$2/faster_rcnn_inception_v2_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=faster_rcnn_inception_v2_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/faster_rcnn_inception_v2_coco/$2/faster_rcnn_inception_v2_coco.xml
 		;;
-
 		"21")
-			echo " se-resnext-101.xml [$2] ->"			
-			test -e ${MODEL_LOC}/../../ir/$2/${seresnext101}/se-resnext-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-101.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${seresnext101}/se-resnext-101.xml
+			echo " faster_rcnn_resnet101_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/faster_rcnn_resnet101_coco/$2/faster_rcnn_resnet101_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=faster_rcnn_resnet101_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/faster_rcnn_resnet101_coco/$2/faster_rcnn_resnet101_coco.xml
 		;;
-
 		"22")
-			echo " vgg16.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${vgg16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${vgg16}/vgg16.xml
+			echo " faster_rcnn_resnet50_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/faster_rcnn_resnet50_coco/$2/faster_rcnn_resnet50_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=faster_rcnn_resnet50_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/faster_rcnn_resnet50_coco/$2/faster_rcnn_resnet50_coco.xml
 		;;
-
 		"23")
-			echo " vgg19.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${vgg19}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${vgg19}/vgg19.xml
+			echo " googlenet-v1.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v1/$2/googlenet-v1.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v1 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v1/$2/googlenet-v1.xml
 		;;
-
 		"24")
-			echo " ssd_mobilenet_v2_coco_2018_03_29 (${ssd_mobilenet_v2_coco_frozen_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${ssd_mobilenet_v2_coco_frozen}/${ssd_mobilenet_v2_coco_frozen_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd_mobilenet_v2_coco.frozen.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${ssd_mobilenet_v2_coco_frozen}/${ssd_mobilenet_v2_coco_frozen_name}.xml
+			echo " googlenet-v2.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v2/$2/googlenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v2 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v2/$2/googlenet-v2.xml
 		;;
 		"25")
-			echo " ssd_mobilenet_v1_coco_2018_01_28 (${ssd_mobilenet_v1_coco_frozen_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${ssd_mobilenet_v1_coco_frozen}/${ssd_mobilenet_v1_coco_frozen_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd_mobilenet_v1_coco.frozen.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${ssd_mobilenet_v1_coco_frozen}/${ssd_mobilenet_v1_coco_frozen_name}.xml
+			echo " googlenet-v3.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v3/$2/googlenet-v3.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v3 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v3/$2/googlenet-v3.xml
 		;;
 		"26")
-			echo " SSD_512x512 (${ssd_512_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${ssd_512}/${ssd_512_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd512.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${ssd_512}/${ssd_512_name}.xml
+			echo " googlenet-v3-pytorch.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v3-pytorch/$2/googlenet-v3-pytorch.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v3-pytorch --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v3-pytorch/$2/googlenet-v3-pytorch.xml
 		;;
 		"27")
-			echo " SSD_300x300_ft (${ssd_300_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${ssd_300}/${ssd_300_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m ssd300.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${ssd_300}/${ssd_300_name}.xml
+			echo " googlenet-v4.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v4/$2/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v4 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v4/$2/googlenet-v4.xml
 		;;
 		"28")
-			echo " ${mobilenet_ssd_name}.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${mobilenet_ssd}/${mobilenet_ssd_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-ssd.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${mobilenet_ssd}/${mobilenet_ssd_name}.xml
+			echo " inception-resnet-v2.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/inception-resnet-v2/$2/inception-resnet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=inception-resnet-v2 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/inception-resnet-v2/$2/inception-resnet-v2.xml
 		;;
 		"29")
-			echo " ${mtcnn_o_name}.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${mtcnn_o}/${mtcnn_o_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-o.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${mtcnn_o}/${mtcnn_o_name}.xml
+			echo " inception-resnet-v2-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/inception-resnet-v2-tf/$2/inception-resnet-v2-tf.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=inception-resnet-v2-tf --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/inception-resnet-v2-tf/$2/inception-resnet-v2-tf.xml
 		;;
 		"30")
-			echo " ${mtcnn_p_name}.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${mtcnn_p}/${mtcnn_p_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-p.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${mtcnn_p}/${mtcnn_p_name}.xml
+			echo " license-plate-recognition-barrier-0007.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/license-plate-recognition-barrier-0007/$2/license-plate-recognition-barrier-0007.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=license-plate-recognition-barrier-0007 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/license-plate-recognition-barrier-0007/$2/license-plate-recognition-barrier-0007.xml
 		;;
 		"31")
-			echo " ${mtcnn_r_name}.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${mtcnn_r}/${mtcnn_r_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mtcnn-r.caffemodel ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${mtcnn_r}/${mtcnn_r_name}.xml
+			echo " mask_rcnn_inception_resnet_v2_atrous_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mask_rcnn_inception_resnet_v2_atrous_coco/$2/mask_rcnn_inception_resnet_v2_atrous_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mask_rcnn_inception_resnet_v2_atrous_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mask_rcnn_inception_resnet_v2_atrous_coco/$2/mask_rcnn_inception_resnet_v2_atrous_coco.xml
 		;;
 		"32")
-			echo " faster_rcnn_inception_v2_coco_2018_01_28 (${faster_rcnn_inception_v2_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${faster_rcnn_inception_v2}/${faster_rcnn_inception_v2_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m faster_rcnn_inception_v2.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${faster_rcnn_inception_v2}/${faster_rcnn_inception_v2_name}.xml
+			echo " mask_rcnn_inception_v2_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mask_rcnn_inception_v2_coco/$2/mask_rcnn_inception_v2_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mask_rcnn_inception_v2_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mask_rcnn_inception_v2_coco/$2/mask_rcnn_inception_v2_coco.xml
 		;;
 		"33")
-			echo " faster_rcnn_resnet101_coco_2018_01_28 (${faster_rcnn_resnet101_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${faster_rcnn_resnet101}/${faster_rcnn_resnet101_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m faster_rcnn_resnet101.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${faster_rcnn_resnet101}/${faster_rcnn_resnet101_name}.xml
+			echo " mask_rcnn_resnet101_atrous_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mask_rcnn_resnet101_atrous_coco/$2/mask_rcnn_resnet101_atrous_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mask_rcnn_resnet101_atrous_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mask_rcnn_resnet101_atrous_coco/$2/mask_rcnn_resnet101_atrous_coco.xml
 		;;
-		# TBD
 		"34")
-			echo " faster_rcnn_resnet50_coco_2018_01_28 (${faster_rcnn_resnet50_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${faster_rcnn_resnet50}/${faster_rcnn_resnet50_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m faster_rcnn_resnet50.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${faster_rcnn_resnet50}/${faster_rcnn_resnet50_name}.xml
+			echo " mask_rcnn_resnet50_atrous_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mask_rcnn_resnet50_atrous_coco/$2/mask_rcnn_resnet50_atrous_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mask_rcnn_resnet50_atrous_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mask_rcnn_resnet50_atrous_coco/$2/mask_rcnn_resnet50_atrous_coco.xml
 		;;
 		"35")
-			echo " faster_rcnn_inception_resnet_v2_atrous_coco_2018_01_28 (${faster_rcnn_Inception_resnet_v2_atrous_name}.xml) [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/$2/${faster_rcnn_Inception_resnet_v2_atrous}/${faster_rcnn_Inception_resnet_v2_atrous_name}.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m faster_rcnn_Inception_resnet_v2_atrous.pb ${str_fp})
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/$2/${faster_rcnn_Inception_resnet_v2_atrous}/${faster_rcnn_Inception_resnet_v2_atrous_name}.xml
+			echo " mobilenet-ssd.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-ssd/$2/mobilenet-ssd.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-ssd --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-ssd/$2/mobilenet-ssd.xml
 		;;
+		"36")
+			echo " mobilenet-v1-0.25-128.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.25-128/$2/mobilenet-v1-0.25-128.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-0.25-128 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-0.25-128/$2/mobilenet-v1-0.25-128.xml
+		;;
+		"37")
+			echo " mobilenet-v1-0.50-160.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-160/$2/mobilenet-v1-0.50-160.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-0.50-160 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-160/$2/mobilenet-v1-0.50-160.xml
+		;;
+		"38")
+			echo " mobilenet-v1-0.50-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-224/$2/mobilenet-v1-0.50-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-0.50-224 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-224/$2/mobilenet-v1-0.50-224.xml
+		;;
+		"39")
+			echo " mobilenet-v1-1.0-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224/$2/mobilenet-v1-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-1.0-224 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224/$2/mobilenet-v1-1.0-224.xml
+		;;
+		"40")
+			echo " mobilenet-v1-1.0-224-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224-tf/$2/mobilenet-v1-1.0-224-tf.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-1.0-224-tf --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224-tf/$2/mobilenet-v1-1.0-224-tf.xml
+		;;
+		"41")
+			echo " mobilenet-v2.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2/$2/mobilenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2/$2/mobilenet-v2.xml
+		;;
+		"42")
+			echo " mobilenet-v2-1.0-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-1.0-224/$2/mobilenet-v2-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2-1.0-224 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2-1.0-224/$2/mobilenet-v2-1.0-224.xml
+		;;
+		"43")
+			echo " mobilenet-v2-1.4-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-1.4-224/$2/mobilenet-v2-1.4-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2-1.4-224 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2-1.4-224/$2/mobilenet-v2-1.4-224.xml
+		;;
+		"44")
+			echo " mobilenet-v2-pytorch.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-pytorch/$2/mobilenet-v2-pytorch.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2-pytorch --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2-pytorch/$2/mobilenet-v2-pytorch.xml
+		;;
+		"45")
+			echo " mtcnn-o.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mtcnn-o/$2/mtcnn-o.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mtcnn-o --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mtcnn-o/$2/mtcnn-o.xml
+		;;
+		"46")
+			echo " mtcnn-p.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mtcnn-p/$2/mtcnn-p.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mtcnn-p --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mtcnn-p/$2/mtcnn-p.xml
+		;;
+		"47")
+			echo " mtcnn-r.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mtcnn-r/$2/mtcnn-r.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mtcnn-r --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mtcnn-r/$2/mtcnn-r.xml
+		;;
+		"48")
+			echo " octave-densenet-121-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-densenet-121-0.125/$2/octave-densenet-121-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-densenet-121-0.125 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-densenet-121-0.125/$2/octave-densenet-121-0.125.xml
+		;;
+		"49")
+			echo " octave-resnet-101-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-101-0.125/$2/octave-resnet-101-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-101-0.125 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-101-0.125/$2/octave-resnet-101-0.125.xml
+		;;
+		"50")
+			echo " octave-resnet-200-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-200-0.125/$2/octave-resnet-200-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-200-0.125 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-200-0.125/$2/octave-resnet-200-0.125.xml
+		;;
+		"51")
+			echo " octave-resnet-26-0.25.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-26-0.25/$2/octave-resnet-26-0.25.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-26-0.25 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-26-0.25/$2/octave-resnet-26-0.25.xml
+		;;
+		"52")
+			echo " octave-resnet-50-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-50-0.125/$2/octave-resnet-50-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-50-0.125 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-50-0.125/$2/octave-resnet-50-0.125.xml
+		;;
+		"53")
+			echo " octave-resnext-101-0.25.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnext-101-0.25/$2/octave-resnext-101-0.25.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnext-101-0.25 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnext-101-0.25/$2/octave-resnext-101-0.25.xml
+		;;
+		"54")
+			echo " octave-resnext-50-0.25.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnext-50-0.25/$2/octave-resnext-50-0.25.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnext-50-0.25 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnext-50-0.25/$2/octave-resnext-50-0.25.xml
+		;;
+		"55")
+			echo " octave-se-resnet-50-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/octave-se-resnet-50-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-se-resnet-50-0.125 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/resnet-101.xml
+		;;
+		"56")
+			echo " resnet-101.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-101/$2/resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-101 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-101/$2/resnet-101.xml
+		;;
+		"57")
+			echo " resnet-152.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-152/$2/resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-152 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-152/$2/resnet-152.xml
+		;;
+		"58")
+			echo " resnet-50.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-50/$2/resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-50 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-50/$2/resnet-50.xml
+		;;
+		"59")
+			echo " resnet-50-pytorch.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-50-pytorch/$2/resnet-50-pytorch.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-50-pytorch --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-50-pytorch/$2/resnet-50-pytorch.xml
+		;;
+		"60")
+			echo " se-inception.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-inception/$2/se-inception.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-inception --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-inception/$2/se-inception.xml
+		;;
+		"61")
+			echo " se-resnet-101.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-101/$2/se-resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnet-101 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnet-101/$2/se-resnet-101.xml
+		;;
+		"62")
+			echo " se-resnet-152.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-152/$2/se-resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnet-152 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnet-152/$2/se-resnet-152.xml
+		;;
+		"63")
+			echo " se-resnet-50.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-50/$2/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnet-50 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnet-50/$2/se-resnet-50.xml
+		;;
+		"64")
+			echo " se-resnext-101.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnext-101/$2/se-resnext-101.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnext-101 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnext-101/$2/se-resnext-101.xml
+		;;
+		"65")
+			echo " se-resnext-50.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnext-50/$2/se-resnext-50.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnext-50 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnext-50/$2/se-resnext-50.xml
+		;;
+		"66")
+			echo " squeezenet1.0.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/squeezenet1.0/$2/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=squeezenet1.0 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/squeezenet1.0/$2/squeezenet1.0.xml
+		;;
+		"67")
+			echo " squeezenet1.1.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/squeezenet1.1/$2/squeezenet1.1.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=squeezenet1.1 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/squeezenet1.1/$2/squeezenet1.1.xml
+		;;
+		"68")
+			echo " ssd300.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/ssd300/$2/ssd300.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=ssd300 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ssd300/$2/ssd300.xml
+		;;
+		"69")
+			echo " ssd512.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/ssd512/$2/ssd512.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=ssd512 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ssd512/$2/ssd512.xml
+		;;
+		"70")
+			echo " ssd_mobilenet_v1_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/ssd_mobilenet_v1_coco/$2/ssd_mobilenet_v1_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=ssd_mobilenet_v1_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ssd_mobilenet_v1_coco/$2/ssd_mobilenet_v1_coco.xml
+		;;
+		"71")
+			echo " ssd_mobilenet_v1_fpn_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/ssd_mobilenet_v1_fpn_coco/$2/ssd_mobilenet_v1_fpn_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=ssd_mobilenet_v1_fpn_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ssd_mobilenet_v1_fpn_coco/$2/ssd_mobilenet_v1_fpn_coco.xml
+		;;
+		"72")
+			echo " ssd_mobilenet_v2_coco.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/ssd_mobilenet_v2_coco/$2/ssd_mobilenet_v2_coco.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=ssd_mobilenet_v2_coco --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ssd_mobilenet_v2_coco/$2/ssd_mobilenet_v2_coco.xml
+		;;
+		"73")
+			echo " ssdlite_mobilenet_v2.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/ssdlite_mobilenet_v2/$2/ssdlite_mobilenet_v2.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=ssdlite_mobilenet_v2 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ssdlite_mobilenet_v2/$2/ssdlite_mobilenet_v2.xml
+		;;
+		"74")
+			echo " vgg16vgg19.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/vgg16vgg19/$2/vgg16vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg16vgg19 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/vgg16vgg19/$2/vgg16vgg19.xml
+		;;
+		"75")
+			echo " vgg19.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/vgg19/$2/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg19 --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/vgg19/$2/vgg19.xml
+		;;
+		"76")
+			echo " Sphereface.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/Sphereface/$2/Sphereface.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=Sphereface --download_dir $models_path --output_dir $models_path/../../ir )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/Sphereface/$2/Sphereface.xml
+		;;
+
+		
 		"0")
 			return 1
 		;;

@@ -5,6 +5,7 @@
 INTEL_OPENVINO_DIR=/opt/intel/openvino
 downloader_path="${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/downloader.py"
 models_path="$HOME/openvino_models/models/SYNNEX_demo/"
+converter_path="${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py"
 
 function banner_show()
 {
@@ -14,17 +15,18 @@ function banner_show()
 	echo "|                                         |"
 	echo "|            Model Downloader             |"
 	echo "|=========================================|"
-	echo "  Ver. 0.0.1 | Support OpenVINO $VERSION_VINO"
+	echo "  Ver. 1.0.0 | Support OpenVINO $VERSION_VINO"
 	echo ""
 	echo ""
 }
 
 function feature_choose()
 {
-	echo " 1. Download all from DLDT. (about 15G Bytes)"
+	echo " 1. Download all from DLDT. (about 16.4G Bytes)"
 	echo " 2. Typein specific DLDT model."
 	echo " 3. Typein an URL of the model."
-	echo " 4. EXIT the downloader."
+	echo " 4. Convert all public model to IR"
+	echo " 5. EXIT the downloader."
 
 	local choose
 	read choose
@@ -53,6 +55,13 @@ function feature_choose()
 			echo " > Download Finish!!"
 		;;
 		"4")
+			echo " > Convert all public model to IR....."
+			python3 -mpip install --user -r ${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/requirements.in
+			python3 -mpip install --user -r ${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/requirements-pytorch.in
+			echo "excuting ..... python3 $converter_path --all --download_dir $models_path --output_dir $models_path/../../ir -j8"
+			python3 $converter_path --all --download_dir $models_path --output_dir $models_path/../../ir -j8
+		;;
+		"5")
 			exit
 		;;
 		*)
