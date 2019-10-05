@@ -6,6 +6,7 @@
 # 2019/10/04	henry1758f 4.0.0-beta01	Benchmark App fit OpenVINO 2019R2
 # 2019/10/04	henry1758f 4.0.0-beta02	security_barrier_camera_demo and interactive_face_detection_demo fit OpenVINO 2019R2
 # 2019/10/04	henry1758f 4.0.0-beta03	Fix Error when there's no IR file the MO cannot been excute correctly in Benchmark App
+# 2019/10/05	henry1758f 4.0.0-beta04 object_detection_demo_ssd_async, classification_demo  fit OpenVINO 2019R2 and fix mispell in benchmark_app
 
 export VERSION="4.0.0-beta03"
 export VERSION_VINO="v2019.3.334"
@@ -27,7 +28,7 @@ function Inference_Engine_Sample_List()
 	echo "  0. Benchmark App."
 	echo "  1. security_barrier_camera_demo. "
 	echo "  2. interactive_face_detection_demo."
-	echo "  3. classification_demo.(TBD)"
+	echo "  3. classification_demo."
 	echo "  4. Human Pose Estimation Demo.(TBD)"
 	echo "  5. Object Detection and ASYNC API Demo.(TBD)"
 	echo "  6. Crossroad Camera Demo.(TBD)"
@@ -65,11 +66,11 @@ function Inference_Engine_Sample_List()
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 #			${SOURCE}human_pose_estimation_demo.sh
 #		;;
-#		"5")
-#			echo " Object Detection and ASYNC API Demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}object_detection_demo_ssd_async.sh
-#		;;
+		"5")
+			echo " Object Detection and ASYNC API Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}object_detection_demo_ssd_async.sh
+		;;
 #		"6")
 #			echo " Crossroad Camera Demo ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh

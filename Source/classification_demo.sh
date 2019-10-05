@@ -3,60 +3,15 @@
 # 2019/05/09	henry1758f 1.0.0	workable
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/26	henry1758f 2.0.1	Improved Output information 
-
+# 2019/10/05	henry1758f 2.1.0	classification_demo  fit OpenVINO 2019R3
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export MODEL_LOC=$HOME/openvino_models/models/SYNNEX_demo
 select_inf=" >> CPU,GPU,MYRIAD(FP16),HDDL(FP16),HETERO...Please choose your target device."
+label_path="$HOME/SYNNEX_work/Source/labels"
+converter_path="${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py"
 
-
-export squeezenet11="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.1/caffe"
-export squeezenet11_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.1/caffe"
-export squeezenet10="${MODEL_LOC}/../../ir/FP32/classification/squeezenet/1.0/caffe"
-export squeezenet10_fp16="${MODEL_LOC}/../../ir/FP16/classification/squeezenet/1.0/caffe"
-export alexnet="${MODEL_LOC}/../../ir/FP32/classification/alexnet/caffe"
-export alexnet_fp16="${MODEL_LOC}/../../ir/FP16/classification/alexnet/caffe"
-export densenet201="${MODEL_LOC}/../../ir/FP32/classification/densenet/201/caffe"
-export densenet201_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/201/caffe"
-export densenet169="${MODEL_LOC}/../../ir/FP32/classification/densenet/169/caffe"
-export densenet169_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/169/caffe"
-export densenet161="${MODEL_LOC}/../../ir/FP32/classification/densenet/161/caffe"
-export densenet161_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/161/caffe"
-export densenet121="${MODEL_LOC}/../../ir/FP32/classification/densenet/121/caffe"
-export densenet121_fp16="${MODEL_LOC}/../../ir/FP16/classification/densenet/121/caffe"
-export googlenetv1="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v1/caffe"
-export googlenetv1_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v1/caffe"
-export googlenetv2="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v2/caffe"
-export googlenetv2_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v2/caffe"
-export googlenetv3="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v3/tf"
-export googlenetv3_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v3/tf"
-export googlenetv4="${MODEL_LOC}/../../ir/FP32/classification/googlenet/v4/caffe"
-export googlenetv4_fp16="${MODEL_LOC}/../../ir/FP16/classification/googlenet/v4/caffe"
-export vgg16="${MODEL_LOC}/../../ir/FP32/classification/vgg/16/caffe"
-export vgg16_fp16="${MODEL_LOC}/../../ir/FP16/classification//vgg/16/caffe"
-export vgg19="${MODEL_LOC}/../../ir/FP32/classification/vgg/19/caffe"
-export vgg19_fp16="${MODEL_LOC}/../../ir/FP16/classification//vgg/19/caffe"
-export inception_resnetv2="${MODEL_LOC}/../../ir/FP32/classification/inception-resnet/v2/caffe"
-export inception_resnetv2_fp16="${MODEL_LOC}/../../ir/FP16/classification/inception-resnet/v2/caffe"
-export mobilenetv1="${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v1/1.0/224/cf"
-export mobilenetv1_fp16="${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v1/1.0/224/cf"
-export mobilenetv2="${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v2/cf"
-export mobilenetv2_fp16="${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v2/cf"
-export mobilenetv2_tf="${MODEL_LOC}/../../ir/FP32/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224"
-export mobilenetv2_tf_fp16="${MODEL_LOC}/../../ir/FP16/classification/mobilenet/v2/tf/mobilenet_v2_1.4_224"
-export seinception="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-inception/caffe"
-export seinception_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-inception/caffe"
-export seresnet50="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-50/caffe"
-export seresnet50_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-50/caffe"
-export seresnet101="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-101/caffe"
-export seresnet101_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-101/caffe"
-export seresnet152="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnet-152/caffe"
-export seresnet152_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnet-152/caffe"
-export seresnext50="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnext-50/caffe"
-export seresnext50_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnext-50/caffe"
-export seresnext101="${MODEL_LOC}/../../ir/FP32/classification/se-networks/se-resnext-101/caffe"
-export seresnext101_fp16="${MODEL_LOC}/../../ir/FP16/classification/se-networks/se-resnext-101/caffe"
 export model_enable_count=22
 
 function banner_show()
@@ -66,310 +21,376 @@ function banner_show()
 	echo "|=========================================|"
 }
 
-function model_0_choose()
-{
-	
-	local choose
-	if [ "$1" == "-Test" ];then
-		echo "Performance Test Mode $2"
-		choose="$2"
-	else
-		test -e ${squeezenet11}/squeezenet1.1.xml && echo " 1. squeezenet1.1.xml [FP32]" || echo " 1. squeezenet1.1.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${squeezenet11_fp16}/squeezenet1.1.xml && echo " 2. squeezenet1.1.xml [FP16]" || echo " 2. squeezenet1.1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${squeezenet10}/squeezenet1.0.xml && echo " 3. squeezenet1.0.xml [FP32]" || echo " 3. squeezenet1.0.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${squeezenet10_fp16}/squeezenet1.0.xml && echo " 4. squeezenet1.0.xml [FP16]" || echo " 4. squeezenet1.0.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${alexnet}/alexnet.xml && echo " 5. alexnet.xml [FP32]" || echo " 5. alexnet.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${alexnet_fp16}/alexnet.xml && echo " 6. alexnet.xml [FP16]" || echo " 6. alexnet.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet201}/densenet-201.xml && echo " 7. densenet-201.xml [FP32]" || echo " 7. densenet-201.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet201_fp16}/densenet-201.xml && echo " 8. densenet-201.xml [FP16]" || echo " 8. densenet-201.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet169}/densenet-169.xml && echo " 9. densenet-169.xml [FP32]" || echo " 9. densenet-169.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet169_fp16}/densenet-169.xml && echo "10. densenet-169.xml [FP16]" || echo "10. densenet-169.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet161}/densenet-161.xml && echo "11. densenet-161.xml [FP32]" || echo "11. densenet-161.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet161_fp16}/densenet-161.xml && echo "12 . densenet-161.xml [FP16]" || echo "12. densenet-161.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet121}/densenet-121.xml && echo "13. densenet-121.xml [FP32]" || echo "13. densenet-121.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${densenet121_fp16}/densenet-121.xml && echo "14. densenet-121.xml [FP16]" || echo "14. densenet-121.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv1}/googlenet-v1.xml && echo "15. googlenet-v1.xml [FP32]" || echo "15. googlenet-v1.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv1_fp16}/googlenet-v1.xml && echo "16. googlenet-v1.xml [FP16]" || echo "16. googlenet-v1.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv2}/googlenet-v2.xml && echo "17. googlenet-v2.xml [FP32]" || echo "17. googlenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv2_fp16}/googlenet-v2.xml && echo "18. googlenet-v2.xml [FP16]" || echo "18. googlenet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv3}/inception_v3_2016_08_28_frozen.xml && echo "19. inception_v3.xml [FP32]" || echo "19. googlenet-v3.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv3_fp16}/inception_v3_2016_08_28_frozen.xml && echo "20. inception_v3.xml [FP16]" || echo "20. googlenet-v3.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv4}/googlenet-v4.xml && echo "21. googlenet-v4.xml [FP32]" || echo "21. googlenet-v4.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${googlenetv4_fp16}/googlenet-v4.xml && echo "22. googlenet-v4.xml [FP16]" || echo "22. googlenet-v4.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${inception_resnetv2}/inception-resnet-v2.xml && echo "23. inception-resnet-v2.xml [FP32]" || echo "23. inception-resnet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${inception_resnetv2_fp16}/inception-resnet-v2.xml && echo "24. inception-resnet-v2.xml [FP16]" || echo "24. inception-resnet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv1}/mobilenet-v1-1.0-224.xml && echo "25. mobilenet-v1-1.0-224.xml [FP32]" || echo "25. mobilenet-v1-1.0-224.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv1_fp16}/mobilenet-v1-1.0-224.xml && echo "26. mobilenet-v1-1.0-224.xml [FP16]" || echo "26. mobilenet-v1-1.0-224.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv2}/mobilenet-v2.xml && echo "27. mobilenet-v2.xml [FP32]" || echo "27. mobilenet-v2.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv2_fp16}/mobilenet-v2.xml && echo "28. mobilenet-v2.xml [FP16]" || echo "28. mobilenet-v2.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml && echo "29. mobilenet_v2_1.4_224_frozen.xml [FP32]" || echo "29. mobilenet_v2_1.4_224_frozen.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml && echo "30. mobilenet_v2_1.4_224_frozen.xml [FP16]" || echo "30. mobilenet_v2_1.4_224_frozen.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seinception}/se-inception.xml && echo "31. se-inception.xml [FP32]" || echo "31. se-inception.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seinception_fp16}/se-inception.xml && echo "32. se-inception.xml [FP16]" || echo "32. se-inception.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnet50}/se-resnet-50.xml && echo "33. se-resnet-50.xml [FP32]" || echo "33. se-resnet-50.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnet50_fp16}/se-resnet-50.xml && echo "34. se-resnet-50.xml [FP16]" || echo "34. se-resnet-50.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnet101}/se-resnet-101.xml && echo "35. se-resnet-101.xml [FP32]" || echo "35. se-resnet-101.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnet101_fp16}/se-resnet-101.xml && echo "36. se-resnet-101.xml [FP16]" || echo "36. se-resnet-101.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnet152}/se-resnet-152.xml && echo "37. se-resnet-152.xml [FP32]" || echo "37. se-resnet-152.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnet152_fp16}/se-resnet-152.xml && echo "38. se-resnet-152.xml [FP16]" || echo "38. se-resnet-152.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnext50}/se-resnext-50.xml && echo "39. se-resnext-50.xml [FP32]" || echo "39. se-resnext-50.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnext50_fp16}/se-resnext-50.xml && echo "40. se-resnext-50.xml [FP16]" || echo "40. se-resnext-50.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnext101}/se-resnext-101.xml && echo "41. se-resnext-101.xml [FP32]" || echo " 41. se-resnext-101.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${seresnext101_fp16}/se-resnext-101.xml && echo "42. se-resnext-101.xml [FP16]" || echo " 42. se-resnext-101.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${vgg16}/vgg16.xml && echo "43. vgg16.xml [FP32]" || echo "43. vgg16.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${vgg16_fp16}/vgg16.xml && echo "44. vgg16.xml [FP16]" || echo "44. vgg16.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		test -e ${vgg19}/vgg19.xml && echo "45. vgg19.xml [FP32]" || echo "45. vgg19.xml [FP32]	File lost! Need to Download and Transfer to IR)"
-		test -e ${vgg19_fp16}/vgg19.xml && echo "46. vgg19.xml [FP16]" || echo "46. vgg19.xml [FP16]	File lost! Need to Download and Transfer to IR)"
-		echo " >> Or input a path to your model "
-		read choose
-	fi
 
-	case $choose in
+function model_list()
+{
+	echo " 1. alexnet"
+	echo " 2. caffenet"
+	echo " 3. densenet-121"
+	echo " 4. densenet-121-tf"
+	echo " 5. densenet-161"
+	echo " 6. densenet-161-tf"
+	echo " 7. densenet-169"
+	echo " 8. densenet-169-tf"
+	echo " 9. densenet-201"
+	echo "10. googlenet-v1"
+	echo "11. googlenet-v2"
+	echo "12. googlenet-v3"
+	echo "13. googlenet-v3-pytorch"
+	echo "14. googlenet-v4"
+	echo "15. inception-resnet-v2"
+	echo "16. inception-resnet-v2-tf"
+	echo "17. mobilenet-v1-0.25-128"
+	echo "18. mobilenet-v1-0.50-160"
+	echo "19. mobilenet-v1-0.50-224"
+	echo "20. mobilenet-v1-1.0-224"
+	echo "21. mobilenet-v1-1.0-224-tf"
+	echo "22. mobilenet-v2"
+	echo "23. mobilenet-v2-1.0-224"
+	echo "24. mobilenet-v2-1.4-224"
+	echo "25. mobilenet-v2-pytorch"
+	echo "26. octave-densenet-121-0.125"
+	echo "27. octave-resnet-101-0.125"
+	echo "28. octave-resnet-200-0.125"
+	echo "29. octave-resnet-26-0.25"
+	echo "30. octave-resnet-50-0.125"
+	echo "31. octave-resnext-101-0.25"
+	echo "32. octave-resnext-50-0.25"
+	echo "33. octave-se-resnet-50-0.125"
+	echo "34. resnet-101"
+	echo "35. resnet-152"
+	echo "36. resnet-50"
+	echo "37. resnet-50-pytorch"
+	echo "38. se-inception"
+	echo "39. se-resnet-101"
+	echo "40. se-resnet-152"
+	echo "41. se-resnet-50"
+	echo "42. se-resnext-101"
+	echo "43. se-resnext-50"
+	echo "44. squeezenet1.0"
+	echo "45. squeezenet1.1"
+	echo "46. vgg16"
+	echo "47. vgg19"
+	echo "48. Sphereface"
+}
+function test_models
+{
+	#echo "[DEBUG] $2 $1"
+	case $2 in
+		"FP32")
+			str_fp="-fp32"
+		;;
+		"FP16")
+			str_fp="-fp16"
+		;; 
+	esac
+
+	case $1 in
 		"1")
-			echo " squeezenet1.1.xml [FP32] ->"
-			test -e ${squeezenet11}/squeezenet1.1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.1.caffemodel -fp32 && cp -r ./Source/labels/squeezenet_11/squeezenet1.1.labels ${squeezenet11})
-			MODEL_LOC=${squeezenet11}/squeezenet1.1.xml
+			echo " alexnet.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/alexnet/$2/alexnet.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=alexnet --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/alexnet/$2/alexnet.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/alexnet/$2/alexnet.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/alexnet/$2/alexnet.xml
 		;;
 		"2")
-			echo " squeezenet1.1.xml [FP16] ->"
-			test -e ${squeezenet11_fp16}/squeezenet1.1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.1.caffemodel -fp16 && cp -r ./Source/labels/squeezenet_11/squeezenet1.1.labels ${squeezenet11_fp16})
-			MODEL_LOC=${squeezenet11_fp16}/squeezenet1.1.xml
+			echo " caffenet.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/caffenet/$2/caffenet.xml  || ( echo "[Run Model Optimizer Demo]" ;	python3 $converter_path --name=caffenet --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/caffenet/$2/caffenet.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/caffenet/$2/caffenet.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/caffenet/$2/caffenet.xml
 		;;
 		"3")
-			echo " squeezenet1.0.xml [FP32] ->"
-			test -e ${squeezenet10}/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.0.caffemodel -fp32 && cp -r ./Source/labels/squeezenet_10/squeezenet1.0.labels ${squeezenet10})
-			MODEL_LOC=${squeezenet10}/squeezenet1.0.xml
+			echo " densenet-121.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-121/$2/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=densenet-121 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/densenet-121/$2/densenet-121.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/densenet-121/$2/densenet-121.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-121/$2/densenet-121.xml
 		;;
 		"4")
-			echo " squeezenet1.0.xml [FP16] ->"
-			test -e ${squeezenet10_fp16}/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m squeezenet1.0.caffemodel -fp16 && cp -r ./Source/labels/squeezenet_10/squeezenet1.0.labels ${squeezenet10_fp16})
-			MODEL_LOC=${squeezenet10_fp16}/squeezenet1.0.xml
+			echo " densenet-121-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-121-tf/$2/densenet-121-tf.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=densenet-121-tf --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/densenet-121-tf/$2/densenet-121-tf.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/densenet-121-tf/$2/densenet-121-tf.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-121-tf/$2/densenet-121-tf.xml
 		;;
 		"5")
-			echo " alexnet.xml [FP32] ->"
-			test -e ${alexnet}/alexnet.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m alexnet.caffemodel -fp32 && cp -r ./Source/labels/alexnet/alexnet.labels ${alexnet})
-			MODEL_LOC=${alexnet}/alexnet.xml
+			echo " densenet-161.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-161/$2/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=densenet-161 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/densenet-161/$2/densenet-161.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/densenet-161/$2/densenet-161.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-161/$2/densenet-161.xml
 		;;
 		"6")
-			echo " alexnet.xml [FP16] ->"
-			test -e ${alexnet_fp16}/alexnet.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m alexnet.caffemodel -fp16 && cp -r ./Source/labels/alexnet/alexnet.labels ${alexnet_fp16})
-			MODEL_LOC=${alexnet_fp16}/alexnet.xml
+			echo " densenet-161-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-161-tf/$2/densenet-161-tf.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=densenet-161-tf --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/densenet-161-tf/$2/densenet-161-tf.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/densenet-161-tf/$2/densenet-161-tf.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-161-tf/$2/densenet-161-tf.xml
 		;;
 		"7")
-			echo " densenet-201.xml [FP32] ->"
-			test -e ${densenet201}/densenet-201.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-201.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-201.labels ${densenet201})
-			MODEL_LOC=${densenet201}/densenet-201.xml
+			echo " densenet-169.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-169/$2/densenet-169.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=densenet-169 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/densenet-169/$2/densenet-169.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/densenet-169/$2/densenet-169.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-169/$2/densenet-169.xml
 		;;
 		"8")
-			echo " densenet-201.xml [FP16] ->"
-			test -e ${densenet201_fp16}/densenet-201.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-201.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-201.labels ${densenet201_fp16})
-			MODEL_LOC=${densenet201_fp16}/densenet-201.xml
+			echo " densenet-169-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-169-tf/$2/densenet-169-tf.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=densenet-169-tf --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/densenet-169-tf/$2/densenet-169-tf.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/densenet-169-tf/$2/densenet-169-tf.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-169-tf/$2/densenet-169-tf.xml
 		;;
 		"9")
-			echo " densenet-169.xml [FP32] ->"
-			test -e ${densenet169}/densenet-169.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-169.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-169.labels ${densenet169})
-			MODEL_LOC=${densenet169}/densenet-169.xml
+			echo " densenet-201.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/densenet-201/$2/densenet-201.xml  || ( echo "[Run Model Optimizer Demo]" ; python3 $converter_path --name=densenet-201 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2 )
+			test -e ${MODEL_LOC}/../../ir/public/densenet-201/$2/densenet-201.labels || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/densenet-201/$2/densenet-201.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/densenet-201/$2/densenet-201.xml
 		;;
 		"10")
-			echo " densenet-169.xml [FP16] ->"
-			test -e ${densenet169_fp16}/densenet-169.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-169.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-169.labels ${densenet169_fp16})
-			MODEL_LOC=${densenet169_fp16}/densenet-169.xml
+			echo " googlenet-v1.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v1/$2/googlenet-v1.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v1 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v1/$2/googlenet-v1.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/googlenet-v1/$2/googlenet-v1.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v1/$2/googlenet-v1.xml
 		;;
 		"11")
-			echo " densenet-161.xml [FP32] ->"
-			test -e ${densenet161}/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-161.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-161.labels ${densenet161})
-			MODEL_LOC=${densenet161}/densenet-161.xml
+			echo " googlenet-v2.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v2/$2/googlenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v2 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v2/$2/googlenet-v2.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/googlenet-v2/$2/googlenet-v2.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v2/$2/googlenet-v2.xml
 		;;
 		"12")
-			echo " densenet-161.xml [FP16] ->"
-			test -e ${densenet161_fp16}/densenet-161.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-161.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-161.labels ${densenet161_fp16})
-			MODEL_LOC=${densenet161_fp16}/densenet-161.xml
+			echo " googlenet-v3.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v3/$2/googlenet-v3.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v3 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v3/$2/googlenet-v3.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/googlenet-v3/$2/googlenet-v3.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v3/$2/googlenet-v3.xml
 		;;
 		"13")
-			echo " densenet-121.xml [FP32] ->"
-			test -e ${densenet121}/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-121.caffemodel -fp32 && cp -r ./Source/labels/densenet/densenet-121.labels ${densenet121})
-			MODEL_LOC=${densenet121}/densenet-121.xml
+			echo " googlenet-v3-pytorch.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v3-pytorch/$2/googlenet-v3-pytorch.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v3-pytorch --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v3-pytorch/$2/googlenet-v3-pytorch.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/googlenet-v3-pytorch/$2/googlenet-v3-pytorch.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v3-pytorch/$2/googlenet-v3-pytorch.xml
 		;;
 		"14")
-			echo " densenet-121.xml [FP16] ->"
-			test -e ${densenet121_fp16}/densenet-121.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m densenet-121.caffemodel -fp16 && cp -r ./Source/labels/densenet/densenet-121.labels ${densenet121_fp16})
-			MODEL_LOC=${densenet121_fp16}/densenet-121.xml
+			echo " googlenet-v4.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v4/$2/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=googlenet-v4 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/googlenet-v4/$2/googlenet-v4.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/googlenet-v4/$2/googlenet-v4.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/googlenet-v4/$2/googlenet-v4.xml
 		;;
 		"15")
-			echo " googlenet-v1.xml [FP32] ->"
-			test -e ${googlenetv1}/googlenet-v1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v1.caffemodel -fp32 && cp -r ./Source/labels/googlenet/googlenet-v1.labels ${googlenetv1})
-			MODEL_LOC=${googlenetv1}/googlenet-v1.xml
+			echo " inception-resnet-v2.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/inception-resnet-v2/$2/inception-resnet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=inception-resnet-v2 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/inception-resnet-v2/$2/inception-resnet-v2.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/inception-resnet-v2/$2/inception-resnet-v2.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/inception-resnet-v2/$2/inception-resnet-v2.xml
 		;;
 		"16")
-			echo " googlenet-v1.xml [FP16] ->"
-			test -e ${googlenetv1_fp16}/googlenet-v1.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v1.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v1.labels ${googlenetv1_fp16})
-			MODEL_LOC=${googlenetv1_fp16}/googlenet-v1.xml
+			echo " inception-resnet-v2-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/inception-resnet-v2-tf/$2/inception-resnet-v2-tf.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=inception-resnet-v2-tf --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/inception-resnet-v2-tf/$2/inception-resnet-v2-tf.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/inception-resnet-v2-tf/$2/inception-resnet-v2-tf.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/inception-resnet-v2-tf/$2/inception-resnet-v2-tf.xml
 		;;
 		"17")
-			echo " googlenet-v2.xml [FP32] ->"
-			test -e ${googlenetv2}/googlenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v2.caffemodel -fp32 && cp -r ./Source/labels/googlenet/googlenet-v2.labels ${googlenetv2})
-			MODEL_LOC=${googlenetv2}/googlenet-v2.xml
+			echo " mobilenet-v1-0.25-128.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.25-128/$2/mobilenet-v1-0.25-128.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-0.25-128 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.25-128/$2/mobilenet-v1-0.25-128.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.25-128/$2/mobilenet-v1-0.25-128.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-0.25-128/$2/mobilenet-v1-0.25-128.xml
 		;;
 		"18")
-			echo " googlenet-v2.xml [FP16] ->"
-			test -e ${googlenetv2_fp16}/googlenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v2.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v2.labels ${googlenetv2_fp16})
-			MODEL_LOC=${googlenetv2_fp16}/googlenet-v2.xml
+			echo " mobilenet-v1-0.50-160.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-160/$2/mobilenet-v1-0.50-160.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-0.50-160 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-160/$2/mobilenet-v1-0.50-160.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-160/$2/mobilenet-v1-0.50-160.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-160/$2/mobilenet-v1-0.50-160.xml
 		;;
 		"19")
-			echo " googlenet-v3.xml [FP32] ->"
-			test -e ${googlenetv3}/inception_v3_2016_08_28_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v3.frozen.pb -fp32 && cp -r ./Source/labels/googlenet/inception_v3_2016_08_28_frozen.labels ${googlenetv3})
-			MODEL_LOC=${googlenetv3}/inception_v3_2016_08_28_frozen.xml
+			echo " mobilenet-v1-0.50-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-224/$2/mobilenet-v1-0.50-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-0.50-224 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-224/$2/mobilenet-v1-0.50-224.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-224/$2/mobilenet-v1-0.50-224.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-0.50-224/$2/mobilenet-v1-0.50-224.xml
 		;;
 		"20")
-			echo " googlenet-v3.xml [FP16] ->"
-			test -e ${googlenetv3_fp16}/inception_v3_2016_08_28_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v3.frozen.pb -fp16 && cp -r ./Source/labels/googlenet/inception_v3_2016_08_28_frozen.labels ${googlenetv3_fp16})
-			MODEL_LOC=${googlenetv3_fp16}/inception_v3_2016_08_28_frozen.xml
+			echo " mobilenet-v1-1.0-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224/$2/mobilenet-v1-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-1.0-224 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224/$2/mobilenet-v1-1.0-224.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224/$2/mobilenet-v1-1.0-224.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224/$2/mobilenet-v1-1.0-224.xml
 		;;
 		"21")
-			echo " googlenet-v4.xml [FP32] ->"
-			test -e ${googlenetv4}/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v4.caffemodel -fp32 && cp -r ./Source/labels/googlenet/googlenet-v4.labels ${googlenetv4})
-			MODEL_LOC=${googlenetv4}/googlenet-v4.xml
+			echo " mobilenet-v1-1.0-224-tf.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224-tf/$2/mobilenet-v1-1.0-224-tf.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v1-1.0-224-tf --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224-tf/$2/mobilenet-v1-1.0-224-tf.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224-tf/$2/mobilenet-v1-1.0-224-tf.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224-tf/$2/mobilenet-v1-1.0-224-tf.xml
 		;;
 		"22")
-			echo " googlenet-v4.xml [FP16] ->"			
-			test -e ${googlenetv4_fp16}/googlenet-v4.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m googlenet-v4.caffemodel -fp16 && cp -r ./Source/labels/googlenet/googlenet-v4.labels ${googlenetv4_fp16})
-			MODEL_LOC=${googlenetv4_fp16}/googlenet-v4.xml
+			echo " mobilenet-v2.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2/$2/mobilenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2/$2/mobilenet-v2.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v2/$2/mobilenet-v2.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2/$2/mobilenet-v2.xml
 		;;
 		"23")
-			echo " inception-resnet-v2.xml [FP32] ->"
-			test -e ${inception_resnetv2}/inception-resnet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m inception-resnet-v2.caffemodel -fp32 && cp -r ./Source/labels/inception-resnet/inception-resnet-v2.labels ${inception_resnetv2})
-			MODEL_LOC=${inception_resnetv2}/inception-resnet-v2.xml
+			echo " mobilenet-v2-1.0-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-1.0-224/$2/mobilenet-v2-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2-1.0-224 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-1.0-224/$2/mobilenet-v2-1.0-224.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v2-1.0-224/$2/mobilenet-v2-1.0-224.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2-1.0-224/$2/mobilenet-v2-1.0-224.xml
 		;;
 		"24")
-			echo " inception-resnet-v2.xml [FP16] ->"
-			test -e ${inception_resnetv2_fp16}/inception-resnet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m inception-resnet-v2.caffemodel -fp16 && cp -r ./Source/labels/inception-resnet/inception-resnet-v2.labels ${inception_resnetv2_fp16})
-			MODEL_LOC=${inception_resnetv2_fp16}/inception-resnet-v2.xml
+			echo " mobilenet-v2-1.4-224.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-1.4-224/$2/mobilenet-v2-1.4-224.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2-1.4-224 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-1.4-224/$2/mobilenet-v2-1.4-224.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v1-1.0-224-tf/$2/mobilenet-v1-1.0-224-tf.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2-1.4-224/$2/mobilenet-v2-1.4-224.xml
 		;;
 		"25")
-			echo " mobilenet-v1-1.0-224.xml [FP32] ->"			
-			test -e ${mobilenetv1}/mobilenet-v1-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v1-1.0-224.caffemodel -fp32 && cp -r ./Source/labels/mobilenet/mobilenet-v1-1.0-224.labels ${mobilenetv1} )
-			MODEL_LOC=${mobilenetv1}/mobilenet-v1-1.0-224.xml
+			echo " mobilenet-v2-pytorch.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-pytorch/$2/mobilenet-v2-pytorch.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=mobilenet-v2-pytorch --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/mobilenet-v2-pytorch/$2/mobilenet-v2-pytorch.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/mobilenet-v2-pytorch/$2/mobilenet-v2-pytorch.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/mobilenet-v2-pytorch/$2/mobilenet-v2-pytorch.xml
 		;;
 		"26")
-			echo " mobilenet-v1-1.0-224.xml [FP16] ->"			
-			test -e ${mobilenetv1_fp16}/mobilenet-v1-1.0-224.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v1-1.0-224.caffemodel -fp16 && cp -r ./Source/labels/mobilenet/mobilenet-v1-1.0-224.labels ${mobilenetv1_fp16})
-			MODEL_LOC=${mobilenetv1_fp16}/mobilenet-v1-1.0-224.xml
+			echo " octave-densenet-121-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-densenet-121-0.125/$2/octave-densenet-121-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-densenet-121-0.125 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-densenet-121-0.125/$2/octave-densenet-121-0.125.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-densenet-121-0.125/$2/octave-densenet-121-0.125.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-densenet-121-0.125/$2/octave-densenet-121-0.125.xml
 		;;
 		"27")
-			echo " mobilenet-v2.xml [FP32] ->"			
-			test -e ${mobilenetv2}/mobilenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v2.caffemodel -fp32 && cp -r ./Source/labels/mobilenet/mobilenet-v2.labels ${mobilenetv2})
-			MODEL_LOC=${mobilenetv2}/mobilenet-v2.xml
+			echo " octave-resnet-101-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-101-0.125/$2/octave-resnet-101-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-101-0.125 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-101-0.125/$2/octave-resnet-101-0.125.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-resnet-101-0.125/$2/octave-resnet-101-0.125.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-101-0.125/$2/octave-resnet-101-0.125.xml
 		;;
 		"28")
-			echo " mobilenet-v2.xml [FP16] ->"			
-			test -e ${mobilenetv2_fp16}/mobilenet-v2.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet-v2.caffemodel -fp16 && cp -r ./Source/labels/mobilenet/mobilenet-v2.labels ${mobilenetv2_fp16})
-			MODEL_LOC=${mobilenetv2_fp16}/mobilenet-v2.xml
+			echo " octave-resnet-200-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-200-0.125/$2/octave-resnet-200-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-200-0.125 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-200-0.125/$2/octave-resnet-200-0.125.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-resnet-200-0.125/$2/octave-resnet-200-0.125.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-200-0.125/$2/octave-resnet-200-0.125.xml
 		;;
 		"29")
-			echo " mobilenet_v2_1.4_224_frozen.xml [FP32] ->"			
-			test -e ${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet_v2_1.4_224_frozen.pb -fp32 && cp -r ./Source/labels/mobilenet/mobilenet_v2_1.4_224_frozen.labels ${mobilenetv2_tf})
-			MODEL_LOC=${mobilenetv2_tf}/mobilenet_v2_1.4_224_frozen.xml
+			echo " octave-resnet-26-0.25.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-26-0.25/$2/octave-resnet-26-0.25.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-26-0.25 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-26-0.25/$2/octave-resnet-26-0.25.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-resnet-26-0.25/$2/octave-resnet-26-0.25.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-26-0.25/$2/octave-resnet-26-0.25.xml
 		;;
 		"30")
-			echo " mobilenet_v2_1.4_224_frozen.xml [FP16] ->"			
-			test -e ${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m mobilenet_v2_1.4_224_frozen.pb -fp16 && cp -r ./Source/labels/mobilenet/mobilenet_v2_1.4_224_frozen.labels ${mobilenetv2_tf_fp16})
-			MODEL_LOC=${mobilenetv2_tf_fp16}/mobilenet_v2_1.4_224_frozen.xml
+			echo " octave-resnet-50-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-50-0.125/$2/octave-resnet-50-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnet-50-0.125 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnet-50-0.125/$2/octave-resnet-50-0.125.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-resnet-50-0.125/$2/octave-resnet-50-0.125.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnet-50-0.125/$2/octave-resnet-50-0.125.xml
 		;;
 		"31")
-			echo " se-inception.xml [FP32] ->"			
-			test -e ${seinception}/se-inception.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-inception.caffemodel -fp32 && cp -r ./Source/labels/se-inception/se-inception.labels ${seinception})
-			MODEL_LOC=${seinception}/se-inception.xml
+			echo " octave-resnext-101-0.25.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnext-101-0.25/$2/octave-resnext-101-0.25.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnext-101-0.25 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnext-101-0.25/$2/octave-resnext-101-0.25.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-resnext-101-0.25/$2/octave-resnext-101-0.25.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnext-101-0.25/$2/octave-resnext-101-0.25.xml
 		;;
 		"32")
-			echo " se-inception.xml [FP16] ->"			
-			test -e ${seinception_fp16}/se-inception.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-inception.caffemodel -fp16 && cp -r ./Source/labels/se-inception/se-inception.labels ${seinception_fp16})
-			MODEL_LOC=${seinception_fp16}/se-inception.xml
+			echo " octave-resnext-50-0.25.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnext-50-0.25/$2/octave-resnext-50-0.25.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-resnext-50-0.25 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-resnext-50-0.25/$2/octave-resnext-50-0.25.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-resnext-50-0.25/$2/octave-resnext-50-0.25.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-resnext-50-0.25/$2/octave-resnext-50-0.25.xml
 		;;
 		"33")
-			echo " se-resnet-50.xml [FP32] ->"			
-			test -e ${seresnet50}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-50.caffemodel -fp32 && cp -r ./Source/labels/se-resnet/se-resnet-50.labels ${seresnet50})
-			MODEL_LOC=${seresnet50}/se-resnet-50.xml
+			echo " octave-se-resnet-50-0.125.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/octave-se-resnet-50-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-se-resnet-50-0.125 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/octave-se-resnet-50-0.125.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/octave-se-resnet-50-0.125.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/octave-se-resnet-50-0.125.xml
 		;;
 		"34")
-			echo " se-resnet-50.xml [FP16] ->"			
-			test -e ${seresnet50_fp16}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-50.caffemodel -fp16 && cp -r ./Source/labels/se-resnet/se-resnet-50.labels ${seresnet50_fp16})
-			MODEL_LOC=${seresnet50_fp16}/se-resnet-50.xml
+			echo " resnet-101.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-101/$2/resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-101 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/resnet-101/$2/resnet-101.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/resnet-101/$2/resnet-101.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-101/$2/resnet-101.xml
 		;;
 		"35")
-			echo " se-resnet-101.xml [FP32] ->"			
-			test -e ${seresnet101}/se-resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-101.caffemodel -fp32 && cp -r ./Source/labels/se-resnet/se-resnet-101.labels ${seresnet101})
-			MODEL_LOC=${seresnet101}/se-resnet-101.xml
+			echo " resnet-152.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-152/$2/resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-152 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/resnet-152/$2/resnet-152.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/resnet-152/$2/resnet-152.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-152/$2/resnet-152.xml
 		;;
 		"36")
-			echo " se-resnet-101.xml [FP16] ->"			
-			test -e ${seresnet101_fp16}/se-resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-101.caffemodel -fp16 && cp -r ./Source/labels/se-resnet/se-resnet-101.labels ${seresnet101_fp16})
-			MODEL_LOC=${seresnet101_fp16}/se-resnet-101.xml
+			echo " resnet-50.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-50/$2/resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-50 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/resnet-50/$2/resnet-50.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/resnet-50/$2/resnet-50.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-50/$2/resnet-50.xml
 		;;
 		"37")
-			echo " se-resnet-152.xml [FP32] ->"			
-			test -e ${seresnet152}/se-resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-152.caffemodel -fp32 && cp -r ./Source/labels/se-resnet/se-resnet-152.labels ${seresnet152})
-			MODEL_LOC=${seresnet152}/se-resnet-152.xml
+			echo " resnet-50-pytorch.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/resnet-50-pytorch/$2/resnet-50-pytorch.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=resnet-50-pytorch --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/resnet-50-pytorch/$2/resnet-50-pytorch.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/resnet-50-pytorch/$2/resnet-50-pytorch.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/resnet-50-pytorch/$2/resnet-50-pytorch.xml
 		;;
 		"38")
-			echo " se-resnet-152.xml [FP16] ->"			
-			test -e ${seresnet152_fp16}/se-resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnet-152.caffemodel -fp16 && cp -r ./Source/labels/se-resnet/se-resnet-152.labels ${seresnet152_fp16})
-			MODEL_LOC=${seresnet152_fp16}/se-resnet-152.xml
+			echo " se-inception.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-inception/$2/se-inception.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-inception --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/se-inception/$2/se-inception.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/se-inception/$2/se-inception.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-inception/$2/se-inception.xml
 		;;
 		"39")
-			echo " se-resnext-50.xml [FP32] ->"			
-			test -e ${seresnext50}/se-resnext-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-50.caffemodel -fp32 && cp -r ./Source/labels/se-resnext/se-resnext-50.labels ${seresnext50})
-			MODEL_LOC=${seresnext50}/se-resnext-50.xml
+			echo " se-resnet-101.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-101/$2/se-resnet-101.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnet-101 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-101/$2/se-resnet-101.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/se-resnet-101/$2/se-resnet-101.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnet-101/$2/se-resnet-101.xml
 		;;
 		"40")
-			echo " se-resnext-50.xml [FP16] ->"			
-			test -e ${seresnext50_fp16}/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-50.caffemodel -fp16 && cp -r ./Source/labels/se-resnext/se-resnext-50.labels ${seresnext50_fp16})
-			MODEL_LOC=${seresnext50_fp16}/se-resnext-50.xml
+			echo " se-resnet-152.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-152/$2/se-resnet-152.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnet-152 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-152/$2/se-resnet-152.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/se-resnet-152/$2/se-resnet-152.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnet-152/$2/se-resnet-152.xml
 		;;
 		"41")
-			echo " se-resnext-101.xml [FP32] ->"			
-			test -e ${seresnext101}/se-resnext-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-101.caffemodel -fp32 && cp -r ./Source/labels/se-resnext/se-resnext-101.labels ${seresnext101})
-			MODEL_LOC=${seresnext101}/se-resnext-101.xml
+			echo " se-resnet-50.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-50/$2/se-resnet-50.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnet-50 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/se-resnet-50/$2/se-resnet-50.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/se-resnet-50/$2/se-resnet-50.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnet-50/$2/se-resnet-50.xml
 		;;
 		"42")
-			echo " se-resnext-101.xml [FP16] ->"			
-			test -e ${seresnext101_fp16}/se-resnext-101.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m se-resnext-101.caffemodel -fp16 && cp -r ./Source/labels/se-resnext/se-resnext-101.labels ${seresnext101_fp16})
-			MODEL_LOC=${seresnext101_fp16}/se-resnext-101.xml
+			echo " se-resnext-101.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnext-101/$2/se-resnext-101.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnext-101 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/se-resnext-101/$2/se-resnext-101.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/se-resnext-101/$2/se-resnext-101.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnext-101/$2/se-resnext-101.xml
 		;;
 		"43")
-			echo " vgg16.xml [FP32] ->"
-			test -e ${vgg16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp32 && cp -r ./Source/labels/vgg/vgg16.labels ${vgg16} )
-			MODEL_LOC=${vgg16}/vgg16.xml
+			echo " se-resnext-50.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/se-resnext-50/$2/se-resnext-50.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=se-resnext-50 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/se-resnext-50/$2/se-resnext-50.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/se-resnext-50/$2/se-resnext-50.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/se-resnext-50/$2/se-resnext-50.xml
 		;;
 		"44")
-			echo " vgg16.xml [FP16] ->"
-			test -e ${vgg16_fp16}/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg16.caffemodel -fp16 && cp -r ./Source/labels/vgg/vgg16.labels ${vgg16_fp16})
-			MODEL_LOC=${vgg16_fp16}/vgg16.xml
+			echo " squeezenet1.0.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/squeezenet1.0/$2/squeezenet1.0.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=squeezenet1.0 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/squeezenet1.0/$2/squeezenet1.0.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/squeezenet1.0/$2/squeezenet1.0.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/squeezenet1.0/$2/squeezenet1.0.xml
 		;;
 		"45")
-			echo " vgg19.xml [FP32] ->"
-			test -e ${vgg19}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp32 && cp -r ./Source/labels/vgg/vgg19.labels ${vgg19})
-			MODEL_LOC=${vgg19}/vgg19.xml
+			echo " squeezenet1.1.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/squeezenet1.1/$2/squeezenet1.1.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=squeezenet1.1 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/squeezenet1.1/$2/squeezenet1.1.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/squeezenet1.1/$2/squeezenet1.1.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/squeezenet1.1/$2/squeezenet1.1.xml
 		;;
 		"46")
-			echo " vgg19.xml [FP16] ->"
-			test -e ${vgg19_fp16}/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && ./Source/mo_dldt.sh -m vgg19.caffemodel -fp16 && cp -r ./Source/labels/vgg/vgg19.labels ${vgg19_fp16})
-			MODEL_LOC=${vgg19_fp16}/vgg19.xml
+			echo " vgg16.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg16 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.xml
 		;;
+		"47")
+			echo " vgg19.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/vgg19/$2/vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg19 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/vgg19/$2/vgg19.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/vgg19/$2/vgg19.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/vgg19/$2/vgg19.xml
+		;;
+		"48")
+			echo " Sphereface.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/Sphereface/$2/Sphereface.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=Sphereface --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/Sphereface/$2/Sphereface.labels  || ( echo "> copy ImageNet Labels"; cp -r $label_path/ImageNet/ImageNet.labels ${MODEL_LOC}/../../ir/public/Sphereface/$2/Sphereface.labels )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/Sphereface/$2/Sphereface.xml
+		;;
+
+		
 		"0")
 			return 1
 		;;
 		*)
 			echo " Model PATH=${choose}"
-			MODEL_LOC=${choose}
-			;;
+			MODEL_0_LOC=${choose}
+		;;
 	esac
 }
-
 function inference_D_choose()
 {
 	echo "$select_inf"
 	read TARGET_0
 }
+
 function source_choose()
 {
 	echo " >> input \"0\" for using dafault inference source, or typein the path to the source you want."
@@ -385,80 +406,55 @@ function source_choose()
 	esac
 }
 
-function test_mode()
-{
-	local i
-	echo "Which model you want to test?"
-	read model
-	if [ "$model" == "all" ]; then
-		for ((i=1; i<=46; i=i+1))
-		do
-			model_0_choose -Test $i
-			echo "Running ${MODEL_LOC} with $1 $2 $3 $4 $5 $6 $7"
-			for j in 1 2 3
-			do
-				$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
-			done
-		done
-	else
-		model_0_choose -Test $model
-			echo "Running ${MODEL_LOC} with $1 $2 $3 $4 $5 $6 $7"
-			for j in 1 2 3
-			do
-				$SAMPLE_LOC/classification_sample_async -m ${MODEL_LOC} -i /opt/intel/openvino/deployment_tools/demo/car.png $1 $2 $3 $4 $5 $6 $7 | grep Throughput
-			done
-	fi
-	cd $SAMPLE_LOC
-	
-}
 function set_default()
 {
 	echo " All model will run on CPU... "
-	MODEL_LOC=${squeezenet11}/squeezenet1.1.xml
+	MODEL_0_LOC=${MODEL_LOC}/../../ir/public/squeezenet1.1/FP32/squeezenet1.1.xml
 	I_SOURCE="/opt/intel/openvino/deployment_tools/demo/car.png"
 	TARGET_0="CPU"
 }
+
 function set_others()
 {
 	inference_D_choose
 	source_choose
 }
 
+function model_0_choose()
+{
+	model_list
+	read choose
+	if [ $choose == "0" ]; then
+		set_default
+		test_models 45 FP16
+	else
+		set_default
+		echo " >> input your data type, support \"FP32\" and \"FP16\" "
+		read fpchoose
+		test_models $choose $fpchoose
+		set_others
+	fi
+	
+}
 clear
 banner_show
 echo "With ASYNC Demo ??(Y/n) >>"
 read ASYNC
-case $ASYNC in
-	"N")
-		echo "Select Image Classification Model >>>"
-		model_0_choose && set_others || set_default	
-		ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
-		test -e $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py || cp -r /opt/intel/openvino/inference_engine/samples/python_samples $SAMPLE_LOC
-		echo "RUN python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS"
-		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS
-	;;
-	"n")
-		echo "Select Image Classification Model >>>"
-		model_0_choose && set_others || set_default	
-		ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
-		test -e $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py || cp -r /opt/intel/openvino/inference_engine/samples/python_samples $SAMPLE_LOC
-		echo "RUN python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS"
-		python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS
-	;;
-	"Test")
-		echo "[ASYNC API] Performance Test >>>"
-		echo "Which device you want to test?"
-		read device
-		
-		test_mode -d $device 
-		
-	;;
-	*)
-		echo "[ASYNC API] Select Image Classification Model >>>"
-		model_0_choose && set_others || set_default	
-		ARGS=" -m ${MODEL_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
-		echo "RUN $SAMPLE_LOC/classification_sample_async $ARGS"
-		$SAMPLE_LOC/classification_sample_async $ARGS
-	;;
-esac
+if [ $ASYNC == "N" ]||[ $ASYNC == "n" ]; then
+	echo "Select Image Classification Model >>>"
+else
+	echo "> [ASYNC API] Select Image Classification Model >>>"
+fi
 
+model_0_choose
+ARGS=" -m ${MODEL_0_LOC} -i ${I_SOURCE} -d ${TARGET_0}"
+
+
+if [ $ASYNC == "N" ]||[ $ASYNC == "n" ]; then
+	test -e $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py || cp -r /opt/intel/openvino/inference_engine/samples/python_samples $SAMPLE_LOC
+	echo "RUN python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS"
+	python3 $SAMPLE_LOC/python_samples/classification_sample/classification_sample.py $ARGS
+else
+	echo "RUN $SAMPLE_LOC/classification_sample_async $ARGS"
+	$SAMPLE_LOC/classification_sample_async $ARGS
+fi

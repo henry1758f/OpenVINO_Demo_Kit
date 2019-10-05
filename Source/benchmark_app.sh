@@ -5,6 +5,8 @@
 # 2019/07/30	henry1758f 2.1.0	new feature:setting multiple testing times is now available
 # 2019/10/04	henry1758f 3.0.0	Fit OpenVINOv2019.3.334, 76 kinds of model is available
 # 2019/10/04	henry1758f 3.0.1	Fix Error when there's no IR file the MO cannot been excute correctly
+# 2019/10/05	henry1758f 3.0.2	Add informations to some models
+# 2019/10/05	henry1758f 3.0.3	fIX vgg16 MISPELL	
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -32,7 +34,7 @@ function model_list()
 	echo " 1. alexnet"
 	echo " 2. brain-tumor-segmentation-0001"
 	echo " 3. caffenet"
-	echo " 4. ctpn"
+	echo " 4. ctpn	(Connectionist Text Proposal Network)"
 	echo " 5. deeplabv3"
 	echo " 6. densenet-121"
 	echo " 7. densenet-121-tf"
@@ -491,9 +493,9 @@ function test_models
 			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/ssdlite_mobilenet_v2/$2/ssdlite_mobilenet_v2.xml
 		;;
 		"74")
-			echo " vgg16vgg19.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/public/vgg16vgg19/$2/vgg16vgg19.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg16vgg19 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/vgg16vgg19/$2/vgg16vgg19.xml
+			echo " vgg16.xml [$2] ->"
+			test -e ${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg16vgg19 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.xml
 		;;
 		"75")
 			echo " vgg19.xml [$2] ->"
