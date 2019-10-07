@@ -2,6 +2,7 @@
 # 2019/07/25	henry1758f 0.0.1	First Create
 # 2019/07/25	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/25	henry1758f 2.0.1	Add some output information
+# 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -20,26 +21,36 @@ function model_0_choose()
 {
 	echo " >> 1. single-image-super-resolution-1032.xml 	[FP32] 		(480x270 -> 1920x1080) "
 	echo " >> 2. single-image-super-resolution-1032.xml 	[FP16] 	(480x270 -> 1920x1080) "
-	echo " >> 3. single-image-super-resolution-1033.xml 	[FP32]		(640x360 -> 1920x1080)"
-	echo " >> 4. single-image-super-resolution-1033.xml 	[FP16] 	(640x360 -> 1920x1080)"
+	echo " >> 3. single-image-super-resolution-1032.xml 	[INT8] 	(480x270 -> 1920x1080) "
+	echo " >> 4. single-image-super-resolution-1033.xml 	[FP32]		(640x360 -> 1920x1080)"
+	echo " >> 5. single-image-super-resolution-1033.xml 	[FP16] 	(640x360 -> 1920x1080)"
+	echo " >> 6. single-image-super-resolution-1033.xml 	[INT8] 	(640x360 -> 1920x1080)"
 	echo " >> Or input a path to your model "
 	read choose
 	case $choose in
 		"1")
 			echo " single-image-super-resolution-1032.xml 	[FP32] (480x270 -> 1920x1080) ->"
-			MODEL_LOC=${MODEL_LOC}/Security/super_resolution/srresnet/dldt/1032/FP32/single-image-super-resolution-1032.xml
+			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1032/FP32/single-image-super-resolution-1032.xml
 		;;
 		"2")
 			echo " single-image-super-resolution-1032.xml 	[FP16] (480x270 -> 1920x1080) ->"
-			MODEL_LOC=${MODEL_LOC}/Security/super_resolution/srresnet/dldt/1032/FP16/single-image-super-resolution-1032.xml
+			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1032/FP16/single-image-super-resolution-1032.xml
 		;;
 		"3")
-			echo " single-image-super-resolution-1033 	[FP32] (640x360 -> 1920x1080) ->"
-			MODEL_LOC=${MODEL_LOC}/Security/super_resolution/srresnet/dldt/FP32/single-image-super-resolution-1033.xml
+			echo " single-image-super-resolution-1032.xml 	[INT8] (480x270 -> 1920x1080) ->"
+			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1032/INT8/single-image-super-resolution-1032.xml
 		;;
 		"4")
+			echo " single-image-super-resolution-1033 	[FP32] (640x360 -> 1920x1080) ->"
+			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1033/FP32/single-image-super-resolution-1033.xml
+		;;
+		"5")
 			echo " single-image-super-resolution-1033 	[FP16] (640x360 -> 1920x1080) ->"
-			MODEL_LOC=${MODEL_LOC}/Security/super_resolution/srresnet/dldt/FP16/single-image-super-resolution-1033.xml
+			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1033/FP16/single-image-super-resolution-1033.xml
+		;;
+		"6")
+			echo " single-image-super-resolution-1033 	[INT8] (640x360 -> 1920x1080) ->"
+			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1033/INT8/single-image-super-resolution-1033.xml
 		;;
 		"0")
 			return 1

@@ -4,6 +4,7 @@
 # 2019/07/18	henry1758f 1.0.0	Add some model options for Person Reidentification model and quick demo trick.\
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/26	henry1758f 2.0.1	Improved Output information and Bug Fixed
+# 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"

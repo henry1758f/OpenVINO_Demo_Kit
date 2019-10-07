@@ -78,11 +78,11 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}crossroad_camera_demo.sh
 		;;
-#		"7")
-#			echo " super_resolution_demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}super_resolution_demo.sh
-#		;;
+		"7")
+			echo " super_resolution_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}super_resolution_demo.sh
+		;;
 #		"8")
 #			echo " pedestrian tracker demo ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
