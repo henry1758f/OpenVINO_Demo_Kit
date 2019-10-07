@@ -4,6 +4,7 @@
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/26	henry1758f 2.0.1	Improved Output information
 # 2019/10/05	henry1758f 2.1.0	object_detection_demo_ssd_async fit OpenVINO 2019R3
+# 2019/10/07	henry1758f 2.1.1	optimize the script
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -43,16 +44,6 @@ function inference_D_choose()
 }
 function test_models
 {
-	#echo "[DEBUG] $2 $1"
-	case $2 in
-		"FP32")
-			str_fp="-fp32"
-		;;
-		"FP16")
-			str_fp="-fp16"
-		;; 
-	esac
-
 	case $1 in
 		"1")
 			echo " face-detection-retail-0044.xml [$2] ->"
@@ -135,14 +126,6 @@ function test_models
 	esac
 }
 
-
-function set_default()
-{
-	#MODEL_0_LOC=${MODEL_LOC}/../../ir/public/squeezenet1.1/FP32/squeezenet1.1.xml
-	I_SOURCE="cam"
-	TARGET_0="CPU"
-}
-
 function set_others()
 {
 	inference_D_choose
@@ -151,14 +134,14 @@ function set_others()
 
 function model_0_choose()
 {
+	I_SOURCE="cam"
+	TARGET_0="CPU"
 	model_list
 	echo " [Select a Object Detection model.]"
 	read choose
 	if [ $choose == "0" ]; then
-		set_default
 		test_models 12 FP16
 	else
-		set_default
 		echo " >> input your data type, support \"FP32\" and \"FP16\" "
 		read fpchoose
 		test_models $choose $fpchoose
