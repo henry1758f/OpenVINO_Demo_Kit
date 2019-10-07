@@ -12,8 +12,9 @@
 # 2019/10/07	henry1758f 4.0.0-beta07 super_resolution_demo and pedestrian tracker demo fit OpenVINO 2019R3
 # 2019/10/07	henry1758f 4.0.0-beta08 smart classroom demo fit OpenVINO 2019R3
 # 2019/10/07	henry1758f 4.0.0-beta09 segmentation_demo fit OpenVINO 2019R3
+# 2019/10/07	henry1758f 4.0.0-beta10 Add Instance Segmentation Demo
 
-export VERSION="4.0.0-beta09"
+export VERSION="4.0.0-beta10"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -41,6 +42,7 @@ function Inference_Engine_Sample_List()
 	echo "  8. pedestrian tracker demo."
 	echo "  9. smart_classroom_demo."
 	echo " 10. Image Segmentation Demo."
+	echo " 11. Instance Segmentation Demo"
   
 
 	local choose
@@ -100,6 +102,11 @@ function Inference_Engine_Sample_List()
 			echo " Image Segmentation Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}segmentation_demo.sh
+		;;
+		"11")
+			echo " Instance Segmentation Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}instance_segmentation_demo.sh
 		;;
 #		"11")
 #			echo " Speech Sample (TBD) ->"

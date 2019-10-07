@@ -116,7 +116,6 @@ function set_others()
 clear
 banner_show
 
-echo "Select Human Pose Estimation model >>>"
 set_default
 model_0_choose && set_others
 
