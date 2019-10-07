@@ -89,11 +89,11 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}pedestrian_tracker_demo.sh
 		;;
-#		"9")
-#			echo " smart_classroom_demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}smart_classroom_demo.sh
-#		;;
+		"9")
+			echo " smart_classroom_demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}smart_classroom_demo.sh
+		;;
 #		"10")
 #			echo " Image Segmentation Demo ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh

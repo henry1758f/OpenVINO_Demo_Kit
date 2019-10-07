@@ -3,6 +3,7 @@
 # 2019/07/19	henry1758f 1.0.0	Add int8 model options and quick demo trick
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/26	henry1758f 2.0.1	Improved Output information 
+# 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -28,66 +29,78 @@ function model_0_choose()
 	echo " >> 1. face-detection-adas-0001.xml 	[FP32] "
 	echo " >> 2. face-detection-adas-0001.xml 	[FP16] "
 	echo " >> 3. face-detection-adas-0001.xml 	[INT8] "
-	echo " >> 4. face-detection-adas-0001.xml 	[INT1] "
+	echo " >> 4. face-detection-adas-binary-0001.xml 	[INT1] "
 	echo " >> 5. face-detection-retail-0004.xml 	[FP32] "
 	echo " >> 6. face-detection-retail-0004.xml 	[FP16] "
 	echo " >> 7. face-detection-retail-0004.xml 	[INT8] "
 	echo " >> 8. face-detection-retail-0005.xml 	[FP32] "
 	echo " >> 9. face-detection-retail-0005.xml 	[FP16] "
 	echo " >>10. face-detection-retail-0005.xml 	[INT8] "
+	echo " >>11. face-detection-retail-0005.xml 	[FP32] "
+	echo " >>12. face-detection-retail-0005.xml 	[FP16] "
 	echo " >> Or input a path to your model "
 	local choose
 	read choose
 	case $choose in
 		"1")
 			echo " face-detection-adas-0001.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/FP32/face-detection-adas-0001.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-adas-0001/FP32/face-detection-adas-0001.xml
 			inference_D_choose
 		;;
 		"2")
 			echo " face-detection-adas-0001.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/FP16/face-detection-adas-0001.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-adas-0001/FP16/face-detection-adas-0001.xml
 			inference_D_choose
 		;;
 		"3")
 			echo " face-detection-adas-0001.xml 	[INT8] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/INT8/face-detection-adas-0001.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-adas-0001/INT8/face-detection-adas-0001.xml  
 			inference_D_choose
 		;;
 		"4")
-			echo " face-detection-adas-0001.xml 	[INT1] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights_binary/dldt/INT1/face-detection-adas-binary-0001.xml
+			echo " face-detection-adas-binary-0001.xml 	[INT1] ->"
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-adas-binary-0001/INT1/face-detection-adas-binary-0001.xml
 			inference_D_choose
 		;;
 		"5")
 			echo " face-detection-retail-0004.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/face/sqnet1.0modif-ssd/0004/dldt/FP32/face-detection-retail-0004.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-retail-0004/FP32/face-detection-retail-0004.xml
 			inference_D_choose
 		;;
 		"6")
 			echo " face-detection-retail-0004.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/face/sqnet1.0modif-ssd/0004/dldt/FP16/face-detection-retail-0004.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-retail-0004/FP16/face-detection-retail-0004.xml
 			inference_D_choose
 		;;
 		"7")
 			echo " face-detection-retail-0004.xml 	[INT8] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/face/sqnet1.0modif-ssd/0004/dldt/INT8/face-detection-retail-0004.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-retail-0004/INT8/face-detection-retail-0004.xml
 			inference_D_choose
 		;;
 		"8")
 			echo " face-detection-retail-0005.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/face/mobilenet_v2/0005/dldt/FP32/face-detection-retail-0005.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-retail-0005/FP32/face-detection-retail-0005.xml
 			inference_D_choose
 		;;
 		"9")
 			echo " face-detection-retail-0005.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/face/mobilenet_v2/0005/dldt/FP16/face-detection-retail-0005.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-retail-0005/FP16/face-detection-retail-0005.xml
 			inference_D_choose
 		;;
 		"10")
 			echo " face-detection-retail-0005.xml 	[INT8] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/face/mobilenet_v2/0005/dldt/INT8/face-detection-retail-0005.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-retail-0005/INT8/face-detection-retail-0005.xml
 			inference_D_choose
+		;;
+		"11")
+			echo " face-detection-retail-0044.xml [FP32] ->"
+			test -e ${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP32/face-detection-retail-0044.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-detection-retail-0044 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=FP32  )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP32/face-detection-retail-0044.xml
+		;;
+		"12")
+			echo " face-detection-retail-0044.xml [FP16] ->"
+			test -e ${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP16/face-detection-retail-0044.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-detection-retail-0044 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=FP16  )
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP16/face-detection-retail-0044.xml
 		;;
 		"0")
 			return 1
@@ -132,12 +145,12 @@ function model_1_choose()
 	case $choose in
 		"1")
 			echo " landmarks-regression-retail-0009.xml 	[FP32] ->"
-			MODEL_LOC_1="-m_lm ${MODEL_LOC}/Retail/object_attributes/landmarks_regression/0009/dldt/FP32/landmarks-regression-retail-0009.xml"
+			MODEL_LOC_1="-m_lm ${MODEL_LOC}/intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml"
 			inference_D1_choose
 		;;
 		"2")
 			echo " landmarks-regression-retail-0009.xml 	[FP16] ->"
-			MODEL_LOC_1="-m_lm ${MODEL_LOC}/Retail/object_attributes/landmarks_regression/0009/dldt/FP16/landmarks-regression-retail-0009.xml"
+			MODEL_LOC_1="-m_lm ${MODEL_LOC}/intel/landmarks-regression-retail-0009/FP16/landmarks-regression-retail-0009.xml"
 			inference_D1_choose
 		;;
 		*)
@@ -166,12 +179,12 @@ function model_2_choose()
 	case $choose in
 		"1")
 			echo " face-reidentification-retail-0095.xml 	[FP32] ->"
-			MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/face/mobilenet_based/dldt/FP32/face-reidentification-retail-0095.xml"
+			MODEL_LOC_2="-m_reid ${MODEL_LOC}/intel/face-reidentification-retail-0095/FP32/face-reidentification-retail-0095.xml"
 			inference_D2_choose
 		;;
 		"2")
 			echo " face-reidentification-retail-0095.xml 	[FP16] ->"
-			MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/face/mobilenet_based/dldt/FP16/face-reidentification-retail-0095.xml"
+			MODEL_LOC_2="-m_reid ${MODEL_LOC}/intel/face-reidentification-retail-0095/FP16/face-reidentification-retail-0095.xml"
 			inference_D2_choose
 		;;
 		*)
@@ -208,52 +221,52 @@ function model_3_choose()
 	case $choose in
 		"1")
 			echo " person-detection-action-recognition-0005.xml 	[FP32] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0165/dldt/FP32/person-detection-action-recognition-0005.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-0005/FP32/person-detection-action-recognition-0005.xml"
 			inference_D3_choose
 		;;
 		"2")
 			echo " person-detection-action-recognition-0005.xml 	[FP16] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0165/dldt/FP16/person-detection-action-recognition-0005.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-0005/FP16/person-detection-action-recognition-0005.xml"
 			inference_D3_choose
 		;;
 		"3")
 			echo " person-detection-action-recognition-0005.xml 	[INT8] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0165/dldt/INT8/person-detection-action-recognition-0005.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-0005/INT8/person-detection-action-recognition-0005.xml"
 			inference_D3_choose
 		;;
 		"4")
 			echo " person-detection-action-recognition-0006.xml 	[FP32] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0028_tf/dldt/FP32/person-detection-action-recognition-0006.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-0006/FP32/person-detection-action-recognition-0006.xml"
 			inference_D3_choose
 		;;
 		"5")
 			echo " person-detection-action-recognition-0006.xml 	[FP16] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0028_tf/dldt/FP16/person-detection-action-recognition-0006.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-0006/FP16/person-detection-action-recognition-0006.xml"
 			inference_D3_choose
 		;;
 		"6")
 			echo " person-detection-action-recognition-0006.xml 	[INT8] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0028_tf/dldt/INT8/person-detection-action-recognition-0006.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-0006/INT8/person-detection-action-recognition-0006.xml"
 			inference_D3_choose
 		;;
 		"7")
 			echo " person-detection-raisinghand-recognition-0001.xml 	[FP32] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0165_cut_2cl/dldt/FP32/person-detection-raisinghand-recognition-0001.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-raisinghand-recognition-0001/FP32/person-detection-raisinghand-recognition-0001.xml"
 			inference_D3_choose
 		;;
 		"8")
 			echo " person-detection-raisinghand-recognition-0001.xml 	[FP16] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0165_cut_2cl/dldt/FP16/person-detection-raisinghand-recognition-0001.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-raisinghand-recognition-0001/FP16/person-detection-raisinghand-recognition-0001.xml"
 			inference_D3_choose
 		;;
 		"9")
 			echo " person-detection-action-recognition-teacher-0002.xml 	[FP32] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/teacher/rmnet_ssd/0005_cut/dldt/FP32/person-detection-action-recognition-teacher-0002.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-teacher-0002/FP32/person-detection-action-recognition-teacher-0002.xml"
 			inference_D3_choose
 		;;
 		"10")
 			echo " person-detection-action-recognition-teacher-0002.xml 	[FP16] ->"
-			MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/teacher/rmnet_ssd/0005_cut/dldt/FP16/person-detection-action-recognition-teacher-0002.xml"
+			MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-teacher-0002/FP16/person-detection-action-recognition-teacher-0002.xml"
 			inference_D3_choose
 		;;
 		*)
@@ -286,10 +299,10 @@ function face_gallery()
 function set_default()
 {
 	echo " All model will run on CPU... "
-	MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/face/pruned_mobilenet_reduced_ssd_shared_weights/dldt/FP16/face-detection-adas-0001.xml
-	MODEL_LOC_1="-m_lm ${MODEL_LOC}/Retail/object_attributes/landmarks_regression/0009/dldt/FP16/landmarks-regression-retail-0009.xml"
-	MODEL_LOC_2="-m_reid ${MODEL_LOC}/Retail/object_reidentification/face/mobilenet_based/dldt/FP16/face-reidentification-retail-0095.xml"
-	MODEL_LOC_3="-m_act ${MODEL_LOC}/Retail/action_detection/pedestrian/rmnet_ssd/0028_tf/dldt/FP16/person-detection-action-recognition-0006.xml"
+	MODEL_LOC_0=${MODEL_LOC}/intel/face-detection-adas-0001/FP32/face-detection-adas-0001.xml
+	MODEL_LOC_1="-m_lm ${MODEL_LOC}/intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml"
+	MODEL_LOC_2="-m_reid ${MODEL_LOC}/intel/face-reidentification-retail-0095/FP32/face-reidentification-retail-0095.xml"
+	MODEL_LOC_3="-m_act ${MODEL_LOC}/intel/person-detection-action-recognition-0006/FP32/person-detection-action-recognition-0006.xml"
 	I_SOURCE="cam"
 	TARGET_0="CPU"
 }

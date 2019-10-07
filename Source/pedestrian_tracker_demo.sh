@@ -1,6 +1,7 @@
 # File: pedestrian_tracker_demo.sh
 # 2019/07/26	henry1758f 0.0.1	First Create
 # 2019/07/26	henry1758f 1.0.0	Workable and Improved Output information 
+# 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
