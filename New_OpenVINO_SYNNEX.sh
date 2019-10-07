@@ -15,6 +15,7 @@
 # 2019/10/07	henry1758f 4.0.0-beta10 Add Instance Segmentation Demo
 # 2019/10/07	henry1758f 4.0.0-beta11 Add Gaze Estimation Demo
 # 2019/10/07	henry1758f 4.0.0-beta12 Fix path error of face-detection-retail-0044 in interactive_face_detection_demo.sh
+# 2019/10/07	henry1758f 4.0.0-beta13 Add Text Detection Demo
 
 export VERSION="4.0.0-beta12"
 export VERSION_VINO="v2019.3.334"
@@ -46,6 +47,7 @@ function Inference_Engine_Sample_List()
 	echo " 10. Image Segmentation Demo."
 	echo " 11. Instance Segmentation Demo"
 	echo " 12. Gaze Estimation Demo"
+	echo " 13. Text Detection Demo"
   
 
 	local choose
@@ -115,6 +117,11 @@ function Inference_Engine_Sample_List()
 			echo " Gaze Estimation Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}gaze_estimation_demo.sh
+		;;
+		"13")
+			echo " Text Detection Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}text_detection_demo.sh
 		;;
 #		"11")
 #			echo " Speech Sample (TBD) ->"
