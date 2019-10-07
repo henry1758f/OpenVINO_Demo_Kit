@@ -14,8 +14,9 @@
 # 2019/10/07	henry1758f 4.0.0-beta09 segmentation_demo fit OpenVINO 2019R3
 # 2019/10/07	henry1758f 4.0.0-beta10 Add Instance Segmentation Demo
 # 2019/10/07	henry1758f 4.0.0-beta11 Add Gaze Estimation Demo
+# 2019/10/07	henry1758f 4.0.0-beta12 Fix path error of face-detection-retail-0044 in interactive_face_detection_demo.sh
 
-export VERSION="4.0.0-beta11"
+export VERSION="4.0.0-beta12"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"

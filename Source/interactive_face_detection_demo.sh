@@ -5,7 +5,7 @@
 # 2019/07/25	henry1758f 2.0.0	fit OpenVINO 2019R2 
 # 2019/07/26	henry1758f 2.0.1	Improved Output information 
 # 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
-
+# 2019/10/07	henry1758f 2.1.1	Fix path error of face-detection-retail-0044
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -97,12 +97,12 @@ function model_0_choose()
 		"11")
 			echo " face-detection-retail-0044.xml [FP32] ->"
 			test -e ${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP32/face-detection-retail-0044.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-detection-retail-0044 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=FP32  )
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP32/face-detection-retail-0044.xml
+			MODEL_LOC_0=${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP32/face-detection-retail-0044.xml
 		;;
 		"12")
 			echo " face-detection-retail-0044.xml [FP16] ->"
 			test -e ${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP16/face-detection-retail-0044.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=face-detection-retail-0044 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=FP16  )
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP16/face-detection-retail-0044.xml
+			MODEL_LOC_0=${MODEL_LOC}/../../ir/public/face-detection-retail-0044/FP16/face-detection-retail-0044.xml
 		;;
 		"0")
 			return 1
