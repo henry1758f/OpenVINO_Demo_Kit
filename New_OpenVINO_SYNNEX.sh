@@ -10,8 +10,10 @@
 # 2019/10/07	henry1758f 4.0.0-beta05 optimized the object_detection_demo_ssd_async scripts, deleted unnecessary labels
 # 2019/10/07	henry1758f 4.0.0-beta06 Human Pose Estimation Demo and Crossroad Camera Demo fit OpenVINO 2019R3
 # 2019/10/07	henry1758f 4.0.0-beta07 super_resolution_demo and pedestrian tracker demo fit OpenVINO 2019R3
+# 2019/10/07	henry1758f 4.0.0-beta08 smart classroom demo fit OpenVINO 2019R3
+# 2019/10/07	henry1758f 4.0.0-beta09 segmentation_demo fit OpenVINO 2019R3
 
-export VERSION="4.0.0-beta07"
+export VERSION="4.0.0-beta09"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -37,8 +39,8 @@ function Inference_Engine_Sample_List()
 	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo."
 	echo "  8. pedestrian tracker demo."
-	echo "  9. smart_classroom_demo.(TBD)"
-	echo " 10. Image Segmentation Demo.(TBD)"
+	echo "  9. smart_classroom_demo."
+	echo " 10. Image Segmentation Demo."
   
 
 	local choose
@@ -94,11 +96,11 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}smart_classroom_demo.sh
 		;;
-#		"10")
-#			echo " Image Segmentation Demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}segmentation_demo.sh
-#		;;
+		"10")
+			echo " Image Segmentation Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}segmentation_demo.sh
+		;;
 #		"11")
 #			echo " Speech Sample (TBD) ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
