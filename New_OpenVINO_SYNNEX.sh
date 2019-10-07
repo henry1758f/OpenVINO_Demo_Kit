@@ -3,13 +3,14 @@
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
-# 2019/10/04	henry1758f 4.0.0-beta01	Benchmark App fit OpenVINO 2019R2
-# 2019/10/04	henry1758f 4.0.0-beta02	security_barrier_camera_demo and interactive_face_detection_demo fit OpenVINO 2019R2
+# 2019/10/04	henry1758f 4.0.0-beta01	Benchmark App fit OpenVINO 2019R3
+# 2019/10/04	henry1758f 4.0.0-beta02	security_barrier_camera_demo and interactive_face_detection_demo fit OpenVINO 2019R3
 # 2019/10/04	henry1758f 4.0.0-beta03	Fix Error when there's no IR file the MO cannot been excute correctly in Benchmark App
 # 2019/10/05	henry1758f 4.0.0-beta04 object_detection_demo_ssd_async, classification_demo  fit OpenVINO 2019R2 and fix mispell in benchmark_app
 # 2019/10/07	henry1758f 4.0.0-beta05 optimized the object_detection_demo_ssd_async scripts, deleted unnecessary labels
+# 2019/10/07	henry1758f 4.0.0-beta06 Human Pose Estimation Demo and Crossroad Camera Demo fit OpenVINO 2019R3
 
-export VERSION="4.0.0-beta05"
+export VERSION="4.0.0-beta06"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -30,9 +31,9 @@ function Inference_Engine_Sample_List()
 	echo "  1. security_barrier_camera_demo. "
 	echo "  2. interactive_face_detection_demo."
 	echo "  3. classification_demo."
-	echo "  4. Human Pose Estimation Demo.(TBD)"
+	echo "  4. Human Pose Estimation Demo."
 	echo "  5. Object Detection and ASYNC API Demo."
-	echo "  6. Crossroad Camera Demo.(TBD)"
+	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo.(TBD)"
 	echo "  8. pedestrian tracker demo.(TBD)"
 	echo "  9. smart_classroom_demo.(TBD)"
@@ -62,21 +63,21 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}classification_demo.sh
 		;;
-#		"4")
-#			echo " Human Pose Estimation Demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}human_pose_estimation_demo.sh
-#		;;
+		"4")
+			echo " Human Pose Estimation Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}human_pose_estimation_demo.sh
+		;;
 		"5")
 			echo " Object Detection and ASYNC API Demo ->"
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}object_detection_demo_ssd_async.sh
 		;;
-#		"6")
-#			echo " Crossroad Camera Demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}crossroad_camera_demo.sh
-#		;;
+		"6")
+			echo " Crossroad Camera Demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}crossroad_camera_demo.sh
+		;;
 #		"7")
 #			echo " super_resolution_demo ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh

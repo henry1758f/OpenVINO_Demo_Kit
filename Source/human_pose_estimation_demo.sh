@@ -28,15 +28,15 @@ function model_0_choose()
 	case $choose in
 		"1")
 			echo " human-pose-estimation-0001 	[FP32] ->"
-			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/FP32/human-pose-estimation-0001.xml
+			MODEL_LOC=${MODEL_LOC}/intel/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml
 		;;
 		"2")
 			echo " human-pose-estimation-0001 	[FP16] ->"
-			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/FP16/human-pose-estimation-0001.xml
+			MODEL_LOC=${MODEL_LOC}/intel/human-pose-estimation-0001/FP16/human-pose-estimation-0001.xml
 		;;
 		"3")
 			echo " human-pose-estimation-0001 	[INT8] ->"
-			MODEL_LOC=${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/INT8/human-pose-estimation-0001.xml
+			MODEL_LOC=${MODEL_LOC}/intel/human-pose-estimation-0001/INT8/human-pose-estimation-0001.xml
 		;;
 		"0")
 			return 1
