@@ -32,98 +32,105 @@ function model_0_choose()
 	echo " >> 6. pedestrian-detection-adas-0002.xml 	[FP32] "
 	echo " >> 7. pedestrian-detection-adas-0002.xml 	[FP16] "
 	echo " >> 8. pedestrian-detection-adas-0002.xml 	[INT8] "
-	echo " >> 9. pedestrian-detection-adas-0002.xml 	[INT1] "
+	echo " >> 9. pedestrian-detection-adas-binary-0001.xml 	[INT1] "
 	echo " >> 10. pedestrian-and-vehicle-detector-adas-0001.xml 	[FP32] "
 	echo " >> 11. pedestrian-and-vehicle-detector-adas-0001.xml 	[FP16] "
+	echo " >> 12. pedestrian-and-vehicle-detector-adas-0001.xml 	[INT8] "
 
-	echo " >> 12. person-vehicle-bike-detection-crossroad-0078.xml 	[FP32] "
-	echo " >> 13. person-vehicle-bike-detection-crossroad-0078.xml 	[FP16] "
-	echo " >> 14. person-vehicle-bike-detection-crossroad-0078.xml 	[INT8] "
-	echo " >> 15. person-vehicle-bike-detection-crossroad-1016.xml 	[FP32] "
-	echo " >> 16. person-vehicle-bike-detection-crossroad-1016.xml 	[FP16] "
+	echo " >> 13. person-vehicle-bike-detection-crossroad-0078.xml 	[FP32] "
+	echo " >> 14. person-vehicle-bike-detection-crossroad-0078.xml 	[FP16] "
+	echo " >> 15. person-vehicle-bike-detection-crossroad-0078.xml 	[INT8] "
+	echo " >> 16. person-vehicle-bike-detection-crossroad-1016.xml 	[FP32] "
+	echo " >> 17. person-vehicle-bike-detection-crossroad-1016.xml 	[FP16] "
 	echo " >> Or input a path to your model "
 	local choose
 	read choose
 	case $choose in
 		"1")
 			echo " person-detection-retail-0013.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/pedestrian/rmnet_ssd/0013/dldt/FP32/person-detection-retail-0013.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml
 			inference_D_choose
 		;;
 		"2")
 			echo " person-detection-retail-0013.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/pedestrian/rmnet_ssd/0013/dldt/FP16/person-detection-retail-0013.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-detection-retail-0013/FP16/person-detection-retail-0013.xml
 			inference_D_choose
 		;;
 		"3")
 			echo " person-detection-retail-0013.xml 	[INT8] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/pedestrian/rmnet_ssd/0013/dldt/INT8/person-detection-retail-0013.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-detection-retail-0013/INT8/person-detection-retail-0013.xml
 			inference_D_choose
 		;;
 		"4")
 			echo " person-detection-retail-0002.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/pedestrian/hypernet-rfcn/0026/dldt/FP32/person-detection-retail-0002.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-detection-retail-0002/FP32/person-detection-retail-0002.xml
 			inference_D_choose
 		;;
 		"5")
 			echo " person-detection-retail-0002.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/pedestrian/hypernet-rfcn/0026/dldt/FP16/person-detection-retail-0002.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-detection-retail-0002/FP16/person-detection-retail-0002.xml
 			inference_D_choose
 		;;
 
 		"6")
 			echo " pedestrian-detection-adas-0002.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/pedestrian/mobilenet-reduced-ssd/dldt/FP32/pedestrian-detection-adas-0002.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/pedestrian-detection-adas-0002/FP32/pedestrian-detection-adas-0002.xml
 			inference_D_choose
 		;;
 		"7")
 			echo " pedestrian-detection-adas-0002.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/pedestrian/mobilenet-reduced-ssd/dldt/FP16/pedestrian-detection-adas-0002.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/pedestrian-detection-adas-0002/FP16/pedestrian-detection-adas-0002.xml
 			inference_D_choose
 		;;
 		"8")
 			echo " pedestrian-detection-adas-0002.xml 	[INT8] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/pedestrian/mobilenet-reduced-ssd/dldt/INT8/pedestrian-detection-adas-0002.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/pedestrian-detection-adas-0002/INT8/pedestrian-detection-adas-0002.xml
 			inference_D_choose
 		;;
 		"9")
-			echo " pedestrian-detection-adas-0002.xml 	[INT1] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/pedestrian/mobilenet-reduced-ssd-binary/dldt/INT1/pedestrian-detection-adas-binary-0001.xml
+			echo " pedestrian-detection-adas-binary-0001.xml 	[INT1] ->"
+			MODEL_LOC_0=${MODEL_LOC}/intel/pedestrian-detection-adas-binary-0001/INT1/pedestrian-detection-adas-binary-0001.xml
 			inference_D_choose
 		;;
 		"10")
 			echo " pedestrian-and-vehicle-detector-adas-0001.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/pedestrian-and-vehicle/mobilenet-reduced-ssd/dldt/FP32/pedestrian-and-vehicle-detector-adas-0001.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/pedestrian-and-vehicle-detector-adas-0001/FP32/pedestrian-and-vehicle-detector-adas-0001.xml
 			inference_D_choose
 		;;
 		"11")
 			echo " pedestrian-and-vehicle-detector-adas-0001.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Transportation/object_detection/pedestrian-and-vehicle/mobilenet-reduced-ssd/dldt/FP16/pedestrian-and-vehicle-detector-adas-0001.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/pedestrian-and-vehicle-detector-adas-0001/FP16/pedestrian-and-vehicle-detector-adas-0001.xml
 			inference_D_choose
 		;;
 		"12")
-			echo " person-vehicle-bike-detection-crossroad-0078.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/crossroad/0078/dldt/FP32/person-vehicle-bike-detection-crossroad-0078.xml
+			echo " pedestrian-and-vehicle-detector-adas-0001.xml 	[INT8] ->"
+			MODEL_LOC_0=${MODEL_LOC}/intel/pedestrian-and-vehicle-detector-adas-0001/INT8/pedestrian-and-vehicle-detector-adas-0001.xml
 			inference_D_choose
 		;;
+
 		"13")
-			echo " person-vehicle-bike-detection-crossroad-0078.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/crossroad/0078/dldt/FP32/person-vehicle-bike-detection-crossroad-0078.xml
+			echo " person-vehicle-bike-detection-crossroad-0078.xml 	[FP32] ->"
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-vehicle-bike-detection-crossroad-0078/FP32/person-vehicle-bike-detection-crossroad-0078.xml
 			inference_D_choose
 		;;
 		"14")
-			echo " person-vehicle-bike-detection-crossroad-0078.xml 	[INT8] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/crossroad/0078/dldt/INT8/person-vehicle-bike-detection-crossroad-0078.xml
+			echo " person-vehicle-bike-detection-crossroad-0078.xml 	[FP16] ->"
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-vehicle-bike-detection-crossroad-0078/FP16/person-vehicle-bike-detection-crossroad-0078.xml
 			inference_D_choose
 		;;
 		"15")
-			echo " person-vehicle-bike-detection-crossroad-1016.xml 	[FP32] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/crossroad/1016/dldt/FP32/person-vehicle-bike-detection-crossroad-1016.xml
+			echo " person-vehicle-bike-detection-crossroad-0078.xml 	[INT8] ->"
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-vehicle-bike-detection-crossroad-0078/INT8/person-vehicle-bike-detection-crossroad-0078.xml
 			inference_D_choose
 		;;
 		"16")
+			echo " person-vehicle-bike-detection-crossroad-1016.xml 	[FP32] ->"
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-vehicle-bike-detection-crossroad-1016/FP32/person-vehicle-bike-detection-crossroad-1016.xml
+			inference_D_choose
+		;;
+		"17")
 			echo " person-vehicle-bike-detection-crossroad-1016.xml 	[FP16] ->"
-			MODEL_LOC_0=${MODEL_LOC}/Security/object_detection/crossroad/1016/dldt/FP16/person-vehicle-bike-detection-crossroad-1016.xml
+			MODEL_LOC_0=${MODEL_LOC}/intel/person-vehicle-bike-detection-crossroad-1016/FP32/person-vehicle-bike-detection-crossroad-1016.xml
 			inference_D_choose
 		;;
 
@@ -178,47 +185,47 @@ function model_1_choose()
 	case $choose in
 		"1")
 			echo " person-reidentification-retail-0031.xml 	[FP32] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0031/dldt/FP32/person-reidentification-retail-0031.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0031/FP32/person-reidentification-retail-0031.xml"
 			inference_D2_choose
 		;;
 		"2")
 			echo " person-reidentification-retail-0031.xml 	[FP16] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0031/dldt/FP16/person-reidentification-retail-0031.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0031/FP16/person-reidentification-retail-0031.xml"
 			inference_D2_choose
 		;;
 		"3")
 			echo " person-reidentification-retail-0031.xml 	[INT8] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0031/dldt/INT8/person-reidentification-retail-0031.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0031/INT8/person-reidentification-retail-0031.xml"
 			inference_D2_choose
 		;;
 		"4")
 			echo " person-reidentification-retail-0076.xml 	[FP32] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0076/dldt/FP32/person-reidentification-retail-0076.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0076/FP32/person-reidentification-retail-0076.xml"
 			inference_D2_choose
 		;;
 		"5")
 			echo " person-reidentification-retail-0076.xml 	[FP16] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0076/dldt/FP16/person-reidentification-retail-0076.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0076/FP16/person-reidentification-retail-0076.xml"
 			inference_D2_choose
 		;;
 		"6")
 			echo " person-reidentification-retail-0076.xml 	[INT8] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0076/dldt/INT8/person-reidentification-retail-0076.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0076/INT8/person-reidentification-retail-0076.xml"
 			inference_D2_choose
 		;;
 		"7")
 			echo " person-reidentification-retail-0079.xml 	[FP32] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0079/dldt/FP32/person-reidentification-retail-0079.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0079/FP32/person-reidentification-retail-0079.xml"
 			inference_D2_choose
 		;;
 		"8")
 			echo " person-reidentification-retail-0079.xml 	[FP16] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0079/dldt/FP16/person-reidentification-retail-0079.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0079/FP16/person-reidentification-retail-0079.xml"
 			inference_D2_choose
 		;;
 		"9")
 			echo " person-reidentification-retail-0079.xml 	[INT8] ->"
-			MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0079/dldt/INT8/person-reidentification-retail-0079.xml"
+			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0079/INT8/person-reidentification-retail-0079.xml"
 			inference_D2_choose
 		;;
 		"10")
@@ -236,9 +243,9 @@ function model_1_choose()
 function set_default()
 {
 	echo " All model will run on CPU... "
-	MODEL_LOC_0=${MODEL_LOC}/Retail/object_detection/pedestrian/rmnet_ssd/0013/dldt/FP16/person-detection-retail-0013.xml
-	MODEL_LOC_1="-m_reid ${MODEL_LOC}/Retail/object_reidentification/pedestrian/rmnet_based/0031/dldt/FP16/person-reidentification-retail-0031.xml"
-	test -e $HOME/Pictures/sample-videos/people-detection.mp4 || git clone https://github.com/intel-iot-devkit/sample-videos.git $HOME/Pictures/
+	MODEL_LOC_0=${MODEL_LOC}/intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml
+	MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0031/FP32/person-reidentification-retail-0031.xml"
+	test -e $HOME/Pictures/sample-videos/people-detection.mp4 || git clone https://github.com/intel-iot-devkit/sample-videos.git $HOME/Pictures/sample-videos
 	test -e $HOME/Pictures/sample-videos/people-detection.mp4 || echo "[ERROR] Cannot find default source!"
 	I_SOURCE="$HOME/Pictures/sample-videos/people-detection.mp4"
 	TARGET_0="CPU"

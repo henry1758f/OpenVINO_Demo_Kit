@@ -31,26 +31,32 @@ function model_0_choose()
 		"1")
 			echo " single-image-super-resolution-1032.xml 	[FP32] (480x270 -> 1920x1080) ->"
 			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1032/FP32/single-image-super-resolution-1032.xml
+			I_SOURCE=$USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg
 		;;
 		"2")
 			echo " single-image-super-resolution-1032.xml 	[FP16] (480x270 -> 1920x1080) ->"
 			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1032/FP16/single-image-super-resolution-1032.xml
+			I_SOURCE=$USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg
 		;;
 		"3")
 			echo " single-image-super-resolution-1032.xml 	[INT8] (480x270 -> 1920x1080) ->"
 			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1032/INT8/single-image-super-resolution-1032.xml
+			I_SOURCE=$USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg
 		;;
 		"4")
 			echo " single-image-super-resolution-1033 	[FP32] (640x360 -> 1920x1080) ->"
 			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1033/FP32/single-image-super-resolution-1033.xml
+			I_SOURCE=$USER_IMG_LOC/640px-20180402_091550_KKA-2591.jpg
 		;;
 		"5")
 			echo " single-image-super-resolution-1033 	[FP16] (640x360 -> 1920x1080) ->"
 			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1033/FP16/single-image-super-resolution-1033.xml
+			I_SOURCE=$USER_IMG_LOC/640px-20180402_091550_KKA-2591.jpg
 		;;
 		"6")
 			echo " single-image-super-resolution-1033 	[INT8] (640x360 -> 1920x1080) ->"
 			MODEL_LOC=${MODEL_LOC}/intel/single-image-super-resolution-1033/INT8/single-image-super-resolution-1033.xml
+			I_SOURCE=$USER_IMG_LOC/640px-20180402_091550_KKA-2591.jpg
 		;;
 		"0")
 			return 1
@@ -70,39 +76,14 @@ function inference_D_choose()
 function source_choose()
 {
 	echo " >> input \"0\" for download and using default image as inference source, or typein the path to the source you want."
-	read I_SOURCE
-	case $I_SOURCE in
+	read source_choose
+	case $source_choose in
 		"0")
 			test -e $USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg || wget -P $USER_IMG_LOC https://upload.wikimedia.org/wikipedia/commons/5/51/SanChungBus_Route306_620FG_wide.jpg
 			test -e $USER_IMG_LOC/640px-20180402_091550_KKA-2591.jpg || wget -P $USER_IMG_LOC https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/20180402_091550_KKA-2591.jpg/640px-20180402_091550_KKA-2591.jpg
-			case $choose in
-				"1")
-					I_SOURCE=$USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg
-					return
-				;;
-				"2")
-					I_SOURCE=$USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg
-					return
-				;;
-				"3")
-					I_SOURCE=$USER_IMG_LOC/640px-20180402_091550_KKA-2591.jpg
-					return
-				;;
-				"4")
-					I_SOURCE=$USER_IMG_LOC/640px-20180402_091550_KKA-2591.jpg
-					return
-				;;
-				"0")
-					I_SOURCE=$USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg
-					return
-				;;
-				*)
-					I_SOURCE=$USER_IMG_LOC/SanChungBus_Route306_620FG_wide.jpg
-					return
-					;;
-			esac
 		;;
 		*)
+			I_SOURCE=$source_choose
 			return
 		;;
 	esac

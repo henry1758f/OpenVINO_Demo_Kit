@@ -9,8 +9,9 @@
 # 2019/10/05	henry1758f 4.0.0-beta04 object_detection_demo_ssd_async, classification_demo  fit OpenVINO 2019R2 and fix mispell in benchmark_app
 # 2019/10/07	henry1758f 4.0.0-beta05 optimized the object_detection_demo_ssd_async scripts, deleted unnecessary labels
 # 2019/10/07	henry1758f 4.0.0-beta06 Human Pose Estimation Demo and Crossroad Camera Demo fit OpenVINO 2019R3
+# 2019/10/07	henry1758f 4.0.0-beta07 super_resolution_demo and pedestrian tracker demo fit OpenVINO 2019R3
 
-export VERSION="4.0.0-beta06"
+export VERSION="4.0.0-beta07"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -34,8 +35,8 @@ function Inference_Engine_Sample_List()
 	echo "  4. Human Pose Estimation Demo."
 	echo "  5. Object Detection and ASYNC API Demo."
 	echo "  6. Crossroad Camera Demo."
-	echo "  7. super_resolution_demo.(TBD)"
-	echo "  8. pedestrian tracker demo.(TBD)"
+	echo "  7. super_resolution_demo."
+	echo "  8. pedestrian tracker demo."
 	echo "  9. smart_classroom_demo.(TBD)"
 	echo " 10. Image Segmentation Demo.(TBD)"
   
@@ -83,11 +84,11 @@ function Inference_Engine_Sample_List()
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}super_resolution_demo.sh
 		;;
-#		"8")
-#			echo " pedestrian tracker demo ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}pedestrian_tracker_demo.sh
-#		;;
+		"8")
+			echo " pedestrian tracker demo ->"
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+			${SOURCE}pedestrian_tracker_demo.sh
+		;;
 #		"9")
 #			echo " smart_classroom_demo ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
