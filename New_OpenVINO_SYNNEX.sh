@@ -122,6 +122,7 @@ function Inference_Engine_Sample_List()
 		;;
 		"15")
 			echo " Multi Camera Multi Person demo ->"
+			${SOURCE}multi_camera_multi_person_tracking.sh
 		;;
 
 #		"11")
