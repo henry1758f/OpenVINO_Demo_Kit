@@ -19,8 +19,9 @@
 # 2019/10/07	henry1758f 4.0.0-beta14 Add Action Recognition Demo
 # 2019/10/08	henry1758f 4.0.0-beta15 Add Query Device feature
 # 2019/10/08	henry1758f 4.0.0-beta16 Fix wrong assign of reid target device function pedestrian tracker demo
+# 2019/10/08	henry1758f 4.0.0-beta17 Add Multi Camera Multi Person demo
 
-export VERSION="4.0.0-beta16"
+export VERSION="4.0.0-beta17"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -53,7 +54,7 @@ function Inference_Engine_Sample_List()
 	echo " 12. Gaze Estimation Demo"
 	echo " 13. Text Detection Demo"
 	echo " 14. Action Recognition Demo"
-	echo " 15. Multi Camera Multi Person demo(TBD)"
+	echo " 15. Multi Camera Multi Person demo"
   
 
 	local choose
