@@ -17,8 +17,9 @@
 # 2019/10/07	henry1758f 4.0.0-beta12 Fix path error of face-detection-retail-0044 in interactive_face_detection_demo.sh
 # 2019/10/07	henry1758f 4.0.0-beta13 Add Text Detection Demo
 # 2019/10/07	henry1758f 4.0.0-beta14 Add Action Recognition Demo
+# 2019/10/08	henry1758f 4.0.0-beta15 Add Query Device feature
 
-export VERSION="4.0.0-beta14"
+export VERSION="4.0.0-beta15"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -50,6 +51,7 @@ function Inference_Engine_Sample_List()
 	echo " 12. Gaze Estimation Demo"
 	echo " 13. Text Detection Demo"
 	echo " 14. Action Recognition Demo"
+	echo " 15. Multi Camera Multi Person demo(TBD)"
   
 
 	local choose
@@ -151,6 +153,7 @@ function feature_choose()
 	echo " 1. Inference Engine Sample Demo."
 	test -e ${SAMPLE_LOC}/benchmark_app && echo " 2. Sample Build.(Done!)" || echo " 2. Sample Build."
 	echo " 3. Model Downloader."
+	echo " 4. Query Device."
 
 
 	local choose
@@ -171,6 +174,13 @@ function feature_choose()
 			banner_show
 			feature_choose
 		;;
+		"4")
+			test -e $SAMPLE_LOC/hello_query_device || $Source_Sample_Build
+			$SAMPLE_LOC/hello_query_device
+			read -n 1 -s -r -p "> Press any key to continue"
+			clear
+			feature_choose
+			;;
 		*)
 			echo "Please input a vailed number"
 			sleep 1
