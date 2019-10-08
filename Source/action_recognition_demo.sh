@@ -1,6 +1,7 @@
 #!/bin/bash
 # File: action_recognition_demo.sh
 # 2019/10/07	henry1758f 0.0.1	First Create
+# 2019/10/08	henry1758f 0.0.2	BugFixed
 
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
@@ -27,6 +28,8 @@ function model_0_choose()
 	echo " [Select a encoder model.]"
 	echo " >> 1. driver-action-recognition-adas-0002-encoder.xml 		[FP32]"
 	echo " >> 2. driver-action-recognition-adas-0002-encoder.xml 		[FP16]"
+#	echo " >> 3. action-recognition-0001-encoder.xml 		[FP32]"
+#	echo " >> 4. action-recognition-0001-encoder.xml 		[FP16]"
 
 	echo " >> Or input a path to your model "
 	local choose
@@ -42,6 +45,16 @@ function model_0_choose()
 			MODEL_LOC_0=${MODEL_LOC}/intel/driver-action-recognition-adas-0002-encoder/FP16/driver-action-recognition-adas-0002-encoder.xml
 			inference_D_choose
 		;;
+#		"3")
+#			echo " action-recognition-0001-encoder.xml 	[FP32] ->"
+#			MODEL_LOC_0=${MODEL_LOC}/intel/action-recognition-0001-encoder/FP32/action-recognition-0001-encoder.xml
+#			inference_D_choose
+#		;;
+#		"4")
+#			echo " action-recognition-0001-encoder.xml 	[FP16] ->"
+#			MODEL_LOC_0=${MODEL_LOC}/intel/action-recognition-0001-encoder/FP16/action-recognition-0001-encoder.xml
+#			inference_D_choose
+#		;;
 		"0")
 			inference_D_choose
 			return 1
@@ -59,6 +72,8 @@ function model_1_choose()
 	echo " [Select a decoder model.]"
 	echo " >> 1. driver-action-recognition-adas-0002-decoder.xml 		[FP32]"
 	echo " >> 2. driver-action-recognition-adas-0002-decoder.xml 		[FP16]"
+#	echo " >> 3. action-recognition-0001-decoder.xml 		[FP32]"
+#	echo " >> 4. action-recognition-0001-decoder.xml 		[FP16]"
 
 	echo " >> Or input a path to your model "
 	local choose
@@ -67,13 +82,19 @@ function model_1_choose()
 		"1")
 			echo " driver-action-recognition-adas-0002-decoder.xml 	[FP32] ->"
 			MODEL_LOC_1=${MODEL_LOC}/intel/driver-action-recognition-adas-0002-decoder/FP32/driver-action-recognition-adas-0002-decoder.xml
-			
 		;;
 		"2")
 			echo " driver-action-recognition-adas-0002-decoder.xml 	[FP16] ->"
 			MODEL_LOC_1=${MODEL_LOC}/intel/driver-action-recognition-adas-0002-decoder/FP16/driver-action-recognition-adas-0002-decoder.xml
-			
 		;;
+#		"3")
+#			echo " action-recognition-0001-decoder.xml 	[FP32] ->"
+#			MODEL_LOC_0=${MODEL_LOC}/intel/action-recognition-0001-decoder/FP32/action-recognition-0001-decoder.xml
+#		;;
+#		"4")
+#			echo " action-recognition-0001-decoder.xml 	[FP16] ->"
+#			MODEL_LOC_0=${MODEL_LOC}/intel/action-recognition-0001-decoder/FP16/action-recognition-0001-decoder.xml
+#		;;
 		"0")
 			return 1
 		;;
@@ -107,6 +128,7 @@ function set_default()
 }
 function set_others()
 {
+	model_1_choose
 	source_choose
 }
 clear
@@ -116,7 +138,7 @@ set_default
 model_0_choose && set_others
 
 
-ARGS=" -m_en ${MODEL_LOC_0} -m_de ${MODEL_LOC_1} -i ${I_SOURCE} -d ${TARGET_0} --labels ${actions_labels_path} "
+ARGS=" -m_en ${MODEL_LOC_0} -m_de ${MODEL_LOC_1} -i ${I_SOURCE} -d ${TARGET_0} --labels ${actions_labels_path}"
 test -e $DEMO_LOC/python_demos/action_recognition/action_recognition.py || cp -r /opt/intel/openvino/inference_engine/demos/python_demos $DEMO_LOC
 echo "RUN python3 $DEMO_LOC/python_demos/action_recognition/action_recognition.py $ARGS"
 python3 $DEMO_LOC/python_demos/action_recognition/action_recognition.py $ARGS

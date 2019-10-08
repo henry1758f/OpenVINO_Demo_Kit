@@ -20,8 +20,9 @@
 # 2019/10/08	henry1758f 4.0.0-beta15 Add Query Device feature
 # 2019/10/08	henry1758f 4.0.0-beta16 Fix wrong assign of reid target device function pedestrian tracker demo
 # 2019/10/08	henry1758f 4.0.0-beta17 Add Multi Camera Multi Person demo
+# 2019/10/08	henry1758f 4.0.0-beta18 Bug Fixed in action_recognition_demo
 
-export VERSION="4.0.0-beta17"
+export VERSION="4.0.0-beta18"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -125,12 +126,6 @@ function Inference_Engine_Sample_List()
 			echo " Multi Camera Multi Person demo ->"
 			${SOURCE}multi_camera_multi_person_tracking.sh
 		;;
-
-#		"11")
-#			echo " Speech Sample (TBD) ->"
-#			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
-#			${SOURCE}speech_sample.sh
-#		;;
 		*)
 			echo "Please input a vailed number"
 			sleep 1
