@@ -187,17 +187,17 @@ function model_1_choose()
 		"1")
 			echo " person-reidentification-retail-0031.xml 	[FP32] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0031/FP32/person-reidentification-retail-0031.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"2")
 			echo " person-reidentification-retail-0031.xml 	[FP16] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0031/FP16/person-reidentification-retail-0031.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"3")
 			echo " person-reidentification-retail-0031.xml 	[INT8] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0031/INT8/person-reidentification-retail-0031.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"4")
 			echo " person-reidentification-retail-0076.xml 	[FP32] ->"
@@ -207,37 +207,37 @@ function model_1_choose()
 		"5")
 			echo " person-reidentification-retail-0076.xml 	[FP16] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0076/FP16/person-reidentification-retail-0076.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"6")
 			echo " person-reidentification-retail-0076.xml 	[INT8] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0076/INT8/person-reidentification-retail-0076.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"7")
 			echo " person-reidentification-retail-0079.xml 	[FP32] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0079/FP32/person-reidentification-retail-0079.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"8")
 			echo " person-reidentification-retail-0079.xml 	[FP16] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0079/FP16/person-reidentification-retail-0079.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"9")
 			echo " person-reidentification-retail-0079.xml 	[INT8] ->"
 			MODEL_LOC_1="-m_reid ${MODEL_LOC}/intel/person-reidentification-retail-0079/INT8/person-reidentification-retail-0079.xml"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		"10")
 			echo " PATH to your model ->"
 			MODEL_LOC_1="-m_reid ${choose}"
-			inference_D2_choose
+			inference_D1_choose
 		;;
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC_1="-m_reid ${choose}"
-			inference_D_choose
+			inference_D1_choose
 		;;
 	esac
 }
