@@ -2,6 +2,7 @@
 # 2019/07/26	henry1758f 0.0.1	First Create
 # 2019/07/26	henry1758f 1.0.0	Workable and Improved Output information 
 # 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
+# 2019/10/08	henry1758f 2.1.1	Bug Fixed
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -152,8 +153,9 @@ function source_choose()
 	read I_SOURCE
 	case $I_SOURCE in
 		"0")
-			echo "Model PATH [Default]= /opt/intel/openvino/deployment_tools/demo/car_1.bmp"
-			I_SOURCE=/opt/intel/openvino/deployment_tools/demo/car_1.bmp
+			test -e $HOME/Pictures/sample-videos/people-detection.mp4 || git clone https://github.com/intel-iot-devkit/sample-videos.git $HOME/Pictures/sample-videos
+			test -e $HOME/Pictures/sample-videos/people-detection.mp4 || echo "[ERROR] Cannot find default source!"
+			I_SOURCE="$HOME/Pictures/sample-videos/people-detection.mp4"
 		;;
 		*)
 			echo " Model PATH=${I_SOURCE}"

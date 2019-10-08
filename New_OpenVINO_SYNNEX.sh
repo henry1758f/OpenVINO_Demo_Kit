@@ -21,8 +21,9 @@
 # 2019/10/08	henry1758f 4.0.0-beta16 Fix wrong assign of reid target device function pedestrian tracker demo
 # 2019/10/08	henry1758f 4.0.0-beta17 Add Multi Camera Multi Person demo
 # 2019/10/08	henry1758f 4.0.0-beta18 Bug Fixed in action_recognition_demo
+# 2019/10/08	henry1758f 4.0.0-beta19 Bug Fixed in interactive_face_detection_demo, pedestrian tracker demo and security_barrier_camera_demo
 
-export VERSION="4.0.0-beta18"
+export VERSION="4.0.0-beta19"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"

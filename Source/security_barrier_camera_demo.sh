@@ -5,6 +5,7 @@
 # 2019/07/25	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/26	henry1758f 2.0.1	Improved Output information 
 # 2019/10/04	henry1758f 2.1.0	Fit openVINO v2019.3.334
+# 2019/10/04	henry1758f 2.1.1	Remove license-plate-recognition-barrier-0007 because there's some Error while using it.
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -130,8 +131,8 @@ function model_2_choose()
 	echo " >> 1. license-plate-recognition-barrier-0001 	[FP32]"
 	echo " >> 2. license-plate-recognition-barrier-0001 	[FP16]"
 	echo " >> 3. license-plate-recognition-barrier-0001 	[INT8]"
-	echo " >> 4. license-plate-recognition-barrier-0007 	[FP32]"
-	echo " >> 5. license-plate-recognition-barrier-0007 	[FP16]"
+#	echo " >> 4. license-plate-recognition-barrier-0007 	[FP32]"
+#	echo " >> 5. license-plate-recognition-barrier-0007 	[FP16]"
 	echo " >> 6. input a path to your model "
 	echo " >> Or press ENTER to ignore it. "
 
@@ -153,16 +154,16 @@ function model_2_choose()
 			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0001/INT8/license-plate-recognition-barrier-0001.xml"
 			inference_D2_choose
 		;;
-		"4")
-			echo " license-plate-recognition-barrier-0007 	[FP32] ->"
-			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0007/FP32/license-plate-recognition-barrier-0007.xml"
-			inference_D2_choose
-		;;
-		"5")
-			echo " license-plate-recognition-barrier-0007 	[FP16] ->"
-			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/intel/license-plate-recognition-barrier-0007/FP16/license-plate-recognition-barrier-0007.xml"
-			inference_D2_choose
-		;;
+#		"4")
+#			echo " license-plate-recognition-barrier-0007 	[FP32] ->"
+#			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/../../ir/public/license-plate-recognition-barrier-0007/FP32/license-plate-recognition-barrier-0007.xml"
+#			inference_D2_choose
+#		;;
+#		"5")
+#			echo " license-plate-recognition-barrier-0007 	[FP16] ->"
+#			MODEL_LOC_2="-m_lpr ${MODEL_LOC}/../../ir/public/license-plate-recognition-barrier-0007/FP16/license-plate-recognition-barrier-0007.xml"
+#			inference_D2_choose
+#		;;
 		"6")
 			echo " PATH to your model ->"
 			MODEL_LOC_2="-m_lpr ${choose}"
