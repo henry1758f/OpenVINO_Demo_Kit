@@ -18,8 +18,9 @@
 # 2019/10/07	henry1758f 4.0.0-beta13 Add Text Detection Demo
 # 2019/10/07	henry1758f 4.0.0-beta14 Add Action Recognition Demo
 # 2019/10/08	henry1758f 4.0.0-beta15 Add Query Device feature
+# 2019/10/08	henry1758f 4.0.0-beta16 Fix wrong assign of reid target device function pedestrian tracker demo
 
-export VERSION="4.0.0-beta15"
+export VERSION="4.0.0-beta16"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -30,6 +31,7 @@ export SOURCE=./Source/
 
 function Inference_Engine_Sample_List()
 {
+	source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 	echo "|=========================================|"
 	echo "|        Intel OpenVINO Demostration      |"
 	echo "|        Inference Engine Sample Demo     |"
@@ -56,82 +58,72 @@ function Inference_Engine_Sample_List()
 
 	local choose
 	read choose
+
 	case $choose in
 		"0")
 			echo " You choose Benchmark App ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}benchmark_app.sh
 		;;
 		"1")
 			echo " You choose security_barrier_camera_demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}security_barrier_camera_demo.sh
 		;;
 		"2")
 			echo " You choose interactive_face_detection_demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}interactive_face_detection_demo.sh
 		;;
 		"3")
 			echo " You choose classification_demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}classification_demo.sh
 		;;
 		"4")
 			echo " Human Pose Estimation Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}human_pose_estimation_demo.sh
 		;;
 		"5")
 			echo " Object Detection and ASYNC API Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}object_detection_demo_ssd_async.sh
 		;;
 		"6")
 			echo " Crossroad Camera Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}crossroad_camera_demo.sh
 		;;
 		"7")
 			echo " super_resolution_demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}super_resolution_demo.sh
 		;;
 		"8")
 			echo " pedestrian tracker demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}pedestrian_tracker_demo.sh
 		;;
 		"9")
 			echo " smart_classroom_demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}smart_classroom_demo.sh
 		;;
 		"10")
 			echo " Image Segmentation Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}segmentation_demo.sh
 		;;
 		"11")
 			echo " Instance Segmentation Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}instance_segmentation_demo.sh
 		;;
 		"12")
 			echo " Gaze Estimation Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}gaze_estimation_demo.sh
 		;;
 		"13")
 			echo " Text Detection Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}text_detection_demo.sh
 		;;
 		"14")
 			echo " Action Recognition Demo ->"
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 			${SOURCE}action_recognition_demo.sh
 		;;
+		"15")
+			echo " Multi Camera Multi Person demo ->"
+		;;
+
 #		"11")
 #			echo " Speech Sample (TBD) ->"
 #			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
