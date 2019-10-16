@@ -22,8 +22,9 @@
 # 2019/10/08	henry1758f 4.0.0-beta17 Add Multi Camera Multi Person demo
 # 2019/10/08	henry1758f 4.0.0-beta18 Bug Fixed in action_recognition_demo
 # 2019/10/08	henry1758f 4.0.0-beta19 Bug Fixed in interactive_face_detection_demo, pedestrian tracker demo and security_barrier_camera_demo
+# 2019/10/16	henry1758f 4.0.0-beta20 Banned some models in test_all section due to the long testing time in Benchmark App
 
-export VERSION="4.0.0-beta19"
+export VERSION="4.0.0-beta20"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"

@@ -7,6 +7,8 @@
 # 2019/10/04	henry1758f 3.0.1	Fix Error when there's no IR file the MO cannot been excute correctly
 # 2019/10/05	henry1758f 3.0.2	Add informations to some models
 # 2019/10/05	henry1758f 3.0.3	fIX vgg16 MISPELL	
+# 2019/10/05	henry1758f 3.0.4	Fix octave-se-resnet-50-0.125 mispell
+# 2019/10/16	henry1758f 3.1.0	Banned some models in test_all section due to the long testing time
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -18,7 +20,7 @@ converter_path="${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/co
 
 
 model_enable_count=76
-
+banned_model=("2" "19" "31" "33" "34")
 
 
 function banner_show()
@@ -400,7 +402,7 @@ function test_models
 		"55")
 			echo " octave-se-resnet-50-0.125.xml [$2] ->"
 			test -e ${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/octave-se-resnet-50-0.125.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=octave-se-resnet-50-0.125 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
-			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/resnet-101.xml
+			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/octave-se-resnet-50-0.125/$2/octave-se-resnet-50-0.125.xml
 		;;
 		"56")
 			echo " resnet-101.xml [$2] ->"
@@ -518,9 +520,26 @@ function test_models
 		;;
 	esac
 }
+function check_banned()
+{
+	for ((j=0; j<${#banned_model[@]}; j++))
+	do
+		if [ $1 == "${banned_model[$j]}" ]; then
+			echo "[Warning!] This Model is on the banned_model list. Skip this test! "
+			if [ $recording == "true" ]; then
+				echo "[Warning!] This Model is on the banned_model list. Skip this test! " &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+			fi
+			return 1
+			break
+		fi
+		# echo "[SYNNEX_DEBUG] $1 ${banned_model[$j]}"
+	done
+	return 0
+}
 function excute
 {
 	cap_time=$(date +'%Y%m%d_%H%M%S')
+	recording="false"
 	case $2 in
 		"-log" )
 			echo "Creating ~/OpenVINO_Benchmark_Test_${cap_time}.txt ...."
@@ -537,10 +556,11 @@ function excute
 				test_models $i FP32
 				echo "============================================"
 				echo "[INFO] [$i]Testing Benchmark for \" ${MODEL_0_LOC} \" with $TARGET_0"
-
+				check_banned $i || continue
 				if [ $recording == "true" ]; then
 					echo "============================================" &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
 					echo "[$i] Testing Benchmark for \" ${MODEL_0_LOC} \" with $TARGET_0" &>> ~/OpenVINO_Benchmark_Test_${cap_time}.txt
+					
 					for ((j=1; j<=$3; j=j+1))
 					do
 						echo "	[ FP32 ] Test $j "
