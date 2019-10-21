@@ -9,6 +9,7 @@
 # 2019/10/05	henry1758f 3.0.3	fIX vgg16 MISPELL	
 # 2019/10/05	henry1758f 3.0.4	Fix octave-se-resnet-50-0.125 mispell
 # 2019/10/16	henry1758f 3.1.0	Banned some models in test_all section due to the long testing time
+# 2019/10/21	henry1758f 3.1.1	fIX vgg16 MISPELL
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -496,7 +497,7 @@ function test_models
 		;;
 		"74")
 			echo " vgg16.xml [$2] ->"
-			test -e ${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg16vgg19 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
+			test -e ${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.xml  || ( echo "[Run Model Optimizer Demo]" && 	python3 $converter_path --name=vgg16 --download_dir $MODEL_LOC --output_dir $MODEL_LOC/../../ir --precisions=$2  )
 			MODEL_0_LOC=${MODEL_LOC}/../../ir/public/vgg16/$2/vgg16.xml
 		;;
 		"75")
