@@ -3,29 +3,9 @@
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
-# 2019/10/04	henry1758f 4.0.0-beta01	Benchmark App fit OpenVINO 2019R3
-# 2019/10/04	henry1758f 4.0.0-beta02	security_barrier_camera_demo and interactive_face_detection_demo fit OpenVINO 2019R3
-# 2019/10/04	henry1758f 4.0.0-beta03	Fix Error when there's no IR file the MO cannot been excute correctly in Benchmark App
-# 2019/10/05	henry1758f 4.0.0-beta04 object_detection_demo_ssd_async, classification_demo  fit OpenVINO 2019R2 and fix mispell in benchmark_app
-# 2019/10/07	henry1758f 4.0.0-beta05 optimized the object_detection_demo_ssd_async scripts, deleted unnecessary labels
-# 2019/10/07	henry1758f 4.0.0-beta06 Human Pose Estimation Demo and Crossroad Camera Demo fit OpenVINO 2019R3
-# 2019/10/07	henry1758f 4.0.0-beta07 super_resolution_demo and pedestrian tracker demo fit OpenVINO 2019R3
-# 2019/10/07	henry1758f 4.0.0-beta08 smart classroom demo fit OpenVINO 2019R3
-# 2019/10/07	henry1758f 4.0.0-beta09 segmentation_demo fit OpenVINO 2019R3
-# 2019/10/07	henry1758f 4.0.0-beta10 Add Instance Segmentation Demo
-# 2019/10/07	henry1758f 4.0.0-beta11 Add Gaze Estimation Demo
-# 2019/10/07	henry1758f 4.0.0-beta12 Fix path error of face-detection-retail-0044 in interactive_face_detection_demo.sh
-# 2019/10/07	henry1758f 4.0.0-beta13 Add Text Detection Demo
-# 2019/10/07	henry1758f 4.0.0-beta14 Add Action Recognition Demo
-# 2019/10/08	henry1758f 4.0.0-beta15 Add Query Device feature
-# 2019/10/08	henry1758f 4.0.0-beta16 Fix wrong assign of reid target device function pedestrian tracker demo
-# 2019/10/08	henry1758f 4.0.0-beta17 Add Multi Camera Multi Person demo
-# 2019/10/08	henry1758f 4.0.0-beta18 Bug Fixed in action_recognition_demo
-# 2019/10/08	henry1758f 4.0.0-beta19 Bug Fixed in interactive_face_detection_demo, pedestrian tracker demo and security_barrier_camera_demo
-# 2019/10/16	henry1758f 4.0.0-beta20 Banned some models in test_all section due to the long testing time in Benchmark App
-# 2019/10/16	henry1758f 4.0.0-beta21 Bug fixed in benchmark app
+# 2019/10/24	henry1758f 4.0.0-release *Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
 
-export VERSION="4.0.0-beta21"
+export VERSION="4.0.0"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
