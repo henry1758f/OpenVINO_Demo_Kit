@@ -4,6 +4,7 @@
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
 # 2019/07/26	henry1758f 2.0.1	Improved Output information 
 # 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
+# 2019/10/25	henry1758f 2.1.1	Fix path error to default IR file
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -62,7 +63,7 @@ function source_choose()
 function set_default()
 {
 	echo " All model will run on CPU... "
-	MODEL_LOC="${MODEL_LOC}/Transportation/human_pose_estimation/mobilenet-v1/dldt/FP16/human-pose-estimation-0001.xml"
+	MODEL_LOC=${MODEL_LOC}/intel/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml
 	I_SOURCE="cam"
 	TARGET_0="CPU"
 }

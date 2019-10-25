@@ -3,9 +3,10 @@
 # 2019/04/16	henry1758f 2.0.0	First Create
 # 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
-# 2019/10/24	henry1758f 4.0.0-release *Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
+# 2019/10/24	henry1758f 4.0.0	*Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
+# 2019/10/24	henry1758f 4.0.1 	Fix path error to default IR file in human_pose_estimation_demo.sh
 
-export VERSION="4.0.0"
+export VERSION="4.0.1"
 export VERSION_VINO="v2019.3.334"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
