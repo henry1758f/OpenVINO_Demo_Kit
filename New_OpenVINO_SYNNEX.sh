@@ -5,6 +5,7 @@
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
 # 2019/10/24	henry1758f 4.0.0	*Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
 # 2019/10/24	henry1758f 4.0.1 	Fix path error to default IR file in human_pose_estimation_demo.sh
+# 2019/10/28	henry1758f 4.0.2 	Add face_recognition_demo, Bug fixed for customized model path in smart_classroom_demo
 
 export VERSION="4.0.1"
 export VERSION_VINO="v2019.3.334"
@@ -40,6 +41,7 @@ function Inference_Engine_Sample_List()
 	echo " 13. Text Detection Demo"
 	echo " 14. Action Recognition Demo"
 	echo " 15. Multi Camera Multi Person demo"
+	echo " 16. Face Recognition Demo"
   
 
 	local choose
@@ -109,6 +111,10 @@ function Inference_Engine_Sample_List()
 		"15")
 			echo " Multi Camera Multi Person demo ->"
 			${SOURCE}multi_camera_multi_person_tracking.sh
+		;;
+		"16")
+			echo " Face Recognition Demo ->"
+			${SOURCE}face_recognition_demo.sh
 		;;
 		*)
 			echo "Please input a vailed number"

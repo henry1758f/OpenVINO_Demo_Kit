@@ -2,8 +2,8 @@
 # 2019/05/06	henry1758f 0.0.1	First Create
 # 2019/07/19	henry1758f 1.0.0	Add int8 model options and quick demo trick
 # 2019/07/26	henry1758f 2.0.0	Fit openVINO v2019.2.242
-# 2019/07/26	henry1758f 2.0.1	Improved Output information 
 # 2019/10/07	henry1758f 2.1.0	Fit openVINO v2019.3.334
+# 2019/10/07	henry1758f 2.1.1	Bug fixed for customized model path
 
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
@@ -156,7 +156,7 @@ function model_1_choose()
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC_1="-m_lm ${choose}"
-			inference_D_choose
+			inference_D1_choose
 			;;
 	esac
 }
@@ -190,7 +190,7 @@ function model_2_choose()
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC_2="-m_reid ${choose}"
-			inference_D_choose
+			inference_D2_choose
 			;;
 	esac
 }
@@ -272,7 +272,7 @@ function model_3_choose()
 		*)
 			echo " Model PATH=${choose}"
 			MODEL_LOC_3="-m_act ${choose}"
-			inference_D_choose
+			inference_D3_choose
 			;;
 	esac
 }
