@@ -1,6 +1,7 @@
 # File: benchmark_app.py
 # 2020/02/11	henry1758f 4.0.0	First Create with python instead of script
 # 2020/02/20	henry1758f 4.0.1	Add ban list and special operation to models in model_test_limit_list, the progress information will show while testing all models.
+# 2020/02/20	henry1758f 4.0.2	Fix error when choosing specific model
 
 import json
 import os
@@ -142,6 +143,7 @@ def excuting():
 						csvReport.flush()
 	else:
 		for item in jsonObj_Array:
+			#print('[ DEBUG ] selected: ' + selected + ', item[name]=' + item['name'])
 			if selected == item['name']:
 				with open(reportFileName,'w') as csvReport:
 					print(reportFileName)
@@ -199,9 +201,8 @@ def excuting():
 						csvWriter.writerow([Path,'',result_string])
 						csvReport.flush()
 				break
-			else:
-				print('[ERROR] No options / Model Path as " ' + selected + 'Please check your input words.')
-				break
+		else:
+			print('[ WARNING ] No options / Model Path as " ' + selected + 'Please check your input words.')
 
 ###########
 terminal_clean()

@@ -8,8 +8,9 @@
 # 2019/10/28	henry1758f 4.0.2 	Add face_recognition_demo, Bug fixed for customized model path in smart_classroom_demo
 # 2020/02/15	henry1758f 5.0.0-beta01 	Modify most of the demo to python code, add speech recognition demo, bug fixed and work flow improvement
 # 2020/02/20	henry1758f 5.0.0-beta02 	Add ban list and special operation to models in model_test_limit_list, the progress information will show while testing all models.
+# 2020/02/20	henry1758f 5.0.0-beta03 	Fix error when choosing specific model in benchmark app
 
-export VERSION="5.0.0-beta02"
+export VERSION="5.0.0-beta03"
 export VERSION_VINO="v2020.1.023"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
