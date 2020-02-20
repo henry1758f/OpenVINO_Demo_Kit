@@ -6,6 +6,7 @@
 # 2019/10/24	henry1758f 4.0.0	*Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
 # 2019/10/24	henry1758f 4.0.1 	Fix path error to default IR file in human_pose_estimation_demo.sh
 # 2019/10/28	henry1758f 4.0.2 	Add face_recognition_demo, Bug fixed for customized model path in smart_classroom_demo
+# 2020/02/15	henry1758f 5.0.0-beta01 	Modify most of the demo to python code, add speech recognition demo, bug fixed and work flow improvement
 
 export VERSION="5.0.0-beta01"
 export VERSION_VINO="v2020.1.023"
