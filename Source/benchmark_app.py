@@ -1,5 +1,6 @@
 # File: benchmark_app.py
 # 2020/02/11	henry1758f 4.0.0	First Create with python instead of script
+# 2020/02/20	henry1758f 4.0.1	Add ban list and special operation to models in model_test_limit_list, the progress information will show while testing all models.
 
 import json
 import os
@@ -11,6 +12,12 @@ dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_download
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
+
+model_test_limit_list = ["instance-segmentation-security-0010","instance-segmentation-security-0083",\
+"brain-tumor-segmentation-0001","brain-tumor-segmentation-0002","efficientnet-b7-pytorch","efficientnet-b7_auto_aug",\
+"faster_rcnn_inception_resnet_v2_atrous_coco","faster_rcnn_resnet101_coco","faster_rcnn_resnet50_coco","mask_rcnn_inception_resnet_v2_atrous_coco",\
+"mask_rcnn_inception_v2_coco","mask_rcnn_resnet101_atrous_coco","mask_rcnn_resnet50_atrous_coco"]
+
 #print(jsontemp_path)
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -45,10 +52,13 @@ def model_list_show_select():
 		global jsonObj_Array
 		input_file = open(jsontemp_path,'r')
 		jsonObj_Array = json.load(input_file)
+		global model_counter
+		model_counter = 0
 		i = 0
 		print('\n===== Model List =====')
 		for item in jsonObj_Array:
 			i+=1
+			model_counter += 1
 			print(str(i) +'. ' + item['name'] + '\t\t([' + item['framework'] + '] a/an ' + item['task_type'] + ' model. )')
 		
 		global selected 
@@ -78,6 +88,10 @@ def any_other_arguments_input():
 	global other_arguments
 	other_arguments = input('\n> If you have any other arguments that needed, input here, or skip it by just press "ENTER" \t >> ')
 
+def special_arguments_input():
+	global special_arguments
+	special_arguments = input('\n> If you have arguments to work on special model, input here." \t >> ')
+
 def excuting():
 	cap_time = os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read()
 	reportFileName = current_path + '/OpenVINO_Performance_Test_Report_' + cap_time[:-1] + '.csv'
@@ -92,19 +106,29 @@ def excuting():
 			csvReport.flush()
 			os.system('test -e $SAMPLE_LOC/hello_query_device || $Source_Sample_Build')
 			print(os.popen('$SAMPLE_LOC/hello_query_device | grep -e \'Device\' -a -e \'FULL_DEVICE_NAME\' -a -e \'RANGE_FOR_ASYNC_INFER_REQUESTS\' -a -e \'RANGE_FOR_STREAMS\'').read())
+			item_counter = 0
 			for item in jsonObj_Array:
-
+				item_counter+=1
 				for precisions in item['precisions']:
 					if 'intel/' in item['subdirectory']:
 						Path = model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
 					elif 'public/' in item['subdirectory']:
 						Path = ir_model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
-					print('===== Testing [ ' + item['name'] + ' ][' + precisions + '] =====')
+					print('['+ str(item_counter) + '/' + str(model_counter) + ']===== Testing [ ' + item['name'] + ' ][' + precisions + '] =====')
 					print('> Path: ' + Path)
+					flag_limit = False
+					for limit in model_test_limit_list:
+						if limit in item['name']: 
+							print('[ INFO ] This model is on the ban list, will only test with "' + special_arguments + '" !')
+							flag_limit = True
 
 					result_string = '=AVERAGE('
 					for times in range(int(model_testing_times)):
-						result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+						if not flag_limit:
+							result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+						else:
+							result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + special_arguments + ' |grep "Throughput" ').read()
+
 						#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
 						result = result_raw[len('Throughput:'):-len('FPS ')]
 						print('> [' + str(times+1) + '] ' + str(result) + ' FPS ')
@@ -187,4 +211,6 @@ target_device_select()
 model_list_show_select()
 model_testing_times_input()
 any_other_arguments_input()
+if selected == 'all':
+	special_arguments_input()
 excuting()
