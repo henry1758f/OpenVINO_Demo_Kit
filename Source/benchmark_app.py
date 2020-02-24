@@ -2,6 +2,7 @@
 # 2020/02/11	henry1758f 4.0.0	First Create with python instead of script
 # 2020/02/20	henry1758f 4.0.1	Add ban list and special operation to models in model_test_limit_list, the progress information will show while testing all models.
 # 2020/02/20	henry1758f 4.0.2	Fix error when choosing specific model
+# 2020/02/24	henry1758f 4.0.3	Now we can skip some models by setting All_test_index 
 
 import json
 import os
@@ -13,6 +14,8 @@ dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_download
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
+
+All_test_index = 0
 
 model_test_limit_list = ["instance-segmentation-security-0010","instance-segmentation-security-0083",\
 "brain-tumor-segmentation-0001","brain-tumor-segmentation-0002","efficientnet-b7-pytorch","efficientnet-b7_auto_aug",\
@@ -110,37 +113,40 @@ def excuting():
 			item_counter = 0
 			for item in jsonObj_Array:
 				item_counter+=1
-				for precisions in item['precisions']:
-					if 'intel/' in item['subdirectory']:
-						Path = model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
-					elif 'public/' in item['subdirectory']:
-						Path = ir_model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
-					print('['+ str(item_counter) + '/' + str(model_counter) + ']===== Testing [ ' + item['name'] + ' ][' + precisions + '] =====')
-					print('> Path: ' + Path)
-					flag_limit = False
-					for limit in model_test_limit_list:
-						if limit in item['name']: 
-							print('[ INFO ] This model is on the ban list, will only test with "' + special_arguments + '" !')
-							flag_limit = True
+				if item_counter > All_test_index:
+					for precisions in item['precisions']:
+						if 'intel/' in item['subdirectory']:
+							Path = model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
+						elif 'public/' in item['subdirectory']:
+							Path = ir_model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
+						print('['+ str(item_counter) + '/' + str(model_counter) + ']===== Testing [ ' + item['name'] + ' ][' + precisions + '] =====')
+						print('> Path: ' + Path)
+						flag_limit = False
+						for limit in model_test_limit_list:
+							if limit in item['name']: 
+								print('[ INFO ] This model is on the ban list, will only test with "' + special_arguments + '" !')
+								flag_limit = True
 
-					result_string = '=AVERAGE('
-					for times in range(int(model_testing_times)):
-						if not flag_limit:
-							result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+						result_string = '=AVERAGE('
+						for times in range(int(model_testing_times)):
+							if not flag_limit:
+								result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+							else:
+								result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + special_arguments + ' |grep "Throughput" ').read()
+
+							#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
+							result = result_raw[len('Throughput:'):-len('FPS ')]
+							print('> [' + str(times+1) + '] ' + str(result) + ' FPS ')
+							result_string += result
+							result_string += ','
 						else:
-							result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + special_arguments + ' |grep "Throughput" ').read()
-
-						#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
-						result = result_raw[len('Throughput:'):-len('FPS ')]
-						print('> [' + str(times+1) + '] ' + str(result) + ' FPS ')
-						result_string += result
-						result_string += ','
-					else:
-						result_string = result_string[:-1]
-						result_string += ')'
-						#print(result_string)
-						csvWriter.writerow([item['name'],precisions,result_string,item['framework'],item['task_type'],item['description']])
-						csvReport.flush()
+							result_string = result_string[:-1]
+							result_string += ')'
+							#print(result_string)
+							csvWriter.writerow([item['name'],precisions,result_string,item['framework'],item['task_type'],item['description']])
+							csvReport.flush()
+				else:
+					print('[ INFO ] All_test_index set to ' + str(All_test_index) + ' , skipping [' + item['name'] + ']!')
 	else:
 		for item in jsonObj_Array:
 			#print('[ DEBUG ] selected: ' + selected + ', item[name]=' + item['name'])
