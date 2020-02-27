@@ -4,9 +4,11 @@
 # 2019/07/15	henry1758f 0.0.2	Bug Fixed
 # 2019/07/15	henry1758f 0.1.0	Fix the sample cannot be compile while there's no sample app folder
 # 2019/07/25	henry1758f 1.0.0	Fit OpenVINO 2019R2
+# 2020/02/07	henry1758f 1.1.0	Fit OpenVINO 2020.1
 
 source /opt/intel/openvino/bin/setupvars.sh
 dashes="\n\n###################################################\n\n"
+# Step 4. Build samples
 printf "${dashes}"
 printf "Build Inference Engine samples\n\n"
 
@@ -18,7 +20,7 @@ if [ $OS_PATH == "x86_64" ]; then
   NUM_THREADS="-j8"
 fi
 
-samples_path="${INTEL_OPENVINO_DIR}/deployment_tools/inference_engine/samples"
+samples_path="${INTEL_OPENVINO_DIR}/deployment_tools/inference_engine/samples/cpp"
 build_dir="$HOME/inference_engine_samples_build"
 binaries_dir="${build_dir}/${OS_PATH}/Release"
 

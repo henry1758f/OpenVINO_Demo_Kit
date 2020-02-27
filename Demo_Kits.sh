@@ -6,9 +6,14 @@
 # 2019/10/24	henry1758f 4.0.0	*Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
 # 2019/10/24	henry1758f 4.0.1 	Fix path error to default IR file in human_pose_estimation_demo.sh
 # 2019/10/28	henry1758f 4.0.2 	Add face_recognition_demo, Bug fixed for customized model path in smart_classroom_demo
+# 2020/02/15	henry1758f 5.0.0-beta01 	Modify most of the demo to python code, add speech recognition demo, bug fixed and work flow improvement
+# 2020/02/20	henry1758f 5.0.0-beta02 	Add ban list and special operation to models in model_test_limit_list, the progress information will show while testing all models.
+# 2020/02/20	henry1758f 5.0.0-beta03 	Fix error when choosing specific model in benchmark app
+# 2020/02/24	henry1758f 5.0.0-beta04		Now we can skip some models by setting All_test_index in benchmark app
 
-export VERSION="4.0.2"
-export VERSION_VINO="v2019.3.334"
+
+export VERSION="5.0.0-beta04"
+export VERSION_VINO="v2020.1.023"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
@@ -29,7 +34,7 @@ function Inference_Engine_Sample_List()
 	echo "  1. security_barrier_camera_demo. "
 	echo "  2. interactive_face_detection_demo."
 	echo "  3. classification_demo."
-	echo "  4. Human Pose Estimation Demo."
+	echo "  4. Human Pose Estimation Demo. (2D)"
 	echo "  5. Object Detection and ASYNC API Demo."
 	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo."
@@ -42,7 +47,8 @@ function Inference_Engine_Sample_List()
 	echo " 14. Action Recognition Demo"
 	echo " 15. Multi Camera Multi Person demo"
 	echo " 16. Face Recognition Demo"
-  
+	echo " 17. Speech Recognition Demo "
+	echo " 18. Real Time Speech Recognition Demo"
 
 	local choose
 	read choose
@@ -50,71 +56,83 @@ function Inference_Engine_Sample_List()
 	case $choose in
 		"0")
 			echo " You choose Benchmark App ->"
-			${SOURCE}benchmark_app.sh
+			python3 ${SOURCE}benchmark_app.py
 		;;
 		"1")
 			echo " You choose security_barrier_camera_demo ->"
-			${SOURCE}security_barrier_camera_demo.sh
+			python3 ${SOURCE}security_barrier_camera_demo.py
 		;;
 		"2")
 			echo " You choose interactive_face_detection_demo ->"
-			${SOURCE}interactive_face_detection_demo.sh
+			python3 ${SOURCE}interactive_face_detection_demo.py
 		;;
 		"3")
 			echo " You choose classification_demo ->"
-			${SOURCE}classification_demo.sh
+			python3 ${SOURCE}classification_demo.py
 		;;
 		"4")
-			echo " Human Pose Estimation Demo ->"
-			${SOURCE}human_pose_estimation_demo.sh
+			echo " Human Pose Estimation Demo (2D) ->"
+			python3 ${SOURCE}human_pose_estimation_demo.py
 		;;
 		"5")
 			echo " Object Detection and ASYNC API Demo ->"
-			${SOURCE}object_detection_demo_ssd_async.sh
+			python3 ${SOURCE}object_detection_demo_ssd_async.py
 		;;
 		"6")
 			echo " Crossroad Camera Demo ->"
-			${SOURCE}crossroad_camera_demo.sh
+			python3 ${SOURCE}crossroad_camera_demo.py
 		;;
 		"7")
 			echo " super_resolution_demo ->"
-			${SOURCE}super_resolution_demo.sh
+			python3 ${SOURCE}super_resolution_demo.py
 		;;
 		"8")
 			echo " pedestrian tracker demo ->"
-			${SOURCE}pedestrian_tracker_demo.sh
+			python3 ${SOURCE}pedestrian_tracker_demo.py
 		;;
 		"9")
 			echo " smart_classroom_demo ->"
-			${SOURCE}smart_classroom_demo.sh
+			python3 ${SOURCE}smart_classroom_demo.py
 		;;
 		"10")
 			echo " Image Segmentation Demo ->"
-			${SOURCE}segmentation_demo.sh
+			python3 ${SOURCE}segmentation_demo.py
 		;;
 		"11")
 			echo " Instance Segmentation Demo ->"
-			${SOURCE}instance_segmentation_demo.sh
+			python3 ${SOURCE}instance_segmentation_demo.py
 		;;
 		"12")
 			echo " Gaze Estimation Demo ->"
-			${SOURCE}gaze_estimation_demo.sh
+			python3 ${SOURCE}gaze_estimation_demo.py
 		;;
 		"13")
 			echo " Text Detection Demo ->"
-			${SOURCE}text_detection_demo.sh
+			python3 ${SOURCE}text_detection_demo.py
 		;;
 		"14")
 			echo " Action Recognition Demo ->"
-			${SOURCE}action_recognition_demo.sh
+			python3 ${SOURCE}action_recognition_demo.py
 		;;
 		"15")
 			echo " Multi Camera Multi Person demo ->"
-			${SOURCE}multi_camera_multi_person_tracking.sh
+			python3 ${SOURCE}multi_camera_multi_person_tracking.py
+
 		;;
 		"16")
 			echo " Face Recognition Demo ->"
-			${SOURCE}face_recognition_demo.sh
+			python3 ${SOURCE}face_recognition_demo.py
+
+		;;
+		"17")
+			echo " Offline Speech Recognition Demo ->"
+			#${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
+			python3 ${SOURCE}offline_speech_recognition_demo.py
+		;;
+		"18")
+			echo " Real Time Speech Recognition Demo ->"
+			${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
+			#python3 ${SOURCE}offline_speech_recognition_demo.py
 		;;
 		*)
 			echo "Please input a vailed number"
@@ -122,7 +140,7 @@ function Inference_Engine_Sample_List()
 			clear
 			banner_show
 			Inference_Engine_Sample_List
-			;;
+		;;
 	esac
 
 }
