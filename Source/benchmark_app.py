@@ -131,8 +131,10 @@ def excuting():
 						for times in range(int(model_testing_times)):
 							if not flag_limit:
 								result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+								print('[ DEBUG ][' + os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read() + '] Running ' + '$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ')
 							else:
 								result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + special_arguments + ' |grep "Throughput" ').read()
+								print('[ DEBUG ][' + os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read() + '] Running ' + '$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + special_arguments + ' |grep "Throughput" ')
 
 							#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
 							result = result_raw[len('Throughput:'):-len('FPS ')]
@@ -169,6 +171,8 @@ def excuting():
 						result_string = '=AVERAGE('
 						for times in range(int(model_testing_times)):
 							result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+							print('[ DEBUG ][' + os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read() + '] Running ' + '$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ')
+
 							#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
 							result = result_raw[len('Throughput:'):-len('FPS ')]
 							print('> [' + str(times+1) + '] ' + str(result) + ' FPS ')
@@ -195,6 +199,7 @@ def excuting():
 					result_string = '=AVERAGE('
 					for times in range(int(model_testing_times)):
 						result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+						print('[ DEBUG ][' + os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read() + '] Running ' + '$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ')
 						#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
 						result = result_raw[len('Throughput:'):-len('FPS ')]
 						print('> [' + str(times+1) + '] ' + str(result) + ' FPS ')
