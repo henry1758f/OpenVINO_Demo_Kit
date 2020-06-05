@@ -12,8 +12,8 @@
 # 2020/02/24	henry1758f 5.0.0-beta04		Now we can skip some models by setting All_test_index in benchmark app
 
 
-export VERSION="5.0.0-beta04"
-export VERSION_VINO="v2020.1.023"
+export VERSION="5.0.0-beta05"
+export VERSION_VINO="v2020.2.120"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
@@ -47,8 +47,8 @@ function Inference_Engine_Sample_List()
 	echo " 14. Action Recognition Demo"
 	echo " 15. Multi Camera Multi Person demo"
 	echo " 16. Face Recognition Demo"
-	echo " 17. Speech Recognition Demo "
-	echo " 18. Real Time Speech Recognition Demo"
+#	echo " 17. Speech Recognition Demo "
+#	echo " 18. Real Time Speech Recognition Demo"
 
 	local choose
 	read choose
@@ -124,16 +124,16 @@ function Inference_Engine_Sample_List()
 			python3 ${SOURCE}face_recognition_demo.py
 
 		;;
-		"17")
-			echo " Offline Speech Recognition Demo ->"
+#		"17")
+#			echo " Offline Speech Recognition Demo ->"
 			#${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
-			python3 ${SOURCE}offline_speech_recognition_demo.py
-		;;
-		"18")
-			echo " Real Time Speech Recognition Demo ->"
-			${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
+#			python3 ${SOURCE}offline_speech_recognition_demo.py
+#		;;
+#		"18")
+#			echo " Real Time Speech Recognition Demo ->"
+#			${INTEL_OPENVINO_DIR}data_processing/audio/speech_recognition/build_gcc.sh
 			#python3 ${SOURCE}offline_speech_recognition_demo.py
-		;;
+#		;;
 		*)
 			echo "Please input a vailed number"
 			sleep 1

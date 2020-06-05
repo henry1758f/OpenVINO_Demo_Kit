@@ -1,5 +1,5 @@
-# File: segmentation_demo.py
-# 2020/02/12	henry1758f 2.0.0	First Create with python instead of script
+# File: 3D_human_pose_estimation_demo.py
+# 2020/03/11	henry1758f 1.0.0	First Create 
 
 import json
 import os
@@ -10,14 +10,12 @@ dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_download
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
+python_demo_path = '~/inference_engine_demos_build/intel64/Release/python_demos/human_pose_estimation_3d_demo/human_pose_estimation_3d_demo.py'
 
-test_image_path = current_path + '/Source/testing_source/'
+human_pose_estimation_model = ['human-pose-estimation-3d-0001']
 
-segmentation_model = ['road-segmentation','semantic-segmentation']
-
-#default_source = test_image_path + '640px-20180402_091550_KKA-2591.jpg'
-default_source = '0'
-default_arg = ' -m ' + model_path + 'intel/semantic-segmentation-adas-0001/FP32/semantic-segmentation-adas-0001.xml' + \
+default_source = 'cam'
+default_arg = ' -m ' + model_path + 'intel/human-pose-estimation-3d-0001/FP32/human-pose-estimation-3d-0001.xml' + \
 ' -i ' + default_source + \
 ' -d CPU '
 
@@ -37,7 +35,7 @@ def terminal_clean():
 
 def banner():
 	print("|=========================================|")
-	print("|         Image Segmentation Demo         |")
+	print("|      3D Human Pose Estimation Demo      |")
 	print("|=========================================|")
 	print("|  Support OpenVINO " + os.popen('echo $VERSION_VINO').read() )
 	print("")
@@ -73,7 +71,7 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 		print('\n===== Model List =====')
 		for name in dldt_search_str:
 			for item in jsonObj_Array:
-				if name in item['name']:
+				if name == item['name']:	# In order to ignore "single-human-pose-estimation-0001"
 					i += 1
 					precisions_string = ''
 					for precisions in item['precisions']:
@@ -100,7 +98,7 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 						return ''
 
 def source_select():
-	source = input(' \n\n[ For using default Source, just press ENTER, \n\tor typein the path to the source you want. \n]\n  >> ')
+	source = input(' \n\n[ input "cam" for using camera as inference source, \n\tfor using default Source, just press ENTER, \n\tor typein the path to the source you want. \nSupport multiple source by "<source1> <source2> <source3>... ]\n  >> ')
 	if source == '':
 		return default_source
 	else:
@@ -109,19 +107,15 @@ def source_select():
 def excuting():
 	global arguments_string
 	arguments_string = ''
-	source = default_source
-	arguments_string += model0_select(segmentation_model,  ' [Select a Image Segmentation model.]', ' ')
+	arguments_string += model0_select(human_pose_estimation_model,  ' [Select a 3D Human Pose Estimation model.]', ' ')
 	if arguments_string == '':
 		print('[ INFO ] Load Default Configuration...')
 		arguments_string = default_arg
 	else:
-		source = source_select()
-		arguments_string += ' -i ' + source
-	excute_string =  '$DEMO_LOC/segmentation_demo' + arguments_string
+		arguments_string += ' -i ' + source_select()
+	excute_string =  'python3 ' + python_demo_path + arguments_string
 	print('[ INFO ] Running > ' + excute_string)
-	os.system('xdg-open ' + source)
 	os.system(excute_string)
-	#os.system('xdg-open ' + current_path + '/out_0.bmp')
 
 ###########
 terminal_clean()

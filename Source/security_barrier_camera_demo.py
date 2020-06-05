@@ -16,9 +16,9 @@ vehicle_attributes_recognition_model = ['vehicle-attributes-recognition-barrier'
 license_plate_recognition = ['license-plate-recognition-barrier']
 
 default_source = '/opt/intel/openvino/deployment_tools/demo/car_1.bmp'
-default_arg = ' -m ' + model_path + '/intel/vehicle-license-plate-detection-barrier-0106/FP32-INT8/vehicle-license-plate-detection-barrier-0106.xml' + \
-' -m_va ' + model_path + '/intel/vehicle-attributes-recognition-barrier-0039/FP32-INT8/vehicle-attributes-recognition-barrier-0039.xml' + \
-' -m_lpr ' + model_path + '/intel/license-plate-recognition-barrier-0001/FP32-INT8/license-plate-recognition-barrier-0001.xml' + \
+default_arg = ' -m ' + model_path + '/intel/vehicle-license-plate-detection-barrier-0106/FP32/vehicle-license-plate-detection-barrier-0106.xml' + \
+' -m_va ' + model_path + '/intel/vehicle-attributes-recognition-barrier-0039/FP32/vehicle-attributes-recognition-barrier-0039.xml' + \
+' -m_lpr ' + model_path + '/intel/license-plate-recognition-barrier-0001/FP32/license-plate-recognition-barrier-0001.xml' + \
 ' -i ' + default_source + \
 ' -d CPU -d_va CPU -d_lpr CPU '
 
