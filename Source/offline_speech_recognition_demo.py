@@ -7,12 +7,12 @@ import string
 import sys
 
 current_path = os.path.abspath(os.getcwd())
-yml_modelinfo_path = os.path.expandvars('${INTEL_OPENVINO_DIR}/data_processing/audio/speech_recognition/models/lspeech_s5_ext/lspeech_s5_ext.yml')
+yml_modelinfo_path = os.path.expandvars('${INTEL_OPENVINO_DIR}/data_processing/audio/speech_recognition/models/intel/lspeech_s5_ext/model.yml')
 model_path = os.path.expanduser('~/openvino_models/models/SYNNEX_demo/')
 ir_model_path = os.path.expanduser('~/openvino_models/ir/')
-modeldownloader_path = os.path.expandvars('${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/downloader.py')
-demo_code_path = os.path.expandvars('${INTEL_OPENVINO_DIR}/data_processing/audio/speech_recognition/')
-build_path = os.path.expanduser('~/inference_engine_demos_build/data_processing_demos_build/audio/speech_recognition/')
+modeldownloader_dir = os.path.expandvars('${INTEL_OPENVINO_DIR}/deployment_tools/open_model_zoo/tools/downloader/')
+demo_code_dir = os.path.expandvars('${INTEL_OPENVINO_DIR}/data_processing/audio/speech_recognition/')
+build_path = os.path.expanduser('~/data_processing_demos_build/audio/speech_recognition/')
 demo_path = build_path + 'intel64/Release/offline_speech_recognition_app'
 
 model_name = 'lspeech_s5_ext'
@@ -32,18 +32,12 @@ if not os.path.isfile(demo_path):
 		print('[ ERROR ] offline_speech_recognition_app compile error! Cannot run Demo.')
 		sys.exit(1)
 
-if not os.path.isfile(config_path):
-	print('[ WARNING ] No speech_lib.cfg ! Try to download... \n')
-	os.system('python3 ' + modeldownloader_path + ' --name ' + lspeech_s5_ext + ' --output_dir ' + ir_model_path + ' --config ' + yml_modelinfo_path )
-	makeconfig_str = ['echo "#Speech recognition configuration file" > ' + config_template_path ,\
-	'sed "s|__MODELS_ROOT__|' + os.path.dirname(config_path) + '\\/|g"' + config_template_path + ' >> ' + config_path ,\
-	'sed -i \'s/\\\\/\\//g\'' +  config_path]
-	for makeconfig in makeconfig_str:
-		print('>| ' + makeconfig)
-		os.system(makeconfig)	
-	if not os.path.isfile(config_path):
-		print('[ ERROR ] lspeech_s5_ext model and config download failed! Please check your network connection or disk space.')
-		sys.exit(1)
+if not os.path.isfile(config_template_path):
+	print('[ WARNING ] No speech_recognition_config.template ! Try to download... \n')
+	os.system('cp -r "' + modeldownloader_dir + '" "' + build_path + 'tools"')
+	os.system('cp -r "' + demo_code_dir + 'models" "' + build_path + '"')
+	print( 'python ' + build_path + 'tools/downloader/downloader.py --all --output_dir ' + ir_model_path )
+	os.system('python3 ' + build_path + 'tools/downloader/downloader.py --all --output_dir ' + ir_model_path )
 
 def terminal_clean():
 	os.system('clear')
@@ -60,6 +54,10 @@ def source_select():
 	return source
 
 def excuting():
+	os.system('echo "#Speech recognition configuration file" > '+ config_path )
+	os.system('sed "s|__MODELS_ROOT__|' + ir_model_path + 'intel/' + model_name + '/FP32\/|g" ' + config_template_path + ' >> ' + config_path)
+	os.system("sed -i 's/\\/\//g " + config_path)
+	
 	arguments_string = ''
 	excute_string = ''
 	tmp_str = source_select()

@@ -109,7 +109,7 @@ def excuting():
 			csvWriter.writerow(['Model_Name','Precisions','Performance','Model_framework','Model_Task_Type','Model_Description'])
 			csvReport.flush()
 			os.system('test -e $SAMPLE_LOC/hello_query_device || $Source_Sample_Build')
-			print(os.popen('$SAMPLE_LOC/hello_query_device | grep -e \'Device\' -a -e \'FULL_DEVICE_NAME\' -a -e \'RANGE_FOR_ASYNC_INFER_REQUESTS\' -a -e \'RANGE_FOR_STREAMS\'').read())
+			#print(os.popen('$SAMPLE_LOC/hello_query_device | grep -e \'Device\' -a -e \'FULL_DEVICE_NAME\' -a -e \'RANGE_FOR_ASYNC_INFER_REQUESTS\' -a -e \'RANGE_FOR_STREAMS\'').read())
 			item_counter = 0
 			for item in jsonObj_Array:
 				item_counter+=1
