@@ -14,7 +14,7 @@
 # 2020/08/10	henry1758f 5.0.0-beta07		Add RT speech recognition demo
 
 
-export VERSION="5.0.0-beta06"
+export VERSION="5.0.0-beta07"
 export VERSION_VINO="v2020.3.194"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
