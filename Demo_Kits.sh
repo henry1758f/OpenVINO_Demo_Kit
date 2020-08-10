@@ -11,10 +11,11 @@
 # 2020/02/20	henry1758f 5.0.0-beta03 	Fix error when choosing specific model in benchmark app
 # 2020/02/24	henry1758f 5.0.0-beta04		Now we can skip some models by setting All_test_index in benchmark app
 # 2020/08/10	henry1758f 5.0.0-beta06		Add offline speech recognition demo, fix some bugs and optimize interfaces, fit openVINO 2020.3
+# 2020/08/10	henry1758f 5.0.0-beta07		Add RT speech recognition demo
 
 
 export VERSION="5.0.0-beta06"
-export VERSION_VINO="v2020.3.375"
+export VERSION_VINO="v2020.3.194"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
@@ -49,7 +50,7 @@ function Inference_Engine_Sample_List()
 	echo " 15. Multi Camera Multi Person demo"
 	echo " 16. Face Recognition Demo"
 	echo " 17. Speech Recognition Demo "
-#	echo " 18. Real Time Speech Recognition Demo"
+	echo " 18. Real Time Speech Recognition Demo"
 
 	local choose
 	read choose
@@ -130,11 +131,11 @@ function Inference_Engine_Sample_List()
 			#${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
 			python3 ${SOURCE}offline_speech_recognition_demo.py
 		;;
-#		"18")
-#			echo " Real Time Speech Recognition Demo ->"
+		"18")
+			echo " Real Time Speech Recognition Demo ->"
 #			${INTEL_OPENVINO_DIR}data_processing/audio/speech_recognition/build_gcc.sh
-			#python3 ${SOURCE}offline_speech_recognition_demo.py
-#		;;
+			${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
+		;;
 		*)
 			echo "Please input a vailed number"
 			sleep 1
