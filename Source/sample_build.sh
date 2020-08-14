@@ -61,3 +61,33 @@ mkdir -p $build_dir
 cd $build_dir
 cmake -DCMAKE_BUILD_TYPE=Release $demos_path
 make $NUM_THREADS 
+
+
+# Step 1. Build speech_recognition samples
+printf "${dashes}"
+printf "Build speech_recognition Demos\n\n"
+
+demos_path="${INTEL_OPENVINO_DIR}/data_processing/audio/speech_recognition"
+
+if ! command -v cmake &>/dev/null; then
+    printf "\n\nCMAKE is not installed. It is required to build Inference Engine demos. Please install it. ${run_again}"
+    exit 1
+fi
+
+OS_PATH=$(uname -m)
+NUM_THREADS="-j2"
+
+if [ $OS_PATH == "x86_64" ]; then
+  OS_PATH="intel64"
+  ARCH="x64"
+  NUM_THREADS="-j8"
+fi
+
+build_dir="$HOME/data_processing_demos_build/audio/speech_recognition"
+if [ -e $build_dir/CMakeCache.txt ]; then
+    rm -rf $build_dir/CMakeCache.txt
+fi
+mkdir -p $build_dir
+cd $build_dir
+cmake -DCMAKE_BUILD_TYPE=Release $demos_path
+make $NUM_THREADS

@@ -11,7 +11,7 @@ jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
 
-face_detection_model = ['face-detection-adas','face-detection-retail']
+face_detection_model = ['face-detection-adas','face-detection']
 age_gender_recognition_model = ['age-gender-recognition']
 head_pose_estimation_model = ['head-pose-estimation']
 emotions_recognition_model = ['emotions-recognition']
