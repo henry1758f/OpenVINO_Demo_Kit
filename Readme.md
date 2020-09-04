@@ -1,23 +1,50 @@
 * * * * 
 # Contents
-* [Inference Engine Sample Demo](#inference-engine-demo)
-  * [1. security_barrier_camera_demo](#1-security_barrier_camera_demo)
-  * [2. interactive_face_detection_demo](#2-interactive_face_detection_demo)
-  * [3. classification_demo](#3-classification_demo)
+* [Getting Start](#getting-start)
+* [Inference Engine Sample Demo](#inference-engine-sample-demo)
+  * [1. Security Barrier Camera Demo](#1-security_barrier_camera_demo)
+  * [2. Interactive Face Detection Demo](#2-interactive_face_detection_demo)
+  * [3. Classification Demo](#3-classification_demo)
   * [4. Human Pose Estimation Demo](#4-human-pose-estimation-demo)
   * [5. Object Detection SSD Demo](#5-object-detection-ssd-demo)
   * [6. Crossroad Camera Demo](#6-crossroad-camera-demo)
-  * [7. super_resolution_demo](#7-super_resolution_demo)
-  * [8. pedestrian tracker demo](#8-pedestrian-tracker-demo)
-  * [9. smart_classroom_demo](#9-smart_classroom_demo)
-* [Sample Build](#Sample-Build)
-* [Model Downloader](#Model-Downloader)
+  * [7. Super Resolution Demo](#7-super_resolution_demo)
+  * [8. Pedestrian Tracker Demo](#8-pedestrian-tracker-demo)
+  * [9. Smart Classroom Demo](#9-smart_classroom_demo)
+  * [10. Image Segmentation Demo](#10-Image-Segmentation-Demo)
+  * [11. Instance Segmentation Demo](#11-Instance-Segmentation-Demo)
+  * [12. Gaze Estimation Demo](#12-Gaze-Estimation-Demo)
+  * [13. Text Detection Demo](#13-Text-Detection-Demo)
+  * [14. Action Recognition Demo](#14-Action-Recognition-Demo)
+  * [15. Multi Camera Multi Person Tracking Demo](#15-Multi-Camera-Multi-Person-Tracking-Demo)
+  * [16. Face Recognition Demo](#16-Face-Recognition-Demo)
+  * [17. Offline Speech Recognition Demo](#17-Offline-Speech-Recognition-Demo)
+  * [18. Live Speech Recognition Demo](#18-Live-Speech-Recognition-Demo)
+* [Sample Build](#sample-build)
+* [Model Downloader](#model-downloader)
 * * * * 
+# Getting Start
+This project support for the Intel OpenVINO Toolkits installed on Ubuntu 18.04, for the begining, please install the Intel OpenVINO Toolkits (version 2020.3) in default directory, following the steps from the [install guide](https://docs.openvinotoolkit.org/2020.3/_docs_install_guides_installing_openvino_linux.html#install-openvino).
+After the installation, clone this repository to your home directory by using terminal command.
+
+    cd ~
+    git clone https://github.com/henry1758f/OpenIVNO_Demo_Kit.git
+Go to the folder and run this tool
+
+    cd ~/OpenVINO_Demo_Kit
+    ./Demo_Kits.sh
+The Termainal will show the version of this Demo_Kits and the support version of the OpenVINO.
+The Demo_Kits will show you 4 operations:
+##### 1. [Inference Engine Sample Demo](#inference-engine-sample-demo)
+##### 2. [Sample Build](#sample-build)
+##### 3. [Model Downloader](#model-downloader)
+##### 4. [Query Device](#query-device)
+
 # Inference Engine Sample Demo
 ## 1. security_barrier_camera_demo
   This demo showcases Vehicle and License Plate Detection network followed by the Vehicle Attributes and License Plate Recognition applied on top of Vehicle Detection results.
   
-  For more information, please visit [Security Barrier Camera Demo]( https://docs.openvinotoolkit.org/latest/_inference_engine_samples_security_barrier_camera_demo_README.html) on Intel's Website
+  For more information, please visit [Security Barrier Camera Demo](https://docs.openvinotoolkit.org/2020.3/_demos_security_barrier_camera_demo_README.html) on Intel's Website
 ### How to run the demo
 #### Select a vehicle and license detection model
 * After type in the number of security_barrier_camera_demo and pressed the enter key, the terminal would ask you to select a vehicle and license detection model, and give you a list that is available to choose:
@@ -75,7 +102,7 @@
 ## 2. interactive_face_detection_demo
 This demo showcases Object Detection task applied for face recognition using sequence of neural networks. Async API can improve overall frame-rate of the application, because rather than wait for inference to complete, the application can continue operating on the host while accelerator is busy. This demo executes four parallel infer requests for the Age/Gender Recognition, Head Pose Estimation, Emotions Recognition, and Facial Landmarks Detection networks that run simultaneously.
 
-  For more information, please visit [Interactive Face Detection Demo]( https://docs.openvinotoolkit.org/latest/_inference_engine_samples_interactive_face_detection_demo_README.html) on Intel's Website
+  For more information, please visit [Interactive Face Detection Demo]( https://docs.openvinotoolkit.org/2020.3/_demos_interactive_face_detection_demo_README.html) on Intel's Website
 
 ### How to run the demo
 #### Select a Face Detection model
@@ -162,7 +189,7 @@ This demo showcases Object Detection task applied for face recognition using seq
 ## 3. classification_demo
   This topic demonstrates how to run the Image Classification sample application, which does inference using image classification networks like AlexNet* and GoogLeNet*.
   
-  For more information, please visit [Image Classification Sample async](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_classification_sample_async_README.html) and [Image Classification Sample](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_classification_sample_README.html) on Intel's Website
+  For more information, please visit [Image Classification Sample async](https://docs.openvinotoolkit.org/2020.3/_inference_engine_samples_classification_sample_async_README.html) and [Image Classification Sample](https://docs.openvinotoolkit.org/2020.3/_inference_engine_samples_classification_sample_README.html) on Intel's Website
 
 ### How to run the demo
 #### Select to Use ASYNC API demo case or not
@@ -226,7 +253,7 @@ Finally, the top 10 classification result and the inference throughput will prin
 ## 4. Human Pose Estimation Demo.
   This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees, and ankles. Some of potential use cases of the algorithm are action recognition and behavior understanding.
   
-  For more information, please visit [Human Pose Estimation Demo](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_human_pose_estimation_demo_README.html) on Intel's Website
+  For more information, please visit [Human Pose Estimation Demo](https://docs.openvinotoolkit.org/2020.3/_demos_human_pose_estimation_demo_README.html) on Intel's Website
   
 ### How to run the demo
 #### Select a Human Pose Estimation model
@@ -257,27 +284,78 @@ Finally, the top 10 classification result and the inference throughput will prin
 ## 5. Object Detection SSD Demo
   This demonstration showcases Object Detection with SSD and new Async API. Async API usage can improve overall frame-rate of the application, because rather than wait for inference to complete, the app can continue doing things on the host, while accelerator is busy. Specifically, this demonstration keeps two parallel infer requests and while the current is processed, the input frame for the next is being captured. 
   
-  For more information, please visit [Object Detection SSD Demo](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_object_detection_sample_ssd_README.html) and [Object Detection SSD Demo, Async API Performance Showcase](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_object_detection_demo_ssd_async_README.html) on Intel's Website
+  For more information, please visit [Object Detection SSD Demo](https://docs.openvinotoolkit.org/2020.3/_inference_engine_samples_object_detection_sample_ssd_README.html) and [Object Detection SSD Demo, Async API Performance Showcase](https://docs.openvinotoolkit.org/2020.3/_demos_object_detection_demo_ssd_async_README.html) on Intel's Website
   
 ## 6. Crossroad Camera Demo
   This demo provides an inference pipeline for person detection, recognition and reidentification. The demo uses Person Detection network followed by the Person Attributes Recognition and Person Reidentification Retail networks applied on top of the detection results. 
 
-  For more information, please visit [Crossroad Camera Demo](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_crossroad_camera_demo_README.html) on Intel's Website
+  For more information, please visit [Crossroad Camera Demo](https://docs.openvinotoolkit.org/2020.3/_demos_crossroad_camera_demo_README.html) on Intel's Website
 
-## 7. super_resolution_demo
+## 7. Super Resolution Demo
   This topic demonstrates how to run the Super Resolution demo application, which reconstructs the high resolution image from the original low resolution one.
   
-  For more information, please visit [Super Resolution Demo](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_super_resolution_demo_README.html) on Intel's Website
+  For more information, please visit [Super Resolution Demo](https://docs.openvinotoolkit.org/2020.3/_demos_super_resolution_demo_README.html) on Intel's Website
   
-## 8. pedestrian tracker demo
+## 8. Pedestrian Tracker Demo
   This demo showcases Pedestrian Tracking scenario: it reads frames from an input video sequence, detects pedestrians in the frames, and builds trajectories of movement of the pedestrians in a frame-by-frame manner. 
   
   
-  For more information, please visit [Pedestrian Tracker Demo](https://software.intel.com/en-us/articles/OpenVINO-IE-Samples#inpage-nav-19) on Intel's Website
-## 9. smart_classroom_demo
+  For more information, please visit [Pedestrian Tracker Demo](https://docs.openvinotoolkit.org/2020.3/_demos_pedestrian_tracker_demo_README.html) on Intel's Website
+## 9. Smart Classroom Demo
   The demo demonstrates an example of joint usage of several neural networks to detect three basic actions (sitting, standing, raising hand) and recognize people by faces in the classroom environment. The demo uses Async API for action and face detection nets. It allows to parallelize execution of face recognition and detection: while face recognition is running on one accelerator, face and action detection can be performed on other. 
   
-  For more information, please visit [Smart Classroom Demo](https://docs.openvinotoolkit.org/latest/_inference_engine_samples_pedestrian_tracker_demo_README.html) on Intel's Website
+  For more information, please visit [Smart Classroom Demo](https://docs.openvinotoolkit.org/2020.3/_demos_smart_classroom_demo_README.html) on Intel's Website
+  
+## 10 Image Segmentation Demo
+  Demonstrates how to run the Image Segmentation demo application, which does inference using semantic segmentation networks. 
+    
+  For more information, please visit [Image Segmentation C++ Demo](https://docs.openvinotoolkit.org/2020.3/_demos_segmentation_demo_README.html) on Intel's Website
+  
+## 11 Instance Segmentation Demo
+  This demo shows how to run Instance Segmentation models from Detectron or maskrcnn-benchmark using OpenVINO™. These models should be obtained through [OpenVINO™ Training Extensions (OTE)](https://github.com/opencv/openvino_training_extensions/tree/develop/pytorch_toolkit/instance_segmentation#get-pretrained-models).
+    
+  For more information, please visit [Instance Segmentation Python* Demo](https://docs.openvinotoolkit.org/2020.3/_demos_python_demos_instance_segmentation_demo_README.html) on Intel's Website
+  
+## 12 Gaze Estimation Demo
+  This demo showcases the work of gaze estimation model. The corresponding pre-trained model gaze-estimation-adas-0002 is delivered with the product.
+  
+  For more information, please visit [Gaze Estimation Demo](https://docs.openvinotoolkit.org/2020.3/_demos_gaze_estimation_demo_README.html) on Intel's Website
+  
+## 13 Text Detection Demo
+  The demo shows an example of using neural networks to detect and recognize printed text rotated at any angle in various environment.
+  
+  For more information, please visit [Text Detection C++ Demo](https://docs.openvinotoolkit.org/2020.3/_demos_text_detection_demo_README.html) on Intel's Website
+  
+## 14 Action Recognition Demo
+  This is the demo application for Action Recognition algorithm, which classifies actions that are being performed on input video.
+  
+  For more information, please visit [Action Recognition Python* Demo](https://docs.openvinotoolkit.org/2020.3/_demos_python_demos_action_recognition_README.html) on Intel's Website
+  
+## 15 Multi Camera Multi Person Tracking Demo
+  This demo demonstrates how to run Multi Camera Multi Person demo using OpenVINO.
+  
+  For more information, please visit [Text Detection C++ Demo](https://docs.openvinotoolkit.org/2020.3/_demos_python_demos_multi_camera_multi_person_tracking_README.html) on Intel's Website
+  
+## 16 Face Recognition Demo
+  This example demonstrates an approach to create interactive applications for video processing. It shows the basic architecture for building model pipelines supporting model placement on different devices and simultaneous parallel or sequential execution using OpenVINO library in Python. In particular, this demo uses 3 models to build a pipeline able to detect faces on videos, their keypoints (aka "landmarks"), and recognize persons using the provided faces database (the gallery). 
+  
+  For more information, please visit [Interactive Face Recognition Demo](https://docs.openvinotoolkit.org/2020.3/_demos_python_demos_face_recognition_demo_README.html) on Intel's Website
+  
+## 17 Offline Speech Recognition Demo
+  This demo provides a command-line interface for automatic speech recognition using OpenVINO™. Components used by this executable:
+  
+    > lspeech_s5_ext model - Example pretrained LibriSpeech DNN
+    > speech_library.dll (.so) - 
+      Open source speech recognition library that uses OpenVINO™ Inference Engine, 
+      Intel® Speech Feature Extraction and Intel® Speech Decoder libraries
+  
+  For more information, please visit [Offline Speech Recognition Demo](https://docs.openvinotoolkit.org/2020.3/_inference_engine_samples_speech_libs_and_demos_Offline_speech_recognition_demo.html) on Intel's Website
+  
+## 18 Live Speech Recognition Demo
+  This demo provides a GUI interface for automatic speech recognition using selected OpenVINO™ Inference Engine plugin, OpenVINO™ Feature Extraction Library, and OpenVINO™ Decoder Library.
+  
+  For more information, please visit [Live Speech Recognition Demo](https://docs.openvinotoolkit.org/2020.3/_inference_engine_samples_speech_libs_and_demos_Live_speech_recognition_demo.html) on Intel's Website
+  
 * * * * 
 # Sample Build
 If you have successfully build the openVINO sample, the terminal will show as following
