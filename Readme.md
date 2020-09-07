@@ -1,3 +1,5 @@
+# OpenVINO Demo Kit
+This is a tool that can make you run intel openVINO Demos and samples easily. No need to run those demo and sample apps manully with long parameters and path. Also, this Demo_Kits support to run benchmark app with multiple models and output the test result by a .csv file.
 * * * * 
 # Contents
 * [Getting Start](#getting-start)
@@ -24,7 +26,7 @@
 * [Model Downloader](#model-downloader)
 * * * * 
 # Getting Start
-This project support for the Intel OpenVINO Toolkits installed on Ubuntu 18.04, for the begining, please install the Intel OpenVINO Toolkits (version 2020.3) in default directory, following the steps from the [install guide](https://docs.openvinotoolkit.org/2020.3/_docs_install_guides_installing_openvino_linux.html#install-openvino).
+This project support Intel OpenVINO Toolkits installed on Ubuntu 18.04 allows you to quick-running OpenVINO's Demos, please follow the steps form the [install guide](https://docs.openvinotoolkit.org/2020.3/_docs_install_guides_installing_openvino_linux.html#install-openvino), install Intel OpenVINO Toolkits (version 2020.3) at default path, 
 After the installation, clone this repository to your home directory by using terminal command.
 
     cd ~
