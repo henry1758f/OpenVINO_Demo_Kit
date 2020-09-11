@@ -5,9 +5,10 @@
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
 # 2019/10/24	henry1758f 4.0.0	*Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
 # 2020/09/09	henry1758f 5.0.0	Support OpenVINO v2020.3, Totally 18 Demos, benchmark Tool, Model Downloader are included.
+# 2020/09/10	henry1758f 5.0.1	Add auto install feature.
 
-export VERSION="5.0.0"
-export VERSION_VINO="v2020.3.194"
+export VERSION="5.0.1"
+export VERSION_VINO="2020.3.194"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
@@ -145,7 +146,7 @@ function feature_choose()
 	test -e ${SAMPLE_LOC}/benchmark_app && echo " 2. Sample Build.(Done!)" || echo " 2. Sample Build."
 	echo " 3. Model Downloader."
 	echo " 4. Query Device."
-
+	test -e ${INTEL_OPENVINO_DIR}/bin/setupvars.sh || echo " 5. Install OpenVINO."
 
 	local choose
 	read choose
@@ -172,6 +173,25 @@ function feature_choose()
 			clear
 			feature_choose
 			;;
+		"5")
+			wget -q --spider https://apt.repos.intel.com/openvino/2020/GPG-PUB-KEY-INTEL-OPENVINO-2020
+			if [ $? -eq 0 ];then
+				echo "[INFO] Start download and install openVINO $VERSION_VINO"
+				wget https://apt.repos.intel.com/openvino/2020/GPG-PUB-KEY-INTEL-OPENVINO-2020
+				apt-key add GPG-PUB-KEY-INTEL-OPENVINO-2020
+				touch /etc/apt/sources.list.d/intel-openvino-2020.list
+				echo deb https://apt.repos.intel.com/openvino/2020 all main > /etc/apt/sources.list.d/intel-openvino-2020.list
+				apt update
+				apt install intel-openvino-dev-ubuntu18-$VERSION_VINO
+			else
+				echo "Please check your internet connection! We need internet to download openVINO!"
+				sleep 1
+				
+			fi
+			clear
+			banner_show
+			feature_choose
+			;;
 		*)
 			echo "Please input a vailed number"
 			sleep 1
@@ -191,8 +211,14 @@ function banner_show()
 	echo "|                                         |"
 	echo "|        Intel OpenVINO Demostration      |"
 	echo "|=========================================|"
-	echo "  Ver. $VERSION | Support OpenVINO $VERSION_VINO"
-	echo ""
+	echo "| Ver. $VERSION | Support OpenVINO v$VERSION_VINO"
+	openvino_link=$(ls -l /opt/intel/openvino | grep "openvino" | cut -d">" -f 2 |cut -d"/" -f 4)
+	if [ -d "${INTEL_OPENVINO_DIR}" ]; then
+		echo "| You've installed ${openvino_link}"
+	else
+		echo "[WARN] OpenVINO not detected!"
+	fi
+	echo "|"
 }
 
 
