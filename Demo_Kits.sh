@@ -180,9 +180,15 @@ function feature_choose()
 				wget https://apt.repos.intel.com/openvino/2020/GPG-PUB-KEY-INTEL-OPENVINO-2020
 				sudo apt-key add GPG-PUB-KEY-INTEL-OPENVINO-2020
 				sudo touch /etc/apt/sources.list.d/intel-openvino-2020.list
-				sudo echo deb https://apt.repos.intel.com/openvino/2020 all main > /etc/apt/sources.list.d/intel-openvino-2020.list
+				sudo su -c "echo deb https://apt.repos.intel.com/openvino/2020 all main > /etc/apt/sources.list.d/intel-openvino-2020.list"
 				sudo apt update
 				sudo apt install intel-openvino-dev-ubuntu18-$VERSION_VINO
+				source /opt/intel/openvino/bin/setupvars.sh
+				sudo /opt/intel/openvino/install_dependencies/install_openvino_dependencies.sh
+				sudo /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
+				# sudo su -c "/opt/intel/openvino/install_dependencies/install_NEO_OCL_driver.sh"
+				sudo /opt/intel/openvino/deployment_tools/model_optimizer/install_prerequisites/install_prerequisites.sh
+				echo "source /opt/intel/openvino/bin/setupvars.sh" > $HOME/.bash.rc
 			else
 				echo "Please check your internet connection! We need internet to download openVINO!"
 				sleep 1
