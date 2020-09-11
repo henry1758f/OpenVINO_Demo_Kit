@@ -5,7 +5,7 @@
 # 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
 # 2019/10/24	henry1758f 4.0.0	*Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
 # 2020/09/09	henry1758f 5.0.0	Support OpenVINO v2020.3, Totally 18 Demos, benchmark Tool, Model Downloader are included.
-# 2020/09/10	henry1758f 5.0.1	Add auto install feature.
+# 2020/09/10	henry1758f 5.0.1	Add auto installation.
 
 export VERSION="5.0.1"
 export VERSION_VINO="2020.3.194"
@@ -178,11 +178,11 @@ function feature_choose()
 			if [ $? -eq 0 ];then
 				echo "[INFO] Start download and install openVINO $VERSION_VINO"
 				wget https://apt.repos.intel.com/openvino/2020/GPG-PUB-KEY-INTEL-OPENVINO-2020
-				apt-key add GPG-PUB-KEY-INTEL-OPENVINO-2020
-				touch /etc/apt/sources.list.d/intel-openvino-2020.list
-				echo deb https://apt.repos.intel.com/openvino/2020 all main > /etc/apt/sources.list.d/intel-openvino-2020.list
-				apt update
-				apt install intel-openvino-dev-ubuntu18-$VERSION_VINO
+				sudo apt-key add GPG-PUB-KEY-INTEL-OPENVINO-2020
+				sudo touch /etc/apt/sources.list.d/intel-openvino-2020.list
+				sudo echo deb https://apt.repos.intel.com/openvino/2020 all main > /etc/apt/sources.list.d/intel-openvino-2020.list
+				sudo apt update
+				sudo apt install intel-openvino-dev-ubuntu18-$VERSION_VINO
 			else
 				echo "Please check your internet connection! We need internet to download openVINO!"
 				sleep 1
