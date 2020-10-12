@@ -7,7 +7,7 @@
 # 2020/09/09	henry1758f 5.0.0	Support OpenVINO v2020.3, Totally 18 Demos, benchmark Tool, Model Downloader are included.
 # 2020/09/10	henry1758f 5.0.1	Add auto installation.
 
-export VERSION="5.0.1"
+export VERSION="5.0.2"
 export VERSION_VINO="2020.3.194"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
