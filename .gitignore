@@ -5,5 +5,5 @@
 *.csv
 out_0.bmp
 sr_1.png
-Source/testing_source/sample-videos/*
+Source/testing_source/sample-videos/
 start_workbench.sh
