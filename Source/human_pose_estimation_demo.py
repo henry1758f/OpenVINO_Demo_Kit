@@ -6,14 +6,14 @@ import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
 
 human_pose_estimation_model = ['human-pose-estimation-0001']
 
-default_source = 'cam'
+default_source = '0'
 default_arg = ' -m ' + model_path + 'intel/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml' + \
 ' -i ' + default_source + \
 ' -d CPU '

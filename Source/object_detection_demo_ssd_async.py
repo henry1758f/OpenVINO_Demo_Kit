@@ -1,5 +1,5 @@
 # File: object_detection_demo_ssd_async.py
-# 2020/02/13	henry1758f 3.0.0	First Create with python instead of script, Add faster_rcnn,centernet,Yolo demo.
+# TODO: Labels 
 
 import json
 import os
@@ -9,13 +9,13 @@ from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 home_path = str(Path.home())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = home_path + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = home_path + '/openvino_models/ir/'
 MO_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py'
 
-label_path='$HOME/SYNNEX_work/Source/labels'
+label_path= current_path + '/Source/labels'
 converter_path='${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py'
 python_demo_path = home_path + '/inference_engine_demos_build/intel64/Release/python_demos/object_detection_demo_centernet/object_detection_demo_centernet.py '
 
@@ -28,11 +28,11 @@ yolo_model_name = ['yolo']
 default_source = 'cam'
 default_arg = ' -m ' + ir_model_path + 'public/ssd_mobilenet_v2_coco/FP32/ssd_mobilenet_v2_coco.xml' + \
 ' -i ' + default_source + \
-' -d CPU  '
+' -d CPU ' + '-labels ' + label_path + '/Coco/coco.labels '
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
-os.system(dump_modelinfo_path + " --all >> " + jsontemp_path)
+os.system("python3 " + dump_modelinfo_path + " --all >> " + jsontemp_path)
 
 def check_jsontemp_exist():
 	if not os.path.isfile(jsontemp_path):

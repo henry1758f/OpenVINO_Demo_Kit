@@ -6,7 +6,7 @@ import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
@@ -15,10 +15,10 @@ person_vehicle_bike_detection_model = ['person-vehicle-bike-detection-crossroad'
 person_attributes_recognition_model = ['person-attributes-recognition-crossroad']
 person_reidentification_model = ['person-reidentification-retail']
 
-default_source = 'cam'
+default_source = '0'
 default_arg = ' -m ' + model_path + 'intel/person-vehicle-bike-detection-crossroad-0078/FP32/person-vehicle-bike-detection-crossroad-0078.xml' + \
 ' -m_pa ' + model_path + '/intel/person-attributes-recognition-crossroad-0230/FP32/person-attributes-recognition-crossroad-0230.xml' + \
-' -m_reid ' + model_path + '/intel/person-reidentification-retail-0031/FP32/person-reidentification-retail-0031.xml' + \
+' -m_reid ' + model_path + '/intel/person-reidentification-retail-0287/FP32/person-reidentification-retail-0287.xml' + \
 ' -i ' + default_source + \
 ' -d CPU -d_pa CPU -d_reid CPU '
 
@@ -101,7 +101,7 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 						return ''
 
 def source_select():
-	source = input(' \n\n[ input "cam" for using camera as inference source, \n\tfor using default Source, just press ENTER, \n\tor typein the path to the source you want. \nSupport multiple source by "<source1> <source2> <source3>... ]\n  >> ')
+	source = input(' \n\n[ input camera number as inference source, \n\tfor using default Source, just press ENTER, \n\tor typein the path to the source you want. \nSupport multiple source by "<source1> <source2> <source3>... ]\n  >> ')
 	if source == '':
 		return default_source
 	else:

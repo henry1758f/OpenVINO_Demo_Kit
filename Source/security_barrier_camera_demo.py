@@ -6,7 +6,7 @@ import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
@@ -15,7 +15,7 @@ vehicle_license_detection_model = ['vehicle-license-plate-detection-barrier']
 vehicle_attributes_recognition_model = ['vehicle-attributes-recognition-barrier']
 license_plate_recognition = ['license-plate-recognition-barrier']
 
-default_source = '/opt/intel/openvino/deployment_tools/demo/car_1.bmp'
+default_source = '${INTEL_OPENVINO_DIR}/deployment_tools/demo/car_1.bmp'
 default_arg = ' -m ' + model_path + '/intel/vehicle-license-plate-detection-barrier-0106/FP32/vehicle-license-plate-detection-barrier-0106.xml' + \
 ' -m_va ' + model_path + '/intel/vehicle-attributes-recognition-barrier-0039/FP32/vehicle-attributes-recognition-barrier-0039.xml' + \
 ' -m_lpr ' + model_path + '/intel/license-plate-recognition-barrier-0001/FP32/license-plate-recognition-barrier-0001.xml' + \
