@@ -6,7 +6,7 @@ import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
@@ -15,14 +15,16 @@ gaze_estimation_model = ['gaze-estimation']
 face_detection_model = ['face-detection-adas','face-detection-retail']
 head_pose_estimation_model = ['head-pose-estimation']
 facial_landmarks_model = ['facial-landmarks']
+open_closed_eye = ['open-closed-eye']
 
-default_source = 'cam'
+default_source = '0'
 default_arg = ' -m ' + model_path + 'intel/gaze-estimation-adas-0002/FP32/gaze-estimation-adas-0002.xml' + \
 ' -m_fd ' + model_path + 'intel/face-detection-retail-0004/FP32/face-detection-retail-0004.xml' + \
 ' -m_hp ' + model_path + 'intel/head-pose-estimation-adas-0001/FP32/head-pose-estimation-adas-0001.xml' + \
 ' -m_lm ' + model_path + 'intel/facial-landmarks-35-adas-0002/FP32/facial-landmarks-35-adas-0002.xml' + \
+' -m_es ' + ir_model_path + 'public/open-closed-eye-0001/FP32/open-closed-eye-0001.xml' + \
 ' -i ' + default_source + \
-' -d CPU -d_fd CPU -d_hp CPU -d_lm CPU'
+' -d CPU -d_fd CPU -d_hp CPU -d_lm CPU -d_es CPU'
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -129,6 +131,10 @@ def excuting():
 		select_str = model0_select(facial_landmarks_model,  ' [Select a Facial Landmarks model.]', '_lm ')
 		if select_str == '':
 			select_str = ' -m_lm ' + model_path + 'intel/facial-landmarks-35-adas-0002/FP32/facial-landmarks-35-adas-0002.xml'
+		arguments_string += select_str
+		select_str = model0_select(open_closed_eye,  ' [Select an Open-Closed Eye model.]', '_es ')
+		if select_str == '':
+			select_str = ' -m_es ' + ir_model_path + 'public/open-closed-eye-0001/FP32/open-closed-eye-0001.xml'
 		arguments_string += select_str
 		arguments_string += ' -i ' + source_select()
 	excute_string =  '$DEMO_LOC/gaze_estimation_demo' + arguments_string

@@ -6,13 +6,13 @@ import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
 
 python_demo_path = '~/inference_engine_demos_build/intel64/Release/python_demos/multi_camera_multi_person_tracking/multi_camera_multi_person_tracking.py'
-config_path='/opt/intel/openvino/inference_engine/demos/python_demos/multi_camera_multi_person_tracking/config.py'
+config_path='${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos/multi_camera_multi_person_tracking/config.py'
 
 person_detection_model = ['person-detection-retail','pedestrian-detection','pedestrian-and-vehicle-detector','person-vehicle-bike-detection']
 person_reidentification_model = ['person-reidentification']
@@ -126,7 +126,7 @@ def excuting():
 		arguments_string += ' -d ' + target_device_select() + ' --config ' + config_path
 	excute_string =  'python3 ' + python_demo_path + arguments_string 
 	if not os.path.isfile(python_demo_path):
-		os.system('cp -r /opt/intel/openvino/inference_engine/demos/python_demos $DEMO_LOC')
+		os.system('cp -r ${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos $DEMO_LOC')
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

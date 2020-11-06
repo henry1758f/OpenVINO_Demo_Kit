@@ -1,21 +1,16 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
-# 2019/04/16	henry1758f 2.0.0	First Create
-# 2019/07/26	henry1758f 3.0.0	fit OpenVINO 2019R2, Add pedestrian_tracker_demo, segmentation_demo, Improved Output information and Fixed bugs
-# 2019/07/31	henry1758f 3.1.1	benchmark_app new feature:setting multiple testing times is now available
-# 2019/10/24	henry1758f 4.0.0	*Bug fixed *Add 5 new demo support *fit for OpenVINO 2019R3 version
-# 2020/09/09	henry1758f 5.0.0	Support OpenVINO v2020.3, Totally 18 Demos, benchmark Tool, Model Downloader are included.
-# 2020/09/10	henry1758f 5.0.1	Add auto installation.
 
-export VERSION="5.0.2"
-export VERSION_VINO="2020.3.194"
-export INTEL_OPENVINO_DIR=/opt/intel/openvino/
+export VERSION="6.0.0-beta01"
+export VERSION_VINO="2021.1.110"
+export INTEL_OPENVINO_DIR=/opt/intel/openvino_2021/
 export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
 export Source_Sample_Build="./Source/sample_build.sh"
 export Source_Model_Downloader="./Source/model_downloader.sh"
+dlworkbench="./Source/dlworkbench.sh"
 export SOURCE=./Source/
-
+ubuntu_ver=$(cat /etc/os-release | grep "VERSION_ID" | cut -c 13-17)
 function Inference_Engine_Sample_List()
 {
 	source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
@@ -30,6 +25,7 @@ function Inference_Engine_Sample_List()
 	echo "  2. interactive_face_detection_demo."
 	echo "  3. classification_demo."
 	echo "  4. Human Pose Estimation Demo. (2D)"
+#	echo "  4-1. Human Pose Estimation Demo. (3D)"
 	echo "  5. Object Detection and ASYNC API Demo."
 	echo "  6. Crossroad Camera Demo."
 	echo "  7. super_resolution_demo."
@@ -40,10 +36,10 @@ function Inference_Engine_Sample_List()
 	echo " 12. Gaze Estimation Demo"
 	echo " 13. Text Detection Demo"
 	echo " 14. Action Recognition Demo"
-	echo " 15. Multi Camera Multi Person demo"
-	echo " 16. Face Recognition Demo"
-	echo " 17. Speech Recognition Demo "
-	echo " 18. Real Time Speech Recognition Demo"
+#	echo " 15. Multi Camera Multi Person demo"
+#	echo " 16. Face Recognition Demo"
+#	echo " 17. Speech Recognition Demo "
+#	echo " 18. Real Time Speech Recognition Demo"
 
 	local choose
 	read choose
@@ -68,6 +64,12 @@ function Inference_Engine_Sample_List()
 		"4")
 			echo " Human Pose Estimation Demo (2D) ->"
 			python3 ${SOURCE}human_pose_estimation_demo.py
+		;;
+		"4-1")
+			echo " Human Pose Estimation Demo (3D) ->"
+			export PYTHONPATH="%INTEL_OPENVINO_DIR%\python\python%Major%.%Minor%;%INTEL_OPENVINO_DIR%\python\python3;%HOME%/inference_engine_demos_build/intel64/Release/lib;"
+			pip3 install opencv-python
+			python3 ${SOURCE}3D_human_pose_estimation_demo.py
 		;;
 		"5")
 			echo " Object Detection and ASYNC API Demo ->"
@@ -147,6 +149,7 @@ function feature_choose()
 	echo " 3. Model Downloader."
 	echo " 4. Query Device."
 	test -e ${INTEL_OPENVINO_DIR}/bin/setupvars.sh || echo " 5. Install OpenVINO."
+	echo " 6. Run Deep Learning Workbench."
 
 	local choose
 	read choose
@@ -162,9 +165,6 @@ function feature_choose()
 		;;
 		"3")
 			$Source_Model_Downloader
-			clear
-			banner_show
-			feature_choose
 		;;
 		"4")
 			test -e $SAMPLE_LOC/hello_query_device || $Source_Sample_Build
@@ -174,26 +174,52 @@ function feature_choose()
 			feature_choose
 			;;
 		"5")
-			wget -q --spider https://apt.repos.intel.com/openvino/2020/GPG-PUB-KEY-INTEL-OPENVINO-2020
+			echo "[INFO] Installing OpenVINO $VERSION_VINO on Ubuntu $ubuntu_ver ..."
+			if [[ "$ubuntu_ver" != "20.04" && "$ubuntu_ver" != "18.04" ]];then
+				echo " [ERROR] $VERSION_VINO is not support Ubuntu $ubuntu_ver"
+				exit
+			fi
+
+			public_key_url="https://apt.repos.intel.com/openvino/2021/GPG-PUB-KEY-INTEL-OPENVINO-2021"
+			wget -q --spider $public_key_url
 			if [ $? -eq 0 ];then
 				echo "[INFO] Start download and install openVINO $VERSION_VINO"
-				wget https://apt.repos.intel.com/openvino/2020/GPG-PUB-KEY-INTEL-OPENVINO-2020
-				sudo apt-key add GPG-PUB-KEY-INTEL-OPENVINO-2020
-				sudo touch /etc/apt/sources.list.d/intel-openvino-2020.list
-				sudo su -c "echo deb https://apt.repos.intel.com/openvino/2020 all main > /etc/apt/sources.list.d/intel-openvino-2020.list"
+				wget $public_key_url
+				public_key_name=${public_key_name#*/}
+				sudo apt-key add $public_key_name
+				sudo touch /etc/apt/sources.list.d/intel-openvino-2021.list
+				sudo su -c "echo deb https://apt.repos.intel.com/openvino/2021 all main > /etc/apt/sources.list.d/intel-openvino-2021.list"
 				sudo apt update
-				sudo apt install intel-openvino-dev-ubuntu18-$VERSION_VINO
-				source /opt/intel/openvino/bin/setupvars.sh
-				sudo /opt/intel/openvino/install_dependencies/install_openvino_dependencies.sh
-				sudo /opt/intel/openvino/install_dependencies/install_NCS_udev_rules.sh
-				# sudo su -c "/opt/intel/openvino/install_dependencies/install_NEO_OCL_driver.sh"
-				sudo /opt/intel/openvino/deployment_tools/model_optimizer/install_prerequisites/install_prerequisites.sh
-				echo "source /opt/intel/openvino/bin/setupvars.sh" > $HOME/.bash.rc
+				case $ubuntu_ver in
+					"20.04")
+						sudo apt install intel-openvino-dev-ubuntu20-$VERSION_VINO
+						;;
+					"18.04")
+						sudo apt install intel-openvino-dev-ubuntu18-$VERSION_VINO
+						;;
+					*)
+						echo " [ERROR] $VERSION_VINO is not support Ubuntu $ubuntu_ver"
+						exit
+						;;
+				esac
+
+				source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
+				sudo ${INTEL_OPENVINO_DIR}/install_dependencies/install_openvino_dependencies.sh
+				sudo ${INTEL_OPENVINO_DIR}/install_dependencies/install_NCS_udev_rules.sh
+				# sudo su -c "${INTEL_OPENVINO_DIR}/install_dependencies/install_NEO_OCL_driver.sh"
+				sudo ${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/install_prerequisites/install_prerequisites.sh
+				echo "source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh" > $HOME/.bash.rc
 			else
 				echo "Please check your internet connection! We need internet to download openVINO!"
 				sleep 1
 				
 			fi
+			clear
+			banner_show
+			feature_choose
+			;;
+		"6")
+			sudo $dlworkbench
 			clear
 			banner_show
 			feature_choose
@@ -218,9 +244,9 @@ function banner_show()
 	echo "|        Intel OpenVINO Demostration      |"
 	echo "|=========================================|"
 	echo "| Ver. $VERSION | Support OpenVINO v$VERSION_VINO"
-	openvino_link=$(ls -l /opt/intel/openvino | grep "openvino" | cut -d">" -f 2 |cut -d"/" -f 4)
+	openvino_link=$(ls -l /opt/intel/openvino_2021 | grep "openvino" | cut -d">" -f 2 |cut -d"/" -f 4)
 	if [ -d "${INTEL_OPENVINO_DIR}" ]; then
-		echo "| You've installed ${openvino_link}"
+		echo "| You've installed ${openvino_link} on $ubuntu_ver"
 	else
 		echo "[WARN] OpenVINO not detected!"
 	fi

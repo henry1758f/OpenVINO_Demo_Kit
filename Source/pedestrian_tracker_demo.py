@@ -7,7 +7,7 @@ import string
 import sys
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
@@ -21,9 +21,9 @@ person_reidentification_model = ['person-reidentification']
 
 default_source = test_image_path + 'sample-videos/people-detection.mp4'
 default_arg = ' -m_det ' + model_path + 'intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml' + \
-' -m_reid ' + model_path + 'intel/person-reidentification-retail-0031/FP32/person-reidentification-retail-0031.xml' + \
+' -m_reid ' + model_path + 'intel/person-reidentification-retail-0287/FP32/person-reidentification-retail-0287.xml' + \
 ' -i ' + default_source + \
-' -d_det CPU -d_reid CPU -delay 30'
+' -d_det CPU -d_reid CPU -delay 30 -loop'
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)

@@ -6,7 +6,7 @@ import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
@@ -21,10 +21,9 @@ action_recognition_model = ['person-detection-action-recognition','person-detect
 default_source = test_image_path + 'sample-videos/classroom.mp4'
 default_arg = ' -m_fd ' + model_path + 'intel/face-detection-adas-0001/FP32/face-detection-adas-0001.xml' + \
 ' -m_lm ' + model_path + '/intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml' + \
-' -m_reid ' + model_path + '/intel/face-reidentification-retail-0095/FP32/face-reidentification-retail-0095.xml' + \
 ' -m_act ' + model_path + '/intel/person-detection-action-recognition-0005/FP32/person-detection-action-recognition-0005.xml' + \
 ' -i ' + default_source + \
-' -d_fd CPU -d_lm CPU -d_reid CPU -d_act CPU -t_ad 0.5 -t_ar 0.1 -t_fd 0.1'
+' -d_fd CPU -d_lm CPU -d_act CPU -t_ad 0.5 -t_ar 0.1 -t_fd 0.1'
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -143,10 +142,10 @@ def excuting():
 		if select_str == '':
 			select_str = ' -m_lm ' + model_path + '/intel/landmarks-regression-retail-0009/FP32/landmarks-regression-retail-0009.xml'
 		arguments_string += select_str
-		select_str == model0_select(face_reidentification_retail_model,  ' [Select a Face Reidentification model.]', '_reid ')
-		if select_str == '':
-			select_str = ' -m_reid ' + model_path + '/intel/face-reidentification-retail-0095/FP32/face-reidentification-retail-0095.xml'
-		arguments_string += select_str
+#		select_str == model0_select(face_reidentification_retail_model,  ' [Select a Face Reidentification model.]', '_reid ')
+#		if select_str == '':
+#			select_str = ' -m_reid ' + model_path + '/intel/face-reidentification-retail-0095/FP32/face-reidentification-retail-0095.xml'
+#		arguments_string += select_str
 		select_str == model0_select(action_recognition_model,  ' [Select a Action Recognition model.]', '_act ')
 		if select_str == '':
 			select_str = ' -m_act ' + model_path + '/intel/person-detection-action-recognition-0005/FP32/person-detection-action-recognition-0005.xml'

@@ -7,7 +7,7 @@ import string
 import sys
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
@@ -15,12 +15,11 @@ ir_model_path = '~/openvino_models/ir/'
 text_detection_model = ['text-detection']
 text_recognition_model = ['text-recognition']
 
-default_source = '/dev/video0'
+default_source = '0'
 default_arg = ' -m_td ' + model_path + 'intel/text-detection-0003/FP32/text-detection-0003.xml' + \
 ' -m_tr ' + model_path + 'intel/text-recognition-0012/FP32/text-recognition-0012.xml' + \
 ' -i ' + default_source + \
-' -d_td CPU -d_tr CPU ' + \
-' -dt webcam '
+' -d_td CPU -d_tr CPU '
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -107,28 +106,6 @@ def source_select():
 	else:
 		return source
 
-def datatype_select():
-	select = 'webcam'
-	print('\n\n===== Data Type List =====')
-	print('> 1. image (for a single image)')
-	print('> 2. list (for a text file where images paths are listed)')
-	print('> 3. video (for a saved video)')
-	print('> 4. webcam (for a webcamera device)')
-	options = ['image','list','video','webcam']
-	select = input('\n>> [Select your data source type.]  >> ')
-	if select == '':
-		print('[ INFO ] Set Default "webcam".')
-		return 'webcam'
-	else:
-		i = 0
-		for option in options:
-			i += 1
-			if select == str(i) or select == option:
-				return option
-			else:
-				print('[ ERROR ] Datatype select ERROR! Please check your input.')
-				sys.exit(1)
-
 def excuting():
 	global arguments_string
 	arguments_string = ''
@@ -143,7 +120,6 @@ def excuting():
 			select_str = ' -m_tr ' + model_path + 'intel/text-recognition-0012/FP32/text-recognition-0012.xml'
 		arguments_string += select_str
 		arguments_string += ' -i ' + source_select()
-		arguments_string += ' -dt ' + datatype_select()
 	excute_string =  '$DEMO_LOC/text_detection_demo' + arguments_string
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)

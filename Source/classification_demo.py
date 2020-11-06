@@ -9,7 +9,7 @@ from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 home_path = str(Path.home())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = home_path + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = home_path + '/openvino_models/ir/'

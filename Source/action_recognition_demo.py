@@ -6,22 +6,22 @@ import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
 
 test_image_path = current_path + '/Source/testing_source/'
 python_demo_path = '~/inference_engine_demos_build/intel64/Release/python_demos/action_recognition/action_recognition.py'
-default_labels_path= '/opt/intel/openvino/inference_engine/demos/python_demos/action_recognition/driver_actions.txt'
+default_labels_path= '${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos/action_recognition/driver_actions.txt'
 
 
 action_recognition_decoder_model = ['driver-action-recognition-adas-0002-decoder','action-recognition-0001-decoder']
 action_recognition_encoder_model = ['driver-action-recognition-adas-0002-encoder','action-recognition-0001-decoder']
 
 default_source = '0'
-default_arg = ' -m_en ' + model_path + 'intel/driver-action-recognition-adas-0002-encoder/FP32/driver-action-recognition-adas-0002-encoder.xml' + \
-' -m_de ' + model_path + 'intel/driver-action-recognition-adas-0002-decoder/FP32/driver-action-recognition-adas-0002-decoder.xml' + \
+default_arg = ' -m_en ' + model_path + 'intel/driver-action-recognition-adas-0002/driver-action-recognition-adas-0002-encoder/FP32/driver-action-recognition-adas-0002-encoder.xml' + \
+' -m_de ' + model_path + 'intel/driver-action-recognition-adas-0002/driver-action-recognition-adas-0002-decoder/FP32/driver-action-recognition-adas-0002-decoder.xml' + \
 ' -i ' + default_source + \
 ' -d CPU  ' + \
 ' -lb ' + default_labels_path
@@ -142,7 +142,7 @@ def excuting():
 		arguments_string += ' -d ' + device
 	excute_string =  'python3 ' + python_demo_path + arguments_string
 	if not os.path.isfile(python_demo_path):
-		os.system('cp -r /opt/intel/openvino/inference_engine/demos/python_demos $DEMO_LOC')
+		os.system('cp -r ${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos $DEMO_LOC')
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

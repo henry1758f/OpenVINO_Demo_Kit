@@ -1,16 +1,10 @@
-# File: benchmark_app.py
-# 2020/02/11	henry1758f 4.0.0	First Create with python instead of script
-# 2020/02/20	henry1758f 4.0.1	Add ban list and special operation to models in model_test_limit_list, the progress information will show while testing all models.
-# 2020/02/20	henry1758f 4.0.2	Fix error when choosing specific model
-# 2020/02/24	henry1758f 4.0.3	Now we can skip some models by setting All_test_index 
-
 import json
 import os
 import string 
 import csv
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = '~/openvino_models/models/SYNNEX_demo/'
 ir_model_path = '~/openvino_models/ir/'
@@ -184,6 +178,7 @@ def excuting():
 							#print(result_string)
 							csvWriter.writerow([item['name'],precisions,result_string,item['framework'],item['task_type'],item['description']])
 							csvReport.flush()
+				break
 			elif os.path.isfile(selected):
 				with open(reportFileName,'w') as csvReport:
 					print(reportFileName)
