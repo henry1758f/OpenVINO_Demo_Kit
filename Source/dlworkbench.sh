@@ -30,6 +30,8 @@ function feature_choose()
     docker_stats="STOP"
   fi
   echo "3. Return to pervious list."
+  if [[ $docker_container_stats == *"workbench"* ]]; then
+    echo "4. Get Login Token to DL workbench"
   local choose
   read choose
   case $choose in
@@ -45,6 +47,11 @@ function feature_choose()
       fi
       ;;
     "3")
+      return
+      ;;
+    "4")
+      docker exec workbench cat /home/workbench/.workbench/token.txt
+      pause
       return
       ;;
     *)
@@ -91,11 +98,12 @@ function run_dlworkbench()
   echo "[Run DeepLearning Workbench]"
   if [ -f ./start_workbench.sh ]; then
     sudo docker pull openvino/workbench:latest
-    sudo ./start_workbench.sh -IMAGE_NAME openvino/workbench -TAG latest
+    sudo ./start_workbench.sh -IMAGE_NAME openvino/workbench -TAG latest ENABLE_GPU
   else
     echo "[Download DeepLearning Workbench script]"
     wget https://raw.githubusercontent.com/openvinotoolkit/workbench_aux/master/start_workbench.sh
     chmod +x ./start_workbench.sh
+    run_dlworkbench
   fi
 }
 banner
