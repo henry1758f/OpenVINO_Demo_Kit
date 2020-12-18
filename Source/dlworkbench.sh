@@ -32,6 +32,7 @@ function feature_choose()
   echo "3. Return to pervious list."
   if [[ $docker_container_stats == *"workbench"* ]]; then
     echo "4. Get Login Token to DL workbench"
+  fi
   local choose
   read choose
   case $choose in
