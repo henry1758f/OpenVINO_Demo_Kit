@@ -52,7 +52,10 @@ function feature_choose()
       ;;
     "4")
       docker exec workbench cat /home/workbench/.workbench/token.txt
-      pause
+      read -n 1 -p "\nPress any key to continue..." INP
+      if [ $INP != '' ] ; then
+              echo -ne '\b \n'
+      fi
       return
       ;;
     *)
