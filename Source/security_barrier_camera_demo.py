@@ -1,15 +1,15 @@
 # File: security_barrier_camera_demo.py
-# 2020/02/11	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 vehicle_license_detection_model = ['vehicle-license-plate-detection-barrier']
 vehicle_attributes_recognition_model = ['vehicle-attributes-recognition-barrier']

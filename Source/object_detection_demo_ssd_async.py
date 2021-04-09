@@ -16,19 +16,24 @@ ir_model_path = home_path + '/openvino_models/ir/'
 MO_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py'
 
 label_path= current_path + '/Source/labels'
+openvino_label_path='${INTEL_OPENVINO_DIR}/deployment_tools/open_model_zoo/data/dataset_classes/'
 converter_path='${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py'
 python_demo_path = home_path + '/inference_engine_demos_build/intel64/Release/python_demos/object_detection_demo_centernet/object_detection_demo_centernet.py '
 
 model_type = ['detection']
-invaild_model_name = ['face','pedestrian','person','product','text','vehicle','mtcnn','faster_rcnn_inception','faster_rcnn_resnet']
+invaild_model_name = ['yolo-v4-tf']
+at_list = ['ssd', 'yolo', 'centernet', 'faceboxes', 'retinaface']
+faceboxes_model_name = ['faceboxes']
 centernet_model_name = ['ctdet']
-faster_rcnn_model_name = ['faster_rcnn']
+retinaface_model_name = ['retinaface']
 yolo_model_name = ['yolo']
 
-default_source = 'cam'
+default_source = '0'
+default_network_type = 'ssd'
 default_arg = ' -m ' + ir_model_path + 'public/ssd_mobilenet_v2_coco/FP32/ssd_mobilenet_v2_coco.xml' + \
 ' -i ' + default_source + \
-' -d CPU ' + '-labels ' + label_path + '/Coco/coco.labels '
+' -d CPU ' + '-labels ' + openvino_label_path + 'coco_91cl_bkgr.txt ' + \
+' -at ' + default_network_type
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -128,12 +133,41 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 							if not os.path.isfile(Path_str):
 								print('[ ERROR ] The model has not optimized to IR file and FAILED to run model optimizer, Please check that you have already downloaded the model.')
 								sys.exit(1)
-						if not item['framework'] == 'dldt':
-							if 'coco' in item['name'] or item['name'] == 'ssdlite_mobilenet_v2':
-								 os.system('cp -r ' + label_path + '/Coco/coco.labels ' + Path_str_noSub + '.labels')
+
+						return_arg = ' -m' + arg_tag + Path_str + ' -d' + arg_tag + device
+						for check_type_name in faceboxes_model_name:
+							if check_type_name in item['name']:
+								return_arg+=' -at faceboxes '
+								break
+						for check_type_name in centernet_model_name:
+							if check_type_name in item['name']:
+								return_arg+=' -at centernet '
+								break
+						for check_type_name in retinaface_model_name:
+							if check_type_name in item['name']:
+								return_arg+=' -at retinaface '
+								break 
+						for check_type_name in yolo_model_name:
+							if check_type_name in item['name']:
+								return_arg+=' -at yolo '
+								break 
+						if not '-at ' in return_arg:
+							return_arg+=' -at ssd '
+
+						print('\n\nInput the Label file name from the list or input a path to the label file VVVV \n')
+						os.system('ls ' + openvino_label_path)
+						label = input('  >> ')
+						if not os.path.isfile(label):
+							if not  '/' in label:
+								print('[INFO] Using Label: {label}'.format(label=label))
+								return_arg+= ' -labels ' + openvino_label_path+label
 							else:
-								os.system('cp -r ' + label_path + '/PASCAL_VOC/PASCAL_VOC.labels ' + Path_str_noSub + '.labels')
-						return ' -m' + arg_tag + Path_str + ' -d' + arg_tag + device
+								print('[ ERROR ] The label is not correct! Please check your Input!. {path_test}'.format(path_test=openvino_label_path+label))
+						else:
+							print('[INFO] Using Label: {label}'.format(label=label))
+							return_arg+= ' -labels ' + label
+						
+						return return_arg
 					elif select == '' :
 						return ''
 					
@@ -152,6 +186,13 @@ def source_select():
 	else:
 		return source
 
+def type_select():
+	network_type = input(' \n\n[ choose your Object Detection Architecture type, for "ssd", just press ENTER ]\n  >> ')
+	if network_type == '':
+		return default_network_type
+	else:
+		return network_type
+
 def excuting():
 	global arguments_string
 	arguments_string = ''
@@ -162,19 +203,7 @@ def excuting():
 	else:
 		arguments_string += ' -i ' + source_select()
 
-	excute_string =  '$DEMO_LOC/object_detection_demo_ssd_async' + arguments_string
-	for centernet_str in centernet_model_name:
-		if centernet_str in arguments_string:
-			excute_string =  'python3 ' + python_demo_path + arguments_string + ' --labels ' + label_path + '/Coco/coco_nobackground.labels '
-			break
-		for faster_rcnn_str in faster_rcnn_model_name:
-			if faster_rcnn_str in arguments_string:
-				excute_string =  '$DEMO_LOC/object_detection_demo_faster_rcnn' + arguments_string
-				break
-	else:
-		for yolo_str in yolo_model_name:
-			if yolo_str in arguments_string:
-				excute_string =  '$DEMO_LOC/object_detection_demo_yolov3_async' + arguments_string
+	excute_string =  '$DEMO_LOC/object_detection_demo' + arguments_string
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

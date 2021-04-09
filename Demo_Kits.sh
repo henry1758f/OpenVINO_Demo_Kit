@@ -1,11 +1,11 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 
-export VERSION="6.0.0-beta01"
-export VERSION_VINO="2021.1.110"
+export VERSION="6.0.0-beta02"
+export VERSION_VINO="2021.3.394"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino_2021/
-export SAMPLE_LOC="$HOME/inference_engine_samples_build/intel64/Release"
-export DEMO_LOC="$HOME/inference_engine_demos_build/intel64/Release"
+export SAMPLE_LOC="$HOME/inference_engine_OpenVINO_Demo_Kit_samples_build/intel64/Release"
+export DEMO_LOC="$HOME/omz_demos_build/intel64/Release"
 export Source_Sample_Build="./Source/sample_build.sh"
 export Source_Model_Downloader="./Source/model_downloader.sh"
 dlworkbench="./Source/dlworkbench.sh"
@@ -21,44 +21,45 @@ function Inference_Engine_Sample_List()
 	echo "|=========================================|"
 	echo ""
 	echo "  0. Benchmark App."
-	echo "  1. security_barrier_camera_demo. "
-	echo "  2. interactive_face_detection_demo."
-	echo "  3. classification_demo."
+	echo "  1. Security Barrier Camera Demo. "
+	echo "  2. Interactive Face Detection Demo."
+	echo "  3. Classification Demo."
 	echo "  4. Human Pose Estimation Demo. (2D)"
 #	echo "  4-1. Human Pose Estimation Demo. (3D)"
-	echo "  5. Object Detection and ASYNC API Demo."
+	echo "  5. Object Detection Demo."
 	echo "  6. Crossroad Camera Demo."
-	echo "  7. super_resolution_demo."
-	echo "  8. pedestrian tracker demo."
-	echo "  9. smart_classroom_demo."
+	echo "  7. Super Resolution Demo."
+	echo "  8. Pedestrian Tracker Demo."
+	echo "  9. Smart Classroom Demo."
 	echo " 10. Image Segmentation Demo."
 	echo " 11. Instance Segmentation Demo"
 	echo " 12. Gaze Estimation Demo"
 	echo " 13. Text Detection Demo"
 	echo " 14. Action Recognition Demo"
-#	echo " 15. Multi Camera Multi Person demo"
-#	echo " 16. Face Recognition Demo"
-#	echo " 17. Speech Recognition Demo "
-#	echo " 18. Real Time Speech Recognition Demo"
+	echo " 15. Multi Camera Multi Person demo"
+	echo " 16. Real Time Speech Recognition Demo"
+	echo " 17. Colorization Demo"
+	echo " 18. Gesture Recognition Demo"
+#	echo " 19. Face Recognition Demo"
 
 	local choose
 	read choose
 
 	case $choose in
 		"0")
-			echo " You choose Benchmark App ->"
+			echo " Benchmark App ->"
 			python3 ${SOURCE}benchmark_app.py
 		;;
 		"1")
-			echo " You choose security_barrier_camera_demo ->"
+			echo " Security Barrier Camera_Demo ->"
 			python3 ${SOURCE}security_barrier_camera_demo.py
 		;;
 		"2")
-			echo " You choose interactive_face_detection_demo ->"
+			echo " Interactive Face Detection Demo ->"
 			python3 ${SOURCE}interactive_face_detection_demo.py
 		;;
 		"3")
-			echo " You choose classification_demo ->"
+			echo " Classification Demo ->"
 			python3 ${SOURCE}classification_demo.py
 		;;
 		"4")
@@ -67,12 +68,14 @@ function Inference_Engine_Sample_List()
 		;;
 		"4-1")
 			echo " Human Pose Estimation Demo (3D) ->"
-			export PYTHONPATH="%INTEL_OPENVINO_DIR%\python\python%Major%.%Minor%;%INTEL_OPENVINO_DIR%\python\python3;%HOME%/inference_engine_demos_build/intel64/Release/lib;"
-			pip3 install opencv-python
+			# To run this demo, we have to build the Native Python Extension and modify the build script.
+			# For more information, please visit 
+			# https://community.intel.com/t5/Intel-Distribution-of-OpenVINO/New-3D-human-pose-estimation-demo/m-p/1183638#M18851
+			export PYTHONPATH="$PYTHONPATH:{DEMO_LOC}/lib"
 			python3 ${SOURCE}3D_human_pose_estimation_demo.py
 		;;
 		"5")
-			echo " Object Detection and ASYNC API Demo ->"
+			echo " Object Detection Demo ->"
 			python3 ${SOURCE}object_detection_demo_ssd_async.py
 		;;
 		"6")
@@ -80,15 +83,15 @@ function Inference_Engine_Sample_List()
 			python3 ${SOURCE}crossroad_camera_demo.py
 		;;
 		"7")
-			echo " super_resolution_demo ->"
+			echo " Super Resolution Demo ->"
 			python3 ${SOURCE}super_resolution_demo.py
 		;;
 		"8")
-			echo " pedestrian tracker demo ->"
+			echo " Pedestrian Tracker Demo ->"
 			python3 ${SOURCE}pedestrian_tracker_demo.py
 		;;
 		"9")
-			echo " smart_classroom_demo ->"
+			echo " Smart Classroom Demo ->"
 			python3 ${SOURCE}smart_classroom_demo.py
 		;;
 		"10")
@@ -114,22 +117,22 @@ function Inference_Engine_Sample_List()
 		"15")
 			echo " Multi Camera Multi Person demo ->"
 			python3 ${SOURCE}multi_camera_multi_person_tracking.py
-
 		;;
 		"16")
-			echo " Face Recognition Demo ->"
-			python3 ${SOURCE}face_recognition_demo.py
-
+			echo " Real Time Speech Recognition Demo ->"
+			${INTEL_OPENVINO_DIR}/deployment_tools/demo/demo_speech_recognition.sh
 		;;
 		"17")
-			echo " Offline Speech Recognition Demo ->"
-			#${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
-			python3 ${SOURCE}offline_speech_recognition_demo.py
+			echo " Colorization Demo ->"
+			python3 ${SOURCE}colorization_demo.py
 		;;
 		"18")
-			echo " Real Time Speech Recognition Demo ->"
-#			${INTEL_OPENVINO_DIR}data_processing/audio/speech_recognition/build_gcc.sh
-			${INTEL_OPENVINO_DIR}deployment_tools/demo/demo_speech_recognition.sh
+			echo " Gesture Recognition Demo ->"
+			python3 ${SOURCE}gesture_recognition_demo.py
+		;;
+		"19")
+			echo " Face Recognition Demo ->"
+			python3 ${SOURCE}face_recognition_demo.py
 		;;
 		*)
 			echo "Please input a vailed number"
@@ -148,8 +151,9 @@ function feature_choose()
 	test -e ${SAMPLE_LOC}/benchmark_app && echo " 2. Sample Build.(Done!)" || echo " 2. Sample Build."
 	echo " 3. Model Downloader."
 	echo " 4. Query Device."
-	test -e ${INTEL_OPENVINO_DIR}/bin/setupvars.sh || echo " 5. Install OpenVINO."
-	echo " 6. Run Deep Learning Workbench."
+	echo " 5. Run Deep Learning Workbench."
+	test -e ${INTEL_OPENVINO_DIR}/bin/setupvars.sh || echo " 6. Install OpenVINO."
+
 
 	local choose
 	read choose
@@ -171,9 +175,16 @@ function feature_choose()
 			$SAMPLE_LOC/hello_query_device
 			read -n 1 -s -r -p "> Press any key to continue"
 			clear
+			banner_show
 			feature_choose
 			;;
 		"5")
+			sudo $dlworkbench
+			clear
+			banner_show
+			feature_choose
+			;;
+		"6")
 			echo "[INFO] Installing OpenVINO $VERSION_VINO on Ubuntu $ubuntu_ver ..."
 			if [[ "$ubuntu_ver" != "20.04" && "$ubuntu_ver" != "18.04" ]];then
 				echo " [ERROR] $VERSION_VINO is not support Ubuntu $ubuntu_ver"
@@ -214,12 +225,6 @@ function feature_choose()
 				sleep 1
 				
 			fi
-			clear
-			banner_show
-			feature_choose
-			;;
-		"6")
-			sudo $dlworkbench
 			clear
 			banner_show
 			feature_choose

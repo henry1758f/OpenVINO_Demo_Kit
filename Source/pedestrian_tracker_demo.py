@@ -1,25 +1,27 @@
 # File: pedestrian_tracker_demo.py
-# 2020/02/12	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
 import sys
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 test_image_path = current_path + '/Source/testing_source/'
 
-default_source_download_link = 'https://github.com/intel-iot-devkit/sample-videos.git'
+default_source_download_link = 'https://github.com/vadimadr/sample-videos.git -b va/add_action_recognition_sample'
 
 pedestrian_detection_model = ['person-detection-retail','pedestrian-detection','pedestrian-and-vehicle-detector','person-vehicle-bike-detection']
 person_reidentification_model = ['person-reidentification']
 
 default_source = test_image_path + 'sample-videos/people-detection.mp4'
+#default_source = '0'
+
 default_arg = ' -m_det ' + model_path + 'intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml' + \
 ' -m_reid ' + model_path + 'intel/person-reidentification-retail-0287/FP32/person-reidentification-retail-0287.xml' + \
 ' -i ' + default_source + \
@@ -106,12 +108,12 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 def source_select(default_trig):
 	source = ''
 	if not default_trig:
-		source = input(' \n\n[ For using default Source, just press ENTER, \n\tor typein the path to the video source you want. ]\n  >> ')
+		source = input(' \n\n[ For using default Source, just press ENTER, \n\tor typein the path to the video source or CameraID you want. ]\n  >> ')
 	if source == '':
-		if os.path.isfile(default_source):	
+		if os.path.isfile(default_source) or '/' not in default_source:	
 			return default_source
 		else:
-			choose = input(' [The default video source is from "intel-iot-devkit/sample-videos" on Github, do you want to clone the repository (about 378MB) now? (y/n) ]\n  >> ')
+			choose = input(' [The default video source is from "vadimadr/sample-videos" on Github, do you want to clone the repository (about 378MB) now? (y/n) ]\n  >> ')
 			if choose == 'n' or choose == 'N' or choose == 'No' or choose == 'NO':
 				print('[INFO] There is no available default video! Please input a video path. ')
 				if default_trig:
@@ -120,6 +122,7 @@ def source_select(default_trig):
 				return
 			else:
 				os.system('git clone ' + default_source_download_link + ' ' + test_image_path + '/sample-videos' )
+				os.system('git checkout ')
 				if os.path.isfile(default_source):	
 					return default_source
 				else:

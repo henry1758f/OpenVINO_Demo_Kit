@@ -1,13 +1,16 @@
+# File: benchmark_app.py
+
 import json
 import os
 import string 
 import csv
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 All_test_index = 0
 
@@ -90,6 +93,39 @@ def special_arguments_input():
 	global special_arguments
 	special_arguments = input('\n> If you have arguments to work on special model, input here." \t >> ')
 
+def benchmarking_single(reportFileName,item):
+	with open(reportFileName,'w') as csvReport:
+		print(reportFileName)
+		csvWriter = csv.writer(csvReport)
+		csvWriter.writerow(['Device_Info', os.popen('lscpu |grep "Model name:" ').read()[20:-1]])
+		csvWriter.writerow(['Target_Device',Target_Device])
+		csvWriter.writerow(['Model_Name','Precisions','Performance','Model_framework','Model_Task_Type','Model_Description'])
+		csvReport.flush()
+		for precisions in item['precisions']:
+			if 'intel/' in item['subdirectory']:
+				Path = model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
+			elif 'public/' in item['subdirectory']:
+				Path = ir_model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
+			print('===== Testing [ ' + item['name'] + ' ][' + precisions + '] =====')
+			print('> Path: ' + Path)
+
+			result_string = '=AVERAGE('
+			for times in range(int(model_testing_times)):
+				result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+				print('[ DEBUG ][' + os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read() + '] Running ' + '$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ')
+
+				#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
+				result = result_raw[len('Throughput:'):-len('FPS ')]
+				print('> [' + str(times+1) + '] ' + str(result) + ' FPS ')
+				result_string += result
+				result_string += ','
+			else:
+				result_string = result_string[:-1]
+				result_string += ')'
+				#print(result_string)
+				csvWriter.writerow([item['name'],precisions,result_string,item['framework'],item['task_type'],item['description']])
+				csvReport.flush()
+
 def excuting():
 	cap_time = os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read()
 	reportFileName = current_path + '/OpenVINO_Performance_Test_Report_' + cap_time[:-1] + '.csv'
@@ -144,7 +180,9 @@ def excuting():
 				else:
 					print('[ INFO ] All_test_index set to ' + str(All_test_index) + ' , skipping [' + item['name'] + ']!')
 	else:
+		item_counter=0
 		for item in jsonObj_Array:
+			item_counter+=1
 			#print('[ DEBUG ] selected: ' + selected + ', item[name]=' + item['name'])
 			if selected == item['name']:
 				with open(reportFileName,'w') as csvReport:
@@ -207,11 +245,14 @@ def excuting():
 						csvWriter.writerow([Path,'',result_string])
 						csvReport.flush()
 				break
+			elif selected == str(item_counter):
+				benchmarking_single(reportFileName,item)
+				break
 		else:
 			print('[ WARNING ] No options / Model Path as " ' + selected + 'Please check your input words.')
 
 ###########
-terminal_clean()
+#terminal_clean()
 banner()
 
 target_device_select()

@@ -1,18 +1,18 @@
 # File: interactive_face_detection_demo.py
-# 2020/02/13	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
-python_demo_path = '~/inference_engine_demos_build/intel64/Release/python_demos/multi_camera_multi_person_tracking/multi_camera_multi_person_tracking.py'
-config_path='${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos/multi_camera_multi_person_tracking/config.py'
+python_demo_path = '${INTEL_OPENVINO_DIR}/inference_engine/demos/multi_camera_multi_target_tracking_demo/python/'
+config_path='${INTEL_OPENVINO_DIR}/inference_engine/demos/multi_camera_multi_target_tracking_demo/python/configs/person.py'
 
 person_detection_model = ['person-detection-retail','pedestrian-detection','pedestrian-and-vehicle-detector','person-vehicle-bike-detection']
 person_reidentification_model = ['person-reidentification']
@@ -124,9 +124,10 @@ def excuting():
 		arguments_string += model0_select(person_reidentification_model,  ' [Select a Person Reidentification model.]', '_reid ')
 		arguments_string += ' -i ' + source_select()
 		arguments_string += ' -d ' + target_device_select() + ' --config ' + config_path
-	excute_string =  'python3 ' + python_demo_path + arguments_string 
-	if not os.path.isfile(python_demo_path):
-		os.system('cp -r ${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos $DEMO_LOC')
+	excute_string = "pip3 install -r " + python_demo_path + "requirements.txt"
+	print('[ INFO ] Running > ' + excute_string)
+	os.system(excute_string)
+	excute_string =  'python3 ' + python_demo_path + "multi_camera_multi_target_tracking_demo.py " + arguments_string 
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

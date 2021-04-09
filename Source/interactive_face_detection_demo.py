@@ -1,30 +1,32 @@
 # File: interactive_face_detection_demo.py
-# 2020/02/11	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 face_detection_model = ['face-detection-adas','face-detection']
 age_gender_recognition_model = ['age-gender-recognition']
 head_pose_estimation_model = ['head-pose-estimation']
 emotions_recognition_model = ['emotions-recognition']
 facial_landmarks_model = ['facial-landmarks']
+antispoofing_classification_model = ['anti-spoof']
 
 default_source = '0'
-default_arg = ' -m ' + model_path + 'intel/face-detection-adas-0001/FP32/face-detection-adas-0001.xml' + \
+default_arg = ' -m ' + model_path + 'intel/face-detection-retail-0004/FP32/face-detection-retail-0004.xml' + \
 ' -m_ag ' + model_path + '/intel/age-gender-recognition-retail-0013/FP32/age-gender-recognition-retail-0013.xml' + \
 ' -m_hp ' + model_path + '/intel/head-pose-estimation-adas-0001/FP32/head-pose-estimation-adas-0001.xml' + \
 ' -m_em ' + model_path + '/intel/emotions-recognition-retail-0003/FP32/emotions-recognition-retail-0003.xml' + \
 ' -m_lm ' + model_path + '/intel/facial-landmarks-35-adas-0002/FP32/facial-landmarks-35-adas-0002.xml' + \
+' -m_am ' + model_path + '/../../ir/public/anti-spoof-mn3/FP32/anti-spoof-mn3.xml' + \
 ' -i ' + default_source + \
-' -d CPU -d_ag CPU -d_hp CPU -d_em CPU -d_lm CPU -async'
+' -d CPU -d_ag CPU -d_hp CPU -d_em CPU -d_lm CPU -d_am CPU '
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -123,6 +125,7 @@ def excuting():
 		arguments_string += model0_select(head_pose_estimation_model,  ' [Select a Headpose Estimation model.]', '_hp ')
 		arguments_string += model0_select(emotions_recognition_model,  ' [Select a Emotions recognition model.]', '_em ')
 		arguments_string += model0_select(facial_landmarks_model,  ' [Select a Facial Landmarks model.]', '_lm ')
+		arguments_string += model0_select(antispoofing_classification_model,  ' [Select a Antispoofing Classification model.]', '_am ')
 		arguments_string += ' -i ' + source_select()
 	excute_string =  '$DEMO_LOC/interactive_face_detection_demo' + arguments_string
 	print('[ INFO ] Running > ' + excute_string)

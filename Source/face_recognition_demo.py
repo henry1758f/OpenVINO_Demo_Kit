@@ -1,18 +1,21 @@
 # File: face_recognition_demo.py
-# 2020/02/12	henry1758f 1.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
 
 current_path = os.path.abspath(os.getcwd())
-dump_modelinfo_path = '/opt/intel/openvino/deployment_tools/tools/model_downloader/info_dumper.py'
+dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+from pathlib import Path
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
-demo_path = '~/inference_engine_demos_build/intel64/Release/python_demos/face_recognition_demo/face_recognition_demo.py'
-default_face_gallery_path = '$HOME/Pictures/face_gallery'
+demo_link = 'https://github.com/openvinotoolkit/open_model_zoo/tags/2020.3/demos/python_demos/face_recognition_demo'
+demo_path = current_path + '/Source/face_recognition_demo/'
+demo_file = demo_path+'face_recognition_demo.py'
+
+default_face_gallery_path = str(Path.home())+ '/Pictures/face_gallery'
 
 face_detection_model = ['face-detection-adas','face-detection-retail']
 landmarks_regression_retail_model = ['landmarks-regression-retail']
@@ -139,14 +142,39 @@ def excuting():
 		arguments_string += select_str
 		arguments_string += ' -i ' + source_select()
 		arguments_string += face_gallery_select()
-
-	excute_string =  'python3 ' + demo_path + arguments_string
-	if not os.path.isfile(demo_path):
-		os.system('cp -r /opt/intel/openvino/inference_engine/demos/python_demos $DEMO_LOC')
+	excute_string = "pip3 install -r " + demo_path + "requirements.txt"
+	print('[ INFO ] Running > ' + excute_string)
+	os.system(excute_string)
+	excute_string = "python3 " + demo_file + arguments_string
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 
+def demo_check():
+	if not os.path.isfile(demo_file):
+		print('[WARNING] Face Recognition Demo Not Found! Trying to download.....')
+		os.system('sudo apt install subversion ')
+		os.system('svn checkout ' + demo_link + ' Source/face_recognition_demo ')
+		if not os.path.isfile(demo_file):
+			print('[ERROR] Face Recognition Demo Not Found! And cannot download! Please check the Internet.')
+			exit()
+		else:
+			os.system('pip3 install -t')
+	
+	model_name="face-reidentification-retail-0095"
+	verify=model_path + 'intel/'+model_name+'/FP32/'+model_name+'.xml'
+	if not os.path.isfile(verify):
+		print('[WARNING] Face Reidentitation Model not found! Trying to download.....')
+		datatype_list=['FP32','FP16','FP16-INT8']
+		
+		for datatype in datatype_list:
+			face_reid="https://download.01.org/opencv/2020/openvinotoolkit/2020.3/open_model_zoo/models_bin/1/face-reidentification-retail-0095/"+ datatype +"/face-reidentification-retail-0095"
+			os.system('wget -P '+ model_path + "intel/" + model_name + '/' + datatype + ' ' + face_reid + '.xml')
+			os.system('wget -P '+ model_path + "intel/" + model_name + '/' + datatype + ' ' + face_reid + '.bin')
+		if not os.path.isfile(verify):
+			print('[WARNING] Face Reidentitation Model not found! And cannot download! You have to input yor path later! ')
+			print('[DEBUG] '+verify)
 ###########
 terminal_clean()
 banner()
+demo_check()
 excuting()

@@ -1,30 +1,31 @@
 # File: action_recognition_demo.py
-# 2020/02/13	henry1758f 1.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 test_image_path = current_path + '/Source/testing_source/'
-python_demo_path = '~/inference_engine_demos_build/intel64/Release/python_demos/action_recognition/action_recognition.py'
-default_labels_path= '${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos/action_recognition/driver_actions.txt'
-
+python_demo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/inference_engine/demos/action_recognition_demo/python/action_recognition_demo.py'
+default_labels_path= '${INTEL_OPENVINO_DIR}/deployment_tools/inference_engine/demos/action_recognition_demo/python/driver_actions.txt'
+default_source_download_link = 'https://github.com/vadimadr/sample-videos.git -b va/add_action_recognition_sample'
 
 action_recognition_decoder_model = ['driver-action-recognition-adas-0002-decoder','action-recognition-0001-decoder']
 action_recognition_encoder_model = ['driver-action-recognition-adas-0002-encoder','action-recognition-0001-decoder']
 
-default_source = '0'
+default_source = test_image_path + 'sample-videos/driver-action-recognition.mp4'
 default_arg = ' -m_en ' + model_path + 'intel/driver-action-recognition-adas-0002/driver-action-recognition-adas-0002-encoder/FP32/driver-action-recognition-adas-0002-encoder.xml' + \
 ' -m_de ' + model_path + 'intel/driver-action-recognition-adas-0002/driver-action-recognition-adas-0002-decoder/FP32/driver-action-recognition-adas-0002-decoder.xml' + \
 ' -i ' + default_source + \
 ' -d CPU  ' + \
-' -lb ' + default_labels_path
+' -lb ' + default_labels_path +\
+' -at en-de '
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -104,10 +105,29 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 					elif select == '' :
 						return ''
 
-def source_select():
-	source = input(' \n\n[ For using default Source, just press ENTER, \n\tor typein the path to the source you want. \n]\n  >> ')
+
+def source_select(default_trig):
+	source = ''
+	if not default_trig:
+		source = input(' \n\n[ input "cam" for using camera as inference source, \n\tfor using default Source, just press ENTER, \n\tor typein the path to the video source you want. ]\n  >> ')
 	if source == '':
-		return default_source
+		if os.path.isfile(default_source):	
+			return default_source
+		else:
+			choose = input(' [The default video source is from "vadimadr/sample-videos" on Github, do you want to clone the repository (about 378MB) now? (y/n) ]\n  >> ')
+			if choose == 'n' or choose == 'N' or choose == 'No' or choose == 'NO':
+				print('[INFO] There is no available default video! Please input a video path. ')
+				if default_trig:
+					sys.exit(1)
+				source_select(False)
+				return
+			else:
+				os.system('git clone ' + default_source_download_link + ' ' + test_image_path + '/sample-videos' )
+				if os.path.isfile(default_source):	
+					return default_source
+				else:
+					print('[ ERROR ] Download Failed ! Please check the internet connection and try again! \n')
+					sys.exit(1)
 	else:
 		return source
 
@@ -127,6 +147,7 @@ def excuting():
 	if arguments_string == '':
 		print('[ INFO ] Load Default Configuration...')
 		arguments_string = default_arg
+		source_select(True)
 	else:
 		select_str = ''
 		select_str = model0_select(action_recognition_decoder_model,  ' [Select a decoder model.]', '_de ')
@@ -134,15 +155,13 @@ def excuting():
 			select_str = ' -m_de ' + model_path + 'intel/driver-action-recognition-adas-0002-decoder/FP32/driver-action-recognition-adas-0002-decoder.xml'
 		arguments_string +=select_str
 		label = label_select()
-		source = source_select()
+		source = source_select(False)
 		arguments_string += ' -i ' + source + label
 		device = target_device_select()
 		if device == '':
 			device = 'CPU'
 		arguments_string += ' -d ' + device
 	excute_string =  'python3 ' + python_demo_path + arguments_string
-	if not os.path.isfile(python_demo_path):
-		os.system('cp -r ${INTEL_OPENVINO_DIR}/inference_engine/demos/python_demos $DEMO_LOC')
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

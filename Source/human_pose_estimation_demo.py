@@ -1,22 +1,24 @@
 # File: human_pose_estimation_demo.py
-# 2020/02/12	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 human_pose_estimation_model = ['human-pose-estimation-0001']
 
 default_source = '0'
+default_network_type = 'openpose'
 default_arg = ' -m ' + model_path + 'intel/human-pose-estimation-0001/FP32/human-pose-estimation-0001.xml' + \
 ' -i ' + default_source + \
-' -d CPU '
+' -d CPU ' +\
+' -at ' + default_network_type 
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -103,6 +105,13 @@ def source_select():
 	else:
 		return source
 
+def type_select():
+	network_type = input(' \n\n[ choose your human pose estimation network type, for "openpose", just press ENTER ]\n  >> ')
+	if network_type == '':
+		return default_network_type
+	else:
+		return network_type
+
 def excuting():
 	global arguments_string
 	arguments_string = ''
@@ -111,7 +120,9 @@ def excuting():
 		print('[ INFO ] Load Default Configuration...')
 		arguments_string = default_arg
 	else:
+		arguments_string += ' -at ' + type_select()
 		arguments_string += ' -i ' + source_select()
+
 	excute_string =  '$DEMO_LOC/human_pose_estimation_demo' + arguments_string
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
