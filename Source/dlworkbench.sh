@@ -38,6 +38,7 @@ function feature_choose()
   case $choose in
     "1")
       install_docker
+      sudo docker pull openvino/workbench:latest
       ;;
     "2")
       if [[ $docker_stats == "RUN" ]]; then

@@ -1,5 +1,4 @@
 # File: classification_demo.py
-# 2020/02/13	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
@@ -14,16 +13,20 @@ jsontemp_path = current_path + '/Source/model_info.json'
 model_path = home_path + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = home_path + '/openvino_models/ir/'
 MO_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py'
+openvino_label_path='${INTEL_OPENVINO_DIR}/deployment_tools/open_model_zoo/data/dataset_classes/'
 
 label_path='$HOME/SYNNEX_work/Source/labels'
 converter_path='${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/converter.py'
 
 model_type = ['classification']
+imagenet_2015_classes = [ 'googlenet-v2', 'se-inception', 'se-resnet-101', 'se-resnet-152', 'se-resnet-50', 'se-resnext-101', 'se-resnext-50']
 
 default_source = '${INTEL_OPENVINO_DIR}/deployment_tools/demo/car.png'
 default_arg = ' -m ' + ir_model_path + 'public/squeezenet1.1/FP32/squeezenet1.1.xml' + \
 ' -i ' + default_source + \
-' -d CPU  '
+' -d CPU ' +\
+' -labels ' +  openvino_label_path + 'imagenet_2012.txt ' + \
+'-res 1280x720'
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -111,12 +114,11 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 							if not os.path.isfile(Path_str):
 								print('[ ERROR ] The model has not optimized to IR file and FAILED to run model optimizer, Please check that you have already downloaded the model.')
 								sys.exit(1)
-
-						if 'coco' in item['name']:
-							 os.system('cp -r ' + label_path + '/Coco/coco.labels ' + Path_str_noSub + '.labels')
-						else:
-							os.system('cp -r ' + label_path + '/ImageNet/ImageNet.labels ' + Path_str_noSub + '.labels')
-						return ' -m' + arg_tag + Path_str + ' -d' + arg_tag + device
+						for label_ckeck in imagenet_2015_classes:
+							if label_ckeck in item['name']:
+								return ' -m' + arg_tag + Path_str + ' -d' + arg_tag + device + ' -labels ' + openvino_label_path + 'imagenet_2015.txt '
+						else: 
+							return ' -m' + arg_tag + Path_str + ' -d' + arg_tag + device + ' -labels ' + openvino_label_path + 'imagenet_2012.txt'
 					elif select == '' :
 						return ''
 					
@@ -145,7 +147,7 @@ def excuting():
 	else:
 		arguments_string += ' -i ' + source_select()
 
-	excute_string =  '$SAMPLE_LOC/classification_sample_async' + arguments_string
+	excute_string =  '$DEMO_LOC/classification_demo' + arguments_string
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

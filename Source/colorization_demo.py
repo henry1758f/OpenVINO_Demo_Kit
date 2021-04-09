@@ -1,8 +1,9 @@
-# File: interactive_face_detection_demo.py
+# File: colorization_demo.py
 
 import json
 import os
 import string 
+import sys
 from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
@@ -10,19 +11,18 @@ dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downlo
 jsontemp_path = current_path + '/Source/model_info.json'
 model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = str(Path.home()) + '/openvino_models/ir/'
+python_demo_path = '${INTEL_OPENVINO_DIR}/inference_engine/demos/colorization_demo/python/'
 
-python_demo_path = '${INTEL_OPENVINO_DIR}/inference_engine/demos/multi_camera_multi_target_tracking_demo/python/'
-config_path='${INTEL_OPENVINO_DIR}/inference_engine/demos/multi_camera_multi_target_tracking_demo/python/configs/person.py'
+test_image_path = current_path + '/Source/testing_source/'
 
-person_detection_model = ['person-detection-retail','pedestrian-detection','pedestrian-and-vehicle-detector','person-vehicle-bike-detection']
-person_reidentification_model = ['person-reidentification']
+colorization_model = ['colorization']
 
-default_source = '0 2'
-default_arg = ' -m ' + model_path + 'intel/person-detection-retail-0013/FP32/person-detection-retail-0013.xml' + \
-' --m_reid ' + model_path + 'intel/person-reidentification-retail-0200/FP32/person-reidentification-retail-0200.xml' + \
+default_source_download_link = 'https://synnexopenvinodemo.blob.core.windows.net/synnexopenvinodemo/img1450.jpg '
+default_source_file_name = '1960s_Taiwan_Taichung.jpg'
+default_source = test_image_path + default_source_file_name
+default_arg = ' -m ' + ir_model_path + 'public/colorization-siggraph/FP32/colorization-siggraph.xml' + \
 ' -i ' + default_source + \
-' -d CPU ' +\
-' --config ' + config_path
+' -d CPU '
 
 if os.path.isfile(jsontemp_path):
 	os.system('rm -r ' + jsontemp_path)
@@ -40,7 +40,7 @@ def terminal_clean():
 
 def banner():
 	print("|=========================================|")
-	print("|     Multi Camera Multi Person demo      |")
+	print("|            Colorization Demo            |")
 	print("|=========================================|")
 	print("|  Support OpenVINO " + os.popen('echo $VERSION_VINO').read() )
 	print("")
@@ -91,45 +91,52 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 					i += 1
 					if str(i) == select:
 						precisions = precisions_select(item['precisions'],item['name'])
-						#device = target_device_select()
+						device = target_device_select()
 						if 'intel/' in item['subdirectory']:
 							Path = model_path + item['subdirectory'] + '/' + str(precisions) + '/' + item['name'] + '.xml'
 						elif 'public/' in item['subdirectory']:
 							Path = ir_model_path + item['subdirectory'] + '/' + str(precisions) + '/' + item['name'] + '.xml'
 						print('[ INFO ] [ ' + item['name'] + ' ][' + str(precisions) + '] been selected')
 						print('> Path: ' + Path)
-						if arg_tag == '_reid ':
-							return ' --m' + arg_tag + Path #+ ' -d' + arg_tag + device
-						else:
-							return ' -m' + arg_tag + Path
-						
+						return ' -m' + arg_tag + Path + ' -d' + arg_tag + device
 					elif select == '' :
 						return ''
 
 def source_select():
-	source = input(' \n\n[ input "cam" for using camera as inference source, \n\tfor using default Source, just press ENTER, \n\tor typein the path to the source you want. \n]\n  >> ')
+	source = input(' \n\n[ For using default Source, just press ENTER, \n\tor typein the path to the source you want.]\n  >> ')
 	if source == '':
+		default_source_check()
 		return default_source
 	else:
 		return source
 
+def default_source_check():
+	if os.path.isfile(default_source):
+			print('[ INFO ] Input Source set to ' + default_source + '\n\n')
+	else:
+		print('[ WARNING ] Default Input Source not found. Trying to download.....\n\n')
+		os.system('wget -O ' + default_source + ' ' + default_source_download_link  ) 
+		if not os.path.isfile(default_source):
+			print('[ ERROR ] No such file or the default images could not be downloaded!! Please check your internet connection or image path.\n\n')
+			sys.exit(1)
+
 def excuting():
 	global arguments_string
 	arguments_string = ''
-	arguments_string += model0_select(person_detection_model,  ' [Select a Face Detection model.]', ' ')
+	source = default_source
+	arguments_string += model0_select(colorization_model,  ' [Select a colorization model.]', ' ')
 	if arguments_string == '':
+		default_source_check()
 		print('[ INFO ] Load Default Configuration...')
 		arguments_string = default_arg
+
 	else:
-		arguments_string += model0_select(person_reidentification_model,  ' [Select a Person Reidentification model.]', '_reid ')
-		arguments_string += ' -i ' + source_select()
-		arguments_string += ' -d ' + target_device_select() + ' --config ' + config_path
-	excute_string = "pip3 install -r " + python_demo_path + "requirements.txt"
+		source = source_select()
+		arguments_string += ' -i ' + source
+	excute_string =  'python3 ' + python_demo_path + 'colorization_demo.py ' + arguments_string + ' --loop'
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
-	excute_string =  'python3 ' + python_demo_path + "multi_camera_multi_target_tracking_demo.py " + arguments_string 
-	print('[ INFO ] Running > ' + excute_string)
-	os.system(excute_string)
+
 
 ###########
 terminal_clean()

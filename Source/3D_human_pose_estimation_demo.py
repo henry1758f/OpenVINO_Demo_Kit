@@ -1,21 +1,21 @@
 # File: 3D_human_pose_estimation_demo.py
-# 2020/03/11	henry1758f 1.0.0	First Create 
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
-python_demo_path = '~/inference_engine_demos_build/intel64/Release/python_demos/human_pose_estimation_3d_demo/human_pose_estimation_3d_demo.py'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
+python_demo_path = '${INTEL_OPENVINO_DIR}/inference_engine/demos/human_pose_estimation_3d_demo/python/'
 
 human_pose_estimation_model = ['human-pose-estimation-3d-0001']
 
-default_source = 'cam'
-default_arg = ' -m ' + model_path + 'intel/human-pose-estimation-3d-0001/FP32/human-pose-estimation-3d-0001.xml' + \
+default_source = '0'
+default_arg = ' -m ' + ir_model_path + 'public/human-pose-estimation-3d-0001/FP32/human-pose-estimation-3d-0001.xml' + \
 ' -i ' + default_source + \
 ' -d CPU '
 
@@ -113,7 +113,10 @@ def excuting():
 		arguments_string = default_arg
 	else:
 		arguments_string += ' -i ' + source_select()
-	excute_string =  'python3 ' + python_demo_path + arguments_string
+	excute_string = "pip3 install -r " + python_demo_path + "requirements.txt"
+	print('[ INFO ] Running > ' + excute_string)
+	os.system(excute_string)
+	excute_string =  'python3 ' + python_demo_path + "human_pose_estimation_3d_demo.py "+ arguments_string
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

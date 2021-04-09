@@ -1,15 +1,15 @@
 # File: crossroad_camera_demo.py
-# 2020/02/12	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 person_vehicle_bike_detection_model = ['person-vehicle-bike-detection-crossroad']
 person_attributes_recognition_model = ['person-attributes-recognition-crossroad']
@@ -96,7 +96,10 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 							Path = ir_model_path + item['subdirectory'] + '/' + str(precisions) + '/' + item['name'] + '.xml'
 						print('[INFO] [ ' + item['name'] + ' ][' + str(precisions) + '] been selected')
 						print('> Path: ' + Path)
-						return ' -m' + arg_tag + Path + ' -d' + arg_tag + device
+						person_label = ''
+						if "person-vehicle-bike-detection-crossroad-1016" in item['name']:
+							person_label = ' -person_label 2'
+						return ' -m' + arg_tag + Path + ' -d' + arg_tag + device + person_label
 					elif select == '' :
 						return ''
 

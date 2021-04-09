@@ -1,17 +1,18 @@
 # File: interactive_face_detection_demo.py
-# 2020/02/12	henry1758f 3.0.0	First Create with python instead of script
 
 import json
 import os
 import string 
+from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-model_path = '~/openvino_models/models/SYNNEX_demo/'
-ir_model_path = '~/openvino_models/ir/'
+model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
+ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
 test_image_path = current_path + '/Source/testing_source/'
+default_source_download_link = 'https://github.com/vadimadr/sample-videos.git -b va/add_action_recognition_sample'
 
 face_detection_model = ['face-detection-adas','face-detection-retail']
 landmarks_regression_retail_model = ['landmarks-regression-retail']
@@ -111,7 +112,7 @@ def source_select(default_trig):
 		if os.path.isfile(default_source):	
 			return default_source
 		else:
-			choose = input(' [The default video source is from "intel-iot-devkit/sample-videos" on Github, do you want to clone the repository (about 378MB) now? (y/n) ]\n  >> ')
+			choose = input(' [The default video source is from "vadimadr/sample-videos" on Github, do you want to clone the repository (about 378MB) now? (y/n) ]\n  >> ')
 			if choose == 'n' or choose == 'N' or choose == 'No' or choose == 'NO':
 				print('[INFO] There is no available default video! Please input a video path. ')
 				if default_trig:
