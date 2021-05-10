@@ -8,7 +8,7 @@ from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
-jsontemp_path = current_path + '/Source/model_info.json'.
+jsontemp_path = current_path + '/Source/model_info.json'
 # You can copy model_info.json named as model_info_manual.json and modify for your case.
 jsonmanual_path = current_path + '/Source/model_info_manual.json'
 model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
