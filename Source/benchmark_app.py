@@ -8,7 +8,9 @@ from pathlib import Path
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
-jsontemp_path = current_path + '/Source/model_info.json'
+jsontemp_path = current_path + '/Source/model_info.json'.
+# You can copy model_info.json named as model_info_manual.json and modify for your case.
+jsonmanual_path = current_path + '/Source/model_info_manual.json'
 model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
@@ -25,7 +27,7 @@ if os.path.isfile(jsontemp_path):
 os.system(dump_modelinfo_path + " --all >> " + jsontemp_path)
 
 
-def check_jsontemp_exist():
+def check_file_exist(jsontemp_path):
 	if not os.path.isfile(jsontemp_path):
 		print('[ERROR] ' + jsontemp_path + ' is not exist! ')
 		return False
@@ -49,7 +51,7 @@ def target_device_select():
 	Target_Device = input('> Input your target device. (CPU,GPU,MYRIAD,HDDL,etc.) ')
 
 def model_list_show_select():
-	if check_jsontemp_exist() :
+	if check_file_exist(jsontemp_path) :
 		global jsonObj_Array
 		input_file = open(jsontemp_path,'r')
 		jsonObj_Array = json.load(input_file)
@@ -130,6 +132,7 @@ def excuting():
 	cap_time = os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read()
 	reportFileName = current_path + '/OpenVINO_Performance_Test_Report_' + cap_time[:-1] + '.csv'
 	print('[INFO] Current Time : ' + cap_time )
+
 	if selected == 'all' or selected == 'ALL' or selected == 'All':
 		with open(reportFileName,'w') as csvReport:
 			print(reportFileName)
@@ -138,8 +141,7 @@ def excuting():
 			csvWriter.writerow(['Target_Device',Target_Device])
 			csvWriter.writerow(['Model_Name','Precisions','Performance','Model_framework','Model_Task_Type','Model_Description'])
 			csvReport.flush()
-			os.system('test -e $SAMPLE_LOC/hello_query_device || $Source_Sample_Build')
-			#print(os.popen('$SAMPLE_LOC/hello_query_device | grep -e \'Device\' -a -e \'FULL_DEVICE_NAME\' -a -e \'RANGE_FOR_ASYNC_INFER_REQUESTS\' -a -e \'RANGE_FOR_STREAMS\'').read())
+			
 			item_counter = 0
 			for item in jsonObj_Array:
 				item_counter+=1
@@ -179,6 +181,53 @@ def excuting():
 							csvReport.flush()
 				else:
 					print('[ INFO ] All_test_index set to ' + str(All_test_index) + ' , skipping [' + item['name'] + ']!')
+	elif selected == 'manual':
+		if check_file_exist(jsonmanual_path) :
+			input_file = open(jsonmanual_path,'r')
+			jsonManualObj_Array = json.load(input_file)
+
+			with open(reportFileName,'w') as csvReport:
+				print(reportFileName)
+				csvWriter = csv.writer(csvReport)
+				csvWriter.writerow(['Device_Info', os.popen('lscpu |grep "Model name:" ').read()[20:-1]])
+				csvWriter.writerow(['Target_Device',Target_Device])
+				csvWriter.writerow(['Model_Name','Precisions','Performance','Model_framework','Model_Task_Type','Model_Description'])
+				csvReport.flush()
+			
+				item_counter = 0
+				for item in jsonManualObj_Array:
+					item_counter+=1
+					if item_counter > All_test_index:
+						for precisions in item['precisions']:
+							if 'intel/' in item['subdirectory']:
+								Path = model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
+							elif 'public/' in item['subdirectory']:
+								Path = ir_model_path + item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
+							else:
+								Path = item['subdirectory'] + '/' + precisions + '/' + item['name'] + '.xml'
+
+							print('['+ str(item_counter) + '/' + str(model_counter) + ']===== Testing [ ' + item['name'] + ' ][' + precisions + '] =====')
+							print('> Path: ' + Path)
+							
+
+							result_string = '=AVERAGE('
+							for times in range(int(model_testing_times)):
+								result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ').read()
+								print('[ DEBUG ][' + os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read() + '] Running ' + '$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments + ' |grep "Throughput" ')
+								
+								#result_raw = os.popen('$SAMPLE_LOC/benchmark_app' + ' -m ' + Path + ' -d ' + Target_Device + ' ' + other_arguments ).read()
+								result = result_raw[len('Throughput:'):-len('FPS ')]
+								print('> [' + str(times+1) + '] ' + str(result) + ' FPS ')
+								result_string += result
+								result_string += ','
+							else:
+								result_string = result_string[:-1]
+								result_string += ')'
+								#print(result_string)
+								csvWriter.writerow([item['name'],precisions,result_string,item['framework'],item['task_type'],item['description']])
+								csvReport.flush()
+					else:
+						print('[ INFO ] All_test_index set to ' + str(All_test_index) + ' , skipping [' + item['name'] + ']!')
 	else:
 		item_counter=0
 		for item in jsonObj_Array:

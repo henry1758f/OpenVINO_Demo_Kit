@@ -1,10 +1,10 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 
-export VERSION="6.0.0-beta02"
+export VERSION="6.0.2"
 export VERSION_VINO="2021.3.394"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino_2021/
-export SAMPLE_LOC="$HOME/inference_engine_OpenVINO_Demo_Kit_samples_build/intel64/Release"
+export SAMPLE_LOC="$HOME/inference_engine_${PWD##*/}_samples_build/intel64/Release"
 export DEMO_LOC="$HOME/omz_demos_build/intel64/Release"
 export Source_Sample_Build="./Source/sample_build.sh"
 export Source_Model_Downloader="./Source/model_downloader.sh"
