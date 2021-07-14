@@ -1,7 +1,7 @@
 # 20200212
 # henry1758f
 
-*.json
+model_info.json
 *.csv
 *.pfm
 out_0.bmp
