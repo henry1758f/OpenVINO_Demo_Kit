@@ -17,4 +17,4 @@ ${CPP_SAMPLE_DIR}//build_samples.sh
 printf "${dashes}"
 printf "Build Inference Engine Demos "
 printf "${dashes}"
-${DEMO_DIR}/build_demos.sh
+${DEMO_DIR}/build_demos.sh -DENABLE_PYTHON=ON

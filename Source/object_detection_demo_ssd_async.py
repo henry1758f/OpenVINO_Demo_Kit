@@ -5,7 +5,10 @@ import json
 import os
 import string 
 import sys
+import logging
 from pathlib import Path
+
+logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
 
 current_path = os.path.abspath(os.getcwd())
 home_path = str(Path.home())
@@ -21,7 +24,7 @@ converter_path='${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/co
 python_demo_path = home_path + '/inference_engine_demos_build/intel64/Release/python_demos/object_detection_demo_centernet/object_detection_demo_centernet.py '
 
 model_type = ['detection']
-invaild_model_name = ['yolo-v4-tf']
+invaild_model_name = ['yolo-v4','mtcnn','f3net','ctpn','ultra-lightweight-face-detection']
 at_list = ['ssd', 'yolo', 'centernet', 'faceboxes', 'retinaface']
 faceboxes_model_name = ['faceboxes']
 centernet_model_name = ['ctdet']
@@ -41,7 +44,7 @@ os.system("python3 " + dump_modelinfo_path + " --all >> " + jsontemp_path)
 
 def check_jsontemp_exist():
 	if not os.path.isfile(jsontemp_path):
-		print('[ ERROR ] ' + jsontemp_path + ' is not exist! ')
+		logging.error('%s is not exist! ',jsontemp_path)
 		return False
 	else:
 		return True
@@ -73,7 +76,7 @@ def precisions_select(precisions_item,name):
 				return result
 				break
 		else:
-			print('[ ERROR ] ')
+			logging.error('Invailed Input! ')
 			return
 
 def isbanned_check(name,banList):
@@ -157,15 +160,18 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 						print('\n\nInput the Label file name from the list or input a path to the label file VVVV \n')
 						os.system('ls ' + openvino_label_path)
 						label = input('  >> ')
-						if not os.path.isfile(label):
-							if not  '/' in label:
-								print('[INFO] Using Label: {label}'.format(label=label))
-								return_arg+= ' -labels ' + openvino_label_path+label
-							else:
-								print('[ ERROR ] The label is not correct! Please check your Input!. {path_test}'.format(path_test=openvino_label_path+label))
+						if label == '':
+							logging.warning('Label name will not show.')
 						else:
-							print('[INFO] Using Label: {label}'.format(label=label))
-							return_arg+= ' -labels ' + label
+							if not os.path.isfile(label):
+								if not  '/' in label:
+									print('[INFO] Using Label: {label}'.format(label=label))
+									return_arg+= ' -labels ' + openvino_label_path+label
+								else:
+									print('[ ERROR ] The label is not correct! Please check your Input!. {path_test}'.format(path_test=openvino_label_path+label))
+							else:
+								print('[INFO] Using Label: {label}'.format(label=label))
+								return_arg+= ' -labels ' + label
 						
 						return return_arg
 					elif select == '' :

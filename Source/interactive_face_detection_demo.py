@@ -19,7 +19,7 @@ facial_landmarks_model = ['facial-landmarks']
 antispoofing_classification_model = ['anti-spoof']
 
 default_source = '0'
-default_arg = ' -m ' + model_path + 'intel/face-detection-retail-0004/FP32/face-detection-retail-0004.xml' + \
+default_arg = ' -m ' + model_path + 'intel/face-detection-adas-0001/FP32/face-detection-adas-0001.xml' + \
 ' -m_ag ' + model_path + '/intel/age-gender-recognition-retail-0013/FP32/age-gender-recognition-retail-0013.xml' + \
 ' -m_hp ' + model_path + '/intel/head-pose-estimation-adas-0001/FP32/head-pose-estimation-adas-0001.xml' + \
 ' -m_em ' + model_path + '/intel/emotions-recognition-retail-0003/FP32/emotions-recognition-retail-0003.xml' + \

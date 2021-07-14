@@ -116,7 +116,7 @@ def excuting():
 	excute_string = "pip3 install -r " + python_demo_path + "requirements.txt"
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
-	excute_string =  'python3 ' + python_demo_path + "human_pose_estimation_3d_demo.py "+ arguments_string
+	excute_string =  'export PYTHONPATH="$PYTHONPATH:$HOME/omz_demos_build/intel64/Release/lib" && python3 ' + python_demo_path + "human_pose_estimation_3d_demo.py "+ arguments_string
 	print('[ INFO ] Running > ' + excute_string)
 	os.system(excute_string)
 

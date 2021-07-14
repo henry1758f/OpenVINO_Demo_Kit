@@ -11,7 +11,7 @@ jsontemp_path = current_path + '/Source/model_info.json'
 model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
-human_pose_estimation_model = ['human-pose-estimation-0001']
+human_pose_estimation_model = ['human-pose-estimation-0001','human-pose-estimation-0005','human-pose-estimation-0006','human-pose-estimation-0007','higher-hrnet-w32-human-pose-estimation']
 
 default_source = '0'
 default_network_type = 'openpose'
@@ -106,7 +106,7 @@ def source_select():
 		return source
 
 def type_select():
-	network_type = input(' \n\n[ choose your human pose estimation network type, for "openpose", just press ENTER ]\n  >> ')
+	network_type = input(' \n\n[ choose your human pose estimation network type (openpose,ae,higherhrnet), for "openpose", just press ENTER ]\n  >> ')
 	if network_type == '':
 		return default_network_type
 	else:

@@ -21,12 +21,12 @@ function banner_show()
 
 function feature_choose()
 {
-	echo " 1. Download all from DLDT. (about 40.1 GB)"
+	echo " 1. Download all from DLDT. (about 45.3 GB)"
 	echo " 2. Typein specific DLDT model."
 	echo " 3. Typein an URL of the model."
-	echo " 4. Convert all public model to IR (Need about 29.7G Bytes)"
+	echo " 4. Convert all public model to IR (Need about 36.9G Bytes)"
 	echo " 5. EXIT the downloader."
-	echo " 6. Quantize all public models. (Need about 3.6GB for COCO and VOC2012 dataset)"
+	echo " 6. Quantize all public models. (Need about 4.1GB for COCO, VOC2012, VOC2007 dataset)"
 
 	local choose
 	read choose
@@ -86,10 +86,16 @@ function feature_choose()
 			#cd ${dataset_path} && { curl -O http://dl.caffe.berkeleyvision.org/caffe_ilsvrc12.tar.gz}
 			echo " > Downloading WIDER FACE dataset......[Nothing to do....]"
 			echo " > Downloading VOC2012 dataset......"
-			test -e ${dataset_path}VOCdevkit || \
+			test -e ${dataset_path}VOCdevkit/VOC2012 || \
 			( cd ${dataset_path} && { curl -O http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar ; cd -; } &&\
 				tar xvf ${dataset_path}VOCtrainval_11-May-2012.tar -C ${dataset_path} && \
 				rm -r ${dataset_path}VOCtrainval_11-May-2012.tar
+			)
+			echo " > Downloading VOC2007 dataset......"
+			test -e ${dataset_path}VOCdevkit/VOC2007 || \
+			( cd ${dataset_path} && { curl -O http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar ; cd -; } &&\
+				tar xvf ${dataset_path}VOCtest_06-Nov-2007.tar -C ${dataset_path} && \
+				rm -r ${dataset_path}VOCtest_06-Nov-2007.tar
 			)
 			
 			echo " > Using Model Quantizer......"

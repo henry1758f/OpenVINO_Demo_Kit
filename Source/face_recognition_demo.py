@@ -1,25 +1,25 @@
 # File: face_recognition_demo.py
-
 import json
 import os
 import string 
+import logging
+from pathlib import Path
+logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
 
 current_path = os.path.abspath(os.getcwd())
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
 jsontemp_path = current_path + '/Source/model_info.json'
-from pathlib import Path
 model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 
-demo_link = 'https://github.com/openvinotoolkit/open_model_zoo/tags/2020.3/demos/python_demos/face_recognition_demo'
-demo_path = current_path + '/Source/face_recognition_demo/'
+demo_path = '$INTEL_OPENVINO_DIR/inference_engine/demos/face_recognition_demo/python/'
 demo_file = demo_path+'face_recognition_demo.py'
 
 default_face_gallery_path = str(Path.home())+ '/Pictures/face_gallery'
 
 face_detection_model = ['face-detection-adas','face-detection-retail']
 landmarks_regression_retail_model = ['landmarks-regression-retail']
-face_reidentification_retail_model = ['face-reidentification-retail']
+face_reidentification_retail_model = ['face-reidentification-retail','Sphereface','facenet','face-recognition-resnet100-arcface-onnx']
 
 default_source = '0'
 default_arg = ' -m_fd ' + model_path + 'intel/face-detection-retail-0004/FP32/face-detection-retail-0004.xml' + \
@@ -102,8 +102,8 @@ def model0_select(dldt_search_str, welcome_str, arg_tag):
 							Path = model_path + item['subdirectory'] + '/' + str(precisions) + '/' + item['name'] + '.xml'
 						elif 'public/' in item['subdirectory']:
 							Path = ir_model_path + item['subdirectory'] + '/' + str(precisions) + '/' + item['name'] + '.xml'
-						print('[ INFO ] [ ' + item['name'] + ' ][' + str(precisions) + '] been selected')
-						print('> Path: ' + Path)
+						logging.info(' [ %s ][%s] been selected', item['name'], str(precisions))
+						logging.info('> Path: %s', Path)
 						return ' -m' + arg_tag + Path + ' -d' + arg_tag + device
 					elif select == '' :
 						return ''
@@ -118,18 +118,34 @@ def source_select():
 def face_gallery_select():
 	select = input(' \n\n[ Input the Path to the face images directory ] \n  >> ')
 	if select == '':
-		print('[ INFO ] Face gallery set to default "' + default_face_gallery_path + '"')
+		logging.info('Face gallery set to default "%s"', default_face_gallery_path)
+		if not os.path.exists(default_face_gallery_path):
+			os.system('mkdir -p ' + default_face_gallery_path)
 		return ' -fg ' + default_face_gallery_path
 	else:
 		return ' -fg ' + select
+
+def arg_enable(msg,flag):
+	result = input(msg + ' [Y/N] >>> ')
+	if result == 'Y' or result == 'y' or result == 'yes':
+		logging.info('Enable flag \"%s\"',flag)
+		return ' ' + flag + ' '
+	else:
+		return ''
 
 def excuting():
 	global arguments_string
 	arguments_string = ''
 	arguments_string += model0_select(face_detection_model,  ' [Select a Face Detection model.]', '_fd ')
 	if arguments_string == '':
-		print('[ INFO ] Load Default Configuration...')
-		arguments_string = default_arg
+		logging.info('Load Default Configuration...')
+		if not os.path.exists(default_face_gallery_path):
+			logging.warning('%s is not exist, creating...',default_face_gallery_path)
+			os.system('mkdir -p ' + default_face_gallery_path)
+			logging.warning('"--allow_grow" and "--run_detector" enabled because of the empty/new face gallery.',default_face_gallery_path)
+			arguments_string = default_arg + ' --allow_grow --run_detector '
+		else:
+			arguments_string = default_arg
 	else:
 		select_str = ''
 		select_str = model0_select(landmarks_regression_retail_model,  ' [Select a Facial Landmarks Regression model.]', '_lm ')
@@ -142,39 +158,16 @@ def excuting():
 		arguments_string += select_str
 		arguments_string += ' -i ' + source_select()
 		arguments_string += face_gallery_select()
+		arguments_string += arg_enable(' [Do you want to allow growing the face database?]', '--allow_grow')
+		arguments_string += arg_enable(' [Do you want to Use Face Detection model to find faces on the face images?]', '--run_detector')
 	excute_string = "pip3 install -r " + demo_path + "requirements.txt"
-	print('[ INFO ] Running > ' + excute_string)
+	logging.info('Running > ' + excute_string)
 	os.system(excute_string)
 	excute_string = "python3 " + demo_file + arguments_string
-	print('[ INFO ] Running > ' + excute_string)
+	logging.info('Running > ' + excute_string)
 	os.system(excute_string)
-
-def demo_check():
-	if not os.path.isfile(demo_file):
-		print('[WARNING] Face Recognition Demo Not Found! Trying to download.....')
-		os.system('sudo apt install subversion ')
-		os.system('svn checkout ' + demo_link + ' Source/face_recognition_demo ')
-		if not os.path.isfile(demo_file):
-			print('[ERROR] Face Recognition Demo Not Found! And cannot download! Please check the Internet.')
-			exit()
-		else:
-			os.system('pip3 install -t')
 	
-	model_name="face-reidentification-retail-0095"
-	verify=model_path + 'intel/'+model_name+'/FP32/'+model_name+'.xml'
-	if not os.path.isfile(verify):
-		print('[WARNING] Face Reidentitation Model not found! Trying to download.....')
-		datatype_list=['FP32','FP16','FP16-INT8']
-		
-		for datatype in datatype_list:
-			face_reid="https://download.01.org/opencv/2020/openvinotoolkit/2020.3/open_model_zoo/models_bin/1/face-reidentification-retail-0095/"+ datatype +"/face-reidentification-retail-0095"
-			os.system('wget -P '+ model_path + "intel/" + model_name + '/' + datatype + ' ' + face_reid + '.xml')
-			os.system('wget -P '+ model_path + "intel/" + model_name + '/' + datatype + ' ' + face_reid + '.bin')
-		if not os.path.isfile(verify):
-			print('[WARNING] Face Reidentitation Model not found! And cannot download! You have to input yor path later! ')
-			print('[DEBUG] '+verify)
 ###########
 terminal_clean()
 banner()
-demo_check()
 excuting()
