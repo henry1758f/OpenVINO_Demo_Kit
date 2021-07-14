@@ -3,8 +3,12 @@
 
 *.json
 *.csv
+*.pfm
 out_0.bmp
 sr_1.png
 Source/testing_source/sample-videos/
 start_workbench.sh
 Source/testing_source/dataset/
+Source/testing_source/*.mp4
+Source/testing_source/*.jpg
+Source/__pycache__
