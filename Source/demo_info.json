@@ -666,6 +666,38 @@
 			]
 		},
 		{
+			"name": "Image Segmentation Demo",
+			"path": "$DEMO_LOC/",
+			"fileName": "segmentation_demo",
+			"InputArguments": " -i ",
+			"InputHints": " Specify an input to process. The input must be a single image, a folder of images, video file or camera id",
+			"addArguments": "",
+			"defaultInputs":[
+				{
+					"default": true,
+					"name": "Camera (ID:0)",
+					"path": "0"
+				}
+			],
+			"models": [
+				{
+					"argument": "-m",
+					"devicearguments": "-d",
+					"usage": "Image segmentation model",
+					"keywords": ["deeplabv3","fastseg","hrnet-v2-c1-segmentation","icnet-camvid-ava","pspnet-pytorch","road-segmentation","semantic-segmentation","unet-camvid-onnx"],
+					"keywordsType": "name",
+					"banlist": [],
+					"required": true,
+					"directRun": true,
+					"default": {
+						"name": "semantic-segmentation-adas-0001",
+						"device": "CPU",
+						"precision":"FP32"
+					}
+				}
+			]
+		},
+		{
 			"name": "Instance Segmentation Demo",
 			"path": "${INTEL_OPENVINO_DIR}/inference_engine/demos/instance_segmentation_demo/python/",
 			"fileName": "instance_segmentation_demo.py",
@@ -890,6 +922,68 @@
 					"name": "CTC greedy and CTC beam search decoders",
 					"models": ["deblurgan"],
 					"argument": "ctc"
+				}
+			]
+		},
+		{
+			"name": "Text Spotting Demo",
+			"path": "$INTEL_OPENVINO_DIR/inference_engine/demos/text_spotting_demo/python/",
+			"fileName": "text_spotting_demo.py",
+			"InputArguments": " -i ",
+			"InputHints": " Specify an input to process. The input must be a single image, a folder of images, video file or camera id",
+			"addArguments": "",
+			"defaultInputs":[
+				{
+					"default": true,
+					"name": "Camera (ID:0)",
+					"path": "0"
+				}
+			],
+			"models": [
+				{
+					"argument": "-m_m",
+					"devicearguments": "-d",
+					"usage": "trained Mask-RCNN model with additional text features output",
+					"keywords": ["text-spotting-0005-detector"],
+					"keywordsType": "name",
+					"banlist": [],
+					"required": true,
+					"directRun": true,
+					"default": {
+						"name": "text-spotting-0005-detector",
+						"device": "CPU",
+						"precision":"FP32"
+					}
+				},
+				{
+					"argument": "-m_te",
+					"devicearguments": "",
+					"usage": "Trained text recognition model (encoder part)",
+					"keywords": ["text-spotting-0005-recognizer-encoder"],
+					"keywordsType": "name",
+					"banlist": [],
+					"required": true,
+					"directRun": false,
+					"default": {
+						"name": "text-spotting-0005-recognizer-encoder",
+						"device": "",
+						"precision":"FP32"
+					}
+				},
+				{
+					"argument": "-m_td",
+					"devicearguments": "",
+					"usage": "Trained text recognition model (encoder part)",
+					"keywords": ["text-spotting-0005-recognizer-decoder"],
+					"keywordsType": "name",
+					"banlist": [],
+					"required": true,
+					"directRun": false,
+					"default": {
+						"name": "text-spotting-0005-recognizer-decoder",
+						"device": "",
+						"precision":"FP32"
+					}
 				}
 			]
 		},
@@ -1332,6 +1426,193 @@
 						"device": "CPU",
 						"precision":"FP32"
 					}
+				}
+			]
+		},
+		{
+			"name": "Text-to-speech Demo",
+			"path": "$INTEL_OPENVINO_DIR/inference_engine/demos/text_to_speech_demo/python/",
+			"fileName": "text_to_speech_demo.py",
+			"InputArguments": "--input",
+			"InputHints": " Input the Path for a text file, or Use OpenVINO_Demo_Kit/testing_source/speech_text.txt as default.",
+			"addArguments": "",
+			"defaultInputs":[
+				{
+					"default": true,
+					"name": "Default Text",
+					"fileName": "speech_text.txt",
+					"path": "Source/testing_source/"
+				}
+			],
+			"selectionsInfo":"Select Which kind of speech synthesis you want to run.",
+			"selections": [
+				{
+					"name": "Speech synthesis with ForwardTacotron and WaveRNN models",
+					"argument":"",
+					"models":[
+						{
+							"argument": "--model_duration",
+							"devicearguments": "-d",
+							"usage": "",
+							"keywords": ["forward-tacotron-duration-prediction"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "forward-tacotron-duration-prediction",
+								"device": "CPU",
+								"precision":"FP32"
+							}
+						},
+						{
+							"argument": "--model_forward",
+							"devicearguments": "",
+							"usage": "",
+							"keywords": ["forward-tacotron-regression"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "forward-tacotron-regression",
+								"device": "",
+								"precision":"FP32"
+							}
+						},
+						{
+							"argument": "--model_upsample",
+							"devicearguments": "",
+							"usage": "",
+							"keywords": ["wavernn-upsampler"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "wavernn-upsampler",
+								"device": "",
+								"precision":"FP32"
+							}
+						},
+						{
+							"argument": "--model_rnn",
+							"devicearguments": "",
+							"usage": "",
+							"keywords": ["wavernn-rnn"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "wavernn-rnn",
+								"device": "",
+								"precision":"FP32"
+							}
+						}
+					]
+				},
+				{
+					"name": "Speech synthesis with text-to-speech-en-0001 models",
+					"argument":"",
+					"models":[
+						{
+							"argument": "-m_duration",
+							"devicearguments": "-d",
+							"usage": "",
+							"keywords": ["text-to-speech-en-0001-duration-prediction"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "text-to-speech-en-0001-duration-prediction",
+								"device": "CPU",
+								"precision":"FP32"
+							}
+						},
+						{
+							"argument": "-m_forward",
+							"devicearguments": "",
+							"usage": "",
+							"keywords": ["text-to-speech-en-0001-regression"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "text-to-speech-en-0001-regression",
+								"device": "",
+								"precision":"FP32"
+							}
+						},
+						{
+							"argument": "-m_melgan",
+							"devicearguments": "",
+							"usage": "",
+							"keywords": ["text-to-speech-en-0001-generation"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "text-to-speech-en-0001-generation",
+								"device": "",
+								"precision":"FP32"
+							}
+						}
+					]
+				},
+				{
+					"name": "Speech synthesis with multi-speaker text-to-speech-en-multi-0001 models",
+					"argument":"-s_id 19",
+					"models":[
+						{
+							"argument": "-m_duration",
+							"devicearguments": "-d",
+							"usage": "",
+							"keywords": ["text-to-speech-en-multi-0001-duration-prediction"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "text-to-speech-en-multi-0001-duration-prediction",
+								"device": "CPU",
+								"precision":"FP32"
+							}
+						},
+						{
+							"argument": "-m_forward",
+							"devicearguments": "",
+							"usage": "",
+							"keywords": ["text-to-speech-en-multi-0001-regression"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "text-to-speech-en-multi-0001-regression",
+								"device": "",
+								"precision":"FP32"
+							}
+						},
+						{
+							"argument": "-m_melgan",
+							"devicearguments": "",
+							"usage": "",
+							"keywords": ["text-to-speech-en-multi-0001-generation"],
+							"keywordsType": "name",
+							"banlist": [],
+							"required": true,
+							"directRun": false,
+							"default": {
+								"name": "text-to-speech-en-multi-0001-generation",
+								"device": "",
+								"precision":"FP32"
+							}
+						}
+					]
 				}
 			]
 		},

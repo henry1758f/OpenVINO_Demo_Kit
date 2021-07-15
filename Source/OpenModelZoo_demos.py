@@ -238,12 +238,51 @@ def excute_string_composer_multicamtarget(demoinfo_jsonObj):
 		arguments_string += ' --config ' + key
 	return ' ' + demoinfo_jsonObj['path'] + demoinfo_jsonObj['fileName'] + ' ' + arguments_string
 
+# Text-to-speech Demo
+def excute_string_composer_text2speech(demoinfo_jsonObj):
+	print('[ %s ]' % demoinfo_jsonObj['selectionsInfo'] )
+	i = 0
+	for selection in demoinfo_jsonObj['selections']:
+		i += 1
+		print(' %2d. %s' % (i,selection['name']) )
+	key = input(' >>> ')
+	i = 0
+	arguments_string = ''
+	for selection in demoinfo_jsonObj['selections']:
+		i += 1
+		if key == str(i):
+			for model in selection['models']:
+				arguments_string += model_selector(model,True)
+			arguments_string += selection['argument']
+			break
+	else:
+		logging.error('Invailed Input! Please check and try again.')
+		return excute_string_composer_text2speech(demoinfo_jsonObj)
+	os.system('python3 -m pip install -r ' + demoinfo_jsonObj['path'] + 'requirements.txt')
+	os.system('sudo apt-get install python3-tk')
+	cap_time = os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read()
+	key = input('[%s] >>> ' % demoinfo_jsonObj['InputHints'])
+	if key == '':
+		for item in demoinfo_jsonObj['defaultInputs']:
+			if item['default']:
+				arguments_string += ' ' + demoinfo_jsonObj['InputArguments'] + ' ' + current_path + '/'+ item['path'] + item['fileName']
+				break
+		else:
+			logging.error('Cannot find default input!')
+	else:
+		arguments_string += ' ' + demoinfo_jsonObj['InputArguments'] + ' ' + key
+	outputFileName = 'text-to-speech-output-' + cap_time[:-1] + '.wav'
+	return ' ' + demoinfo_jsonObj['path'] + demoinfo_jsonObj['fileName'] + ' ' + arguments_string + ' -o ' + outputFileName + ' && xdg-open ./' + outputFileName
+
+
 def run_demo(demoinfo_jsonObj):
 	banner(demoinfo_jsonObj['name'])
 	if demoinfo_jsonObj['name'] == 'Multi Camera Multi Target Demo':
 		excute_string = excute_string_composer_multicamtarget(demoinfo_jsonObj)
 	elif demoinfo_jsonObj['name'] == 'Real Time Speech Recognition Demo':
 		excute_string = demoinfo_jsonObj['path'] + demoinfo_jsonObj['fileName']
+	elif demoinfo_jsonObj['name'] == 'Text-to-speech Demo':
+		excute_string = excute_string_composer_text2speech(demoinfo_jsonObj)
 	else:
 		excute_string = excute_string_composer(demoinfo_jsonObj)
 	excute_string = special_arg_check(demoinfo_jsonObj,excute_string)

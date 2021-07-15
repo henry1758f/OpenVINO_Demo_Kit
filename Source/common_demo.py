@@ -91,6 +91,7 @@ def model_selector(model_info,flag_default=False):
 		model_list = []
 		i = 0
 		for name in model_info['keywords']:
+			logging.debug('[model_selector] extract "%s"',name)
 			for item in omzModel_ObjArray:
 				if name in item[model_info['keywordsType']]:
 					i += 1
@@ -124,6 +125,8 @@ def model_selector(model_info,flag_default=False):
 						Path = openModelZoo_PathReporter(model_info,model,flag_default)
 						existCheck_downloader(Path,model[0])
 						return ' ' + model_info['argument'] + ' ' + Path 
+				else:
+					logging.error('Cannot find default model_info!')
 			elif os.path.isfile(select):
 				logging.info('Setting Custom model >> %s',select)
 				return ' ' + model_info['argument'] + ' ' + select

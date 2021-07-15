@@ -4,6 +4,7 @@
 model_info.json
 *.csv
 *.pfm
+text-to-speech-output-*.wav
 out_0.bmp
 sr_1.png
 Source/testing_source/sample-videos/
