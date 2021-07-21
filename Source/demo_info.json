@@ -1,5 +1,5 @@
 {
-	"version": "7.0.0",
+	"jsonversion": "1.0.0",
 	"openvinoVersion": "2021.4.582",
 	"modelPath": "openvino_models/models/SYNNEX_demo/",
 	"publicIrPath": "openvino_models/ir/",

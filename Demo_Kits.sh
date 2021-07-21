@@ -1,7 +1,7 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 
-export VERSION="7.0.0-beta"
+export VERSION="7.0.0-beta20210721"
 export VERSION_VINO="2021.4.582"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino_2021/
 export SAMPLE_LOC="$HOME/inference_engine_${PWD##*/}_samples_build/intel64/Release"
@@ -27,7 +27,7 @@ function feature_choose()
 	read choose
 	case $choose in
 		"0")
-			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh && python3 ${SOURCE}benchmark_app.py
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh && python3 ${SOURCE}benchmark.py
 		;;
 		"1")
 			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh && python3 ${SOURCE}OpenModelZoo_demos.py
@@ -88,7 +88,7 @@ function feature_choose()
 				source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 				sudo ${INTEL_OPENVINO_DIR}/install_dependencies/install_openvino_dependencies.sh
 				sudo ${INTEL_OPENVINO_DIR}/install_dependencies/install_NCS_udev_rules.sh
-				# sudo su -c "${INTEL_OPENVINO_DIR}/install_dependencies/install_NEO_OCL_driver.sh"
+				sudo ${INTEL_OPENVINO_DIR}/install_dependencies/install_NEO_OCL_driver.sh -a
 				sudo ${INTEL_OPENVINO_DIR}/deployment_tools/model_optimizer/install_prerequisites/install_prerequisites.sh
 				echo "source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh" > $HOME/.bash.rc
 			else
