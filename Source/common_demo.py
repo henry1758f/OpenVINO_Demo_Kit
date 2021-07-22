@@ -13,7 +13,7 @@ current_path = os.path.abspath(os.getcwd())
 demo_info = current_path + '/Source/demo_info.json'
 test_image_path = current_path + '/Source/testing_source/'
 dump_modelinfo_path = '${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/info_dumper.py'
-jsontemp_path = current_path + '/Source/model_info.json'
+modelinfoJson_path = current_path + '/Source/model_info.json'
 model_path = str(Path.home()) + '/openvino_models/models/SYNNEX_demo/'
 ir_model_path = str(Path.home()) + '/openvino_models/ir/'
 model_downloader_path="${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/"
@@ -23,6 +23,15 @@ Yes_strings=['Y','y','yes','YES']
 
 def terminal_clean():
 	os.system('clear')
+
+def model_info_ckeck():
+	if not os.path.isfile(modelinfoJson_path):
+		logging.warning('Model Info Json File not Found. Creating...')
+		os.system('python3 ' + dump_modelinfo_path + ' --all > ' + modelinfoJson_path )
+	if os.path.isfile(modelinfoJson_path):
+		return True
+	else:
+		return False
 
 def banner(title,gap=4,updown_border_text='=',side_border_text='|'):
 	updown_border = side_border_text
@@ -85,9 +94,11 @@ def existCheck_downloader(Path, model_name=''):
 		return True
 
 def model_selector(model_info,flag_default=False):
+	if not model_info_ckeck():
+		logging.error('No OMZ Models informations!!')
 	if not flag_default:
 		print('\n======= Model List =======')
-	with open(jsontemp_path,'r') as omzModel_info_json:
+	with open(modelinfoJson_path,'r') as omzModel_info_json:
 		omzModel_ObjArray = json.load(omzModel_info_json)
 		model_list = []
 		i = 0

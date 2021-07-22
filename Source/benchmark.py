@@ -7,7 +7,7 @@ import sys
 import csv
 from pathlib import Path
 logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
-from common_demo import banner,terminal_clean,existCheck_downloader
+from common_demo import banner,terminal_clean,existCheck_downloader,model_info_ckeck
 
 current_path = os.path.abspath(os.getcwd())
 
@@ -172,6 +172,8 @@ def reportCSV_writeSpecificReport(reportCSV,throughput,latency,count,duration,pa
 
 ###########
 def main():
+	if not model_info_ckeck():
+		logging.error('No OMZ Models informations!!')
 	terminal_clean()
 	banner('Benchmark Tool')
 	cap_time = os.popen('echo $(date +\'%Y%m%d_%H%M%S\')').read().split()[0]
