@@ -222,13 +222,12 @@ def main():
 						else:
 							if notbanned:
 								counter += 1
-								print( '\n[{count}/{total} - {persent}]===== Benchmarking OMZ Model [{modelName}] on {target} ====='.format(count = counter, total=TotalmodelCounter,persent='%.1f %%' % (counter/TotalmodelCounter), modelName=omzModel['name'], target=device) )
+								print( '\n[{count}/{total} - {persent}]===== Benchmarking OMZ Model [{modelName}] on {target} ====='.format(count = counter, total=TotalmodelCounter,persent='%.1f %%' % (counter/TotalmodelCounter*100), modelName=omzModel['name'], target=device) )
 								OMZmodel_excutor(omzModel,csvReport,device,add_arg)
 							else:
 								logging.info('Skip banned model [%s] at %s',omzModel['name'],os.popen('echo $(date +\'%Y/%m/%d_%H:%M:%S\')').read())
 					else:
 						notbanned = False
-					TotalmodelCounter +=  1 * notbanned
 
 			else:
 				if os.path.isfile(model):
