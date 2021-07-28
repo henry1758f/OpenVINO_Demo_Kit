@@ -6,6 +6,7 @@ import logging
 import time
 from pathlib import Path
 logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
+logging.disable(logging.DEBUG)
 
 current_path = os.path.abspath(os.getcwd())
 demo_info = current_path + '/Source/demo_info.json'
@@ -253,7 +254,7 @@ def excute_string_composer_text2speech(demoinfo_jsonObj):
 		if key == str(i):
 			for model in selection['models']:
 				arguments_string += model_selector(model,True)
-			arguments_string += selection['argument']
+			arguments_string += ' ' + selection['argument']
 			break
 	else:
 		logging.error('Invailed Input! Please check and try again.')
@@ -286,7 +287,9 @@ def run_demo(demoinfo_jsonObj):
 	else:
 		excute_string = excute_string_composer(demoinfo_jsonObj)
 	excute_string = special_arg_check(demoinfo_jsonObj,excute_string)
-
+	if 'python' in demoinfo_jsonObj['path'] or os.path.isfile(demoinfo_jsonObj['path'] + 'requirements.txt'):
+		logging.debug('Install Prerequest...')
+		os.system('python3 -m pip install -r ' + demoinfo_jsonObj['path'] + 'requirements.txt')
 	logging.info('Running : %s',excute_string)
 	os.system(excute_string)
 

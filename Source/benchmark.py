@@ -8,6 +8,7 @@ import csv
 from pathlib import Path
 logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
 from common_demo import banner,terminal_clean,existCheck_downloader,model_info_ckeck
+logging.disable(logging.DEBUG)
 
 current_path = os.path.abspath(os.getcwd())
 
@@ -213,9 +214,11 @@ def main():
 						str1 += ' (' + len(model_test_ban_list) + ' model(s) will be banned.)'
 					logging.warning('%s',str1)
 				counter =0
+				counter_shift = 0
 				for omzModel in omzModel_Objs:
 					notbanned = True
-					if TotalOMZmodelCounter >= shift:
+					counter_shift += 1
+					if counter_shift >= shift:
 						for banModel in model_test_ban_list:
 							if omzModel['name'] == banModel:
 								notbanned = False

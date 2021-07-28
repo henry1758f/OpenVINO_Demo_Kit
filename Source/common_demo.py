@@ -7,7 +7,7 @@ import logging
 import sys
 from pathlib import Path
 logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
-logging.disable('DEBUG')
+logging.disable(logging.DEBUG)
 
 current_path = os.path.abspath(os.getcwd())
 demo_info = current_path + '/Source/demo_info.json'
@@ -78,7 +78,12 @@ def existCheck_downloader(Path, model_name=''):
 			for y in Yes_strings:
 				if y == key:
 					logging.info(' Try Download %s model.....',model_name)
+					prerequests = ['requirements.in','requirements-caffe2.in','requirements-pytorch.in','requirements-tensorflow.in']
 					downloader_command = 'python3 "' + model_downloader_path + 'downloader.py" --name ' + model_name + ' -o ' + model_path
+					for prerequest in prerequests:
+						prerequest_command = 'python3 -m pip install -r ' + model_downloader_path + ' ' + prerequest
+						logging.debug('excute > %s',prerequest_command)
+						os.system(prerequest_command)
 					logging.debug('excute > %s',downloader_command)
 					os.system(downloader_command)
 					if 'public/' in Path:
