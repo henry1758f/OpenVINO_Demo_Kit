@@ -1,7 +1,7 @@
 #!/bin/bash
 # File: OpenVINO_demo_SYNNEX.sh
 
-export VERSION="7.0.0-beta20210722"
+export VERSION="7.0.0-20210802"
 export VERSION_VINO="2021.4.582"
 export INTEL_OPENVINO_DIR=/opt/intel/openvino_2021/
 export SAMPLE_LOC="$HOME/inference_engine_${PWD##*/}_samples_build/intel64/Release"
@@ -50,7 +50,7 @@ function feature_choose()
 			feature_choose
 			;;
 		"5")
-			sudo $dlworkbench
+			xdg-open https://openvinotoolkit.github.io/workbench_aux/
 			clear
 			banner_show
 			feature_choose
@@ -61,16 +61,14 @@ function feature_choose()
 				echo " [ERROR] $VERSION_VINO is not support Ubuntu $ubuntu_ver"
 				exit
 			fi
-
+			sudo apt install gnupg
 			public_key_url="https://apt.repos.intel.com/openvino/2021/GPG-PUB-KEY-INTEL-OPENVINO-2021"
 			wget -q --spider $public_key_url
 			if [ $? -eq 0 ];then
 				echo "[INFO] Start download and install openVINO $VERSION_VINO"
 				wget $public_key_url
-				public_key_name=${public_key_name#*/}
-				sudo apt-key add $public_key_name
-				sudo touch /etc/apt/sources.list.d/intel-openvino-2021.list
-				sudo su -c "echo deb https://apt.repos.intel.com/openvino/2021 all main > /etc/apt/sources.list.d/intel-openvino-2021.list"
+				sudo apt-key add GPG-PUB-KEY-INTEL-OPENVINO-2021
+				echo "deb https://apt.repos.intel.com/openvino/2021 all main" | sudo tee /etc/apt/sources.list.d/intel-openvino-2021.list
 				sudo apt update
 				case $ubuntu_ver in
 					"20.04")

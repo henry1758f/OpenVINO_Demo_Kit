@@ -2,6 +2,8 @@
 # File: sample_build.sh
 
 dashes="\n\n###################################################\n\n"
+export INTEL_OPENVINO_DIR=/opt/intel/openvino_2021/
+source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh
 # Build Inference Engine samples
 C_SAMPLE_DIR=${InferenceEngine_DIR}/../samples/c
 CPP_SAMPLE_DIR=${InferenceEngine_DIR}/../samples/cpp

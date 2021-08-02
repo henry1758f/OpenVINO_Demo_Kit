@@ -19,7 +19,6 @@ model_downloader_path="${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downlo
 
 reportCSV_flag = True
 
-model_test_limit_list = []
 model_test_ban_list = []
 
 def device_selector():
