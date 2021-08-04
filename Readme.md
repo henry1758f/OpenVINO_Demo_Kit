@@ -1,5 +1,5 @@
 # OpenVINO Demo Kit
-[![Latest Release](https://badgen.net/github/release/henry1758f/OpenVINO_Demo_Kit)](https://github.com/henry1758f/OpenVINO_Demo_Kit/releases)  [![Apache License Version 2.0](https://badgen.net/github/license/henry1758f/OpenVINO_Demo_Kit)](LICENSE)    ![Check](https://badgen.net/github/checks/henry1758f/OpenVINO_Demo_Kit)
+[![Latest Release](https://img.shields.io/github/v/release/henry1758f/OpenVINO_Demo_Kit)](https://github.com/henry1758f/OpenVINO_Demo_Kit/releases)  [![Apache License Version 2.0](https://badgen.net/github/license/henry1758f/OpenVINO_Demo_Kit)](LICENSE)    ![Check](https://badgen.net/github/checks/henry1758f/OpenVINO_Demo_Kit)
 
 This is a tool that can make you run intel openVINO Demos and samples easily. It helps you to install openVINO, build demos, download/convert models,run DLWorkbench automatically. No need to run those demos/samples or operations manully with long arguments and path. Also, this Demo Kits support to run benchmark app with multiple models dump the throughputs, Latency,etc. in one .csv file. It might help you to suvery your device's AI performance on different kinds of model.
 * * *
