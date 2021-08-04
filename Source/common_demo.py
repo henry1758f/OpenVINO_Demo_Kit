@@ -179,7 +179,7 @@ def precisions_selector(precisions,model_name,default='FP32'):
 			return precisions_selector(precisions, model_name, default)
 
 def device_selector(head=' -d ',default='CPU',flag_default=False):
-	if head == '':
+	if head == ' ':
 		return ''
 	if not flag_default:
 		result = input('\n [Typein the target device for inference this model (CPU,GPU,MYRIAD,HDDL,etc.)]  >> ')

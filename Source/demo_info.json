@@ -37,7 +37,7 @@
 				{
 					"argument": "-m_va",
 					"devicearguments": "-d_va",
-					"usage": "Vehicle and License Plate Detection model",
+					"usage": "Vehicle Attribute Recognition model",
 					"keywords": ["vehicle-attributes-recognition-barrier"],
 					"keywordsType": "name",
 					"banlist": [],
@@ -52,7 +52,7 @@
 				{
 					"argument": "-m_lpr",
 					"devicearguments": "-d_lpr",
-					"usage": "Vehicle and License Plate Detection model",
+					"usage": "License Plate Recognition model",
 					"keywords": ["license-plate-recognition-barrier"],
 					"keywordsType": "name",
 					"banlist": [],
@@ -973,7 +973,7 @@
 				{
 					"argument": "-m_td",
 					"devicearguments": "",
-					"usage": "Trained text recognition model (encoder part)",
+					"usage": "Trained text recognition model (decoder part)",
 					"keywords": ["text-spotting-0005-recognizer-decoder"],
 					"keywordsType": "name",
 					"banlist": [],
@@ -1273,7 +1273,7 @@
 				{
 					"argument": "-m_lm",
 					"devicearguments": "-d_lm",
-					"usage": "acial Landmarks Detection model",
+					"usage": "Facial Landmarks Detection model",
 					"keywords": ["landmarks-regression-retail"],
 					"keywordsType": "name",
 					"banlist": [],
