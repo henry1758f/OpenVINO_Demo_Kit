@@ -2,5 +2,6 @@ remote_theme: pages-themes/cayman
 plugins:
 - jekyll-remote-theme
 
+show_downloads: true
 # Google Analytics
 google_analytics: G-MVMLFTNJ24
