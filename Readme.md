@@ -1,43 +1,45 @@
 # OpenVINO Demo Kit
 [![Latest Release](https://badgen.net/github/release/henry1758f/OpenVINO_Demo_Kit)](https://github.com/henry1758f/OpenVINO_Demo_Kit/releases)  [![Apache License Version 2.0](https://badgen.net/github/license/henry1758f/OpenVINO_Demo_Kit)](LICENSE)    ![Check](https://badgen.net/github/checks/henry1758f/OpenVINO_Demo_Kit)
+
 This is a tool that can make you run intel openVINO Demos and samples easily. It helps you to install openVINO, build demos, download/convert models,run DLWorkbench automatically. No need to run those demos/samples or operations manully with long arguments and path. Also, this Demo Kits support to run benchmark app with multiple models dump the throughputs, Latency,etc. in one .csv file. It might help you to suvery your device's AI performance on different kinds of model.
 * * *
 # Contant
-* [Getting Start](#getting_start)
-* [Install OpenVINO](#install_openvino)
-* [Build Samples and Demos](#build_samples_and_demos)
-* [Query Devices](#query_devices)
-* [Run Deep Learning Workbench](#run_deep_learning_workbench)
-* [Model Downloader](#model_downloader)
-* [Run Benchmark App](#run_benchmark_app)
-* [Run OpenVINO Demos](#run_openvino_demos)
-    * [Demo List](#demo_list)
-        * [Security Barrier Camera Demo](#security_barrier_camera_demo)
-        * [Interactive Face Detection Demo](#interactive_face_detection_demo)
-        * [Classification Demo](#classification_demo)
-        * [Object Detection Demo](#object_detection_demo)
-        * [Human Pose Estimation Demo. (2D)](#human_pose_estimation_demo_(2d))
-        * [Human Pose Estimation Demo. (3D)](#human_pose_estimation_demo_(3d))
-        * [Crossroad Camera Demo](#crossroad_camera_demo)
-        * [Image Processing Demo](#image_processing_demo)
-        * [Pedestrian tracker demo](#pedestrian_tracker_demo)
-        * [Smart Classroom Demo](#smart_classroom_demo)
-        * [Image Segmentation Demo](#image_segmentation_demo)
-        * [Instance Segmentation Demo](#instance_segmentation_demo)
-        * [Gaze Estimation Demo](#gaze_estimation_demo)
-        * [Text Detection Demo](#text_detection_demo)
-        * [Text Spotting Demo](#text_spotting_demo)
-        * [Action Recognition Demo](#action_recognition_demo)
-        * [Multi Camera Multi Target Demo](#multi_camera_multi_target_demo)
-        * [Colorization Demo](#colorization_demo)
-        * [Gesture Recognition Demo](#gesture_recognition_demo)
-        * [Face Recognition Demo](#face_recognition_demo)
-        * [Social Distance Demo](#social_distance_demo)
-        * [Whiteboard Inpainting Demo](#whiteboard_inpainting_demo)
-        * [MonoDepth Demo](#monodepth_demo)
-        * [Text-to-speech Demo](#text-to-speech_demo)
-        * [Real Time Speech Recognition Demo](#real_time_speech_recognition_demo)
-        * [BERT Named Entity Recognition Demo](#bert_named_entity_recognition_demo)
+* [Getting Start](#getting-start)
+* [Install OpenVINO](#install-openvino)
+* [Build Samples and Demos](#build-samples-and-demos)
+* [Query Devices](#query-devices)
+* [Run Deep Learning Workbench](#run-deep-learning-workbench)
+* [Model Downloader](#model-downloader)
+* [Run Benchmark App](#run-benchmark-app)
+* [Run OpenVINO Demos](#run-openvino-demos)
+    * [Demo List](#demo-list)
+        * [Security Barrier Camera Demo](#security-barrier-camera-demo)
+        * [Interactive Face Detection Demo](#interactive-face-detection-demo)
+        * [Classification Demo](#classification-demo)
+        * [Object Detection Demo](#object-detection-demo)
+        * [Human Pose Estimation Demo. (2D)](#human-pose-estimation-demo-2d)
+        * [Human Pose Estimation Demo. (3D)](#human-pose-estimation-demo-3d)
+        * [Crossroad Camera Demo](#crossroad-camera-demo)
+        * [Image Processing Demo](#image-processing-demo)
+        * [Pedestrian tracker demo](#pedestrian-tracker-demo)
+        * [Smart Classroom Demo](#smart-classroom-demo)
+        * [Image Segmentation Demo](#image-segmentation-demo)
+        * [Instance Segmentation Demo](#instance-segmentation-demo)
+        * [Gaze Estimation Demo](#gaze-estimation-demo)
+        * [Text Detection Demo](#text-detection-demo)
+        * [Text Spotting Demo](#text-spotting-demo)
+        * [Action Recognition Demo](#action-recognition-demo)
+        * [Multi Camera Multi Target Demo](#multi-camera-multi-target-demo)
+        * [Colorization Demo](#colorization-demo)
+        * [Gesture Recognition Demo](#gesture-recognition-demo)
+        * [Face Recognition Demo](#face-recognition-demo)
+        * [Social Distance Demo](#social-distance-demo)
+        * [Whiteboard Inpainting Demo](#whiteboard-inpainting-demo)
+        * [MonoDepth Demo](#monodepth-demo)
+        * [Text-to-speech Demo](#text-to-speech-demo)
+        * [Real Time Speech Recognition Demo](#real-time-speech-recognition-demo)
+        * [BERT Named Entity Recognition Demo](#bert-named-entity-recognition-demo)
+* [Default Setting](#default-setting)
 
 * * *
 # Getting Start
@@ -71,7 +73,7 @@ If you have not install OpenVINO, the Demo kit will show as
  5. Run Deep Learning Workbench.
  6. Install OpenVINO.
 ```
-In this situation, please refer to [Install OpenVINO section](#Install_OpenVINO_using_Demo_Kit).
+In this situation, please refer to [Install OpenVINO section](#Install-OpenVINO-using-Demo-Kit).
 
 If you had install OpenVINO, the Demo kit will show as
 ```
@@ -317,58 +319,32 @@ choose '1' to Run Benchmark App (Key-in "1" and press ENTER.)
 Then the demo kit will show up a list
 * * *
 ## Demo List
- 1.[Security Barrier Camera Demo](#security_barrier_camera_demo)
- 2.[Interactive Face Detection Demo](#interactive_face_detection_demo)
- 3.[Classification Demo](#classification_demo)
- 4.[Object Detection Demo](#object_detection_demo)
- 5.[Human Pose Estimation Demo. (2D)](#human_pose_estimation_demo_(2d))
- 6.[Human Pose Estimation Demo. (3D)](#human_pose_estimation_demo_(3d))
- 7.[Crossroad Camera Demo](#crossroad_camera_demo)
- 8.[Image Processing Demo](#image_processing_demo)
- 9.[Pedestrian tracker demo](#pedestrian_tracker_demo)
-10.[Smart Classroom Demo](#smart_classroom_demo)
-11.[Image Segmentation Demo](#image_segmentation_demo)
-12.[Instance Segmentation Demo](#instance_segmentation_demo)
-13.[Gaze Estimation Demo](#gaze_estimation_demo)
-14.[Text Detection Demo](#text_detection_demo)
-15.[Text Spotting Demo](#text_spotting_demo)
-16.[Action Recognition Demo](#action_recognition_demo)
-17.[Multi Camera Multi Target Demo](#multi_camera_multi_target_demo)
-18.[Colorization Demo](#colorization_demo)
-19.[Gesture Recognition Demo](#gesture_recognition_demo)
-20.[Face Recognition Demo](#face_recognition_demo)
-21.[Social Distance Demo](#social_distance_demo)
-22.[Whiteboard Inpainting Demo](#whiteboard_inpainting_demo)
-23.[MonoDepth Demo](#monodepth_demo)
-24.[Text-to-speech Demo](#text-to-speech_demo)
-25.[Real Time Speech Recognition Demo](#real_time_speech_recognition_demo)
-26.[BERT Named Entity Recognition Demo](#bert_named_entity_recognition_demo)
- 1. Security Barrier Camera Demo
- 2. Interactive Face Detection Demo
- 3. Classification Demo
- 4. Object Detection Demo
- 5. Human Pose Estimation Demo. (2D)
- 6. Human Pose Estimation Demo. (3D)
- 7. Crossroad Camera Demo
- 8. Image Processing Demo
- 9. Pedestrian tracker demo
-10. Smart Classroom Demo
-11. Image Segmentation Demo
-12. Instance Segmentation Demo
-13. Gaze Estimation Demo
-14. Text Detection Demo
-15. Text Spotting Demo
-16. Action Recognition Demo
-17. Multi Camera Multi Target Demo
-18. Colorization Demo
-19. Gesture Recognition Demo
-20. Face Recognition Demo
-21. Social Distance Demo
-22. Whiteboard Inpainting Demo
-23. MonoDepth Demo
-24. Text-to-speech Demo
-25. Real Time Speech Recognition Demo
-26. BERT Named Entity Recognition Demo
+ 1. [Security Barrier Camera Demo](#security-barrier-camera-demo)
+ 2. [Interactive Face Detection Demo](#interactive-face-detection-demo)
+ 3. [Classification Demo](#classification-demo)
+ 4. [Object Detection Demo](#object-detection-demo)
+ 5. [Human Pose Estimation Demo. (2D)](#human-pose-estimation-demo-2d)
+ 6. [Human Pose Estimation Demo. (3D)](#human-pose-estimation-demo-3d)
+ 7. [Crossroad Camera Demo](#crossroad-camera-demo)
+ 8. [Image Processing Demo](#image-processing-demo)
+ 9. [Pedestrian tracker demo](#pedestrian-tracker-demo)
+10. [Smart Classroom Demo](#smart-classroom-demo)
+11. [Image Segmentation Demo](#image-segmentation-demo)
+12. [Instance Segmentation Demo](#instance-segmentation-demo)
+13. [Gaze Estimation Demo](#gaze-estimation-demo)
+14. [Text Detection Demo](#text-detection-demo)
+15. [Text Spotting Demo](#text-spotting-demo)
+16. [Action Recognition Demo](#action-recognition-demo)
+17. [Multi Camera Multi Target Demo](#multi-camera-multi-target-demo)
+18. [Colorization Demo](#colorization-demo)
+19. [Gesture Recognition Demo](#gesture-recognition-demo)
+20. [Face Recognition Demo](#face-recognition-demo)
+21. [Social Distance Demo](#social-distance-demo)
+22. [Whiteboard Inpainting Demo](#whiteboard-inpainting-demo)
+23. [MonoDepth Demo](#monodepth-demo)
+24. [Text-to-speech Demo](#text-to-speech-demo)
+25. [Real Time Speech Recognition Demo](#real-time-speech-recognition-demo)
+26. [BERT Named Entity Recognition Demo](#bert-named-entity-recognition-demo)
 
 ### Security Barrier Camera Demo
 * #### Intro
@@ -405,7 +381,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     
     **3. Select a Vehicle Attributes Recognition model**
     The Demo Kit will show available model list. Choose your model just like step 2.
@@ -419,7 +395,7 @@ Then the demo kit will show up a list
     **6. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-* #### [How to modify the Default Setting](#default_setting)
+* #### [How to modify the Default Setting](#default-setting)
     
 ### Interactive Face Detection Demo
 * #### Intro
@@ -460,7 +436,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     
     **3. Select a Age/Gender Recognition model**
     The Demo Kit will show available model list. Choose your model just like step 2.
@@ -483,7 +459,7 @@ Then the demo kit will show up a list
     **9. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-* #### [How to modify the Default Setting](#default_setting)
+* #### [How to modify the Default Setting](#default-setting)
     
 ### Classification Demo
 * #### Intro
@@ -525,14 +501,14 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein a Path to video or image files.
     
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-* #### [How to modify the Default Setting](#default_setting)
+* #### [How to modify the Default Setting](#default-setting)
 
 ### Object Detection Demo
 * #### Intro
@@ -574,14 +550,14 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 
 ### Human Pose Estimation Demo. (2D)
 * #### Intro
@@ -622,14 +598,14 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Human Pose Estimation Demo. (3D)
 * #### Intro
      This demo demonstrates how to run 3D Human Pose Estimation models using OpenVINO™.
@@ -663,13 +639,13 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Crossroad Camera Demo
 * #### Intro
      This demo provides an inference pipeline for person detection, recognition and reidentification. The demo uses Person Detection network followed by the Person Attributes Recognition and Person Reidentification Retail networks applied on top of the detection results. 
@@ -707,7 +683,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Person Attributes Recognition Crossroad model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Select a Person Reidentification Retail model, or press ENTER to run default setting**
@@ -717,7 +693,7 @@ Then the demo kit will show up a list
     **6. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Image Processing Demo
 * #### Intro
     This demo processes the image according to the selected type of processing. The demo can work with the next types:
@@ -759,13 +735,13 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Pedestrian tracker demo
 * #### Intro
      This demo showcases Pedestrian Tracking scenario: it reads frames from an input video sequence, detects pedestrians in the frames, and builds trajectories of movement of the pedestrians in a frame-by-frame manner.
@@ -805,7 +781,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Pedestrian Reidentification Retail model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Input the Path to video or image files**
@@ -813,7 +789,7 @@ Then the demo kit will show up a list
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Smart Classroom Demo
 * #### Intro
      The demo shows an example of joint usage of several neural networks to detect student actions (sitting, standing, raising hand for the person-detection-action-recognition-0005 model and sitting, writing, raising hand, standing, turned around, lie on the desk for the person-detection-action-recognition-0006 model) and recognize people by faces in the classroom environment. The demo uses Async API for action and face detection networks. It allows to parallelize execution of face recognition and detection: while face recognition is running on one accelerator, face and action detection could be performed on another.
@@ -853,7 +829,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Person/Action Detection Retail model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Select a Facial Landmarks Regression Retail model, or press ENTER to run default setting**
@@ -865,7 +841,7 @@ Then the demo kit will show up a list
     **7. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Image Segmentation Demo
 * #### Intro
     This topic demonstrates how to run the Image Segmentation demo application, which does inference using semantic segmentation networks.
@@ -905,13 +881,13 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Instance Segmentation Demo
 * #### Intro
     This demo shows how to perform instance segmentation using OpenVINO.
@@ -951,13 +927,13 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Gaze Estimation Demo
 * #### Intro
      This demo showcases the work of gaze estimation model.
@@ -991,7 +967,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Face Detection model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Select a Head Pose Estimation model, or press ENTER to run default setting**
@@ -1005,7 +981,7 @@ Then the demo kit will show up a list
     **8. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Text Detection Demo
 * #### Intro
      The demo shows an example of using neural networks to detect and recognize printed text rotated at any angle in various environment.
@@ -1043,7 +1019,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Text Recognition model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Input the Path to video or image files**
@@ -1051,7 +1027,7 @@ Then the demo kit will show up a list
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Text Spotting Demo
 * #### Intro
      This demo shows how to run Text Spotting models. Text Spotting models allow us to simultaneously detect and recognize text.
@@ -1085,7 +1061,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Trained text recognition model (encoder part), or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Select a Trained text recognition model (decoder part), or press ENTER to run default setting**
@@ -1095,7 +1071,7 @@ Then the demo kit will show up a list
     **6. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Action Recognition Demo
 * #### Intro
      This is the demo application for Action Recognition algorithm, which classifies actions that are being performed on input video. 
@@ -1135,7 +1111,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a decoder model, or press ENTER to run default setting**
     **This is Only for en-de model, if not, please skip it.**
     The Demo Kit will show available model list. Choose your model just like step 2.
@@ -1144,7 +1120,7 @@ Then the demo kit will show up a list
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Multi Camera Multi Target Demo
 * #### Intro
       This demo demonstrates how to run Multi Camera Multi Target (e.g. person or vehicle) demo using OpenVINO™.
@@ -1180,7 +1156,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **3-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **4. Select a object re-identification model, or press ENTER to run default setting**
     **This is Only for en-de model, if not, please skip it.**
     The Demo Kit will show available model list. Choose your model just like step 2.
@@ -1189,7 +1165,7 @@ Then the demo kit will show up a list
     **6. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Colorization Demo
 * #### Intro
     This demo demonstrates an example of using neural networks to colorize a grayscale image or video.
@@ -1229,13 +1205,13 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Gesture Recognition Demo
 * #### Intro
      This demo demonstrates how to run Gesture (e.g. [American Sign Language (ASL) gestures](https://www.handspeak.com/)) Recognition models using OpenVINO™ toolkit.
@@ -1269,7 +1245,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Trained Person Detection model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Input the Path to video or image files**
@@ -1277,7 +1253,7 @@ Then the demo kit will show up a list
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Face Recognition Demo
 * #### Intro
      This example demonstrates an approach to create interactive applications for video processing. It shows the basic architecture for building model pipelines supporting model placement on different devices and simultaneous parallel or sequential execution using OpenVINO library in Python. In particular, this demo uses 3 models to build a pipeline able to detect faces on videos, their keypoints (aka "landmarks"), and recognize persons using the provided faces database (the gallery). 
@@ -1317,7 +1293,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Facial Landmarks Detection model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Select a Face Reidentification model, or press ENTER to run default setting**
@@ -1331,7 +1307,7 @@ Then the demo kit will show up a list
     **7. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Social Distance Demo
 * #### Intro
      This demo showcases a retail social distance application that detects people and measures the distance between them. If this distance is less than a value previously provided by the user, then an alert is triggered.
@@ -1371,7 +1347,7 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Select a Person Re-Identification model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
     **4. Input the Path to video or image files**
@@ -1379,7 +1355,7 @@ Then the demo kit will show up a list
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Whiteboard Inpainting Demo
 * #### Intro
      This demo focuses on a whiteboard text overlapped by a person. The demo shows how to use the OpenVINO™ toolkit to detect and hide a person on a video so that all text on a whiteboard is visible.
@@ -1419,13 +1395,13 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### MonoDepth Demo
 * #### Intro
      This topic demonstrates how to run the MonoDepth demo application, which produces a disparity map for a given input image. To this end, the code uses the network described in [Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer](https://arxiv.org/abs/1907.01341).
@@ -1463,13 +1439,13 @@ Then the demo kit will show up a list
     Just input the index of the precision shown on list.
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
-    the available target device can list by using [Query Devices](#query_devices) .
+    the available target device can list by using [Query Devices](#query-devices) .
     **3. Input the Path to image file**
     As title, typein path to single image.
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ### Text-to-speech Demo
 * #### Intro
      The text to speech demo show how to run the ForwardTacotron and WaveRNN models or modified ForwardTacotron and MelGAN models to produce an audio file for a given input text file. The demo is based on https://github.com/seungwonpark/melgan, https://github.com/as-ideas/ForwardTacotron and https://github.com/fatchord/WaveRNN repositories.
@@ -1491,7 +1467,7 @@ Then the demo kit will show up a list
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ## Default Setting
 ### Real Time Speech Recognition Demo
 * #### Intro
@@ -1546,7 +1522,7 @@ Then the demo kit will show up a list
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
-    * #### [How to modify the Default Setting](#default_setting)
+    * #### [How to modify the Default Setting](#default-setting)
 ## Default Setting
   The default setting of this demo is set in the **demo_info.json** file, saving as JSON format. You can change the setting by editing the **demo_info.json**.
 If you have to change the default setting and not sure how to use, please raise an issue.
