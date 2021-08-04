@@ -50,6 +50,7 @@ Following Environments is require to this demo kit
 
 We suggest to follow the [official guides](https://docs.openvinotoolkit.org/2021.4/openvino_docs_install_guides_installing_openvino_linux.html) to install [Intel® Distribution of OpenVINO™ toolkit](https://software.seek.intel.com/openvino-toolkit) in version 2021.4.
 Or you can also use this demo kit to install from APT Repository.
+**This Demo Kit also support docker, Please visit [synnexgrp/openvino Docker Hub Website](https://hub.docker.com/r/synnexgrp/openvino) for more info.**
 
 It's very simple to run the Demo Kit. Just open the terminal in OpenVINO Demo Kit directory and run
 ```sh
