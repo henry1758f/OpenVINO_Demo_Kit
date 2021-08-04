@@ -5,3 +5,5 @@ plugins:
 show_downloads: true
 # Google Analytics
 google_analytics: G-MVMLFTNJ24
+
+theme: jekyll-theme-cayman
