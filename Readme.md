@@ -1468,7 +1468,7 @@ Then the demo kit will show up a list
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
     * #### [How to modify the Default Setting](#default-setting)
-## Default Setting
+
 ### Real Time Speech Recognition Demo
 * #### Intro
      This demo provides a GUI interface for automatic speech recognition using selected OpenVINO™ Inference Engine plugin, OpenVINO™ Feature Extraction Library, and OpenVINO™ Decoder Library.
