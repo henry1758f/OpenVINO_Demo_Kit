@@ -1,9 +1,14 @@
-# 20200212
+# 20210721
 # henry1758f
 
-*.json
-*.csv
-out_0.bmp
-sr_1.png
+model_info.json
+*.csv*
+*.pfm
+text-to-speech-output-*.wav
+*.png
 Source/testing_source/sample-videos/
 start_workbench.sh
+Source/testing_source/dataset/
+Source/testing_source/*.mp4
+Source/testing_source/*.jpg
+Source/__pycache__
