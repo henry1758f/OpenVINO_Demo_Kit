@@ -372,6 +372,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -383,6 +384,7 @@ Then the demo kit will show up a list
      [Select precisions of the model "vehicle-license-plate-detection-barrier-0106"]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -428,6 +430,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -439,6 +442,7 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -494,6 +498,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -505,6 +510,7 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -544,6 +550,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -555,6 +562,7 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -593,6 +601,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -604,6 +613,7 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -635,6 +645,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -646,6 +657,7 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -680,6 +692,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -691,6 +704,7 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -733,6 +747,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -744,6 +759,7 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
@@ -780,6 +796,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -791,13 +808,17 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Pedestrian Reidentification Retail model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -829,6 +850,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -840,17 +862,23 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Person/Action Detection Retail model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Select a Facial Landmarks Regression Retail model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **5. Select a Face Reidentification Retail model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **6. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **7. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -882,6 +910,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -893,11 +922,14 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -929,6 +961,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -940,11 +973,14 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -970,6 +1006,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -981,19 +1018,26 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Face Detection model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Select a Head Pose Estimation model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **5. Select a Facial Landmarks Estimation model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **6. Select a Open/Closed Eye Estimation model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **7. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **8. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1023,6 +1067,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1034,13 +1079,17 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Text Recognition model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1066,6 +1115,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1077,15 +1127,20 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Trained text recognition model (encoder part), or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Select a Trained text recognition model (decoder part), or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **5. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **6. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1117,6 +1172,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1128,14 +1184,18 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a decoder model, or press ENTER to run default setting**
     **This is Only for en-de model, if not, please skip it.**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1163,6 +1223,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **3-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1174,14 +1235,18 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **3-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **4. Select a object re-identification model, or press ENTER to run default setting**
     **This is Only for en-de model, if not, please skip it.**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **5. Input the Path to video or image files**
     Specify 2 inputs to process. The inputs must be indexes of cameras or paths to vide files. sperate them by space.
+    
     **6. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1213,6 +1278,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1224,11 +1290,14 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1254,6 +1323,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1265,13 +1335,17 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Trained Person Detection model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1303,6 +1377,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1314,20 +1389,27 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Facial Landmarks Detection model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Select a Face Reidentification model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **5. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **6. Input a path for the face gallery data**
     Input a path for the face gallery data. Default is $HOME/Pictures/face_gallery
+    
     **7. Allow growing the face database?**
     Please input "Y" or "n" to enable the Allow growing flag of this demo
-    **7. Start Running**
+    
+    **8. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
 * #### [How to modify the Default Setting](#default-setting)
@@ -1358,6 +1440,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1369,13 +1452,17 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Select a Person Re-Identification model, or press ENTER to run default setting**
     The Demo Kit will show available model list. Choose your model just like step 2.
+    
     **4. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **5. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1407,6 +1494,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1418,11 +1506,14 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Input the Path to video or image files**
     As title, typein path to single image, a folder of images, video file or camera id.
+    
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1452,6 +1543,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1463,11 +1555,14 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query-devices) .
+    
     **3. Input the Path to image file**
     As title, typein path to single image.
+    
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1489,8 +1584,10 @@ Then the demo kit will show up a list
     2. Speech synthesis with text-to-speech-en-0001 models
     3. Speech synthesis with multi-speaker text-to-speech-en-multi-0001 models
     ```
+    
     **3. Input the Path for a text file, or Use OpenVINO_Demo_Kit/testing_source/speech_text.txt as default.**
     As title, typein the Path for a text file.Or skip it to Use OpenVINO_Demo_Kit/testing_source/speech_text.txt as default.
+    
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
@@ -1504,6 +1601,7 @@ Then the demo kit will show up a list
 * #### How to run with Demo Kit
    **1. Input the index number of Real Time Speech Recognition Demo**
     Just input "25" or the index that shown and press ENTER.
+    
     **2. Start Running**
     Then the Demo Kit will help you to run the demo. Please Visit [OpenVINO Online Docs](https://docs.openvinotoolkit.org/2021.4/openvino_inference_engine_samples_speech_libs_and_demos_Live_speech_recognition_demo.html) for detail information.
 
@@ -1531,6 +1629,7 @@ Then the demo kit will show up a list
     You can select an model from open Model Zoo(OMZ) by input the index of the model list and press ENTER.
     Or you can have a quick run by press ENTER directly, the Demo Kit will run with default setting.
     You can also input the model path to the model you want.
+    
    **2-1. Select precisions of the model**
     The Demo Kit will show available precisions of this model if you choose an OMZ model.
     ```
@@ -1542,11 +1641,14 @@ Then the demo kit will show up a list
      [Select precisions of the model " < model name > "]  >>
     ```
     Just input the index of the precision shown on list.
+    
     **2-2. Typein the target device for inference this model**
     As title, typein the target device such as CPU / GPU / MYRIAD / MULTI:CPU,GPU / HDDL / HETERO:FPGA,CPU .... 
     the available target device can list by using [Query Devices](#query_devices) .
+    
     **3. Input the link to a website**
     As title, typein link to a website as a input source.
+    
     **4. Start Running**
     Then the Demo Kit will help you to run the demo with models and input that you choose.
     
