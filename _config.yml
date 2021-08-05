@@ -1,4 +1,4 @@
-remote_theme: pages-themes/cayman
+remote_theme: henry1758f/cayman
 plugins:
 - jekyll-remote-theme
 show_downloads: true
