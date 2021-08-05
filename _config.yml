@@ -3,3 +3,6 @@ plugins:
 - jekyll-remote-theme
 show_downloads: true
 google_analytics: G-MVMLFTNJ24
+github:
+  zip_url: https://github.com/henry1758f/OpenVINO_Demo_Kit/archive/refs/tags/v7.0.0.zip
+  another_url: https://github.com/henry1758f/OpenVINO_Demo_Kit/archive/refs/tags/v7.0.0.tar.gz
