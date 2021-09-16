@@ -55,9 +55,9 @@ Or you can also use this demo kit to install from APT Repository.
 
    [![Docker Link](https://img.shields.io/docker/pulls/synnexgrp/openvino)](https://hub.docker.com/r/synnexgrp/openvino/tags?page=1&ordering=last_updated&name=2021.4) [![Docker Size](https://badgen.net/docker/size/synnexgrp/openvino/2021.4_developer_models/amd64)](https://hub.docker.com/r/synnexgrp/openvino/tags?page=1&ordering=last_updated&name=2021.4)
 
-**For TigerLake Platform: [synnexgrp/tgl_saleskit Docker Hub Website](https://hub.docker.com/r/synnexgrp/tgl_saleskit) **
+**For TigerLake Platform: [synnexgrp/tgl_saleskit](https://hub.docker.com/r/synnexgrp/tgl_saleskit) Docker Hub Website**
 
-   [![Docker Link](https://img.shields.io/docker/pulls/synnexgrp/tgl_saleskit)](https://hub.docker.com/r/synnexgrp/tgl_saleskit/tags?page=1&ordering=last_updated&name=2021.4_tgl) [![Docker Size](https://badgen.net/docker/size/synnexgrp/synnexgrp/2021.4_tgl/amd64)](https://hub.docker.com/r/synnexgrp/tgl_saleskit/tags?page=1&ordering=last_updated&name=2021.4_tgl)
+   [![Docker Link](https://img.shields.io/docker/pulls/synnexgrp/tgl_saleskit)](https://hub.docker.com/r/synnexgrp/tgl_saleskit/tags?page=1&ordering=last_updated&name=2021.4_tgl) [![Docker Size](https://badgen.net/docker/size/synnexgrp/tgl_saleskit/2021.4_tgl/amd64)](https://hub.docker.com/r/synnexgrp/tgl_saleskit/tags?page=1&ordering=last_updated&name=2021.4_tgl)
 
 It's very simple to run the Demo Kit. Just open the terminal in OpenVINO Demo Kit directory and run
 ```sh
