@@ -43,7 +43,7 @@ function feature_choose()
 		;;
 		"4")
 			test -e $SAMPLE_LOC/hello_query_device || $Source_Sample_Build
-			$SAMPLE_LOC/hello_query_device
+			source ${INTEL_OPENVINO_DIR}/bin/setupvars.sh && $SAMPLE_LOC/hello_query_device
 			read -n 1 -s -r -p "> Press any key to continue"
 			clear
 			banner_show
