@@ -7,7 +7,9 @@ import logging
 import sys
 from pathlib import Path
 logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
-logging.disable(logging.DEBUG)
+#logging.disable(logging.DEBUG)
+
+
 
 current_path = os.path.abspath(os.getcwd())
 demo_info = current_path + '/Source/demo_info.json'

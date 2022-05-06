@@ -1,0 +1,23 @@
+{
+    "jsonversion": "1.0.0",
+    "demokitVersion": "8.0.0-alpha01",
+    "openvinoVersion": "2022.1.0.643",
+    "openvinoPath": "/opt/intel/openvino_2022",
+    "pythonExcute": "/usr/bin/python3",
+    "modelPath": "$HOME",
+    "datasetPath": "modelPath",
+    "OMZ":
+    {
+        "source": "https://github.com/openvinotoolkit/open_model_zoo/archive/refs/tags/",
+        "git": "https://github.com/openvinotoolkit/open_model_zoo.git",
+        "tag": "2022.1.0",
+        "asset": ".tar.gz",
+        "path": "$HOME"
+    },
+    "sample":
+    {
+        "source": "/opt/intel/openvino_2022/samples/cpp",
+        "path": "$HOME"
+    }
+    
+}
