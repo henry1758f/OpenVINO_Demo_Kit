@@ -3,11 +3,10 @@
 # Author: henry1758f
 
 from posixpath import split
-from common_demo import banner
+from banner import banner
 import os
 import json
 import logging
-import time
 import sys
 import subprocess
 
@@ -32,6 +31,7 @@ OMZ_asset='tar.gz'
 OMZPath=''
 datasetPath=''
 modelPath= str(Path.home()) + '/open_model_zoo_models'
+convertPath = str(Path.home()) + '/open_model_zoo_models/convert'
 python_execute='/usr/bin/python3'
 
 with open(kit_info,'r') as DemoKitinfo:
@@ -44,9 +44,15 @@ with open(kit_info,'r') as DemoKitinfo:
             logging.debug('Default Model Directory not found. Create one in {} ....'.format(modelPath))
             os.system('mkdir {}'.format(modelPath))
     if not DemoKitJSON['datasetPath'] == 'modelPath':
-        datasetPath = DemoKitJSON['datasetPath']
+        datasetPath = DemoKitJSON['datasetPath'] + '/data'
     else:
-        datasetPath = modelPath
+        datasetPath = modelPath + '/data'
+    if not DemoKitJSON['convertPath'] == 'modelPath':
+        convertPath = DemoKitJSON['convertPath']
+    else:
+        if not Path(convertPath).is_dir():
+            logging.debug('ConvertPath not found, create new in {}'.format(convertPath))
+            os.system('mkdir {}'.format(convertPath))
     demokitVersion = DemoKitJSON['demokitVersion']
     openvinoVersion= DemoKitJSON['openvinoVersion']
     openvinoPath= DemoKitJSON['openvinoPath']
@@ -109,6 +115,7 @@ def tools():
     try:
         if choose.isnumeric():
             fetutreSelected=tools_featureList[int(choose)-1]
+            logging.debug(fetutreSelected)
         else:
             fetutreSelected=choose
         if fetutreSelected == 'Model Downloader':
@@ -116,7 +123,7 @@ def tools():
         elif fetutreSelected == 'Model Converter':
             converter()
         elif fetutreSelected == 'Model Quantizer':
-            converter()
+            quantizer()
         elif fetutreSelected == 'Dataset Data Downloader':
             dataset()
         else:
@@ -132,7 +139,8 @@ def tools():
 def build_demos():
     banner('Open Model Zoo - Build Demos')
     os.system(python_execute + ' -mpip install --user -r {}/demos/requirements.txt'.format(OMZPath))
-    os.system(OMZPath + '/demos/build_demos.sh')
+    os.system(OMZPath + '/demos/build_demos.sh  -DENABLE_PYTHON=ON')
+    os.system(python_execute + ' -mpip install --user {}/demos/common/python'.format(OMZPath))
 
 def downloader():
     banner('Model Downloader')
@@ -198,7 +206,7 @@ def converter():
         else:
             fetutreSelected=choose
         if fetutreSelected == 'Convert ALL Open Model Zoo Models that have been downloaded':
-            p = subprocess.Popen(['omz_converter', '--all', '-d', modelPath, '-o', modelPath, '-p', python_execute], env=dict(os.environ))
+            p = subprocess.Popen(['omz_converter', '--all', '-d', modelPath, '-o', convertPath, '-p', python_execute], env=dict(os.environ))
             p.communicate()
         elif fetutreSelected == 'Convert Specific Model from Open Model Zoo':
             models_convertable_List = os.popen('omz_converter --print_all').read().split('\n')
@@ -215,14 +223,14 @@ def converter():
             else:
                 modelSelected=choose_model
             logging.debug('Converting >> {} << '.format(modelSelected))
-            p = subprocess.Popen(['omz_converter', '--name', modelSelected, '-d', modelPath, '-o', modelPath, '-p', python_execute], env=dict(os.environ))
+            p = subprocess.Popen(['omz_converter', '--name', modelSelected, '-d', modelPath, '-o', convertPath, '-p', python_execute], env=dict(os.environ))
             p.communicate()
         elif fetutreSelected == 'Convert Models using list file':
             listfilePath = input('\n >>> Input the Path of the List File (Absolute path)\n > ')
             if not Path(listfilePath).is_file():
                 raise ValueError('Your Input "{}" is not a vailed Path, Please check and try again.'.format(listfilePath))
             else:
-                p = subprocess.Popen(['omz_converter', '--list', listfilePath, '-d', modelPath, '-o', modelPath, '-p', python_execute], env=dict(os.environ))
+                p = subprocess.Popen(['omz_converter', '--list', listfilePath, '-d', modelPath, '-o', convertPath, '-p', python_execute], env=dict(os.environ))
                 p.communicate()
         else:
             raise
@@ -248,7 +256,7 @@ def quantizer():
         else:
             fetutreSelected=choose
         if fetutreSelected == 'Quantize ALL Open Model Zoo Models that available':
-            p = subprocess.Popen(['omz_quantizer', '--all', '--model_dir', modelPath, '-o', modelPath, '-p', python_execute, '--dataset_dir', datasetPath], env=dict(os.environ))
+            p = subprocess.Popen(['omz_quantizer', '--all', '--model_dir', convertPath, '-o', convertPath, '-p', python_execute, '--dataset_dir', datasetPath], env=dict(os.environ))
             p.communicate()
         elif fetutreSelected == 'Quantize Specific Model from Open Model Zoo':
             models_convertable_List = os.popen('omz_quantizer --print_all').read().split('\n')
@@ -299,6 +307,5 @@ def main():
         build_demos()
     elif str(sys.argv[1]) == 'downloader':
         tools()
-
 
 main()

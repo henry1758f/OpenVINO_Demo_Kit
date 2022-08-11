@@ -5,9 +5,8 @@
 import os
 import json
 import logging
-import time
 from pathlib import Path
-from typing import ItemsView
+from banner import opening_banner
 
 logging.basicConfig(format='[ %(levelname)s ] %(message)s', level=logging.DEBUG)
 
@@ -32,37 +31,6 @@ with open(kit_info,'r') as DemoKitinfo:
     python_execute= DemoKitJSON['pythonExcute']
     if not DemoKitJSON['sample']['path'] == '$HOME':
         samplePath = DemoKitJSON['sample']['path']
-
-def opening_banner(gap=4,updown_border_text='=',side_border_text='|'):
-    
-    updown_border = side_border_text
-    for x in range(len(AuthorName) + gap*2):
-        updown_border+=updown_border_text
-    updown_border+=side_border_text
-    
-    bannerStrings = [side_border_text,side_border_text,side_border_text]
-    gap1_string = ''
-    for x in range(gap):
-        gap1_string += ' '
-    bannerStrings[0] += gap1_string + AuthorName + gap1_string + side_border_text
-    for x in range(len(AuthorName) + gap*2):
-        bannerStrings[1] += ' '
-    bannerStrings[1] += side_border_text
-    gap2_string = ''
-    for x in range(int((len(AuthorName)+gap*2-len(AppName))/2)):
-        gap2_string += ' '
-    bannerStrings[2] += (gap2_string + AppName + gap2_string + side_border_text) if (len(AuthorName)-len(AppName))%2 == 0 else (gap2_string + AppName + gap2_string + ' ' + side_border_text)
-    
-    print(updown_border)
-    for bannerString in bannerStrings:
-        print(bannerString)
-    print(updown_border)
-    print(side_border_text + ' Ver. ' + demokitVersion + ' | Support OpenVINO ' + openvinoVersion)
-    if openvinoInstalled != '':
-        print(side_border_text + " You've installed" + openvinoInstalled + '| on ' + OSName)
-    else:
-        logging.warning('OpenVINO not detected! Please Install OpenVINO First!')
-    print('\n'*3)
 
 def features():
     TotalfeatureList = [\
@@ -197,6 +165,7 @@ def benchmark():
 
 def OMZ_run():
     logging.debug('Run Demos from Open Model Zoo')
+    os.system(python_execute + ' ' + os.path.abspath(os.getcwd()) + '/Source/omz_demos.py')
 
 def OMZ_tools():
     logging.debug('Open Model Zoo Downloader and Tools')
@@ -205,6 +174,7 @@ def OMZ_tools():
 
 def OMZ_build():
     logging.debug('Build Open Model Zoo Demos')
+    logging.debug(python_execute + ' ' + os.path.abspath(os.getcwd()) + '/Source/omz_model_tools.py build_demos')
     os.system(python_execute + ' ' + os.path.abspath(os.getcwd()) + '/Source/omz_model_tools.py build_demos')
     main()
 

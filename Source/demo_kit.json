@@ -1,10 +1,11 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-alpha01",
+    "demokitVersion": "8.0.0-beta01",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
     "modelPath": "$HOME",
+    "convertPath": "modelPath",
     "datasetPath": "modelPath",
     "OMZ":
     {
@@ -18,6 +19,682 @@
     {
         "source": "/opt/intel/openvino_2022/samples/cpp",
         "path": "$HOME"
-    }
-    
+    },
+    "benchmark":
+    {
+        "reportPath": "default",
+        "reportName": "OpenVINO_Benchmark_Report",
+        "path": "",
+        "report": true,
+        "modelBan": [],
+        "skip": 12
+    },
+    "demos":
+    [
+        {
+            "name": "Classification Benchmark C++ Demo",
+            "description": "The demo visualizes OpenVINO performance on inference of neural networks for image classification.",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "classification_benchmark_demo",
+            "modelList": "/demos/classification_benchmark_demo/cpp/models.lst",
+            "preprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Image Classification model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained model.",
+                            "default": "squeezenet1.1",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "alexnet",
+                                "caffenet",
+                                "convnext-tiny",
+                                "densenet-121",
+                                "densenet-121-tf",
+                                "dla-34",
+                                "efficientnet-b0",
+                                "efficientnet-b0-pytorch",
+                                "googlenet-v1",
+                                "googlenet-v1-tf",
+                                "googlenet-v2",
+                                "googlenet-v2-tf",
+                                "googlenet-v3",
+                                "googlenet-v3-pytorch",
+                                "googlenet-v4-tf",
+                                "hbonet-0.25",
+                                "hbonet-1.0",
+                                "inception-resnet-v2-tf",
+                                "levit-128s",
+                                "mixnet-l",
+                                "mobilenet-v1-0.25-128",
+                                "mobilenet-v1-1.0-224",
+                                "mobilenet-v1-1.0-224-tf",
+                                "mobilenet-v2",
+                                "mobilenet-v2-1.0-224",
+                                "mobilenet-v2-1.4-224",
+                                "mobilenet-v2-pytorch",
+                                "mobilenet-v3-large-1.0-224-tf",
+                                "mobilenet-v3-small-1.0-224-tf",
+                                "mobilenet-v3-large-1.0-224-paddle",
+                                "mobilenet-v3-small-1.0-224-paddle",
+                                "nfnet-f0",
+                                "octave-resnet-26-0.25",
+                                "regnetx-3.2gf",
+                                "repvgg-a0",
+                                "repvgg-b1",
+                                "repvgg-b3",
+                                "resnest-50-pytorch",
+                                "resnet-18-pytorch",
+                                "resnet-34-pytorch",
+                                "resnet-50-pytorch",
+                                "resnet-50-tf",
+                                "resnet18-xnor-binary-onnx-0001",
+                                "resnet50-binary-0001",
+                                "rexnet-v1-x1.0",
+                                "se-inception",
+                                "se-resnet-50",
+                                "se-resnext-50",
+                                "shufflenet-v2-x0.5",
+                                "shufflenet-v2-x1.0",
+                                "squeezenet1.0",
+                                "squeezenet1.1",
+                                "swin-tiny-patch4-window7-224",
+                                "vgg16",
+                                "vgg19"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "Path to a folder with images or path to an image file.",
+                    "source": "",
+                    "default":"/Source/testing_source/",
+                    "argument": "-i"
+                },
+                {
+                    "name": "labels",
+                    "required": true,
+                    "title": "Select a label file of the classification model",
+                    "hint": "Input the index of label file or the Path to .txt file with labels.",
+                    "default": "",
+                    "argument": "-labels",
+                    "items":
+                    [
+                        {
+                            "name": "imagenet_2012.txt",
+                            "path": "/data/dataset_classes/",
+                            "models": ["*"]
+                        },
+                        {
+                            "name": "imagenet_2015.txt",
+                            "path": "/data/dataset_classes/",
+                            "models": ["googlenet-v2","se-inception","se-resnet-50","se-resnext-50"]
+                        }
+                    ]
+                },
+                {
+                    "name": "groundTruth",
+                    "required": false,
+                    "hint": "Path to ground truth .txt file.",
+                    "default": "",
+                    "argument": "-gt"
+                }
+                           
+            ]
+        },
+        {
+            "name": "Object Detection C++ Demo",
+            "description": "This demo showcases inference of Object Detection networks using Async API. Async API usage can improve overall frame-rate of the application, because rather than wait for inference to complete, the app can continue doing things on the host, while accelerator is busy. ",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "object_detection_demo",
+            "modelList": "/demos/object_detection_demo/cpp/models.lst",
+            "preprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Object Detection model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained model.",
+                            "default": "ssd_mobilenet_v1_coco",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "ctdet_coco_dlav0_512",
+                                "faceboxes-pytorch",
+                                "efficientdet-d0-tf",
+                                "efficientdet-d1-tf",
+                                "face-detection-0200",
+                                "face-detection-0202",
+                                "face-detection-0204",
+                                "face-detection-0205",
+                                "face-detection-0206",
+                                "face-detection-adas-0001",
+                                "face-detection-retail-0004",
+                                "face-detection-retail-0005",
+                                "face-detection-retail-0044",
+                                "faster-rcnn-resnet101-coco-sparse-60-0001",
+                                "faster_rcnn_inception_resnet_v2_atrous_coco",
+                                "faster_rcnn_resnet50_coco",
+                                "pedestrian-and-vehicle-detector-adas-0001",
+                                "pedestrian-detection-adas-0002",
+                                "pelee-coco",
+                                "person-detection-0106",
+                                "person-detection-0200",
+                                "person-detection-0201",
+                                "person-detection-0202",
+                                "person-detection-0203",
+                                "person-detection-0301",
+                                "person-detection-0302",
+                                "person-detection-0303",
+                                "person-detection-retail-0013",
+                                "person-vehicle-bike-detection-2000",
+                                "person-vehicle-bike-detection-2001",
+                                "person-vehicle-bike-detection-2002",
+                                "person-vehicle-bike-detection-2003",
+                                "person-vehicle-bike-detection-2004",
+                                "product-detection-0001",
+                                "retinaface-resnet50-pytorch",
+                                "retinanet-tf",
+                                "rfcn-resnet101-coco-tf",
+                                "ssd300",
+                                "ssd512",
+                                "ssd-resnet34-1200-onnx",
+                                "ssd_mobilenet_v1_coco",
+                                "ssd_mobilenet_v1_fpn_coco",
+                                "ssdlite_mobilenet_v2",
+                                "vehicle-detection-0200",
+                                "vehicle-detection-0201",
+                                "vehicle-detection-0202",
+                                "vehicle-detection-adas-0002",
+                                "vehicle-license-plate-detection-barrier-0106",
+                                "vehicle-license-plate-detection-barrier-0123",
+                                "ultra-lightweight-face-detection-rfb-320",
+                                "ultra-lightweight-face-detection-slim-320",
+                                "mobilefacedet-v1-mxnet",
+                                "mobilenet-yolo-v4-syg",
+                                "person-vehicle-bike-detection-crossroad-yolov3-1020",
+                                "yolo-v1-tiny-tf",
+                                "yolo-v2-ava-0001",
+                                "yolo-v2-ava-sparse-35-0001",
+                                "yolo-v2-ava-sparse-70-0001",
+                                "yolo-v2-tf",
+                                "yolo-v2-tiny-ava-0001",
+                                "yolo-v2-tiny-ava-sparse-30-0001",
+                                "yolo-v2-tiny-ava-sparse-60-0001",
+                                "yolo-v2-tiny-tf",
+                                "yolo-v2-tiny-vehicle-detection-0001",
+                                "yolo-v3-tf",
+                                "yolo-v3-tiny-tf",
+                                "yolo-v3-onnx",
+                                "yolo-v3-tiny-onnx",
+                                "yolo-v4-tf",
+                                "yolo-v4-tiny-tf",
+                                "yolof",
+                                "yolox-tiny"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"0",
+                    "argument": "-i"
+                },
+                {
+                    "name": "labels",
+                    "required": false,
+                    "title": "Select a label file of the Object Detection model",
+                    "hint": "Input the index of label file or the Path to .txt file with labels.",
+                    "default": "",
+                    "argument": "--labels",
+                    "items":
+                    [
+                        {
+                            "name": "coco_80cl.txt",
+                            "path": "/data/dataset_classes/",
+                            "models": ["ctdet_coco_dlav0_512","pelee-coco","retinanet-tf","yolo-v2-tf","yolo-v2-tiny-tf","yolo-v3-onnx","yolo-v3-tf","yolo-v3-tiny-onnx","yolo-v3-tiny-tf","yolo-v4-tf","yolo-v4-tiny-tf","yolof","yolox-tiny"]
+                        },
+                        {
+                            "name": "coco_80cl_bkgr.txt",
+                            "path": "/data/dataset_classes/",
+                            "models": ["faster-rcnn-resnet101-coco-sparse-60-0001","ssd-resnet34-1200-onnx"]
+                        },
+                        {
+                            "name": "coco_91cl.txt",
+                            "path": "/data/dataset_classes/",
+                            "models": ["efficientdet-d0-tf","efficientdet-d1-tf"]
+                        },
+                        {
+                            "name": "coco_91cl_bkgr.txt",
+                            "path": "/data/dataset_classes/",
+                            "models": ["faster_rcnn_inception_resnet_v2_atrous_coco","faster_rcnn_resnet50_coco","rfcn-resnet101-coco-tf","ssd_mobilenet_v1_coco","ssd_mobilenet_v1_fpn_coco","ssdlite_mobilenet_v2"]
+                        },
+                        {
+                            "name": "voc_20cl.txt ",
+                            "path": "/data/dataset_classes/",
+                            "models": ["yolo-v1-tiny-tf"]
+                        },
+                        {
+                            "name": "voc_20cl_bkgr.txt ",
+                            "path": "/data/dataset_classes/",
+                            "models": ["ssd300","ssd512"]
+                        }
+                    ]
+                },
+                {
+                    "name": "architecture type",
+                    "required": true,
+                    "title": "Specify model' architecture type. ",
+                    "hint": "Valid values are {ssd,yolo,yolov3-onnx,yolov4,yolof,yolox,faceboxes,centernet,ctpn,retinaface,ultra_lightweight_face_detection,retinaface-pytorch,detr}.",
+                    "default": "ssd",
+                    "argument": "-at",
+                    "items":
+                    [
+                        {
+                            "name": "ssd",
+                            "models": 
+                            [
+                                "efficientdet-d0-tf",
+                                "efficientdet-d1-tf",
+                                "face-detection-0200",
+                                "face-detection-0202",
+                                "face-detection-0204",
+                                "face-detection-0205",
+                                "face-detection-0206",
+                                "face-detection-adas-0001",
+                                "face-detection-retail-0004",
+                                "face-detection-retail-0005",
+                                "face-detection-retail-0044",
+                                "faster-rcnn-resnet101-coco-sparse-60-0001",
+                                "faster_rcnn_inception_resnet_v2_atrous_coco",
+                                "faster_rcnn_resnet50_coco",
+                                "pedestrian-and-vehicle-detector-adas-0001",
+                                "pedestrian-detection-adas-0002",
+                                "pelee-coco",
+                                "person-detection-0106",
+                                "person-detection-0200",
+                                "person-detection-0201",
+                                "person-detection-0202",
+                                "person-detection-0203",
+                                "person-detection-0301",
+                                "person-detection-0302",
+                                "person-detection-0303",
+                                "person-detection-retail-0013",
+                                "person-vehicle-bike-detection-2000",
+                                "person-vehicle-bike-detection-2001",
+                                "person-vehicle-bike-detection-2002",
+                                "person-vehicle-bike-detection-2003",
+                                "person-vehicle-bike-detection-2004",
+                                "product-detection-0001",
+                                "retinaface-resnet50-pytorch",
+                                "retinanet-tf",
+                                "rfcn-resnet101-coco-tf",
+                                "ssd300",
+                                "ssd512",
+                                "ssd-resnet34-1200-onnx",
+                                "ssd_mobilenet_v1_coco",
+                                "ssd_mobilenet_v1_fpn_coco",
+                                "ssdlite_mobilenet_v2",
+                                "vehicle-detection-0200",
+                                "vehicle-detection-0201",
+                                "vehicle-detection-0202",
+                                "vehicle-detection-adas-0002",
+                                "vehicle-license-plate-detection-barrier-0106",
+                                "vehicle-license-plate-detection-barrier-0123"
+                            ]
+                        },
+                        {
+                            "name": "centernet",
+                            "models": 
+                            [
+                                "ctdet_coco_dlav0_512"
+                            ]
+                        },
+                        {
+                            "name": "ctpn",
+                            "models": 
+                            [
+                                "ctpn"
+                            ]
+                        },
+                        {
+                            "name": "detr",
+                            "models": 
+                            [
+                                "detr-resnet50"
+                            ]
+                        },
+                        {
+                            "name": "faceboxes",
+                            "models": 
+                            [
+                                "faceboxes-pytorch"
+                            ]
+                        },
+                        {
+                            "name": "retinaface-pytorch",
+                            "models": 
+                            [
+                                "retinaface-resnet50-pytorch"
+                            ]
+                        },
+                        {
+                            "name": "ultra_lightweight_face_detection",
+                            "models": 
+                            [
+                                "ultra-lightweight-face-detection-rfb-320",
+                                "ultra-lightweight-face-detection-slim-320"
+                            ]
+                        },
+                        {
+                            "name": "yolo",
+                            "models": 
+                            [
+                                "mobilefacedet-v1-mxnet",
+                                "mobilenet-yolo-v4-syg",
+                                "person-vehicle-bike-detection-crossroad-yolov3-1020",
+                                "yolo-v1-tiny-tf",
+                                "yolo-v2-ava-0001",
+                                "yolo-v2-ava-sparse-35-0001",
+                                "yolo-v2-ava-sparse-70-0001",
+                                "yolo-v2-tf",
+                                "yolo-v2-tiny-ava-0001",
+                                "yolo-v2-tiny-ava-sparse-30-0001",
+                                "yolo-v2-tiny-ava-sparse-60-0001",
+                                "yolo-v2-tiny-tf",
+                                "yolo-v2-tiny-vehicle-detection-0001",
+                                "yolo-v3-tf",
+                                "yolo-v3-tiny-tf"
+                            ]
+                        },
+                        {
+                            "name": "yolov3-onnx",
+                            "models": 
+                            [
+                                "yolo-v3-onnx",
+                                "yolo-v3-tiny-onnx"
+                            ]
+                        },
+                        {
+                            "name": "yolov4",
+                            "models": 
+                            [
+                                "yolo-v4-tf",
+                                "yolo-v4-tiny-tf"
+                            ]
+                        },
+                        {
+                            "name": "yolof",
+                            "models": 
+                            [
+                                "yolof"
+                            ]
+                        },
+                        {
+                            "name": "yolox",
+                            "models": 
+                            [
+                                "yolox-tiny"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Interactive Face Detection C++ Demo",
+            "description": "This demo showcases Object Detection task applied for face recognition using sequence of neural networks. This demo executes five parallel infer requests for the Age/Gender Recognition, Head Pose Estimation, Emotions Recognition, Facial Landmarks Detection and Antispoofing Classifier networks that run simultaneously.",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "interactive_face_detection_demo",
+            "modelList": "/demos/interactive_face_detection_demo/cpp/models.lst",
+            "preprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Face Detection model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained Face Detection model.",
+                            "default": "face-detection-retail-0004",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "face-detection-adas-0001",
+                                "face-detection-retail-0004",
+                                "face-detection-retail-0005",
+                                "face-detection-retail-0044"
+                            ]
+                        },
+                        {
+                            "name": "Age/Gender Recognition model",
+                            "required": false,
+                            "hint": "Path to an .xml file with a trained Age/Gender Recognition model.",
+                            "default": "age-gender-recognition-retail-0013",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_ag",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "age-gender-recognition-retail-0013"
+                            ]
+                        },
+                        {
+                            "name": "Head Pose Estimation model",
+                            "required": false,
+                            "hint": "Path to an .xml file with a trained Head Pose Estimation model.",
+                            "default": "head-pose-estimation-adas-0001",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_hp",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "head-pose-estimation-adas-0001"
+                            ]
+                        },
+                        {
+                            "name": "Emotions Recognition model",
+                            "required": false,
+                            "hint": "Path to an .xml file with a trained Emotions Recognition model.",
+                            "default": "emotions-recognition-retail-0003",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_em",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "emotions-recognition-retail-0003"
+                            ]
+                        },
+                        {
+                            "name": "Facial Landmarks Estimation model",
+                            "required": false,
+                            "hint": "Path to an .xml file with a trained Facial Landmarks Estimation model.",
+                            "default": "facial-landmarks-35-adas-0002",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_lm",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "facial-landmarks-35-adas-0002"
+                            ]
+                        },
+                        {
+                            "name": "Antispoofing Classification model",
+                            "required": false,
+                            "hint": "Path to an .xml file with a trained Antispoofing Classification model.",
+                            "default": "anti-spoof-mn3",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_am",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "anti-spoof-mn3"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"0",
+                    "argument": "-i"
+                }                
+            ]
+        },
+        {
+            "name": "Human Pose Estimation C++ Demo",
+            "description": "This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees, and ankles. Some of potential use cases of the algorithm are action recognition and behavior understanding.",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "human_pose_estimation_demo",
+            "modelList": "/demos/human_pose_estimation_demo/cpp/models.lst",
+            "preprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Pose Estimation model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained model.",
+                            "default": "human-pose-estimation-0001",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "human-pose-estimation-0001",
+                                "human-pose-estimation-0005",
+                                "human-pose-estimation-0006",
+                                "human-pose-estimation-0007",
+                                "higher-hrnet-w32-human-pose-estimation"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"0",
+                    "argument": "-i"
+                },
+                {
+                    "name": "architecture type",
+                    "required": true,
+                    "title": "Type of the model, either 'ae' for Associative Embedding, 'higherhrnet' for HigherHRNet models based on ae or 'openpose' for OpenPose.",
+                    "hint": "",
+                    "default": "openpose",
+                    "argument": "-at",
+                    "items":
+                    [
+                        {
+                            "name": "openpose",
+                            "models": 
+                            [
+                                "human-pose-estimation-0001"
+                            ]
+                        },
+                        {
+                            "name": "ae",
+                            "models": 
+                            [
+                                "human-pose-estimation-0005",
+                                "human-pose-estimation-0006",
+                                "human-pose-estimation-0007"
+
+                            ]
+                        },
+                        {
+                            "name": "higherhrnet",
+                            "models": 
+                            [
+                                "higher-hrnet-w32-human-pose-estimation"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "3D Human Pose Estimation Python* Demo",
+            "description": "This demo showcases the work of multi-person 2D pose estimation algorithm. The task is to predict a pose: body skeleton, which consists of keypoints and connections between them, for every person in an input video. The pose may contain up to 18 keypoints: ears, eyes, nose, neck, shoulders, elbows, wrists, hips, knees, and ankles. Some of potential use cases of the algorithm are action recognition and behavior understanding.",
+            "path": "~/open_model_zoo-2022.1.0/demos/human_pose_estimation_3d_demo/python",
+            "appName": "human_pose_estimation_3d_demo.py",
+            "modelList": "/demos/human_pose_estimation_3d_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Pose Estimation model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained model.",
+                            "default": "human-pose-estimation-3d-0001",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "human-pose-estimation-3d-0001"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"0",
+                    "argument": "-i"
+                }
+            ]
+        }
+    ]
 }
