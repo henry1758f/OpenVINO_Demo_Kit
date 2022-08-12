@@ -352,9 +352,9 @@ def run_demo(demoJSON):
                 execute_args += ' ' + setting['argument'] + ' ' + selection
     path = str(demoJSON['path']).replace('~',str(Path.home())) + '/'
     if '.py' in demoJSON['appName']:
-        execute_args = demoJSON['preprocess'] + python_execute + ' ' + path + demoJSON['appName'] + ' ' + execute_args
+        execute_args = demoJSON['preprocess'] + python_execute + ' ' + path + demoJSON['appName'] + ' ' + execute_args + ' ' + demoJSON['postprocess']
     else:
-        execute_args = demoJSON['preprocess'] + path + demoJSON['appName'] + ' ' + execute_args
+        execute_args = demoJSON['preprocess'] + path + demoJSON['appName'] + ' ' + execute_args + ' ' + demoJSON['postprocess']
     logging.debug(execute_args)
     os.system(execute_args)
 

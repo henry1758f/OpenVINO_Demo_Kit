@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta03",
+    "demokitVersion": "8.0.0-beta04",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -939,6 +939,50 @@
                             ]
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "name": "Image Processing C++ Demo - super_resolution",
+            "description": "This demo processes the image according to the selected type of processing.",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "image_processing_demo",
+            "modelList": "/demos/image_processing_demo/cpp/models.lst",
+            "preprocess": "",
+            "postprocess": "-at sr",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Super Resolution model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a Super Resolution model.",
+                            "default": "single-image-super-resolution-1032",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "single-image-super-resolution-1032",
+                                "single-image-super-resolution-1033",
+                                "text-image-super-resolution-0001"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"/Source/testing_source/SanChungBus_Route306_620FG_wide.jpg",
+                    "argument": "-i"
                 }
             ]
         }
