@@ -157,6 +157,7 @@ def model_selection(modelJSON):
             continue
         try:
             if selection.isnumeric():
+                logging.debug(available_model_list[int(selection)-1])
                 selection_modelJSON = available_model_list[int(selection)-1]
                 precision = model_precision_selection(selection_modelJSON)
             else:
@@ -201,9 +202,18 @@ def input_selection(inputJSON):
             return inputJSON['argument'] + ' ' + inputJSON['default']
         else:
             logging.debug('Use default input "{}"'.format(os.path.abspath(os.getcwd()) + inputJSON['default']))
+            if not os.path.isfile(os.path.abspath(os.getcwd()) + inputJSON['default']):
+                logging.debug('Cannot find default input file!')
+                os.system('curl -o {path} {source}'.format(path=os.path.abspath(os.getcwd()) + inputJSON['default'],source=inputJSON['source']))
+                if os.path.isfile(os.path.abspath(os.getcwd()) + inputJSON['default']): 
+                    return inputJSON['argument'] + ' ' + os.path.abspath(os.getcwd()) + inputJSON['default']
+                else:
+                    logging.error('Failed to Download Input Source from {} , Please check the internet connection.'.format(inputJSON['source']))
+                    logging.warning('Tried to used camera 0 as input...')
+                    return inputJSON['argument'] + ' ' + '0 '
             return inputJSON['argument'] + ' ' + os.path.abspath(os.getcwd()) + inputJSON['default']
     elif selection.isnumeric():
-        return selection
+        return inputJSON['argument'] + ' ' + selection
     else:
         logging.error('Failed to find file or folder "{}". Please check your input and try again!'.format(selection))
     return input_selection(inputJSON)

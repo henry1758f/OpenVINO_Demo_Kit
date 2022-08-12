@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta01",
+    "demokitVersion": "8.0.0-beta02",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -38,6 +38,7 @@
             "appName": "classification_benchmark_demo",
             "modelList": "/demos/classification_benchmark_demo/cpp/models.lst",
             "preprocess": "",
+            "postprocess": "",
             "setting":
             [
                 {
@@ -161,6 +162,7 @@
             "appName": "object_detection_demo",
             "modelList": "/demos/object_detection_demo/cpp/models.lst",
             "preprocess": "",
+            "postprocess": "",
             "setting":
             [
                 {
@@ -471,6 +473,7 @@
             "appName": "interactive_face_detection_demo",
             "modelList": "/demos/interactive_face_detection_demo/cpp/models.lst",
             "preprocess": "",
+            "postprocess": "",
             "setting":
             [
                 {
@@ -571,8 +574,8 @@
                     "name": "input",
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
-                    "source": "",
-                    "default":"0",
+                    "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/head-pose-face-detection-female-and-male.mp4",
+                    "default":"/Source/testing_source/head-pose-face-detection-female-and-male.mp4",
                     "argument": "-i"
                 }                
             ]
@@ -584,6 +587,7 @@
             "appName": "human_pose_estimation_demo",
             "modelList": "/demos/human_pose_estimation_demo/cpp/models.lst",
             "preprocess": "",
+            "postprocess": "",
             "setting":
             [
                 {
@@ -663,6 +667,7 @@
             "appName": "human_pose_estimation_3d_demo.py",
             "modelList": "/demos/human_pose_estimation_3d_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "",
             "setting":
             [
                 {
@@ -676,7 +681,7 @@
                             "hint": "Path to an .xml file with a trained model.",
                             "default": "human-pose-estimation-3d-0001",
                             "default_precisions": "FP32",
-                            "default_device": "AUTO",
+                            "default_device": "CPU",
                             "argument": "-m",
                             "device_argument": "-d",
                             "items": 
@@ -690,9 +695,231 @@
                     "name": "input",
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
+                    "default":"/Source/testing_source/people-detection.mp4",
+                    "argument": "-i"
+                }
+            ]
+        },
+        {
+            "name": "Crossroad Camera C++ Demo",
+            "description": "This demo provides an inference pipeline for person detection, recognition and reidentification. The demo uses a Person Detection network followed by the Person Attributes Recognition and Person Reidentification Retail networks applied on top of the detection results. ",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "crossroad_camera_demo",
+            "modelList": "/demos/crossroad_camera_demo/cpp/models.lst",
+            "preprocess": "",
+            "postprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Person/Vehicle/Bike Detection Crossroad model",
+                            "required": true,
+                            "hint": "Select a Person/Vehicle/Bike Detection Crossroad model",
+                            "default": "person-vehicle-bike-detection-crossroad-0078",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "person-vehicle-bike-detection-crossroad-0078",
+                                "person-vehicle-bike-detection-crossroad-1016"
+                            ]
+                        },
+                        {
+                            "name": "Person Attributes Recognition Crossroad model",
+                            "required": false,
+                            "hint": "Select a Person Attributes Recognition Crossroad model",
+                            "default": "person-attributes-recognition-crossroad-0230",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m_pa",
+                            "device_argument": "-d_pa",
+                            "items": 
+                            [
+                                "person-attributes-recognition-crossroad-0230",
+                                "person-attributes-recognition-crossroad-0234",
+                                "person-attributes-recognition-crossroad-0238"
+                            ]
+                        },
+                        {
+                            "name": "Person Reidentification Retail model",
+                            "required": false,
+                            "hint": "Select a Person Reidentification Retail model",
+                            "default": "person-reidentification-retail-0277",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m_reid",
+                            "device_argument": "-d_reid",
+                            "items": 
+                            [
+                                "person-reidentification-retail-0277",
+                                "person-reidentification-retail-0286",
+                                "person-reidentification-retail-0287",
+                                "person-reidentification-retail-0288"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
+                    "default":"/Source/testing_source/people-detection.mp4",
+                    "argument": "-i"
+                }
+            ]
+        },{
+            "name": "Background subtraction Python* Demo",
+            "description": "This demo shows how to perform background subtraction using OpenVINO.",
+            "path": "~/open_model_zoo-2022.1.0/demos/background_subtraction_demo/python",
+            "appName": "background_subtraction_demo.py",
+            "modelList": "/demos/background_subtraction_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Background subtraction",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained model.",
+                            "default": "instance-segmentation-person-0007",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "instance-segmentation-person-",
+                                "yolact-resnet50-fpn-pytorch"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/head-pose-face-detection-female-and-male.mp4",
+                    "default":"/Source/testing_source/head-pose-face-detection-female-and-male.mp4",
+                    "argument": "-i"
+                },
+                {
+                    "name": "Background Image",
+                    "required": false,
+                    "hint": "If you specify --target_bgr, background will be replaced by a chosen image or video. By default background replaced by green field. Please input the path to an image/video.",
+                    "default":"",
+                    "argument": "--target_bgr"
+                },
+                {
+                    "name": "Background blurred",
+                    "required": false,
+                    "hint": "If you specify --blur_bgr, background will be blurred according to a set value. By default equal to zero and is not applied. Please Input a number. ",
+                    "default":"",
+                    "argument": "--blur_bgr"
+                }
+            ]
+        },
+        {
+            "name": "Text Detection C++ Demo",
+            "description": "The demo shows an example of using neural networks to detect and recognize printed text rotated at any angle in various environment. ",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "text_detection_demo",
+            "modelList": "/demos/text_detection_demo/cpp/models.lst",
+            "preprocess": "",
+            "postprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Text Detection model",
+                            "required": true,
+                            "hint": "Path to the Text Detection model (.xml) file.",
+                            "default": "text-detection-0004",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m_td",
+                            "device_argument": "-d_td",
+                            "items": 
+                            [
+                                "horizontal-text-detection-0001",
+                                "text-detection-0003",
+                                "text-detection-0004"
+                            ]
+                        },
+                        {
+                            "name": "Text Recognition model",
+                            "required": true,
+                            "hint": "Path to the Text Recognition model (.xml) file.",
+                            "default": "text-recognition-0014",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m_tr",
+                            "device_argument": "-d_tr",
+                            "items": 
+                            [
+                                "handwritten-score-recognition-0003",
+                                "text-recognition-0012",
+                                "text-recognition-0014",
+                                "text-recognition-0015",
+                                "text-recognition-0016",
+                                "text-recognition-resnet-fc",
+                                "vitstr-small-patch16-224"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
                     "default":"0",
                     "argument": "-i"
+                },
+                {
+                    "name": "architecture type",
+                    "required": false,
+                    "title": "Type of the decoder",
+                    "hint": "either 'simple' for SimpleDecoder or 'ctc' for CTC greedy and CTC beam search decoders. Default is 'ctc'",
+                    "default": "ctc",
+                    "argument": "-dt",
+                    "items":
+                    [
+                        {
+                            "name": "ctc",
+                            "models": 
+                            [
+                                "text-recognition-0012",
+                                "text-recognition-0014"
+                            ]
+                        },
+                        {
+                            "name": "simple",
+                            "models": 
+                            [
+                                "text-recognition-0015",
+                                "text-recognition-0016",
+                                "text-recognition-resnet-fc",
+                                "vitstr-small-patch16-224"
+                            ]
+                        }
+                    ]
                 }
             ]
         }

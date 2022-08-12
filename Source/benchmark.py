@@ -6,7 +6,7 @@ import logging
 import csv
 from pathlib import Path
 
-from omz_demos import banner
+from banner import banner
 
 logging.basicConfig(format='[ %(levelname)s ] %(message)s',level=logging.DEBUG)
 

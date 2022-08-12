@@ -1,7 +1,7 @@
 # 20210721
 # henry1758f
 
-model_info.json
+model_info*.json
 *.csv*
 *.pfm
 text-to-speech-output-*.wav
