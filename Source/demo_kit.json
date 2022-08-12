@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta02",
+    "demokitVersion": "8.0.0-beta03",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -112,7 +112,8 @@
                                 "swin-tiny-patch4-window7-224",
                                 "vgg16",
                                 "vgg19"
-                            ]
+                            ],
+                            "ban":[]
                         }
                     ]
                 },
@@ -253,7 +254,8 @@
                                 "yolo-v4-tiny-tf",
                                 "yolof",
                                 "yolox-tiny"
-                            ]
+                            ],
+                            "ban":[]
                         }
                     ]
                 },
@@ -496,7 +498,8 @@
                                 "face-detection-retail-0004",
                                 "face-detection-retail-0005",
                                 "face-detection-retail-0044"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Age/Gender Recognition model",
@@ -510,7 +513,8 @@
                             "items": 
                             [
                                 "age-gender-recognition-retail-0013"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Head Pose Estimation model",
@@ -524,7 +528,8 @@
                             "items": 
                             [
                                 "head-pose-estimation-adas-0001"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Emotions Recognition model",
@@ -538,7 +543,8 @@
                             "items": 
                             [
                                 "emotions-recognition-retail-0003"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Facial Landmarks Estimation model",
@@ -552,7 +558,8 @@
                             "items": 
                             [
                                 "facial-landmarks-35-adas-0002"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Antispoofing Classification model",
@@ -566,7 +573,8 @@
                             "items": 
                             [
                                 "anti-spoof-mn3"
-                            ]
+                            ],
+                            "ban":[]
                         }
                     ]
                 },
@@ -611,7 +619,8 @@
                                 "human-pose-estimation-0006",
                                 "human-pose-estimation-0007",
                                 "higher-hrnet-w32-human-pose-estimation"
-                            ]
+                            ],
+                            "ban":[]
                         }
                     ]
                 },
@@ -687,7 +696,8 @@
                             "items": 
                             [
                                 "human-pose-estimation-3d-0001"
-                            ]
+                            ],
+                            "ban":[]
                         }
                     ]
                 },
@@ -729,7 +739,8 @@
                             [
                                 "person-vehicle-bike-detection-crossroad-0078",
                                 "person-vehicle-bike-detection-crossroad-1016"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Person Attributes Recognition Crossroad model",
@@ -745,7 +756,8 @@
                                 "person-attributes-recognition-crossroad-0230",
                                 "person-attributes-recognition-crossroad-0234",
                                 "person-attributes-recognition-crossroad-0238"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Person Reidentification Retail model",
@@ -762,7 +774,8 @@
                                 "person-reidentification-retail-0286",
                                 "person-reidentification-retail-0287",
                                 "person-reidentification-retail-0288"
-                            ]
+                            ],
+                            "ban":[]
                         }
                     ]
                 },
@@ -803,7 +816,8 @@
                             [
                                 "instance-segmentation-person-",
                                 "yolact-resnet50-fpn-pytorch"
-                            ]
+                            ],
+                            "ban":[]
                         }
                     ]
                 },
@@ -860,7 +874,8 @@
                                 "horizontal-text-detection-0001",
                                 "text-detection-0003",
                                 "text-detection-0004"
-                            ]
+                            ],
+                            "ban":[]
                         },
                         {
                             "name": "Text Recognition model",
@@ -880,6 +895,10 @@
                                 "text-recognition-0016",
                                 "text-recognition-resnet-fc",
                                 "vitstr-small-patch16-224"
+                            ],
+                            "ban":
+                            [
+                                "decoder"
                             ]
                         }
                     ]

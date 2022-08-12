@@ -134,9 +134,24 @@ def model_selection(modelJSON):
         print('\n\n > Select a/an {} {} >>> '.format(model['name'],required))
         available_model_list = []
         for model_info in models_info_JSON:
-            for available_model in model['items']:
-                if available_model in model_info['name']:
-                    available_model_list.append(model_info)
+            model_stages=model_info['model_stages']
+            if model_stages:
+                for model_stage in model_stages:
+                    for available_model in model['items']:
+                        if available_model in model_stage['name']:
+                            for ban in model['ban']:
+                                if ban in model_stage['name']:
+                                    break
+                            else:
+                                available_model_list.append(model_stage)
+            else:
+                for available_model in model['items']:
+                    if available_model in model_info['name']:
+                        for ban in model['ban']:
+                            if ban in model_stage['name']:
+                                break
+                        else:
+                            available_model_list.append(model_info)
         item_index=0
         for item in available_model_list:
             item_index+=1
