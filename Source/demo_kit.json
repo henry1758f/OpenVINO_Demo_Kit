@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta04",
+    "demokitVersion": "8.0.0-beta05",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -982,6 +982,49 @@
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
                     "default":"/Source/testing_source/SanChungBus_Route306_620FG_wide.jpg",
+                    "argument": "-i"
+                }
+            ]
+        },
+        {
+            "name": "Colorization Demo",
+            "description": "This demo demonstrates an example of using neural networks to colorize a grayscale image or video.",
+            "path": "~/open_model_zoo-2022.1.0/demos/colorization_demo/python",
+            "appName": "colorization_demo.py",
+            "modelList": "/demos/colorization_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "--loop",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Colorization model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a Colorization model.",
+                            "default": "colorization-v2",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "colorization-v2",
+                                "colorization-siggraph"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"/Source/testing_source/1960s_Taiwan_Taichung.jpg",
                     "argument": "-i"
                 }
             ]
