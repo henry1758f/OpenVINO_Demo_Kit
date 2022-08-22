@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta05",
+    "demokitVersion": "8.0.0-beta06",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -788,7 +788,71 @@
                     "argument": "-i"
                 }
             ]
-        },{
+        },
+        {
+            "name": "Social Distance C++ Demo",
+            "description": "This demo showcases a retail social distance application that detects people and measures the distance between them. If this distance is less than a value previously provided by the user, then an alert is triggered.",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "social_distance_demo",
+            "modelList": "/demos/social_distance_demo/cpp/models.lst",
+            "preprocess": "",
+            "postprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Person Detection model",
+                            "required": true,
+                            "hint": "Select a Person Detection model",
+                            "default": "person-detection-retail-0013",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m_det",
+                            "device_argument": "-d_det",
+                            "items": 
+                            [
+                                "person-detection-0200",
+                                "person-detection-0201",
+                                "person-detection-0202",
+                                "person-detection-retail-0013"
+                            ],
+                            "ban":[]
+                        },
+                        {
+                            "name": "Person Reidentification Retail model",
+                            "required": false,
+                            "hint": "Select a Person Reidentification Retail model",
+                            "default": "person-reidentification-retail-0277",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m_reid",
+                            "device_argument": "-d_reid",
+                            "items": 
+                            [
+                                "person-reidentification-retail-0277",
+                                "person-reidentification-retail-0286",
+                                "person-reidentification-retail-0287",
+                                "person-reidentification-retail-0288"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be Path to video or image files.",
+                    "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
+                    "default":"/Source/testing_source/people-detection.mp4",
+                    "argument": "-i"
+                }
+            ]
+        },
+        {
             "name": "Background subtraction Python* Demo",
             "description": "This demo shows how to perform background subtraction using OpenVINO.",
             "path": "~/open_model_zoo-2022.1.0/demos/background_subtraction_demo/python",
@@ -943,7 +1007,7 @@
             ]
         },
         {
-            "name": "Image Processing C++ Demo - super_resolution",
+            "name": "Image Processing C++ Demo - Super Resolution",
             "description": "This demo processes the image according to the selected type of processing.",
             "path": "~/omz_demos_build/intel64/Release",
             "appName": "image_processing_demo",
@@ -982,6 +1046,48 @@
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
                     "default":"/Source/testing_source/SanChungBus_Route306_620FG_wide.jpg",
+                    "argument": "-i"
+                }
+            ]
+        },
+        {
+            "name": "Image Processing C++ Demo - Style Transfer",
+            "description": "This demo processes the image according to the selected type of processing. For style_transfer, user can use fast-neural-style-mosaic-onnx - one of the style transfer models designed to mix the content of an image with the style of another image.",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "image_processing_demo",
+            "modelList": "/demos/image_processing_demo/cpp/models.lst",
+            "preprocess": "",
+            "postprocess": "-at style",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Super Resolution model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a Super Resolution model.",
+                            "default": "fast-neural-style-mosaic-onnx",
+                            "default_precisions": "FP16",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "fast-neural-style-mosaic-onnx"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"/Source/testing_source/budgie.jpg",
                     "argument": "-i"
                 }
             ]
@@ -1026,6 +1132,73 @@
                     "source": "",
                     "default":"/Source/testing_source/1960s_Taiwan_Taichung.jpg",
                     "argument": "-i"
+                }
+            ]
+        },
+        {
+            "name": "Sound Classification Python Demo",
+            "description": "This is a demo application for sound classification algorithm.",
+            "path": "~/open_model_zoo-2022.1.0/demos/sound_classification_demo/python",
+            "appName": "sound_classification_demo.py",
+            "modelList": "/demos/sound_classification_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Sound Classification model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a Sound Classification model.",
+                            "default": "aclnet",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "aclnet",
+                                "aclnet-int8"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be audio files in wav format.",
+                    "source": "",
+                    "default":"",
+                    "argument": "-i"
+                },
+                {
+                    "name": "labels",
+                    "required": false,
+                    "title": "Select a label file of the Sound Classification model",
+                    "hint": "Input the index of label file or the Path to .txt file with labels.",
+                    "default": "aclnet_53cl.txt",
+                    "argument": "--labels",
+                    "items":
+                    [
+                        {
+                            "name": "aclnet_53cl.txt",
+                            "path": "/data/dataset_classes/",
+                            "models": ["aclnet"]
+                        }
+                    ]
+                },
+                {
+                    "name": "Sample Rate",
+                    "required": true,
+                    "hint": "Set sample rate for audio input",
+                    "source": "",
+                    "default":"44100",
+                    "argument": "-sr"
                 }
             ]
         }
