@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta08",
+    "demokitVersion": "8.0.0-beta09",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -1291,6 +1291,49 @@
                             [
                                 "colorization-v2",
                                 "colorization-siggraph"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"/Source/testing_source/1960s_Taiwan_Taichung.jpg",
+                    "argument": "-i"
+                }
+            ]
+        },
+        {
+            "name": "MonoDepth Python Demo",
+            "description": "This topic demonstrates how to run the MonoDepth demo application, which produces a disparity map for a given input image. To this end, the code uses the network described in Towards Robust Monocular Depth Estimation: Mixing Datasets for Zero-shot Cross-dataset Transfer.",
+            "path": "~/open_model_zoo-2022.1.0/demos/monodepth_demo/python",
+            "appName": "monodepth_demo.py",
+            "modelList": "/demos/monodepth_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "--loop",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "MonoDepth model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a MonoDepth model.",
+                            "default": "midasnet",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "midasnet",
+                                "fcrn-dp-nyu-depth-v2-tf"
                             ],
                             "ban":[]
                         }
