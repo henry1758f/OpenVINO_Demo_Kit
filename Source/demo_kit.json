@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta06",
+    "demokitVersion": "8.0.0-beta07",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -849,6 +849,177 @@
                     "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
                     "default":"/Source/testing_source/people-detection.mp4",
                     "argument": "-i"
+                }
+            ]
+        },
+        {
+            "name": "Pedestrian Tracker C++ Demo",
+            "description": "This demo showcases Pedestrian Tracking scenario: it reads frames from an input video sequence, detects pedestrians in the frames, and builds trajectories of movement of the pedestrians in a frame-by-frame manner.",
+            "path": "~/omz_demos_build/intel64/Release",
+            "appName": "pedestrian_tracker_demo",
+            "modelList": "/demos/pedestrian_tracker_demo/cpp/models.lst",
+            "preprocess": "",
+            "postprocess": "-loop",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Pedestrian Detection Retail model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained Pedestrian Detection Retail model.",
+                            "default": "person-detection-retail-0013",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m_det",
+                            "device_argument": "-d_det",
+                            "items": 
+                            [
+                                "ctdet_coco_dlav0_512",
+                                "efficientdet-d0-tf",
+                                "efficientdet-d1-tf",
+                                "faster-rcnn-resnet101-coco-sparse-60-0001",
+                                "pedestrian-and-vehicle-detector-adas-0001",
+                                "pedestrian-detection-adas-0002",
+                                "pelee-coco",
+                                "person-detection-0106",
+                                "person-detection-0200",
+                                "person-detection-0201",
+                                "person-detection-0202",
+                                "person-detection-0203",
+                                "person-detection-retail-0002",
+                                "person-detection-retail-0013",
+                                "person-vehicle-bike-detection-2000",
+                                "person-vehicle-bike-detection-2001",
+                                "person-vehicle-bike-detection-2002",
+                                "person-vehicle-bike-detection-2003",
+                                "person-vehicle-bike-detection-2004",
+                                "rfcn-resnet101-coco-tf",
+                                "retinanet-tf",
+                                "ssd300",
+                                "ssd512",
+                                "ssd-resnet34-1200-onnx",
+                                "ssd_mobilenet_v1_coco",
+                                "ssd_mobilenet_v1_fpn_coco",
+                                "ssdlite_mobilenet_v2",
+                                "vehicle-detection-adas-0002",
+                                "person-vehicle-bike-detection-crossroad-yolov3-1020",
+                                "yolo-v3-tf",
+                                "yolo-v3-tiny-tf",
+                                "yolo-v1-tiny-tf",
+                                "yolo-v2-ava-0001",
+                                "yolo-v2-ava-sparse-35-0001",
+                                "yolo-v2-ava-sparse-70-0001",
+                                "yolo-v2-tf",
+                                "yolo-v2-tiny-ava-0001",
+                                "yolo-v2-tiny-ava-sparse-30-0001",
+                                "yolo-v2-tiny-ava-sparse-60-0001",
+                                "yolo-v2-tiny-tf",
+                                "yolo-v2-tiny-vehicle-detection-0001"
+                            ],
+                            "ban":[]
+                        },
+                        {
+                            "name": "Pedestrian Reidentification Retail model",
+                            "required": true,
+                            "hint": "Path to an .xml file with a trained Pedestrian Reidentification Retail model.",
+                            "default": "person-reidentification-retail-0277",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m_reid",
+                            "device_argument": "-d_reid",
+                            "items": 
+                            [
+                                "person-reidentification-retail-0277",
+                                "person-reidentification-retail-0286",
+                                "person-reidentification-retail-0287",
+                                "person-reidentification-retail-0288"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
+                    "default":"/Source/testing_source/people-detection.mp4",
+                    "argument": "-i"
+                },
+                {
+                    "name": "architecture type",
+                    "required": true,
+                    "title": "Type of the model, either 'ae' for Associative Embedding, 'higherhrnet' for HigherHRNet models based on ae or 'openpose' for OpenPose.",
+                    "hint": "",
+                    "default": "openpose",
+                    "argument": "-at",
+                    "items":
+                    [
+                        {
+                            "name": "centernet",
+                            "models": 
+                            [
+                                "ctdet_coco_dlav0_512"
+                            ]
+                        },
+                        {
+                            "name": "ssd",
+                            "models": 
+                            [
+                                "efficientdet-d0-tf",
+                                "efficientdet-d1-tf",
+                                "faster-rcnn-resnet101-coco-sparse-60-0001",
+                                "pedestrian-and-vehicle-detector-adas-0001",
+                                "pedestrian-detection-adas-0002",
+                                "pelee-coco",
+                                "person-detection-0106",
+                                "person-detection-0200",
+                                "person-detection-0201",
+                                "person-detection-0202",
+                                "person-detection-0203",
+                                "person-detection-retail-0002",
+                                "person-detection-retail-0013",
+                                "person-vehicle-bike-detection-2000",
+                                "person-vehicle-bike-detection-2001",
+                                "person-vehicle-bike-detection-2002",
+                                "person-vehicle-bike-detection-2003",
+                                "person-vehicle-bike-detection-2004",
+                                "rfcn-resnet101-coco-tf",
+                                "retinanet-tf",
+                                "ssd300",
+                                "ssd512",
+                                "ssd-resnet34-1200-onnx",
+                                "ssd_mobilenet_v1_coco",
+                                "ssd_mobilenet_v1_fpn_coco",
+                                "ssdlite_mobilenet_v2",
+                                "vehicle-detection-adas-0002"
+
+                            ]
+                        },
+                        {
+                            "name": "yolo",
+                            "models": 
+                            [
+                                "person-vehicle-bike-detection-crossroad-yolov3-1020",
+                                "yolo-v3-tf",
+                                "yolo-v3-tiny-tf",
+                                "yolo-v1-tiny-tf",
+                                "yolo-v2-ava-0001",
+                                "yolo-v2-ava-sparse-35-0001",
+                                "yolo-v2-ava-sparse-70-0001",
+                                "yolo-v2-tf",
+                                "yolo-v2-tiny-ava-0001",
+                                "yolo-v2-tiny-ava-sparse-30-0001",
+                                "yolo-v2-tiny-ava-sparse-60-0001",
+                                "yolo-v2-tiny-tf",
+                                "yolo-v2-tiny-vehicle-detection-0001"
+                            ]
+                        }
+                    ]
                 }
             ]
         },
