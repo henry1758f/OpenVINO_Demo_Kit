@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta09",
+    "demokitVersion": "8.0.0-beta10",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -1172,6 +1172,112 @@
                                 "text-recognition-resnet-fc",
                                 "vitstr-small-patch16-224"
                             ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Action Recognition Python Demo",
+            "description": "This is the demo application for Action Recognition algorithm, which classifies actions that are being performed on input video.",
+            "path": "~/open_model_zoo-2022.1.0/demos/action_recognition_demo/python",
+            "appName": "action_recognition_demo.py",
+            "modelList": "/demos/action_recognition_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Action Recognition Model",
+                            "required": true,
+                            "hint": "Path to the Action Recognition Model (Encoder) (.xml) file.",
+                            "default": "driver-action-recognition-adas-0002-encoder",
+                            "default_precisions": "FP32",
+                            "default_device": "AUTO",
+                            "argument": "-m_en",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "action-recognition-0001-encoder",
+                                "driver-action-recognition-adas-0002-encoder",
+                                "weld-porosity-detection-0001",
+                                "i3d-rgb-tf"
+                            ],
+                            "ban":[]
+                        },
+                        {
+                            "name": "Action Recognition Model (Decoder)",
+                            "required": false,
+                            "hint": "Path to the Action Recognition Model (Decoder) (.xml) file.",
+                            "default": "driver-action-recognition-adas-0002-decoder",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_de",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "action-recognition-0001-dncoder",
+                                "driver-action-recognition-adas-0002-decoder"
+                            ],
+                            "ban":
+                            []
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
+                    "source": "",
+                    "default":"0",
+                    "argument": "-i"
+                },
+                {
+                    "name": "architecture type",
+                    "required": false,
+                    "title": "Type of the decoder",
+                    "hint": "either 'simple' for SimpleDecoder or 'ctc' for CTC greedy and CTC beam search decoders. Default is 'ctc'",
+                    "default": "ctc",
+                    "argument": "-at",
+                    "items":
+                    [
+                        {
+                            "name": "en-de",
+                            "models": 
+                            [
+                                "action-recognition-0001-decoder",
+                                "action-recognition-0001-encoder",
+                                "driver-action-recognition-adas-0002-decoder",
+                                "driver-action-recognition-adas-0002-encoder"
+                            ]
+                        },
+                        {
+                            "name": "en-mean",
+                            "models": 
+                            [
+                                "weld-porosity-detection-0001"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "labels",
+                    "required": false,
+                    "title": "Select a label file of the Action Recognition Model",
+                    "hint": "Input the index of label file or the Path to .txt file with labels.",
+                    "default": "driver_actions.txt",
+                    "argument": "-lb",
+                    "items":
+                    [
+                        {
+                            "name": "driver_actions.txt",
+                            "path": "/demos/action_recognition_demo/python/",
+                            "models": ["driver-action-recognition-adas-0002"]
                         }
                     ]
                 }
