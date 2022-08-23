@@ -116,10 +116,18 @@ def model_device_selection(modelJSON):
 
 def model_quick_demo(model,models_info_JSON):
     for model_info in models_info_JSON:
-        if model_info['name'] == model['default']:
-            logging.debug('Use default setting "{}" {}'.format(model['default'],model['default_device']))
-            return ' ' + model['argument'] + ' ' + OMZmodel_path_get(model_info,model['default_precisions'])  + ' '+ model['device_argument'] + ' ' + model['default_device'] + ' '
-            break
+        model_stages=model_info['model_stages']
+        if model_stages:
+            for model_stage in model_stages:
+                if model_stage['name']==model['default']:
+                    logging.debug('Use default setting "{}" {}'.format(model['default'],model['default_device']))
+                    return ' ' + model['argument'] + ' ' + OMZmodel_path_get(model_stage,model['default_precisions'])  + ' '+ model['device_argument'] + ' ' + model['default_device'] + ' '
+                    break
+        else:
+            if model_info['name'] == model['default']:
+                logging.debug('Use default setting "{}" {}'.format(model['default'],model['default_device']))
+                return ' ' + model['argument'] + ' ' + OMZmodel_path_get(model_info,model['default_precisions'])  + ' '+ model['device_argument'] + ' ' + model['default_device'] + ' '
+                break
     else:
         logging.error('The default model setting is invailed: [{name}][{precision}]->{dev}'.format(name=model['default'],precision=model['default_precisions'],dev=model['default_device']))
 

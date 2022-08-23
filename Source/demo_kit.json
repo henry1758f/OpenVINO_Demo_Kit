@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta07",
+    "demokitVersion": "8.0.0-beta08",
     "openvinoVersion": "2022.1.0.643",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
@@ -1370,6 +1370,166 @@
                     "source": "",
                     "default":"44100",
                     "argument": "-sr"
+                }
+            ]
+        },
+        {
+            "name": "Text-to-speech Python Demo",
+            "description": "The text to speech demo shows how to run the ForwardTacotron and WaveRNN models or modified ForwardTacotron and MelGAN models to produce an audio file for a given input text file.",
+            "path": "~/open_model_zoo-2022.1.0/demos/text_to_speech_demo/python",
+            "appName": "text_to_speech_demo.py",
+            "modelList": "/demos/text_to_speech_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Sound Classification model - ForwardTacotron`s duration prediction part",
+                            "required": true,
+                            "hint": "Path to ForwardTacotron`s duration prediction part",
+                            "default": "text-to-speech-en-0001-duration-prediction",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m_duration",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "text-to-speech-en-0001-duration-prediction"
+                            ],
+                            "ban":[]
+                        },
+                        {
+                            "name": "Sound Classification model - ForwardTacotron`s mel-spectrogram regression part",
+                            "required": true,
+                            "hint": "Path to ForwardTacotron`s mel-spectrogram regression part model",
+                            "default": "text-to-speech-en-0001-regression",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_forward",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "text-to-speech-en-0001-regression"
+                            ],
+                            "ban":[]
+                        },
+                        {
+                            "name": "Sound Classification model - WaveRNN`s part for mel-spectrogram upsampling by time axis",
+                            "required": true,
+                            "hint": "Path to WaveRNN`s part for mel-spectrogram upsampling by time axis model",
+                            "default": "text-to-speech-en-0001-generation",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_melgan",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "text-to-speech-en-0001-generation"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "Text or path to the input file.",
+                    "source": "",
+                    "default":"/Source/testing_source/speech_text.txt",
+                    "argument": "-i"
+                },
+                {
+                    "name": "output",
+                    "required": true,
+                    "hint": "Path to an output .wav file.",
+                    "source": "",
+                    "default":"",
+                    "argument": "-o"
+                }
+            ]
+        },
+        {
+            "name": "Text-to-speech Python Demo (Multi)",
+            "description": "The text to speech demo shows how to run the ForwardTacotron and WaveRNN models or modified ForwardTacotron and MelGAN models to produce an audio file for a given input text file.",
+            "path": "~/open_model_zoo-2022.1.0/demos/text_to_speech_demo/python",
+            "appName": "text_to_speech_demo.py",
+            "modelList": "/demos/text_to_speech_demo/python/models.lst",
+            "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
+            "postprocess": "-s_id -1",
+            "setting":
+            [
+                {
+                    "name": "model",
+                    "required": true,
+                    "items":
+                    [
+                        {
+                            "name": "Sound Classification model - ForwardTacotron`s duration prediction part",
+                            "required": true,
+                            "hint": "Path to ForwardTacotron`s duration prediction part",
+                            "default": "text-to-speech-en-multi-0001-duration-prediction",
+                            "default_precisions": "FP32",
+                            "default_device": "CPU",
+                            "argument": "-m_duration",
+                            "device_argument": "-d",
+                            "items": 
+                            [
+                                "text-to-speech-en-multi-0001-duration-prediction"
+                            ],
+                            "ban":[]
+                        },
+                        {
+                            "name": "Sound Classification model - ForwardTacotron`s mel-spectrogram regression part",
+                            "required": true,
+                            "hint": "Path to ForwardTacotron`s mel-spectrogram regression part model",
+                            "default": "text-to-speech-en-multi-0001-regression",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_forward",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "text-to-speech-en-multi-0001-regression"
+                            ],
+                            "ban":[]
+                        },
+                        {
+                            "name": "Sound Classification model - WaveRNN`s part for mel-spectrogram upsampling by time axis",
+                            "required": true,
+                            "hint": "Path to WaveRNN`s part for mel-spectrogram upsampling by time axis model",
+                            "default": "text-to-speech-en-multi-0001-generation",
+                            "default_precisions": "FP32",
+                            "default_device": "",
+                            "argument": "-m_melgan",
+                            "device_argument": "",
+                            "items": 
+                            [
+                                "text-to-speech-en-multi-0001-generation"
+                            ],
+                            "ban":[]
+                        }
+                    ]
+                },
+                {
+                    "name": "input",
+                    "required": true,
+                    "hint": "Text or path to the input file.",
+                    "source": "",
+                    "default":"/Source/testing_source/speech_text.txt",
+                    "argument": "-i"
+                },
+                {
+                    "name": "output",
+                    "required": true,
+                    "hint": "Path to an output .wav file.",
+                    "source": "",
+                    "default":"",
+                    "argument": "-o"
                 }
             ]
         }
