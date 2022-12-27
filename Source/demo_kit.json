@@ -1,36 +1,69 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta10",
-    "openvinoVersion": "2022.1.0.643",
+    "demokitVersion": "8.0.0-beta11",
+    "openvinoVersion": "2022.3.0",
     "openvinoPath": "/opt/intel/openvino_2022",
     "pythonExcute": "/usr/bin/python3",
-    "modelPath": "$HOME",
-    "convertPath": "modelPath",
-    "datasetPath": "modelPath",
-    "OMZ":
-    {
-        "source": "https://github.com/openvinotoolkit/open_model_zoo/archive/refs/tags/",
+    "demoKitFeatures": [
+        {
+            "name": "Install Intel Distribution of OpenVINO Toolkit",
+            "file": "Source/installOpenvino.py",
+            "intro": "Since the 2022.1 release, the OpenVINO installation package is distributed in two parts: OpenVINO Runtime and OpenVINO Development Tools.\n "
+        },
+        {
+            "name": "Run Benchmark",
+            "file": "Source/benchmark.py",
+            "intro": "Use the Benchmark C++ Tool to estimate deep learning inference performance on supported devices."
+        },
+        {
+            "name": "Run Demos from Open Model Zoo",
+            "file": "Source/omz_demos.py",
+            "intro": "Open Model Zoo demos are console applications that provide templates to help implement specific deep learning inference scenarios. "
+        },
+        {
+            "name": "Open Model Zoo Downloader and Tools",
+            "file": "Source/omz_model_tools.py",
+            "intro": "Open Model Zoo Downloader and Tools"
+        },
+        {
+            "name": "Build Open Model Zoo Demos",
+            "file": "Source/omz_demos.py build",
+            "intro": "Build Open Model Zoo Demos"
+        },
+        {
+            "name": "Environment Settings",
+            "file": "Source/setenv.py",
+            "intro": "Environment Settings"
+        },
+        {
+            "name": "Exit",
+            "file": "Exit",
+            "intro": "Exit"
+        }
+    ],
+    "OMZmodelPath": "",
+    "OMZconvertPath": "",
+    "OMZdatasetPath": "",
+    "OMZ": {
         "git": "https://github.com/openvinotoolkit/open_model_zoo.git",
-        "tag": "2022.1.0",
-        "asset": ".tar.gz",
-        "path": "$HOME"
+        "tag": "2022.3.0",
+        "path": "/home/henryhuang/open_model_zoo_2022.3.0",
+        "build": "/home/henryhuang/open_model_zoo_2022.3.0_build"
     },
-    "sample":
-    {
+    "sample": {
         "source": "/opt/intel/openvino_2022/samples/cpp",
-        "path": "$HOME"
+        "path": ""
     },
-    "benchmark":
-    {
-        "reportPath": "default",
+    "benchmark": {
+        "reportPath": "",
         "reportName": "OpenVINO_Benchmark_Report",
         "path": "",
+        "python": false,
         "report": true,
         "modelBan": [],
         "skip": 12
     },
-    "demos":
-    [
+    "demos": [
         {
             "name": "Classification Benchmark C++ Demo",
             "description": "The demo visualizes OpenVINO performance on inference of neural networks for image classification.",
@@ -39,13 +72,11 @@
             "modelList": "/demos/classification_benchmark_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Image Classification model",
                             "required": true,
@@ -55,8 +86,7 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "alexnet",
                                 "caffenet",
                                 "convnext-tiny",
@@ -113,7 +143,7 @@
                                 "vgg16",
                                 "vgg19"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -122,7 +152,7 @@
                     "required": true,
                     "hint": "Path to a folder with images or path to an image file.",
                     "source": "",
-                    "default":"/Source/testing_source/",
+                    "default": "/Source/testing_source/",
                     "argument": "-i"
                 },
                 {
@@ -132,17 +162,23 @@
                     "hint": "Input the index of label file or the Path to .txt file with labels.",
                     "default": "",
                     "argument": "-labels",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "imagenet_2012.txt",
                             "path": "/data/dataset_classes/",
-                            "models": ["*"]
+                            "models": [
+                                "*"
+                            ]
                         },
                         {
                             "name": "imagenet_2015.txt",
                             "path": "/data/dataset_classes/",
-                            "models": ["googlenet-v2","se-inception","se-resnet-50","se-resnext-50"]
+                            "models": [
+                                "googlenet-v2",
+                                "se-inception",
+                                "se-resnet-50",
+                                "se-resnext-50"
+                            ]
                         }
                     ]
                 },
@@ -153,7 +189,6 @@
                     "default": "",
                     "argument": "-gt"
                 }
-                           
             ]
         },
         {
@@ -164,13 +199,11 @@
             "modelList": "/demos/object_detection_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Object Detection model",
                             "required": true,
@@ -180,8 +213,7 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "ctdet_coco_dlav0_512",
                                 "faceboxes-pytorch",
                                 "efficientdet-d0-tf",
@@ -255,7 +287,7 @@
                                 "yolof",
                                 "yolox-tiny"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -264,7 +296,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"0",
+                    "default": "0",
                     "argument": "-i"
                 },
                 {
@@ -274,37 +306,68 @@
                     "hint": "Input the index of label file or the Path to .txt file with labels.",
                     "default": "",
                     "argument": "--labels",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "coco_80cl.txt",
                             "path": "/data/dataset_classes/",
-                            "models": ["ctdet_coco_dlav0_512","pelee-coco","retinanet-tf","yolo-v2-tf","yolo-v2-tiny-tf","yolo-v3-onnx","yolo-v3-tf","yolo-v3-tiny-onnx","yolo-v3-tiny-tf","yolo-v4-tf","yolo-v4-tiny-tf","yolof","yolox-tiny"]
+                            "models": [
+                                "ctdet_coco_dlav0_512",
+                                "pelee-coco",
+                                "retinanet-tf",
+                                "yolo-v2-tf",
+                                "yolo-v2-tiny-tf",
+                                "yolo-v3-onnx",
+                                "yolo-v3-tf",
+                                "yolo-v3-tiny-onnx",
+                                "yolo-v3-tiny-tf",
+                                "yolo-v4-tf",
+                                "yolo-v4-tiny-tf",
+                                "yolof",
+                                "yolox-tiny"
+                            ]
                         },
                         {
                             "name": "coco_80cl_bkgr.txt",
                             "path": "/data/dataset_classes/",
-                            "models": ["faster-rcnn-resnet101-coco-sparse-60-0001","ssd-resnet34-1200-onnx"]
+                            "models": [
+                                "faster-rcnn-resnet101-coco-sparse-60-0001",
+                                "ssd-resnet34-1200-onnx"
+                            ]
                         },
                         {
                             "name": "coco_91cl.txt",
                             "path": "/data/dataset_classes/",
-                            "models": ["efficientdet-d0-tf","efficientdet-d1-tf"]
+                            "models": [
+                                "efficientdet-d0-tf",
+                                "efficientdet-d1-tf"
+                            ]
                         },
                         {
                             "name": "coco_91cl_bkgr.txt",
                             "path": "/data/dataset_classes/",
-                            "models": ["faster_rcnn_inception_resnet_v2_atrous_coco","faster_rcnn_resnet50_coco","rfcn-resnet101-coco-tf","ssd_mobilenet_v1_coco","ssd_mobilenet_v1_fpn_coco","ssdlite_mobilenet_v2"]
+                            "models": [
+                                "faster_rcnn_inception_resnet_v2_atrous_coco",
+                                "faster_rcnn_resnet50_coco",
+                                "rfcn-resnet101-coco-tf",
+                                "ssd_mobilenet_v1_coco",
+                                "ssd_mobilenet_v1_fpn_coco",
+                                "ssdlite_mobilenet_v2"
+                            ]
                         },
                         {
                             "name": "voc_20cl.txt ",
                             "path": "/data/dataset_classes/",
-                            "models": ["yolo-v1-tiny-tf"]
+                            "models": [
+                                "yolo-v1-tiny-tf"
+                            ]
                         },
                         {
                             "name": "voc_20cl_bkgr.txt ",
                             "path": "/data/dataset_classes/",
-                            "models": ["ssd300","ssd512"]
+                            "models": [
+                                "ssd300",
+                                "ssd512"
+                            ]
                         }
                     ]
                 },
@@ -315,12 +378,10 @@
                     "hint": "Valid values are {ssd,yolo,yolov3-onnx,yolov4,yolof,yolox,faceboxes,centernet,ctpn,retinaface,ultra_lightweight_face_detection,retinaface-pytorch,detr}.",
                     "default": "ssd",
                     "argument": "-at",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "ssd",
-                            "models": 
-                            [
+                            "models": [
                                 "efficientdet-d0-tf",
                                 "efficientdet-d1-tf",
                                 "face-detection-0200",
@@ -372,51 +433,44 @@
                         },
                         {
                             "name": "centernet",
-                            "models": 
-                            [
+                            "models": [
                                 "ctdet_coco_dlav0_512"
                             ]
                         },
                         {
                             "name": "ctpn",
-                            "models": 
-                            [
+                            "models": [
                                 "ctpn"
                             ]
                         },
                         {
                             "name": "detr",
-                            "models": 
-                            [
+                            "models": [
                                 "detr-resnet50"
                             ]
                         },
                         {
                             "name": "faceboxes",
-                            "models": 
-                            [
+                            "models": [
                                 "faceboxes-pytorch"
                             ]
                         },
                         {
                             "name": "retinaface-pytorch",
-                            "models": 
-                            [
+                            "models": [
                                 "retinaface-resnet50-pytorch"
                             ]
                         },
                         {
                             "name": "ultra_lightweight_face_detection",
-                            "models": 
-                            [
+                            "models": [
                                 "ultra-lightweight-face-detection-rfb-320",
                                 "ultra-lightweight-face-detection-slim-320"
                             ]
                         },
                         {
                             "name": "yolo",
-                            "models": 
-                            [
+                            "models": [
                                 "mobilefacedet-v1-mxnet",
                                 "mobilenet-yolo-v4-syg",
                                 "person-vehicle-bike-detection-crossroad-yolov3-1020",
@@ -436,31 +490,27 @@
                         },
                         {
                             "name": "yolov3-onnx",
-                            "models": 
-                            [
+                            "models": [
                                 "yolo-v3-onnx",
                                 "yolo-v3-tiny-onnx"
                             ]
                         },
                         {
                             "name": "yolov4",
-                            "models": 
-                            [
+                            "models": [
                                 "yolo-v4-tf",
                                 "yolo-v4-tiny-tf"
                             ]
                         },
                         {
                             "name": "yolof",
-                            "models": 
-                            [
+                            "models": [
                                 "yolof"
                             ]
                         },
                         {
                             "name": "yolox",
-                            "models": 
-                            [
+                            "models": [
                                 "yolox-tiny"
                             ]
                         }
@@ -476,13 +526,11 @@
             "modelList": "/demos/interactive_face_detection_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Face Detection model",
                             "required": true,
@@ -492,14 +540,13 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "face-detection-adas-0001",
                                 "face-detection-retail-0004",
                                 "face-detection-retail-0005",
                                 "face-detection-retail-0044"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Age/Gender Recognition model",
@@ -510,11 +557,10 @@
                             "default_device": "",
                             "argument": "-m_ag",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "age-gender-recognition-retail-0013"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Head Pose Estimation model",
@@ -525,11 +571,10 @@
                             "default_device": "",
                             "argument": "-m_hp",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "head-pose-estimation-adas-0001"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Emotions Recognition model",
@@ -540,11 +585,10 @@
                             "default_device": "",
                             "argument": "-m_em",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "emotions-recognition-retail-0003"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Facial Landmarks Estimation model",
@@ -555,11 +599,10 @@
                             "default_device": "",
                             "argument": "-m_lm",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "facial-landmarks-35-adas-0002"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Antispoofing Classification model",
@@ -570,11 +613,10 @@
                             "default_device": "",
                             "argument": "-m_am",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "anti-spoof-mn3"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -583,9 +625,9 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/head-pose-face-detection-female-and-male.mp4",
-                    "default":"/Source/testing_source/head-pose-face-detection-female-and-male.mp4",
+                    "default": "/Source/testing_source/head-pose-face-detection-female-and-male.mp4",
                     "argument": "-i"
-                }                
+                }
             ]
         },
         {
@@ -596,13 +638,11 @@
             "modelList": "/demos/human_pose_estimation_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Pose Estimation model",
                             "required": true,
@@ -612,15 +652,14 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "human-pose-estimation-0001",
                                 "human-pose-estimation-0005",
                                 "human-pose-estimation-0006",
                                 "human-pose-estimation-0007",
                                 "higher-hrnet-w32-human-pose-estimation"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -629,7 +668,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"0",
+                    "default": "0",
                     "argument": "-i"
                 },
                 {
@@ -639,29 +678,24 @@
                     "hint": "",
                     "default": "openpose",
                     "argument": "-at",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "openpose",
-                            "models": 
-                            [
+                            "models": [
                                 "human-pose-estimation-0001"
                             ]
                         },
                         {
                             "name": "ae",
-                            "models": 
-                            [
+                            "models": [
                                 "human-pose-estimation-0005",
                                 "human-pose-estimation-0006",
                                 "human-pose-estimation-0007"
-
                             ]
                         },
                         {
                             "name": "higherhrnet",
-                            "models": 
-                            [
+                            "models": [
                                 "higher-hrnet-w32-human-pose-estimation"
                             ]
                         }
@@ -677,13 +711,11 @@
             "modelList": "/demos/human_pose_estimation_3d_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Pose Estimation model",
                             "required": true,
@@ -693,11 +725,10 @@
                             "default_device": "CPU",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "human-pose-estimation-3d-0001"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -706,7 +737,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
-                    "default":"/Source/testing_source/people-detection.mp4",
+                    "default": "/Source/testing_source/people-detection.mp4",
                     "argument": "-i"
                 }
             ]
@@ -719,13 +750,11 @@
             "modelList": "/demos/crossroad_camera_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Person/Vehicle/Bike Detection Crossroad model",
                             "required": true,
@@ -735,12 +764,11 @@
                             "default_device": "CPU",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "person-vehicle-bike-detection-crossroad-0078",
                                 "person-vehicle-bike-detection-crossroad-1016"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Person Attributes Recognition Crossroad model",
@@ -751,13 +779,12 @@
                             "default_device": "CPU",
                             "argument": "-m_pa",
                             "device_argument": "-d_pa",
-                            "items": 
-                            [
+                            "items": [
                                 "person-attributes-recognition-crossroad-0230",
                                 "person-attributes-recognition-crossroad-0234",
                                 "person-attributes-recognition-crossroad-0238"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Person Reidentification Retail model",
@@ -768,14 +795,13 @@
                             "default_device": "CPU",
                             "argument": "-m_reid",
                             "device_argument": "-d_reid",
-                            "items": 
-                            [
+                            "items": [
                                 "person-reidentification-retail-0277",
                                 "person-reidentification-retail-0286",
                                 "person-reidentification-retail-0287",
                                 "person-reidentification-retail-0288"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -784,7 +810,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
-                    "default":"/Source/testing_source/people-detection.mp4",
+                    "default": "/Source/testing_source/people-detection.mp4",
                     "argument": "-i"
                 }
             ]
@@ -797,13 +823,11 @@
             "modelList": "/demos/social_distance_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Person Detection model",
                             "required": true,
@@ -813,14 +837,13 @@
                             "default_device": "CPU",
                             "argument": "-m_det",
                             "device_argument": "-d_det",
-                            "items": 
-                            [
+                            "items": [
                                 "person-detection-0200",
                                 "person-detection-0201",
                                 "person-detection-0202",
                                 "person-detection-retail-0013"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Person Reidentification Retail model",
@@ -831,14 +854,13 @@
                             "default_device": "CPU",
                             "argument": "-m_reid",
                             "device_argument": "-d_reid",
-                            "items": 
-                            [
+                            "items": [
                                 "person-reidentification-retail-0277",
                                 "person-reidentification-retail-0286",
                                 "person-reidentification-retail-0287",
                                 "person-reidentification-retail-0288"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -847,7 +869,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be Path to video or image files.",
                     "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
-                    "default":"/Source/testing_source/people-detection.mp4",
+                    "default": "/Source/testing_source/people-detection.mp4",
                     "argument": "-i"
                 }
             ]
@@ -860,13 +882,11 @@
             "modelList": "/demos/pedestrian_tracker_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "-loop",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Pedestrian Detection Retail model",
                             "required": true,
@@ -876,8 +896,7 @@
                             "default_device": "AUTO",
                             "argument": "-m_det",
                             "device_argument": "-d_det",
-                            "items": 
-                            [
+                            "items": [
                                 "ctdet_coco_dlav0_512",
                                 "efficientdet-d0-tf",
                                 "efficientdet-d1-tf",
@@ -920,7 +939,7 @@
                                 "yolo-v2-tiny-tf",
                                 "yolo-v2-tiny-vehicle-detection-0001"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Pedestrian Reidentification Retail model",
@@ -931,14 +950,13 @@
                             "default_device": "AUTO",
                             "argument": "-m_reid",
                             "device_argument": "-d_reid",
-                            "items": 
-                            [
+                            "items": [
                                 "person-reidentification-retail-0277",
                                 "person-reidentification-retail-0286",
                                 "person-reidentification-retail-0287",
                                 "person-reidentification-retail-0288"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -947,7 +965,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/people-detection.mp4",
-                    "default":"/Source/testing_source/people-detection.mp4",
+                    "default": "/Source/testing_source/people-detection.mp4",
                     "argument": "-i"
                 },
                 {
@@ -957,19 +975,16 @@
                     "hint": "",
                     "default": "openpose",
                     "argument": "-at",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "centernet",
-                            "models": 
-                            [
+                            "models": [
                                 "ctdet_coco_dlav0_512"
                             ]
                         },
                         {
                             "name": "ssd",
-                            "models": 
-                            [
+                            "models": [
                                 "efficientdet-d0-tf",
                                 "efficientdet-d1-tf",
                                 "faster-rcnn-resnet101-coco-sparse-60-0001",
@@ -997,13 +1012,11 @@
                                 "ssd_mobilenet_v1_fpn_coco",
                                 "ssdlite_mobilenet_v2",
                                 "vehicle-detection-adas-0002"
-
                             ]
                         },
                         {
                             "name": "yolo",
-                            "models": 
-                            [
+                            "models": [
                                 "person-vehicle-bike-detection-crossroad-yolov3-1020",
                                 "yolo-v3-tf",
                                 "yolo-v3-tiny-tf",
@@ -1031,13 +1044,11 @@
             "modelList": "/demos/background_subtraction_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Background subtraction",
                             "required": true,
@@ -1047,12 +1058,11 @@
                             "default_device": "CPU",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "instance-segmentation-person-",
                                 "yolact-resnet50-fpn-pytorch"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1061,21 +1071,21 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "https://raw.githubusercontent.com/intel-iot-devkit/sample-videos/master/head-pose-face-detection-female-and-male.mp4",
-                    "default":"/Source/testing_source/head-pose-face-detection-female-and-male.mp4",
+                    "default": "/Source/testing_source/head-pose-face-detection-female-and-male.mp4",
                     "argument": "-i"
                 },
                 {
                     "name": "Background Image",
                     "required": false,
                     "hint": "If you specify --target_bgr, background will be replaced by a chosen image or video. By default background replaced by green field. Please input the path to an image/video.",
-                    "default":"",
+                    "default": "",
                     "argument": "--target_bgr"
                 },
                 {
                     "name": "Background blurred",
                     "required": false,
                     "hint": "If you specify --blur_bgr, background will be blurred according to a set value. By default equal to zero and is not applied. Please Input a number. ",
-                    "default":"",
+                    "default": "",
                     "argument": "--blur_bgr"
                 }
             ]
@@ -1088,13 +1098,11 @@
             "modelList": "/demos/text_detection_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Text Detection model",
                             "required": true,
@@ -1104,13 +1112,12 @@
                             "default_device": "AUTO",
                             "argument": "-m_td",
                             "device_argument": "-d_td",
-                            "items": 
-                            [
+                            "items": [
                                 "horizontal-text-detection-0001",
                                 "text-detection-0003",
                                 "text-detection-0004"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Text Recognition model",
@@ -1121,8 +1128,7 @@
                             "default_device": "AUTO",
                             "argument": "-m_tr",
                             "device_argument": "-d_tr",
-                            "items": 
-                            [
+                            "items": [
                                 "handwritten-score-recognition-0003",
                                 "text-recognition-0012",
                                 "text-recognition-0014",
@@ -1131,8 +1137,7 @@
                                 "text-recognition-resnet-fc",
                                 "vitstr-small-patch16-224"
                             ],
-                            "ban":
-                            [
+                            "ban": [
                                 "decoder"
                             ]
                         }
@@ -1143,7 +1148,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"0",
+                    "default": "0",
                     "argument": "-i"
                 },
                 {
@@ -1153,20 +1158,17 @@
                     "hint": "either 'simple' for SimpleDecoder or 'ctc' for CTC greedy and CTC beam search decoders. Default is 'ctc'",
                     "default": "ctc",
                     "argument": "-dt",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "ctc",
-                            "models": 
-                            [
+                            "models": [
                                 "text-recognition-0012",
                                 "text-recognition-0014"
                             ]
                         },
                         {
                             "name": "simple",
-                            "models": 
-                            [
+                            "models": [
                                 "text-recognition-0015",
                                 "text-recognition-0016",
                                 "text-recognition-resnet-fc",
@@ -1185,13 +1187,11 @@
             "modelList": "/demos/action_recognition_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Action Recognition Model",
                             "required": true,
@@ -1201,14 +1201,13 @@
                             "default_device": "AUTO",
                             "argument": "-m_en",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "action-recognition-0001-encoder",
                                 "driver-action-recognition-adas-0002-encoder",
                                 "weld-porosity-detection-0001",
                                 "i3d-rgb-tf"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Action Recognition Model (Decoder)",
@@ -1219,13 +1218,11 @@
                             "default_device": "",
                             "argument": "-m_de",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "action-recognition-0001-dncoder",
                                 "driver-action-recognition-adas-0002-decoder"
                             ],
-                            "ban":
-                            []
+                            "ban": []
                         }
                     ]
                 },
@@ -1234,7 +1231,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"0",
+                    "default": "0",
                     "argument": "-i"
                 },
                 {
@@ -1244,12 +1241,10 @@
                     "hint": "either 'simple' for SimpleDecoder or 'ctc' for CTC greedy and CTC beam search decoders. Default is 'ctc'",
                     "default": "ctc",
                     "argument": "-at",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "en-de",
-                            "models": 
-                            [
+                            "models": [
                                 "action-recognition-0001-decoder",
                                 "action-recognition-0001-encoder",
                                 "driver-action-recognition-adas-0002-decoder",
@@ -1258,8 +1253,7 @@
                         },
                         {
                             "name": "en-mean",
-                            "models": 
-                            [
+                            "models": [
                                 "weld-porosity-detection-0001"
                             ]
                         }
@@ -1272,12 +1266,13 @@
                     "hint": "Input the index of label file or the Path to .txt file with labels.",
                     "default": "driver_actions.txt",
                     "argument": "-lb",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "driver_actions.txt",
                             "path": "/demos/action_recognition_demo/python/",
-                            "models": ["driver-action-recognition-adas-0002"]
+                            "models": [
+                                "driver-action-recognition-adas-0002"
+                            ]
                         }
                     ]
                 }
@@ -1291,13 +1286,11 @@
             "modelList": "/demos/image_processing_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "-at sr",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Super Resolution model",
                             "required": true,
@@ -1307,13 +1300,12 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "single-image-super-resolution-1032",
                                 "single-image-super-resolution-1033",
                                 "text-image-super-resolution-0001"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1322,7 +1314,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"/Source/testing_source/SanChungBus_Route306_620FG_wide.jpg",
+                    "default": "/Source/testing_source/SanChungBus_Route306_620FG_wide.jpg",
                     "argument": "-i"
                 }
             ]
@@ -1335,13 +1327,11 @@
             "modelList": "/demos/image_processing_demo/cpp/models.lst",
             "preprocess": "",
             "postprocess": "-at style",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Super Resolution model",
                             "required": true,
@@ -1351,11 +1341,10 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "fast-neural-style-mosaic-onnx"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1364,7 +1353,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"/Source/testing_source/budgie.jpg",
+                    "default": "/Source/testing_source/budgie.jpg",
                     "argument": "-i"
                 }
             ]
@@ -1377,13 +1366,11 @@
             "modelList": "/demos/colorization_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "--loop",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Colorization model",
                             "required": true,
@@ -1393,12 +1380,11 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "colorization-v2",
                                 "colorization-siggraph"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1407,7 +1393,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"/Source/testing_source/1960s_Taiwan_Taichung.jpg",
+                    "default": "/Source/testing_source/1960s_Taiwan_Taichung.jpg",
                     "argument": "-i"
                 }
             ]
@@ -1420,13 +1406,11 @@
             "modelList": "/demos/monodepth_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "--loop",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "MonoDepth model",
                             "required": true,
@@ -1436,12 +1420,11 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "midasnet",
                                 "fcrn-dp-nyu-depth-v2-tf"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1450,7 +1433,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be a single image, a folder of images, video file or camera id.",
                     "source": "",
-                    "default":"/Source/testing_source/1960s_Taiwan_Taichung.jpg",
+                    "default": "/Source/testing_source/1960s_Taiwan_Taichung.jpg",
                     "argument": "-i"
                 }
             ]
@@ -1463,13 +1446,11 @@
             "modelList": "/demos/sound_classification_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Sound Classification model",
                             "required": true,
@@ -1479,12 +1460,11 @@
                             "default_device": "AUTO",
                             "argument": "-m",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "aclnet",
                                 "aclnet-int8"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1493,7 +1473,7 @@
                     "required": true,
                     "hint": "An input to process. The input must be audio files in wav format.",
                     "source": "",
-                    "default":"",
+                    "default": "",
                     "argument": "-i"
                 },
                 {
@@ -1503,12 +1483,13 @@
                     "hint": "Input the index of label file or the Path to .txt file with labels.",
                     "default": "aclnet_53cl.txt",
                     "argument": "--labels",
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "aclnet_53cl.txt",
                             "path": "/data/dataset_classes/",
-                            "models": ["aclnet"]
+                            "models": [
+                                "aclnet"
+                            ]
                         }
                     ]
                 },
@@ -1517,7 +1498,7 @@
                     "required": true,
                     "hint": "Set sample rate for audio input",
                     "source": "",
-                    "default":"44100",
+                    "default": "44100",
                     "argument": "-sr"
                 }
             ]
@@ -1530,13 +1511,11 @@
             "modelList": "/demos/text_to_speech_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Sound Classification model - ForwardTacotron`s duration prediction part",
                             "required": true,
@@ -1546,11 +1525,10 @@
                             "default_device": "CPU",
                             "argument": "-m_duration",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "text-to-speech-en-0001-duration-prediction"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Sound Classification model - ForwardTacotron`s mel-spectrogram regression part",
@@ -1561,11 +1539,10 @@
                             "default_device": "",
                             "argument": "-m_forward",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "text-to-speech-en-0001-regression"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Sound Classification model - WaveRNN`s part for mel-spectrogram upsampling by time axis",
@@ -1576,11 +1553,10 @@
                             "default_device": "",
                             "argument": "-m_melgan",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "text-to-speech-en-0001-generation"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1589,7 +1565,7 @@
                     "required": true,
                     "hint": "Text or path to the input file.",
                     "source": "",
-                    "default":"/Source/testing_source/speech_text.txt",
+                    "default": "/Source/testing_source/speech_text.txt",
                     "argument": "-i"
                 },
                 {
@@ -1597,7 +1573,7 @@
                     "required": true,
                     "hint": "Path to an output .wav file.",
                     "source": "",
-                    "default":"",
+                    "default": "",
                     "argument": "-o"
                 }
             ]
@@ -1610,13 +1586,11 @@
             "modelList": "/demos/text_to_speech_demo/python/models.lst",
             "preprocess": "export PYTHONPATH=\"$PYTHONPATH:$HOME/omz_demos_build/intel64/Release\" && ",
             "postprocess": "-s_id -1",
-            "setting":
-            [
+            "setting": [
                 {
                     "name": "model",
                     "required": true,
-                    "items":
-                    [
+                    "items": [
                         {
                             "name": "Sound Classification model - ForwardTacotron`s duration prediction part",
                             "required": true,
@@ -1626,11 +1600,10 @@
                             "default_device": "CPU",
                             "argument": "-m_duration",
                             "device_argument": "-d",
-                            "items": 
-                            [
+                            "items": [
                                 "text-to-speech-en-multi-0001-duration-prediction"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Sound Classification model - ForwardTacotron`s mel-spectrogram regression part",
@@ -1641,11 +1614,10 @@
                             "default_device": "",
                             "argument": "-m_forward",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "text-to-speech-en-multi-0001-regression"
                             ],
-                            "ban":[]
+                            "ban": []
                         },
                         {
                             "name": "Sound Classification model - WaveRNN`s part for mel-spectrogram upsampling by time axis",
@@ -1656,11 +1628,10 @@
                             "default_device": "",
                             "argument": "-m_melgan",
                             "device_argument": "",
-                            "items": 
-                            [
+                            "items": [
                                 "text-to-speech-en-multi-0001-generation"
                             ],
-                            "ban":[]
+                            "ban": []
                         }
                     ]
                 },
@@ -1669,7 +1640,7 @@
                     "required": true,
                     "hint": "Text or path to the input file.",
                     "source": "",
-                    "default":"/Source/testing_source/speech_text.txt",
+                    "default": "/Source/testing_source/speech_text.txt",
                     "argument": "-i"
                 },
                 {
@@ -1677,7 +1648,7 @@
                     "required": true,
                     "hint": "Path to an output .wav file.",
                     "source": "",
-                    "default":"",
+                    "default": "",
                     "argument": "-o"
                 }
             ]

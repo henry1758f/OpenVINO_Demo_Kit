@@ -60,7 +60,7 @@ def opening_banner(gap=4,updown_border_text='=',side_border_text='|'):
     print(updown_border)
     print(side_border_text + ' Ver. ' + demokitVersion + ' | Support OpenVINO ' + openvinoVersion)
     if openvinoInstalled != '':
-        print(side_border_text + " You've installed" + openvinoInstalled + '| on ' + OSName)
+        print(side_border_text + " You've installed " + openvinoInstalled + '| on ' + OSName)
     else:
         logging.warning('OpenVINO not detected! Please Install OpenVINO First!')
-    print('\n'*3)
+    print('\n'*1)
