@@ -35,7 +35,8 @@ def banner(title,gap=4,updown_border_text='=',side_border_text='|'):
 	print(side_border_text + "  Support OpenVINO " + openvinoVersion + '\n')
 
 def opening_banner(gap=4,updown_border_text='=',side_border_text='|'):
-    
+    openvinoInstalled=os.popen('ls -l /opt/intel/openvino_2022 | grep "openvino" | cut -d">" -f 2 |cut -d"/" -f 4').read()
+
     updown_border = side_border_text
     for x in range(len(AuthorName) + gap*2):
         updown_border+=updown_border_text

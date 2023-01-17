@@ -3,6 +3,10 @@
     "demokitVersion": "8.0.0-beta11",
     "openvinoVersion": "2022.3.0",
     "openvinoPath": "/opt/intel/openvino_2022",
+    "opencvPath": "",
+    "opencvBuild": "",
+    "opencvVersion": "4.6.0",
+    "opencvGit": "https://github.com/opencv/opencv.git",
     "pythonExcute": "/usr/bin/python3",
     "demoKitFeatures": [
         {
@@ -22,7 +26,7 @@
         },
         {
             "name": "Open Model Zoo Downloader and Tools",
-            "file": "Source/omz_model_tools.py",
+            "file": "Source/omz_model_tools.py common",
             "intro": "Open Model Zoo Downloader and Tools"
         },
         {
@@ -47,8 +51,8 @@
     "OMZ": {
         "git": "https://github.com/openvinotoolkit/open_model_zoo.git",
         "tag": "2022.3.0",
-        "path": "/home/henryhuang/open_model_zoo_2022.3.0",
-        "build": "/home/henryhuang/open_model_zoo_2022.3.0_build"
+        "path": "",
+        "build": ""
     },
     "sample": {
         "source": "/opt/intel/openvino_2022/samples/cpp",

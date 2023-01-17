@@ -1,311 +1,495 @@
-# File: OpenModelZoo_demos.py
-# Date: 2022/04/19
-# Author: henry1758f
-
-from posixpath import split
-from banner import banner
 import os
+import sys
 import json
 import logging
-import sys
-import subprocess
-
 from pathlib import Path
+from banner import banner
+from commonFunctions import getSettingValue,setSettingValue,itemSelection,modelSelection,yesnoSelection,modelStageExtractor
 
 logging.basicConfig(format='[ %(levelname)s ] %(message)s', level=logging.DEBUG)
 
-kit_info=os.path.abspath(os.getcwd()) + '/Source/demo_kit.json'
+OMZmodelsSize = '39.9 GB'
+OMZConvertSize = '32 GB'
 
-OMZ_path_parent=str(Path.home())
+def modelDownloader(mode='common',name=''):
+    # support common,all,specific,listfile
+    logging.debug('modelDownloader')
 
-openvinoPath=''
-demokitVersion= ''
-openvinoVersion= ''
-OMZ_source=''
-OMZ_git=''
-OMZ_tag=''
-OMZ_source_name=''
-OMZ_source_type='git'
-OMZ_asset='tar.gz'
-#omz_source_type='package'
-OMZPath=''
-datasetPath=''
-modelPath= str(Path.home()) + '/open_model_zoo_models'
-convertPath = str(Path.home()) + '/open_model_zoo_models/convert'
-python_execute='/usr/bin/python3'
-
-with open(kit_info,'r') as DemoKitinfo:
-    DemoKitJSON = json.load(DemoKitinfo)
-    if not DemoKitJSON['OMZ']['path'] == '$HOME':
-        OMZ_path_parent= DemoKitJSON['OMZ']['path']
-    if not DemoKitJSON['modelPath'] == '$HOME':
-        modelPath = DemoKitJSON['modelPath']
-        if not Path(modelPath).is_dir():
-            logging.debug('Default Model Directory not found. Create one in {} ....'.format(modelPath))
-            os.system('mkdir {}'.format(modelPath))
-    if not DemoKitJSON['datasetPath'] == 'modelPath':
-        datasetPath = DemoKitJSON['datasetPath'] + '/data'
-    else:
-        datasetPath = modelPath + '/data'
-    if not DemoKitJSON['convertPath'] == 'modelPath':
-        convertPath = DemoKitJSON['convertPath']
-    else:
-        if not Path(convertPath).is_dir():
-            logging.debug('ConvertPath not found, create new in {}'.format(convertPath))
-            os.system('mkdir {}'.format(convertPath))
-    demokitVersion = DemoKitJSON['demokitVersion']
-    openvinoVersion= DemoKitJSON['openvinoVersion']
-    openvinoPath= DemoKitJSON['openvinoPath']
-    python_execute= DemoKitJSON['pythonExcute']
-    OMZ_tag= DemoKitJSON['OMZ']['tag']
-    OMZ_source_name= 'open_model_zoo-' + OMZ_tag
-    OMZPath= OMZ_path_parent + '/' + 'open_model_zoo-' + DemoKitJSON['OMZ']['tag']
-    OMZ_asset= DemoKitJSON['OMZ']['asset'] 
-    OMZ_git= DemoKitJSON['OMZ']['git']
-    OMZ_source= DemoKitJSON['OMZ']['source']
-    
-    
-def initial():
-    logging.info('Checking the Open Model Zoo folder...')
-    if Path(OMZPath).is_dir() == True:
-        logging.debug('Open Model Zoo folder EXIST!')
-    else:
-        if not Path(OMZPath + '/build_demos.sh').is_file():
-            if OMZ_source_type == 'package':
-                logging.info('Trying to download from {}!'.format(OMZ_source))
-                os.system('wget ' + OMZ_source + ' -P ' + OMZ_path_parent)
-                os.system('tar -zxf ' + OMZ_path_parent + '/' +OMZ_source_name + OMZ_asset +  ' --directory ' + OMZ_path_parent)
-                if Path(OMZPath + '/demos/build_demos.sh').is_file():
-                    os.system('rm ' + OMZ_path_parent + '/' + OMZ_source_name + OMZ_asset)
-                else:
-                    logging.error('Cannot get Open Model Zoo Package, Please check your Internet Connection.')
-                    exit('Cannot get Open Model Zoo Package.')
-            else:
-                logging.info('Trying to clone repo from {}!'.format(OMZ_git))
-                os.system('git clone -b ' + OMZ_tag + ' ' + OMZ_git + ' ' + OMZPath)
-                if Path(OMZPath + '/demos/build_demos.sh').is_file():
-                    os.system('cd ' + OMZPath + ' && git submodule update --init --recursive ')
-                    if not Path(OMZPath + '/demos/thirdparty/gflags/CMakeLists.txt').is_file:
-                        logging.error('Cannot get thirdparty repos. Please try again.  ')
-                else:
-                    logging.warning('{} is not exist!'.format(OMZPath + '/demos/build_demos.sh'))
-                    logging.error('Cannot clone Open Model Zoo repository from {}, Please check your Internet Connection.'.format(OMZ_git))
-                    exit('Cannot clone Open Model Zoo repository.')
-
-        # Steps on https://docs.openvino.ai/2022.1/omz_tools_downloader.html
-        os.system(python_execute +' -mpip install openvino-dev')
-        os.system(python_execute + ' -mpip install --upgrade pip')
-        os.system(python_execute + ' -mpip install ' + OMZPath + '/tools/model_tools/')
-        #os.system(python_execute + '-mpip install --user -r ' + OMZPath + '/tools/model_tools/requirements-pytorch.in')
-        #os.system(python_execute + '-mpip install --user -r ' + OMZPath + '/tools/model_tools/requirements-tensorflow.in')
-        #os.system(python_execute + '-mpip install --user -r ' + OMZPath + '/tools/model_tools/requirements-paddle.in')
-
-def tools():
-    tools_featureList=['Model Downloader','Model Converter','Model Quantizer','Dataset Data Downloader']
-    banner('Open Model Zoo - Model Downloader and Tools')
-    index = 1
-    for feature in tools_featureList:
-        if 'Dataset Data Downloader' in feature:
-            if Path(datasetPath + '/data/dataset_definitions.yml').is_file():
-                feature += ' (DONE!)'
-        print('{index}. {feature_string}'.format(index=str(index),feature_string=feature))
-        index += 1
-    choose = input('\n >>> Input the Index number or the feature name you want.\n')
-    fetutreSelected=''
-    try:
-        if choose.isnumeric():
-            fetutreSelected=tools_featureList[int(choose)-1]
-            logging.debug(fetutreSelected)
+    pythonExcute = getSettingValue(['pythonExcute'])
+    OMZPath = getSettingValue(['OMZ','path'])
+    OMZmodelPath = getSettingValue(['OMZmodelPath'])
+    logging.debug('Check if OMZ model download Path is exist or not.')
+    if not os.path.isdir(OMZmodelPath):
+        logging.debug('OMZmodelPath is not set or {} not exists.')
+        if OMZmodelPath == '':
+            OMZmodelPath = str(Path.home()) + '/omz_models'
+        os.system('mkdir {}'.format(OMZmodelPath))
+        if not os.path.isdir(OMZmodelPath):
+            logging.error('Failed to set OMZ models download path, please check the Settings or raise an issue on GitHub.')
+            return -1
         else:
-            fetutreSelected=choose
-        if fetutreSelected == 'Model Downloader':
-            downloader()
-        elif fetutreSelected == 'Model Converter':
-            converter()
-        elif fetutreSelected == 'Model Quantizer':
-            quantizer()
-        elif fetutreSelected == 'Dataset Data Downloader':
-            dataset()
-        else:
-            raise
-
-    except Exception as e:
-        logging.error('Your Input is invaild! Please check your input or path and try again! ')
-        logging.error(e)
-
-    os.system('omz_downloader --help')
-    
-
-def build_demos():
-    banner('Open Model Zoo - Build Demos')
-    os.system(python_execute + ' -mpip install --user -r {}/demos/requirements.txt'.format(OMZPath))
-    os.system(OMZPath + '/demos/build_demos.sh  -DENABLE_PYTHON=ON')
-    os.system(python_execute + ' -mpip install --user {}/demos/common/python'.format(OMZPath))
-
-def downloader():
-    banner('Model Downloader')
-    logging.info('Default Download folder is {}'.format(modelPath))
-    featureList=['Download ALL models from Open Model Zoo',\
-        'Download Specific Model from Open Model Zoo',\
-        'Download Models using list file']
-    index = 1
-    for feature in featureList:
-        print('{index}. {feature_string}'.format(index=str(index),feature_string=feature))
-        index += 1
-    choose = input('\n >>> Input the Index number or the feature name you want.\n')
-    fetutreSelected=''
-    try:
-        if choose.isnumeric():
-            fetutreSelected=featureList[int(choose)-1]
-        else:
-            fetutreSelected=choose
-        if fetutreSelected == 'Download ALL models from Open Model Zoo':
-            logging.warn('About 43 GB space will be use!')
-            os.system('omz_downloader --all -o {downloadPath} -j8'.format(downloadPath=modelPath))
-        elif fetutreSelected == 'Download Specific Model from Open Model Zoo':
-            models_info_JSON = json.loads(os.popen('{python} {omzPath}/tools/model_tools/info_dumper.py --all'.format(python=python_execute, omzPath=OMZPath)).read())
+            setSettingValue(['OMZmodelPath'],OMZmodelPath)
+            logging.debug('OMZmodelPath set to {}'.format(OMZmodelPath))
+    featureList = ['Download All Open Model Zoo models',\
+                    'Download Specific Open Model Zoo model',\
+                    'Download Models using list file']
+    if mode == 'common':
+        logging.debug('Model downloader common mode')
+        question='Please select what you want to do.\n [Download Path set to {}]'.format(OMZmodelPath)
+        selection = itemSelection(question,featureList)
+        if selection == 0:
+            # Download All Open Model Zoo models
+            modelDownloader('all')
+        elif selection == 1:
+            # Download Specific Open Model Zoo model
+            logging.debug('Loading Available OMZ models...')
+            models_info_JSON = json.loads(os.popen('{python} {OMZPath}/tools/model_tools/info_dumper.py --all'.format(python=pythonExcute, OMZPath=OMZPath)).read())
             model_index=0
-            modelSelected= ''
+            modelList=[]
             for model_info in models_info_JSON:
-                model_index +=1
-                print('{index}. {name}'.format(index=model_index, name=model_info['name']))
-            choose_model = input('\n >>> Input the Index number or the Model name you want to Download.\n > ')
-            if choose_model.isnumeric():
-                modelSelected=models_info_JSON[int(choose_model)-1]['name']
+                modelStageExtractorListModels = modelStageExtractor(model_info)
+                for modelStageExtractorListModel in modelStageExtractorListModels:
+                    modelList.append(modelStageExtractorListModel)
+            question = 'Which model you want to download?'
+            modelSelectionResult = modelSelection(question,modelList)
+            if modelSelectionResult == -1:
+                logging.error('Your Selection is invailed!!')
+                return -1
             else:
-                modelSelected=choose_model
-            logging.debug('Downloading >> {} << '.format(modelSelected))
-            os.system('omz_downloader --name {name} -o {downloadPath}'.format(name=modelSelected, downloadPath=modelPath))
-        elif fetutreSelected == 'Download Models using list file':
-            listfilePath = input('\n >>> Input the Path of the List File (Absolute path)\n > ')
-            if not Path(listfilePath).is_file():
-                raise ValueError('Your Input "{}" is not a vailed Path, Please check and try again.'.format(listfilePath))
-            else:
-                os.system('omz_downloader --list {path} -o {downloadPath}'.format(path=listfilePath, downloadPath=modelPath))
+                logging.debug('Starting Download "{}" model'.format(modelList[modelSelectionResult]['name']))
+                modelDownloader('specific',modelList[modelSelectionResult]['name'])
+        elif selection == 2:
+            # Download Models using list file
+            modelDownloader('listfile',name)
+    elif mode == 'all':
+        logging.debug('Download All Open Model Zoo models')
+        if yesnoSelection('Do you want to Download ALL Open Model Zoo Models? It will take around {size} space and might take a long time!'.format(size=OMZmodelsSize)):
+            doConvert = yesnoSelection('Do you want to convert ALL OMZ Public models to OpenVINO IR? It will take around {size} space and might take a long time!'.format(size=OMZConvertSize))
+            os.system('omz_downloader --all -o {downloadPath}'.format(downloadPath=OMZmodelPath))
+            if doConvert:
+                modelConverter('all')
         else:
-            raise
-
-    except Exception as e:
-        logging.error('Your Input is invaild! Please check your input or path and try again! ')
-        logging.error(e)
-
-def converter():
-    banner('Model Converter')
-    featureList=['Convert ALL Open Model Zoo Models that have been downloaded',\
-        'Convert Specific Model from Open Model Zoo',\
-        'Convert Models using list file']
-    index = 1
-    for feature in featureList:
-        print('{index}. {feature_string}'.format(index=str(index),feature_string=feature))
-        index += 1
-    choose = input('\n >>> Input the Index number or the feature name you want.\n')
-    fetutreSelected=''
-    try:
-        if choose.isnumeric():
-            fetutreSelected=featureList[int(choose)-1]
+            logging.warning('Aborting... (Refuse to download all OMZ models)')
+    elif mode == 'specific':
+        logging.debug('Starting Download "{}" model'.format(name))
+        logging.debug('Checking {} is available or not.'.format(name))
+        models_info_JSON = json.loads(os.popen('{python} {OMZPath}/tools/model_tools/info_dumper.py --all'.format(python=pythonExcute, OMZPath=OMZPath)).read())
+        model_index=0
+        modelList=[]
+        modelData=''
+        for model_info in models_info_JSON:
+            modelStageExtractorListModels = modelStageExtractor(model_info)
+            for modelStageExtractorListModel in modelStageExtractorListModels:
+                modelList.append(modelStageExtractorListModel)
+        for modelListItem in modelList:
+            if modelListItem['name'] == name:
+                modelData = modelListItem
+        if modelData=='':
+            logging.error('{} is not a model in Open Model Zoo!'.format(name))
         else:
-            fetutreSelected=choose
-        if fetutreSelected == 'Convert ALL Open Model Zoo Models that have been downloaded':
-            p = subprocess.Popen(['omz_converter', '--all', '-d', modelPath, '-o', convertPath, '-p', python_execute], env=dict(os.environ))
-            p.communicate()
-        elif fetutreSelected == 'Convert Specific Model from Open Model Zoo':
-            models_convertable_List = os.popen('omz_converter --print_all').read().split('\n')
+            os.system('omz_downloader --name {name} -o {downloadPath}'.format(name=modelData['name'], downloadPath=OMZmodelPath))
+            doConvert = False
+            if not modelData['framework'] == 'dldt':
+                doConvert = yesnoSelection('Do you want to convert {modelName} [{framework}] to OpenVINO IR?'.format(modelName=modelData['name'],framework=modelData['framework']))
+            if doConvert:
+                modelConverter('specific',modelData['name'])
+    elif mode == 'listfile':
+        logging.debug('Model Downloader Listfile mode, List File Path={}'.format(name))
+        # TODO : List File download.
+    else:
+        logging.error('Item Selection Error.')
+        return -1
+
+def modelConverter(mode='common',name=''):
+    # support common,all,specific,listfile
+    logging.debug('modelConverter')
+    pythonExcute = getSettingValue(['pythonExcute'])
+    OMZPath = getSettingValue(['OMZ','path'])
+    OMZmodelPath = getSettingValue(['OMZmodelPath'])
+    # read/set OMZconvertPath
+    OMZconvertPath = getSettingValue(['OMZconvertPath'])
+    logging.debug('Check if OMZ model IR Path is exist or not.')
+    if not os.path.isdir(OMZconvertPath):
+        logging.debug('OMZmodelPath is not set or {} not exists. Try to create.')
+        if OMZconvertPath == '':
+            OMZconvertPath = str(Path.home()) + '/omz_models/ir'
+        os.system('mkdir {}'.format(OMZconvertPath))
+        if not os.path.isdir(OMZconvertPath):
+            logging.error('Failed to set OMZ models IR path, please check the Settings or raise an issue on GitHub.')
+            return -1
+        else:
+            setSettingValue(['OMZconvertPath'],OMZconvertPath)
+            logging.debug('OMZconvertPath set to {}'.format(OMZconvertPath))
+
+    if mode == 'common':
+        featureList = ['Convert All Open Model Zoo models',\
+                    'Convert Specific Open Model Zoo model',\
+                    'Convert Models using list file',]
+        question='Please select what you want to do.\n [Convert Path set to {}]'.format(OMZconvertPath)
+        selection = itemSelection(question,featureList)
+        if selection == 0:
+            # Convert All Open Model Zoo models
+            modelConverter('all')
+        elif selection == 1:
+            # Convert Specific Open Model Zoo model
+            logging.debug('Loading Available OMZ models...')
+            models_info_JSON = json.loads(os.popen('{python} {OMZPath}/tools/model_tools/info_dumper.py --all'.format(python=pythonExcute, OMZPath=OMZPath)).read())
             model_index=0
-            modelSelected= ''
-            for models_convertable in models_convertable_List:
-                if models_convertable == '':
-                    break
-                model_index +=1
-                print('{index}. {name}'.format(index=model_index, name=models_convertable))
-            choose_model = input('\n >>> Input the Index number or the Model name you want to Convert.\n > ')
-            if choose_model.isnumeric():
-                modelSelected=models_convertable_List[int(choose_model)-1]
+            modelList=[]
+            for model_info in models_info_JSON:
+                modelStageExtractorListModels = modelStageExtractor(model_info)
+                for modelStageExtractorListModel in modelStageExtractorListModels:
+                    modelList.append(modelStageExtractorListModel)
+            question = 'Which model you want to convert?'
+            modelSelectionResult = modelSelection(question,modelList)
+            if modelSelectionResult == -1:
+                logging.error('Your Selection is invailed!!')
+                return -1
             else:
-                modelSelected=choose_model
-            logging.debug('Converting >> {} << '.format(modelSelected))
-            p = subprocess.Popen(['omz_converter', '--name', modelSelected, '-d', modelPath, '-o', convertPath, '-p', python_execute], env=dict(os.environ))
-            p.communicate()
-        elif fetutreSelected == 'Convert Models using list file':
-            listfilePath = input('\n >>> Input the Path of the List File (Absolute path)\n > ')
-            if not Path(listfilePath).is_file():
-                raise ValueError('Your Input "{}" is not a vailed Path, Please check and try again.'.format(listfilePath))
-            else:
-                p = subprocess.Popen(['omz_converter', '--list', listfilePath, '-d', modelPath, '-o', convertPath, '-p', python_execute], env=dict(os.environ))
-                p.communicate()
-        else:
-            raise
+                logging.debug('Starting convert "{}" model'.format(modelList[modelSelectionResult]['name']))
+                modelConverter('specific',modelList[modelSelectionResult]['name'])
+        elif selection == 2:
+            # Convert Models using list file
+            # TODO: Convert Models using list file
+            modelConverter('listfile',name)
+    elif mode == 'all':
+        logging.warning('Will convert all OMZ Public models! It might take around {} space on your device!')
+        # os.system('{python} -m pip install keras'.format(python=pythonExcute)) # TODO for efficientdet-d0-tf,efficientdet-d1-tf 
+        os.system('omz_converter --all -d {downloadPath} -o {convertPath}'.format(downloadPath=OMZmodelPath, convertPath=OMZconvertPath))
+    elif mode == 'specific':
+        logging.debug('Will convert {name} model'.format(name=name))
+        # if 'efficientdet-d' in name: # TODO for efficientdet-d0-tf,efficientdet-d1-tf 
+        #    os.system('{python} -m pip install keras'.format(python=pythonExcute))
+        os.system('omz_converter --name {name} -d {downloadPath} -o {convertPath}'.format(name=name, downloadPath=OMZmodelPath, convertPath=OMZconvertPath))
+    elif mode == 'listfile':
+        logging.debug('Model Converter Listfile mode, List File Path={}'.format(name))
+        # TODO : List File download.
+    else:
+        logging.error('Item Selection Error.')
+        return -1
 
-    except Exception as e:
-        logging.error('Your Input is invaild! Please check your input or path and try again! ')
-        logging.error(e)
-
-def quantizer():
-    banner(' Model Quantizer')
-    featureList=['Quantize ALL Open Model Zoo Models that available',\
-        'Quantize Specific Model from Open Model Zoo',\
-        'Quantize Models using list file']
-    index = 1
-    for feature in featureList:
-        print('{index}. {feature_string}'.format(index=str(index),feature_string=feature))
-        index += 1
-    choose = input('\n >>> Input the Index number or the feature name you want.\n')
-    fetutreSelected=''
-    try:
-        if choose.isnumeric():
-            fetutreSelected=featureList[int(choose)-1]
+def modelQuantizer(mode='common',name=''):
+    # support 'common', 'all', 'specific'
+    # TODO : Model Quantizer
+    #ARGS=' --dry_run'
+    ARGS=''
+    logging.debug('modelQuantizer')
+    pythonExcute = getSettingValue(['pythonExcute'])
+    OMZPath = getSettingValue(['OMZ','path'])
+    OMZmodelPath = getSettingValue(['OMZmodelPath'])
+    # read/set OMZconvertPath
+    OMZconvertPath = getSettingValue(['OMZconvertPath'])
+    OMZdatasetPath = getSettingValue(['OMZconvertPath'])
+    logging.debug('Check if OMZ model IR Path is exist or not.')
+    if not os.path.isdir(OMZconvertPath):
+        logging.debug('OMZmodelPath is not set or {} not exists. Try to create.')
+        if OMZconvertPath == '':
+            OMZconvertPath = str(Path.home()) + '/omz_models/ir'
+        os.system('mkdir {}'.format(OMZconvertPath))
+        if not os.path.isdir(OMZconvertPath):
+            logging.error('Failed to set OMZ models IR path, please check the Settings or raise an issue on GitHub.')
+            return -1
         else:
-            fetutreSelected=choose
-        if fetutreSelected == 'Quantize ALL Open Model Zoo Models that available':
-            p = subprocess.Popen(['omz_quantizer', '--all', '--model_dir', convertPath, '-o', convertPath, '-p', python_execute, '--dataset_dir', datasetPath], env=dict(os.environ))
-            p.communicate()
-        elif fetutreSelected == 'Quantize Specific Model from Open Model Zoo':
-            models_convertable_List = os.popen('omz_quantizer --print_all').read().split('\n')
+            setSettingValue(['OMZconvertPath'],OMZconvertPath)
+            logging.debug('OMZconvertPath set to {}'.format(OMZconvertPath))
+    # read/set OMZdatasetPath
+    OMZdatasetPath = getSettingValue(['OMZdatasetPath'])
+    logging.debug('Check if OMZ model dataset Path is exist or not.')
+    if not os.path.isdir(OMZdatasetPath):
+        logging.debug('OMZdatasetPath is not set or {} not exists. Try to create.')
+        if OMZdatasetPath == '':
+            OMZdatasetPath = str(Path.home()) + '/omz_models/datasets'
+        os.system('mkdir {}'.format(OMZdatasetPath))
+        if not os.path.isdir(OMZdatasetPath):
+            logging.error('Failed to set OMZ models dataset path, please check the Settings or raise an issue on GitHub.')
+            return -1
+        else:
+            setSettingValue(['OMZdatasetPath'],OMZdatasetPath)
+            logging.debug('OMZdatasetPath set to {}'.format(OMZdatasetPath))
+
+    if mode == 'common':
+        featureList = ['Quantize All available Open Model Zoo models',\
+                    'Quantize Specific Open Model Zoo model',\
+                    'Quantize Models using list file',]
+        question='Please select what you want to do.\n [Convert Path set to {}]'.format(OMZconvertPath)
+        selection = itemSelection(question,featureList)
+        if selection == 0:
+            # Quantize All available Open Model Zoo models
+            modelQuantizer('all')
+        elif selection == 1:
+            # Convert Specific Open Model Zoo model
+            logging.debug('Loading Available OMZ models...')
+            models_info_JSON = json.loads(os.popen('{python} {OMZPath}/tools/model_tools/info_dumper.py --all'.format(python=pythonExcute, OMZPath=OMZPath)).read())
             model_index=0
-            modelSelected= ''
-            for models_convertable in models_convertable_List:
-                if models_convertable == '':
-                    break
-                model_index +=1
-                print('{index}. {name}'.format(index=model_index, name=models_convertable))
-            choose_model = input('\n >>> Input the Index number or the Model name you want to Quantize.\n > ')
-            if choose_model.isnumeric():
-                modelSelected=models_convertable_List[int(choose_model)-1]
+            modelList=[]
+            for model_info in models_info_JSON:
+                modelStageExtractorListModels = modelStageExtractor(model_info)
+                for modelStageExtractorListModel in modelStageExtractorListModels:
+                    modelList.append(modelStageExtractorListModel)
+            question = 'Which model you want to Quantize?'
+            modelSelectionResult = modelSelection(question,modelList)
+            if modelSelectionResult == -1:
+                logging.error('Your Selection is invailed!!')
+                return -1
             else:
-                modelSelected=choose_model
-            logging.debug('Quantizing >> {} << '.format(modelSelected))
-            p = subprocess.Popen(['omz_quantizer', '--name', modelSelected, '--model_dir', modelPath, '-o', modelPath, '-p', python_execute, '--dataset_dir', datasetPath], env=dict(os.environ))
-            p.communicate()
-        elif fetutreSelected == 'Quantize Models using list file':
-            listfilePath = input('\n >>> Input the Path of the List File (Absolute path)\n > ')
-            if not Path(listfilePath).is_file():
-                raise ValueError('Your Input "{}" is not a vailed Path, Please check and try again.'.format(listfilePath))
-            else:
-                p = subprocess.Popen(['omz_quantizer', '--list', modelSelected, '--model_dir', modelPath, '-o', modelPath, '-p', python_execute, '--dataset_dir', datasetPath], env=dict(os.environ))
-                p.communicate()
+                logging.debug('Starting Quantize "{}" model'.format(modelList[modelSelectionResult]['name']))
+                modelQuantizer('specific',modelList[modelSelectionResult]['name'])
+        elif selection == 2:
+            # Convert Models using list file
+            # TODO: Quantize Models using list file
+            modelQuantizer('listfile',name)
+    elif mode == 'all':
+        logging.warning('Will Quantize all available OMZ Public models!')
+        # os.system('{python} -m pip install keras'.format(python=pythonExcute)) # TODO for efficientdet-d0-tf,efficientdet-d1-tf 
+        os.system('omz_quantizer --all --model_dir {model_dir} -o {output_dir} --dataset_dir {dataset_dir} {additional_arg}'.format(model_dir=OMZconvertPath, output_dir=OMZconvertPath,dataset_dir=OMZdatasetPath, additional_arg=ARGS))
+    elif mode == 'specific':
+        logging.debug('Will Quantize {name} model'.format(name=name))
+        # if 'efficientdet-d' in name: # TODO for efficientdet-d0-tf,efficientdet-d1-tf 
+        #    os.system('{python} -m pip install keras'.format(python=pythonExcute))
+        os.system('omz_quantizer --name {name} --model_dir {model_dir} -o {output_dir} --dataset_dir {dataset_dir} {additional_arg}'.format(name=name,model_dir=OMZconvertPath, output_dir=OMZconvertPath,dataset_dir=OMZdatasetPath, additional_arg=ARGS))
+    elif mode == 'listfile':
+        logging.debug('Model Quantizer Listfile mode, List File Path={}'.format(name))
+        # TODO : List File download.
+    else:
+        logging.error('Item Selection Error.')
+        return -1
+
+def datasetDownloader(mode='common'):
+    logging.debug('datasetDownloader')
+    # TODO : apt update for unzip
+    datasetDownloaderList=['ImageNet',\
+                            'Common Objects in Context (COCO)',\
+                            'WIDER FACE',\
+                            'Visual Object Classes Challenge 2012 (VOC2012)',\
+                            'Visual Object Classes Challenge 2007 (VOC2007)',\
+                            'SYGData0829',\
+                            'erfnet_data',\
+                            'PASCAL-S',\
+                            'CoNLL2003 Named Entity Recognition',\
+                            'MRL Eye',\
+                            'Labeled Faces in the Wild (LFW)',\
+                            'NYU Depth Dataset V2']
+    pythonExcute = getSettingValue(['pythonExcute'])
+    # read/set OMZdatasetPath
+    OMZdatasetPath = getSettingValue(['OMZdatasetPath'])
+    logging.debug('Check if OMZ model dataset Path is exist or not.')
+    if not os.path.isdir(OMZdatasetPath):
+        logging.debug('OMZdatasetPath is not set or {} not exists. Try to create.')
+        if OMZdatasetPath == '':
+            OMZdatasetPath = str(Path.home()) + '/omz_models/datasets'
+        os.system('mkdir {}'.format(OMZdatasetPath))
+        if not os.path.isdir(OMZdatasetPath):
+            logging.error('Failed to set OMZ models dataset path, please check the Settings or raise an issue on GitHub.')
+            return -1
         else:
-            raise
+            setSettingValue(['OMZdatasetPath'],OMZdatasetPath)
+            logging.debug('OMZdatasetPath set to {}'.format(OMZdatasetPath))
+    if mode == 'common':
+        counter = 0
+        items=[]
+        for datasetDownloaderItem in datasetDownloaderList:
+            existFlag=False
+            existString=' [Dataset Detected.]'
+            if datasetDownloaderItem == 'ImageNet':
+                logging.debug('Checking ImageNet Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/ILSVRC2012_img_val') and \
+                    os.path.isfile(OMZdatasetPath+'/val.txt') and \
+                    os.path.isfile(OMZdatasetPath+'/val15.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'Common Objects in Context (COCO)':
+                logging.debug('Checking COCO Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/val2017') and \
+                    os.path.isfile(OMZdatasetPath+'/annotations/instances_val2017.json') and \
+                    os.path.isfile(OMZdatasetPath+'/annotations/person_keypoints_val2017.json'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'WIDER FACE':
+                logging.debug('Checking WIDER FACE Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/WIDER_val/images') and \
+                    os.path.isfile(OMZdatasetPath+'/wider_face_split/wider_face_val_bbx_gt.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'Visual Object Classes Challenge 2012 (VOC2012)':
+                logging.debug('Checking VOC2012 Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/VOCdevkit/VOC2012/Annotations') and \
+                    os.path.isdir(OMZdatasetPath+'/VOCdevkit/VOC2012/JPEGImages') and \
+                    os.path.isdir(OMZdatasetPath+'/VOCdevkit/VOC2012/SegmentationClass') and\
+                    os.path.isfile(OMZdatasetPath+'/VOCdevkit/VOC2012/ImageSets/Main/val.txt') and \
+                    os.path.isfile(OMZdatasetPath+'/VOCdevkit/VOC2012/ImageSets/Segmentation/val.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'Visual Object Classes Challenge 2007 (VOC2007)':
+                logging.debug('Checking VOC2007 Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/VOCdevkit/VOC2007/Annotations') and \
+                    os.path.isdir(OMZdatasetPath+'/VOCdevkit/VOC2007/JPEGImages') and \
+                    os.path.isfile(OMZdatasetPath+'/VOCdevkit/VOC2007/ImageSets/Main/val.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'SYGData0829':
+                logging.debug('Checking SYGData0829 Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/SYGData0829/dataset_format_VOC2007/Annotations') and \
+                    os.path.isdir(OMZdatasetPath+'/SYGData0829/dataset_format_VOC2007/JPEGImages') and \
+                    os.path.isfile(OMZdatasetPath+'/SYGData0829/dataset_format_VOC2007/ImageSets/Main/val.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'erfnet_data':
+                logging.debug('Checking erfnet_data Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/erfnet_data/Annotations') and \
+                    os.path.isdir(OMZdatasetPath+'/erfnet_data/JPEGImages') and \
+                    os.path.isfile(OMZdatasetPath+'/erfnet_data/erfnet_meta_zxw.json') and \
+                    os.path.isfile(OMZdatasetPath+'/erfnet_data/val.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'PASCAL-S':
+                logging.debug('Checking PASCAL-S Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/PASCAL-S/image') and \
+                    os.path.isdir(OMZdatasetPath+'/PASCAL-S/mask'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'CoNLL2003 Named Entity Recognition':
+                logging.debug('Checking CoNLL2003 Named Entity Recognition Dataset is exist?')
+                if os.path.isfile(OMZdatasetPath+'/CONLL-2003/valid.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'MRL Eye':
+                logging.debug('Checking MRL Eye Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/mrlEyes_2018_01'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'Labeled Faces in the Wild (LFW)':
+                logging.debug('Checking Labeled Faces in the Wild (LFW) Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/LFW/lfw') and \
+                    os.path.isfile(OMZdatasetPath+'/LFW/annotation/pairs.txt') and \
+                    os.path.isfile(OMZdatasetPath+'/LFW/annotation/lfw_landmark.txt'):
+                    existFlag=True
+            elif datasetDownloaderItem == 'NYU Depth Dataset V2':
+                logging.debug('Checking NYU Depth Dataset V2 Dataset is exist?')
+                if os.path.isdir(OMZdatasetPath+'/nyudepthv2/val') and \
+                    os.path.isdir(OMZdatasetPath+'/nyudepthv2/val/official') and \
+                    os.path.isdir(OMZdatasetPath+'/nyudepthv2/val/converted/images') and\
+                    os.path.isdir(OMZdatasetPath+'/nyudepthv2/val/converted/depth'):
+                    existFlag=True
+            if existFlag:
+                items.append(datasetDownloaderItem+existString)
+            else:
+                items.append(datasetDownloaderItem)
+        result = itemSelection('Select a dataset you want to download.',items)
+        if result == 0:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            logging.warning('Please visit ImageNet website (http://www.image-net.org/) to obtain the dataset.')
+            logging.warning('Tools cannot help downloading ImageNet datasets.')
+            logging.warning('Also refer to (https://github.com/openvinotoolkit/open_model_zoo/blob/master/data/datasets.md#imagenet) for more info.')
+        elif result == 1:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/val2017.zip http://images.cocodataset.org/zips/val2017.zip && curl -o {OMZdatasetPath}/annotations_trainval2017.zip http://images.cocodataset.org/annotations/annotations_trainval2017.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('unzip {OMZdatasetPath}/val2017.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('unzip {OMZdatasetPath}/annotations_trainval2017.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 2:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/WIDER_val.zip -L https://huggingface.co/datasets/wider_face/resolve/main/data/WIDER_val.zip && curl -o {OMZdatasetPath}/wider_face_split.zip -L https://huggingface.co/datasets/wider_face/resolve/main/data/wider_face_split.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('unzip {OMZdatasetPath}/wider_face_split.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('unzip {OMZdatasetPath}/WIDER_val.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 3:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/VOCtrainval_11-May-2012.tar -L http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar '.format(OMZdatasetPath=OMZdatasetPath))
+            logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('tar -xf {OMZdatasetPath}/VOCtrainval_11-May-2012.tar --directory {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 4:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/VOCtrainval_06-Nov-2007.tar http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar'.format(OMZdatasetPath=OMZdatasetPath))
+            logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('tar -xf {OMZdatasetPath}/VOCtrainval_06-Nov-2007.tar --directory {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 5:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/SYGData0829.z01 -L https://github.com/ermubuzhiming/OMZ-files-download/releases/download/v1-ly/SYGData0829.z01'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/SYGData0829.z02 -L https://github.com/ermubuzhiming/OMZ-files-download/releases/download/v1-ly/SYGData0829.z02'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/SYGData0829.z03 -L https://github.com/ermubuzhiming/OMZ-files-download/releases/download/v1-ly/SYGData0829.z03'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/SYGData0829.z04 -L https://github.com/ermubuzhiming/OMZ-files-download/releases/download/v1-ly/SYGData0829.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('cat {OMZdatasetPath}/SYGData0829.z0* > {OMZdatasetPath}/SYGData0829.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            # unzip will return error 
+            # p7zip-full must be installed
+            os.system('7z x {OMZdatasetPath}/SYGData0829.zip -o"{OMZdatasetPath}"'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 6:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/Annotations.rar -L https://github.com/Zhangxianwen2021/ERFNet/releases/download/erfnet/Annotations.rar'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/JPEGImages.rar -L https://github.com/Zhangxianwen2021/ERFNet/releases/download/erfnet/JPEGImages.rar'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/erfnet_meta_zxw.json -L https://github.com/Zhangxianwen2021/ERFNet/releases/download/erfnet/erfnet_meta_zxw.json'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/val.txt -L https://github.com/Zhangxianwen2021/ERFNet/releases/download/erfnet/val.txt'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/erfnet_data'.format(OMZdatasetPath=OMZdatasetPath))
+            # p7zip-rar must be installed
+            os.system('mkdir {OMZdatasetPath}/erfnet_data && mv {OMZdatasetPath}/val.txt {OMZdatasetPath}/erfnet_data && mv {OMZdatasetPath}/erfnet_meta_zxw.json {OMZdatasetPath}/erfnet_data && \
+            7z x {OMZdatasetPath}/JPEGImages.rar -o"{OMZdatasetPath}/erfnet_data" && \
+            7z x {OMZdatasetPath}/Annotations.rar -o"{OMZdatasetPath}/erfnet_data"'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 7:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/salObj.zip -L https://cbs.ic.gatech.edu/salobj/download/salObj.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            # Very slow, and might block by anti-virus
+            os.mkdir('unzip {OMZdatasetPath}/salObj.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 8:
+            # Server is slow
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/conll2003.zip -L https://data.deepai.org/conll2003.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            os.mkdir('7z x {OMZdatasetPath}/conll2003.zip -o"{OMZdatasetPath}"'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 9:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/mrlEyes_2018_01.zip -L http://mrl.cs.vsb.cz/data/eyedataset/mrlEyes_2018_01.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            os.mkdir('7z x {OMZdatasetPath}/mrlEyes_2018_01.zip -o"{OMZdatasetPath}"'.format(OMZdatasetPath=OMZdatasetPath))
+        elif result == 10:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/lfw.tgz -L http://vis-www.cs.umass.edu/lfw/lfw.tgz'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/pairs.txt -L http://vis-www.cs.umass.edu/lfw/pairs.txt'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/lfw_landmark.txt -L https://raw.githubusercontent.com/clcarwin/sphereface_pytorch/master/data/lfw_landmark.txt'.format(OMZdatasetPath=OMZdatasetPath))
+            
+        elif result == 11:
+            logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            os.system('curl -o {OMZdatasetPath}/nyudepthv2.tar.gz -L http://datasets.lids.mit.edu/fastdepth/data/nyudepthv2.tar.gz'.format(OMZdatasetPath=OMZdatasetPath))
+        else:
+            logging.error('ERROR in datasetDownloader!')
+            
 
-    except Exception as e:
-        logging.error('Your Input is invaild! Please check your input or path and try again! ')
-        logging.error(e)
+def main(arg):
+    if arg == 'modelDownloader':
+        mode = ''
+        name = ''
+        try:
+            mode = sys.argv[2]
+            name = sys.argv[3]
+        except IndexError:
+            mode = 'common'
+            name = ''
+        modelDownloader(mode,name)
+    elif arg == 'modelConverter':
+        mode = ''
+        name = ''
+        try:
+            mode = sys.argv[2]
+            name = sys.argv[3]
+        except IndexError:
+            mode = 'common'
+            name = ''
+        modelConverter(mode,name)
+    elif arg == 'datasetDownloader':
+        mode = ''
+        name = ''
+        try:
+            mode = sys.argv[2]
+            name = sys.argv[3]
+        except IndexError:
+            mode = 'common'
+            name = ''
+        datasetDownloader(mode,name)
+    elif arg == 'common':
+        banner('Open Model Zoo Model Tools')
+        featureList = ['Open Model Zoo Model Downloader','Open Model Zoo Public Model Converter','Open Model Zoo Public Model Quantizer','Open Model Zoo Models Dataset Downloader']
+        featureIndex = itemSelection('Select a tool you want to run. (Input a number or the name of the tool.)',featureList)
+        if featureIndex == 0:
+            modelDownloader('common')
+        elif featureIndex == 1:
+            modelConverter('common')
+        elif featureIndex == 2:
+            modelQuantizer('common')
+        elif featureIndex == 3:
+            datasetDownloader('common')
+        else:
+            logging.error('Something wrong during selection.Please raise a issue in GitHub, Thank you. DEBUG_MESSAGE:{}'.format('featureIndex='+ str(featureIndex)))
+    else:
+        return
 
-
-def dataset():
-    banner('Dataset Data Downloader')
-    if Path(datasetPath + '/data/dataset_definitions.yml').is_file():
-        logging.debug('Dataset Info already existed!')
-
-    p = subprocess.Popen(['omz_data_downloader', '-o', datasetPath], env=dict(os.environ))
-    p.communicate()
-
-###########
-def main():
-    initial()
-    #terminal_clean()
-    banner('Open Model Zoo automation tools')
-    if str(sys.argv[1]) == 'build_demos':
-        build_demos()
-    elif str(sys.argv[1]) == 'downloader':
-        tools()
-
-main()
+try:
+    arg = sys.argv[1]
+except IndexError:
+    arg = ''
+main(arg)

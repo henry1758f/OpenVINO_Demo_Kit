@@ -3,7 +3,7 @@ import json
 import logging
 from pathlib import Path
 from banner import banner
-from setenv import setvalue, getvalue
+from commonFunctions import setSettingValue,getSettingValue,yesnoSelection
 
 logging.basicConfig(format='[ %(levelname)s ] %(message)s', level=logging.DEBUG)
 
@@ -11,20 +11,15 @@ OSName=os.popen('cat /etc/os-release | grep "PRETTY_NAME"').read().split('"')[1]
 OSversionID=os.popen('cat /etc/os-release | grep "VERSION_ID" | cut -c 13-17').read()
 VendorID=os.popen('cat /proc/cpuinfo |grep "vendor_id"').read().split('\n')[0].split(':')[1]
 kit_info=os.path.abspath(os.getcwd()) + '/Source/demo_kit.json'
-openvinoPath=''
-python_execute=''
 
-with open(kit_info,'r') as DemoKitinfo:
-    DemoKitJSON = json.load(DemoKitinfo)
-    # Reading Settings
-    openvinoPath = DemoKitJSON['openvinoPath']
-    python_execute = DemoKitJSON['pythonExcute']
-
-openvino_envsetup = 'source ' + openvinoPath + '/setupvars.sh'
+openvinoVersion= getSettingValue(['openvinoVersion'])
+python_execute= getSettingValue(['pythonExcute'])
 
 banner('OpenVINO Installation')
 
-def RuntimeInstall(openvinoPath):
+def RuntimeInstall():
+    openvinoPath= getSettingValue(['openvinoPath'])
+    openvino_envsetup = 'source ' + openvinoPath + '/setupvars.sh'
     logging.debug('Install OpenVINO™ Runtime')
     if Path(openvinoPath).is_dir():
         if Path(openvinoPath+'/setupvars.sh').is_file():
@@ -37,8 +32,8 @@ def RuntimeInstall(openvinoPath):
     if openvinoPath == '':
         logging.debug('Set OpenVINO runtime path as default "/opt/intel" ')
         openvinoPath = '/opt/intel/openvino_2022'
-        setvalue(['openvinoPath'],openvinoPath)
-        if openvinoPath == getvalue(['openvinoPath']):
+        setSettingValue(['openvinoPath'],openvinoPath)
+        if openvinoPath == getSettingValue(['openvinoPath']):
             logging.debug('Reset OpenVINO runtime path in json file SUCCESS.')
         else:
             logging.error('Reset OpenVINO runtime path in json file FAILED.')
@@ -61,15 +56,17 @@ def RuntimeInstall(openvinoPath):
     os.system(sudoStr + 'mv ~/l_openvino_toolkit_ubuntu20_2022.3.0.9052.9752fafe8eb_x86_64 '+ str(os.path.dirname(openvinoPath)) + '/openvino_2022.3.0')
     os.system(sudoStr + 'ln -s {} {}'.format(str(os.path.dirname(openvinoPath)) + '/openvino_2022.3.0',openvinoPath))
     os.system(sudoStr + ' -E {}/install_dependencies/install_openvino_dependencies.sh'.format(openvinoPath))
-    selection = input('Do you want to install Configurations for Intel® Processor Graphics (GPU) with OpenVINO™? (Y/n) >>> ')
-    if selection == 'Y' or selection == 'Yes' or selection == 'y':
+    if yesnoSelection('Do you want to install Configurations for Intel® Processor Graphics (GPU) with OpenVINO™? (Y/n)'):
         os.system(sudoStr + ' -E {}/install_dependencies/install_NEO_OCL_driver.sh'.format(openvinoPath))
-    selection = input('Do you want to install Configurations for Intel® Neural Compute Stick 2? (Y/n) >>> ')
-    if selection == 'Y' or selection == 'Yes' or selection == 'y':
+    if yesnoSelection('Do you want to install Configurations for Intel® Neural Compute Stick 2? (Y/n)'):
         os.system(sudoStr + ' -E {}/install_dependencies/install_NCS_udev_rules.sh'.format(openvinoPath))
 
 def DevtoolInstall():
     logging.debug('Install OpenVINO™ Development Tools')
+    os.system(python_execute + ' -m pip install --upgrade pip')
+    os.system('pip install openvino-dev[caffe,ONNX,tensorflow2,pytorch,kaldi,mxnet]=={}'.format(openvinoVersion))
+    logging.debug('Check OpenVINO™ Development Tools')
+    os.system('mo -h')
 
 def RequirementChecks():
     logging.info('System Requirements Checking...')
@@ -93,4 +90,5 @@ def RequirementChecks():
     if not passFlag:
         logging.error('Your system might not be able to run the Demo Kit.')
 RequirementChecks()
-RuntimeInstall(openvinoPath)
+RuntimeInstall()
+DevtoolInstall()

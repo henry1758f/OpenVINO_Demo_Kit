@@ -4,6 +4,7 @@ import logging
 import importlib
 from pathlib import Path
 from banner import opening_banner
+from commonFunctions import getSettingValue
 
 logging.basicConfig(format='[ %(levelname)s ] %(message)s', level=logging.DEBUG)
 
@@ -41,6 +42,9 @@ def features():
         if demoKitFeature['name'] == 'Install Intel Distribution of OpenVINO Toolkit':
             if not '2022.3' in openvinoInstalled:
                 demoKitFeaturesEnable.append([demoKitFeature['name'],demoKitFeature['file'],demoKitFeature['intro']])
+        elif demoKitFeature['name'] == 'Build Open Model Zoo Demos':
+            if os.path.isdir(getSettingValue(['OMZ','build'])):
+                demoKitFeaturesEnable.append([demoKitFeature['name']+' [DONE]',demoKitFeature['file'],demoKitFeature['intro']])
         else:
             demoKitFeaturesEnable.append([demoKitFeature['name'],demoKitFeature['file'],demoKitFeature['intro']])
     del demoKitFeatures
