@@ -47,7 +47,7 @@
     ],
     "OMZmodelPath": "",
     "OMZconvertPath": "",
-    "OMZdatasetPath": "",
+    "OMZdatasetPath": "/home/henryhuang/omz_models/datasets",
     "OMZ": {
         "git": "https://github.com/openvinotoolkit/open_model_zoo.git",
         "tag": "2022.3.0",

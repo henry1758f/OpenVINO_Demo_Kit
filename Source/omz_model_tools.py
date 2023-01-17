@@ -376,22 +376,26 @@ def datasetDownloader(mode='common'):
             logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
             os.system('unzip {OMZdatasetPath}/val2017.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
             os.system('unzip {OMZdatasetPath}/annotations_trainval2017.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/val2017.zip & rm -r {OMZdatasetPath}/annotations_trainval2017.zip'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 2:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/WIDER_val.zip -L https://huggingface.co/datasets/wider_face/resolve/main/data/WIDER_val.zip && curl -o {OMZdatasetPath}/wider_face_split.zip -L https://huggingface.co/datasets/wider_face/resolve/main/data/wider_face_split.zip'.format(OMZdatasetPath=OMZdatasetPath))
             logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
             os.system('unzip {OMZdatasetPath}/wider_face_split.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
             os.system('unzip {OMZdatasetPath}/WIDER_val.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/WIDER_val.zip & rm -r {OMZdatasetPath}/wider_face_split.zip'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 3:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/VOCtrainval_11-May-2012.tar -L http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar '.format(OMZdatasetPath=OMZdatasetPath))
             logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
             os.system('tar -xf {OMZdatasetPath}/VOCtrainval_11-May-2012.tar --directory {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/VOCtrainval_11-May-2012.tar'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 4:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/VOCtrainval_06-Nov-2007.tar http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar'.format(OMZdatasetPath=OMZdatasetPath))
             logging.debug('Extracting {} Dataset'.format(datasetDownloaderList[result]))
             os.system('tar -xf {OMZdatasetPath}/VOCtrainval_06-Nov-2007.tar --directory {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/VOCtrainval_06-Nov-2007.tar'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 5:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/SYGData0829.z01 -L https://github.com/ermubuzhiming/OMZ-files-download/releases/download/v1-ly/SYGData0829.z01'.format(OMZdatasetPath=OMZdatasetPath))
@@ -402,6 +406,7 @@ def datasetDownloader(mode='common'):
             # unzip will return error 
             # p7zip-full must be installed
             os.system('7z x {OMZdatasetPath}/SYGData0829.zip -o"{OMZdatasetPath}"'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/SYGData0829.z*'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 6:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/Annotations.rar -L https://github.com/Zhangxianwen2021/ERFNet/releases/download/erfnet/Annotations.rar'.format(OMZdatasetPath=OMZdatasetPath))
@@ -413,29 +418,38 @@ def datasetDownloader(mode='common'):
             os.system('mkdir {OMZdatasetPath}/erfnet_data && mv {OMZdatasetPath}/val.txt {OMZdatasetPath}/erfnet_data && mv {OMZdatasetPath}/erfnet_meta_zxw.json {OMZdatasetPath}/erfnet_data && \
             7z x {OMZdatasetPath}/JPEGImages.rar -o"{OMZdatasetPath}/erfnet_data" && \
             7z x {OMZdatasetPath}/Annotations.rar -o"{OMZdatasetPath}/erfnet_data"'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/Annotations.rar & rm -r {OMZdatasetPath}/JPEGImages.rar'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 7:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
-            os.system('curl -o {OMZdatasetPath}/salObj.zip -L https://cbs.ic.gatech.edu/salobj/download/salObj.zip'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('curl -o {OMZdatasetPath}/salObj.zip -L https://cbs.ic.gatech.edu/salobj/download/salObj.zip --insecure -H "Content-Type:application/x-zip-compressed"'.format(OMZdatasetPath=OMZdatasetPath))
             # Very slow, and might block by anti-virus
-            os.mkdir('unzip {OMZdatasetPath}/salObj.zip -d {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/PASCAL-S'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('mkdir {OMZdatasetPath}/PASCAL-S && unzip {OMZdatasetPath}/salObj.zip -d {OMZdatasetPath}/PASCAL-S && mv {OMZdatasetPath}/PASCAL-S/datasets/imgs/pascal {OMZdatasetPath}/PASCAL-S/image && mv {OMZdatasetPath}/PASCAL-S/datasets/masks/pascal {OMZdatasetPath}/PASCAL-S/mask'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/salObj.zip & rm -r {OMZdatasetPath}/PASCAL-S/algmaps & rm -r {OMZdatasetPath}/PASCAL-S/benchmark & rm -r {OMZdatasetPath}/PASCAL-S/code & rm -r {OMZdatasetPath}/PASCAL-S/datasets & rm -r {OMZdatasetPath}/PASCAL-S/results & rm -r {OMZdatasetPath}/PASCAL-S/tips_for_matlab.txt'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 8:
             # Server is slow
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/conll2003.zip -L https://data.deepai.org/conll2003.zip'.format(OMZdatasetPath=OMZdatasetPath))
-            os.mkdir('7z x {OMZdatasetPath}/conll2003.zip -o"{OMZdatasetPath}"'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('mkdir {OMZdatasetPath}/CONLL-2003 && 7z x {OMZdatasetPath}/conll2003.zip -o"{OMZdatasetPath}/CONLL-2003"'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/conll2003.zip'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 9:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/mrlEyes_2018_01.zip -L http://mrl.cs.vsb.cz/data/eyedataset/mrlEyes_2018_01.zip'.format(OMZdatasetPath=OMZdatasetPath))
-            os.mkdir('7z x {OMZdatasetPath}/mrlEyes_2018_01.zip -o"{OMZdatasetPath}"'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('7z x {OMZdatasetPath}/mrlEyes_2018_01.zip -o"{OMZdatasetPath}"'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/mrlEyes_2018_01.zip'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 10:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
             os.system('curl -o {OMZdatasetPath}/lfw.tgz -L http://vis-www.cs.umass.edu/lfw/lfw.tgz'.format(OMZdatasetPath=OMZdatasetPath))
             os.system('curl -o {OMZdatasetPath}/pairs.txt -L http://vis-www.cs.umass.edu/lfw/pairs.txt'.format(OMZdatasetPath=OMZdatasetPath))
             os.system('curl -o {OMZdatasetPath}/lfw_landmark.txt -L https://raw.githubusercontent.com/clcarwin/sphereface_pytorch/master/data/lfw_landmark.txt'.format(OMZdatasetPath=OMZdatasetPath))
-            
+            os.system('mkdir {OMZdatasetPath}/LFW && tar -xf {OMZdatasetPath}/lfw.tgz --directory {OMZdatasetPath}/LFW'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('mkdir {OMZdatasetPath}/LFW/annotation && mv {OMZdatasetPath}/pairs.txt {OMZdatasetPath}/LFW/annotation && mv {OMZdatasetPath}/lfw_landmark.txt {OMZdatasetPath}/LFW/annotation '.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('rm -r {OMZdatasetPath}/lfw.tgz'.format(OMZdatasetPath=OMZdatasetPath))
         elif result == 11:
             logging.debug('Downloading {} Dataset'.format(datasetDownloaderList[result]))
+            # It might timeout...
             os.system('curl -o {OMZdatasetPath}/nyudepthv2.tar.gz -L http://datasets.lids.mit.edu/fastdepth/data/nyudepthv2.tar.gz'.format(OMZdatasetPath=OMZdatasetPath))
+            os.system('tar -xf {OMZdatasetPath}/nyudepthv2.tar.gz --directory {OMZdatasetPath}'.format(OMZdatasetPath=OMZdatasetPath))
         else:
             logging.error('ERROR in datasetDownloader!')
             
