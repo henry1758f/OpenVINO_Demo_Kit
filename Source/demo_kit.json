@@ -1,6 +1,6 @@
 {
     "jsonversion": "1.0.0",
-    "demokitVersion": "8.0.0-beta11",
+    "demokitVersion": "8.0.0-beta12",
     "openvinoVersion": "2022.3.0",
     "openvinoPath": "/opt/intel/openvino_2022",
     "opencvPath": "",
@@ -47,7 +47,7 @@
     ],
     "OMZmodelPath": "",
     "OMZconvertPath": "",
-    "OMZdatasetPath": "/home/henryhuang/omz_models/datasets",
+    "OMZdatasetPath": "",
     "OMZ": {
         "git": "https://github.com/openvinotoolkit/open_model_zoo.git",
         "tag": "2022.3.0",

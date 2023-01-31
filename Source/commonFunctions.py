@@ -47,14 +47,30 @@ def modelStageExtractor(model_info_JSON):
         modelList.append(model_info_JSON)
     return modelList
 
-def modelSelection(question,modelsJSON,printDetail=False):
+def modelSelection(question,modelsJSON,printDetail=False,printAvailablePrecision=False):
     model_index=0
     for model in modelsJSON:
         model_index +=1
         detail = ''
+        precisions = ''
         if printDetail:
             detail=' ({})'.format(model['description'])
-        print('\t{index}. {name} {detail}'.format(index=model_index, name=model['name'], detail=detail))
+        if printAvailablePrecision:
+            precisions = '\t'
+            modelPath = getSettingValue(['OMZmodelPath'])
+            if model['framework'] == 'dldt':
+                modelPath+= '/' + model['subdirectory']
+            else:
+                modelPath+= '/ir/' + model['subdirectory']
+            for precision in model['precisions']:
+                #logging.debug('Checking Existion -> Path:{modelPath}/{precision}/{name}.xml'.format(modelPath=modelPath,precision=precision,name=model['name']))
+                if os.path.isfile('{modelPath}/{precision}/{name}.xml'.format(modelPath=modelPath,precision=precision,name=model['name'])):
+                    precisions+= '[{}]'.format(precision)
+            for precision in model['quantization_output_precisions']:
+                #logging.debug('Checking Existion -> Path:{modelPath}/{precision}/{name}.xml'.format(modelPath=modelPath,precision=precision,name=model['name']))
+                if os.path.isfile('{modelPath}/{precision}/{name}.xml'.format(modelPath=modelPath,precision=precision,name=model['name'])):
+                    precisions+= '[{}]'.format(precision)
+        print('\t{index}. {name} {precisions} {detail}'.format(index=model_index, name=model['name'], precisions=precisions, detail=detail))
     try:
         selection = input('\n >>> {}\n > '.format(question))
         if selection.isnumeric():
